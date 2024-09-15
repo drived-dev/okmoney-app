@@ -83,23 +83,6 @@ export default function RootLayout() {
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <Stack initialRouteName="(tabs)">
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="(modals)/login"
-          options={{
-            title: "Login or sign up",
-            presentation: "modal",
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => router.back()}>
-                <Text>Back</Text>
-              </TouchableOpacity>
-            ),
-          }}
-        />
-        <Stack.Screen
-          name="(modals)/booking"
-          options={{ headerTitle: "", presentation: "transparentModal" }}
-        />
-        <Stack.Screen name="listing/[id]" options={{ headerTitle: "" }} />
       </Stack>
       <PortalHost />
     </ThemeProvider>
