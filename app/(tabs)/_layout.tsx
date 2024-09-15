@@ -3,8 +3,10 @@ import { Tabs } from "expo-router";
 import React from "react";
 import { PieChart, User, File } from "lucide-react-native";
 import colors from "tailwindcss/colors";
+import { useColorScheme } from "~/lib/useColorScheme";
 import { Platform } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { useTheme } from "@react-navigation/native";
 
 interface Route {
   name: string;
@@ -31,6 +33,10 @@ const routes: Route[] = [
 ];
 
 const Layout = () => {
+  const theme = useTheme();
+
+  const { isDarkColorScheme } = useColorScheme();
+
   const softShadow = {
     ...Platform.select({
       ios: {
@@ -52,7 +58,7 @@ const Layout = () => {
     <Tabs
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: "#fff",
+          backgroundColor: isDarkColorScheme ? colors.black : colors.white,
           height: 86,
           paddingTop: 8,
           ...softShadow,
