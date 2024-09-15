@@ -1,8 +1,9 @@
-import Colors from "~/constants/Colors";
+// import Colors from "~/constants/Colors";
 import { Tabs } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
+import colors from "tailwindcss/colors";
 
 const routes = [
   {
@@ -24,7 +25,7 @@ const routes = [
 
 const Layout = () => {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: Colors.primary }}>
+    <Tabs screenOptions={{ tabBarActiveTintColor: colors.red[400] }}>
       {routes.map((route) => (
         <Tabs.Screen
           key={route.name}

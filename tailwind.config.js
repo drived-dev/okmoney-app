@@ -8,8 +8,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        ibm: ["IBMPlex-Regular", 'sans-serif'],
-        "ibm-md": ["IBMPlex-Medium", 'sans-serif'],
+        "ibm": ["IBMPlex-Regular", 'sans-serif'],
+        "ibm-md": ["IBMPlex-Medium", "IBMPlex-Regular", 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',
