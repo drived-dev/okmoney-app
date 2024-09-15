@@ -43,8 +43,6 @@ export default function RootLayout() {
 
   React.useEffect(() => {
     (async () => {
-      if (fontsLoaded) return;
-
       const theme = await AsyncStorage.getItem("theme");
       if (Platform.OS === "web") {
         // Adds the background color to the html element to prevent white background on overscroll.
