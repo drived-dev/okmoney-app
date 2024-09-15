@@ -39,6 +39,7 @@ export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     "IBMPlex-Regular": require("../assets/fonts/IBMPlexSansThai-Regular.ttf"),
     "IBMPlex-Medium": require("../assets/fonts/IBMPlexSansThai-Medium.ttf"),
+    "IBMPlex-SemiBold": require("../assets/fonts/IBMPlexSansThai-SemiBold.ttf"),
   });
 
   React.useEffect(() => {
@@ -79,8 +80,19 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-      <Stack initialRouteName="(tabs)">
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack
+        initialRouteName="(tabs)"
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { paddingHorizontal: 12 },
+        }}
+      >
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack>
       <PortalHost />
     </ThemeProvider>

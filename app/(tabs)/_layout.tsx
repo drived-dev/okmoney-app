@@ -11,7 +11,7 @@ import { useTheme } from "@react-navigation/native";
 interface Route {
   name: string;
   tabBarLabel: string;
-  icon: (props: BottomTabBarProps) => JSX.Element;
+  icon: (props: any) => JSX.Element;
 }
 
 const routes: Route[] = [
@@ -33,14 +33,12 @@ const routes: Route[] = [
 ];
 
 const Layout = () => {
-  const theme = useTheme();
-
   const { isDarkColorScheme } = useColorScheme();
 
   const softShadow = {
     ...Platform.select({
       ios: {
-        shadowColor: "#000", // Set shadow color
+        shadowColor: "#000",
         shadowOffset: {
           width: 0,
           height: -6,

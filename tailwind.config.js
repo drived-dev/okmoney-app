@@ -9,7 +9,8 @@ module.exports = {
     extend: {
       fontFamily: {
         "ibm": ["IBMPlex-Regular", 'sans-serif'],
-        "ibm-md": ["IBMPlex-Medium", "IBMPlex-Regular", 'sans-serif'],
+        "ibm-medium": ["IBMPlex-Medium", "IBMPlex-Regular", 'sans-serif'],
+        "ibm-semibold": ["IBMPlex-SemiBold", "IBMPlex-Medium", "IBMPlex-Regular", 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',
