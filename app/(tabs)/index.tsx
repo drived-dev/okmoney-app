@@ -23,7 +23,10 @@ const Index = () => {
       <SafeAreaView>
         <Text>hello world สวัสดี</Text>
         <View
-          className={cn(CONTAINER, "mt-4 bg-white h-full rounded-3xl pt-5")}
+          className={cn(
+            CONTAINER,
+            "mt-4 bg-background h-full rounded-3xl pt-5"
+          )}
         >
           <Text className={cn(TITLE)}>hello world สวัสดี</Text>
           <Text className={cn(TITLE, "text-primary")}>hello world สวัสดี</Text>
