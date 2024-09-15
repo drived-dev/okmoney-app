@@ -4,22 +4,29 @@ import React from "react";
 import { PieChart, User, File } from "lucide-react-native";
 import colors from "tailwindcss/colors";
 import { Platform } from "react-native";
+import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 
-const routes = [
+interface Route {
+  name: string;
+  tabBarLabel: string;
+  icon: (props: BottomTabBarProps) => JSX.Element;
+}
+
+const routes: Route[] = [
   {
     name: "index",
     tabBarLabel: "แดชบอร์ด",
-    icon: (props: any) => <PieChart size={20} {...props} />,
+    icon: (props) => <PieChart size={20} {...props} />,
   },
   {
     name: "dashboard",
     tabBarLabel: "ลูกหนี้",
-    icon: (props: any) => <User size={20} {...props} />,
+    icon: (props) => <User size={20} {...props} />,
   },
   {
     name: "history",
     tabBarLabel: "ประวัติ",
-    icon: (props: any) => <File size={20} {...props} />,
+    icon: (props) => <File size={20} {...props} />,
   },
 ];
 
