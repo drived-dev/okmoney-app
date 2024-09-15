@@ -84,7 +84,6 @@ export default function RootLayout() {
         initialRouteName="(tabs)"
         screenOptions={{
           headerShown: false,
-          contentStyle: { paddingHorizontal: 12 },
         }}
       >
         <Stack.Screen

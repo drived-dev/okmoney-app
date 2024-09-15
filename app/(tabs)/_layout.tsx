@@ -16,12 +16,12 @@ interface Route {
 
 const routes: Route[] = [
   {
-    name: "index",
+    name: "dashboard",
     tabBarLabel: "แดชบอร์ด",
     icon: (props) => <PieChart size={20} {...props} />,
   },
   {
-    name: "dashboard",
+    name: "index",
     tabBarLabel: "ลูกหนี้",
     icon: (props) => <User size={20} {...props} />,
   },
@@ -63,6 +63,7 @@ const Layout = () => {
         },
         tabBarActiveTintColor: colors.red[500],
         tabBarInactiveTintColor: colors.gray[400],
+        headerShown: false, // Add this to hide the header
       }}
     >
       {routes.map((route) => (
