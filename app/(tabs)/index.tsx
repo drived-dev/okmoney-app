@@ -10,7 +10,21 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native";
 import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
+import LoanList from "~/components/main/loadlist";
 const Index = () => {
+  const demodata = [
+    { 
+      id: '01', 
+      name: 'ธน สมพง', 
+      nickname: 'สมพง', 
+      status: 'ค้างชำระ', 
+      outstanding: 200, 
+      total: 500,
+      dueDate: '30/5',
+      profileImage: 'https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg' 
+    },
+  ];
+
   return (
     <View className="">
       <LinearGradient
@@ -28,7 +42,7 @@ const Index = () => {
             "mt-4 bg-background h-full rounded-3xl pt-5"
           )}
         >
-          <Text className={cn(TITLE)}>hello world สวัสดี</Text>
+          {/* <Text className={cn(TITLE)}>hello world สวัสดี</Text>
           <Text className={cn(TITLE, "text-primary")}>hello world สวัสดี</Text>
           <Button size="lg" className="mb-2">
             <Text>hello world สวัสดี</Text>
@@ -36,8 +50,9 @@ const Index = () => {
           <Button size="sm">
             <Text>hello world สวัสดี</Text>
           </Button>
-          <View className="bg-secondary w-20 h-20"></View>
+          <View className="bg-secondary w-20 h-20"></View> */}
           <ThemeToggle />
+          <LoanList data={demodata}/>
         </View>
       </SafeAreaView>
     </View>
