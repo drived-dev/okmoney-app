@@ -11,15 +11,14 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Input } from "~/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-interface IFormInput {
-  firstName: string;
-  lastName: string;
-  iceCreamType: { label: string; value: string };
-}
+import { Label } from "~/components/ui/label";
 
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
+  name: z
+    .string()
+    .min(2, { message: "Name must be less than 50 characters" })
+    .max(50),
+  email: z.coerce.string().email().min(5),
 });
 
 const Form = () => {
@@ -27,36 +26,51 @@ const Form = () => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-
-  const form = useForm<z.infer<typeof formSchema>>({
+  } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      name: "",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    alert(values.name);
   }
 
   return (
     <View>
-      {/* Name Field */}
       <Controller
         control={control}
         name="name"
-        rules={{ required: "Name is required" }}
         render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            placeholder="Enter your name"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-          />
+          <View>
+            <Label nativeID="email">Email</Label>
+
+            <Input
+              placeholder="Enter your name"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+            {errors.name && <Text>{errors.name.message}</Text>}
+          </View>
         )}
       />
-      {errors.name && <Text>{errors.name.message}</Text>}
+      <Controller
+        control={control}
+        name="email"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <View>
+            <Input
+              placeholder="Enter your name"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+            {errors.email && <Text>{errors.email.message}</Text>}
+          </View>
+        )}
+      />
       <Button title="Submit" onPress={handleSubmit(onSubmit)} />
     </View>
   );
