@@ -15,10 +15,40 @@ const Index = () => {
   const demodata = [
     { 
       id: '01', 
+      nickname: 'บิบิ', 
       name: 'ธน สมพง', 
-      nickname: 'สมพง', 
-      status: 'ค้างชำระ', 
+      status: 'รอชำระ', 
+      outstanding: 0, 
+      total: 500,
+      dueDate: '30/5',
+      profileImage: 'https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg' 
+    },
+    { 
+      id: '02', 
+      nickname: 'แบงค์', 
+      name: 'ธนาการ',
+      status: 'ใกล้กำหนด', 
+      outstanding: 100, 
+      total: 500,
+      dueDate: '30/5',
+      profileImage: 'https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg' 
+    },
+    { 
+      id: '03', 
+      nickname: 'บิน', 
+      name: 'ธุดง', 
+      status: 'ครบชำระ', 
       outstanding: 200, 
+      total: 500,
+      dueDate: '30/5',
+      profileImage: 'https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg' 
+    },
+    { 
+      id: '04', 
+      nickname: 'โบ๊ท', 
+      name: 'ทองสิระ', 
+      status: 'ค้างชำระ', 
+      outstanding: 300, 
       total: 500,
       dueDate: '30/5',
       profileImage: 'https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg' 

@@ -2,11 +2,32 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { cn } from '~/lib/utils';
-import { PARAGRAPH , BUTTON, LABEL } from '~/constants/Typography';
+import { PARAGRAPH , BUTTON, LABEL, TITLE } from '~/constants/Typography';
+import Icon from '../ui/Icon';
+import { Button } from '../ui/button';
+
+const statusColorsbg: Record<string, string> = {
+  'ค้างชำระ': 'bg-red-500',    // Overdue
+  'ครบชำระ': 'bg-gray-200',  // Paid
+  'รอชำระ': 'bg-blue-500', // Pending
+  'ใกล้กำหนด': 'bg-yellow-500',     // Canceled
+  
+};
+
+const statusColorstxt: Record<string, string> = {
+  'ค้างชำระ': 'text-destructive-foreground',    // Overdue
+  'ครบชำระ': 'text-gray-600',  // Paid
+  'รอชำระ': 'text-destructive-foreground', // Pending
+  'ใกล้กำหนด': 'text-destructive-foreground',     // Canceled
+  
+};
+
 
 const LoanItem = ({ loan }) => {
   // Calculate the progress based on outstanding vs total
   const progress = loan.outstanding / loan.total;
+  const statusColorbg = statusColorsbg[loan.status] || 'bg-blue-500';
+  const statusColortxt = statusColorstxt[loan.status] || 'text-textb';
 
   return (
     // background deptor
@@ -32,10 +53,10 @@ const LoanItem = ({ loan }) => {
         </View>
 
         {/* Loan Status */}
-        <View className={`px-3 py-2 rounded-2xl  ${loan.status === 'ค้างชำระ' ? 'bg-red-500' : 'bg-green-500'}`}>
+        <View className={`px-3 py-2 rounded-2xl  ${statusColorbg}`}>
           <Text className={cn(
             BUTTON,
-            "font-ibm-semibold text-destructive-foreground"
+            `font-ibm-semibold text-destructive-foreground ${statusColortxt}`
           )} >
           {loan.status}
           </Text>
@@ -44,11 +65,9 @@ const LoanItem = ({ loan }) => {
         <View className='mx-1.5'>
         </View>
 
-        <TouchableOpacity className='bg-input rounded-xl'>
-          <Text className='font-ibm-semibold text-muted-foreground text-4xl mx-3 pt-2'>
-            ...
-          </Text>
-      </TouchableOpacity>
+        <Button className='font-ibm-semibold text-muted-foreground pt-4 rounded-2xl bg-gray-200'>
+          <Icon name="Ellipsis" size={30} color='#71717a' />
+      </Button>
       </View>
 
       
@@ -73,15 +92,15 @@ const LoanItem = ({ loan }) => {
         </View>
 
         {/* Due Date */}
-        <Text className="text-gray-500 text-sm">ชำระทุก {loan.dueDate}</Text>
+        <Text className={cn(TITLE,"text-muted-foreground text-sm mt-1")}>ชำระทุก {loan.dueDate}</Text>
       </View>
 
       {/* Action Buttons */}
-      <View className="flex-row justify-between items-center mt-3 space-x-2 ml-3">
+      <View className="flex-row justify-between items-center mt-3 space-x-2 ml-3 mb-2">
         {/* Remind Button with Icon */}
-        <TouchableOpacity className="flex-1 flex-row justify-center items-center border border-muted-foreground rounded-2xl py-2">
-          <Ionicons name="paper-plane-outline" size={20} color="gray" />
-          <Text className="text-foreground ml-2">ทวงหนี้</Text>
+        <TouchableOpacity className="bg-destructive-foreground flex-1 flex-row justify-center items-center border border-muted-foreground rounded-2xl py-2">
+        <Icon name="Send" color='#71717a' size={22}/>
+          <Text className="text-textb ml-2">ทวงหนี้</Text>
         </TouchableOpacity>
 
         <View className='px-1'>
@@ -89,7 +108,7 @@ const LoanItem = ({ loan }) => {
 
         {/* Save Button */}
         <TouchableOpacity className="flex-1 bg-destructive py-2 flex-row justify-center items-center mr-3 rounded-2xl">
-          <Ionicons name="pencil-outline" size={20} color="white" />
+          <Icon name="NotebookPen" color='white' size={22}/>
           <Text className="text-destructive-foreground ml-2">บันทึกรายการ</Text>
         </TouchableOpacity>
       </View>
