@@ -17,7 +17,6 @@ import { BUTTON } from "~/constants/Typography";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(50),
-  // email: z.coerce.string().email().min(5),
 });
 
 const History = () => {
@@ -50,9 +49,9 @@ const History = () => {
               onChangeText={onChange}
               value={value}
             />
-            <FormMessage errorMessage={errors.name?.message}>hello</FormMessage>
-
             <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
+
+            <FormMessage errorMessage={errors.name?.message}></FormMessage>
           </FormItem>
         )}
       />

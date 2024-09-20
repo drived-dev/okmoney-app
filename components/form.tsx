@@ -21,7 +21,7 @@ FormDescription.displayName = "FormDescription";
 
 interface FormMessgeProps {
   className?: string;
-  children: TextProps["children"];
+  children?: TextProps["children"];
   errorMessage?: string;
 }
 
