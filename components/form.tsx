@@ -3,12 +3,16 @@ import React from "react";
 import { Label } from "~/components/ui/label";
 import { cn } from "~/lib/utils";
 import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
+import { LABEL } from "~/constants/Typography";
 
 const FormLabel = Label;
 
 const FormDescription = ({ className, children, ...props }: TextProps) => {
   return (
-    <Text className={cn("text-sm text-muted-foreground", className)} {...props}>
+    <Text
+      className={cn("text-sm text-muted-foreground", LABEL, className)}
+      {...props}
+    >
       {children}
     </Text>
   );
@@ -35,7 +39,7 @@ const FormMessage = ({
 
   return (
     <Text
-      className={cn("text-sm font-medium text-destructive", className)}
+      className={cn("text-sm font-medium text-destructive", LABEL, className)}
       {...props}
     >
       {body}
@@ -45,7 +49,9 @@ const FormMessage = ({
 FormMessage.displayName = "FormMessage";
 
 const FormItem = ({ className, children, ...props }: ViewProps) => {
-  return <View className={cn("space-y-2", className)}>{children}</View>;
+  return (
+    <View className={cn("flex flex-col gap-1", className)}>{children}</View>
+  );
 };
 FormItem.displayName = "FormItem";
 

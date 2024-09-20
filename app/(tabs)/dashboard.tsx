@@ -1,11 +1,4 @@
-import {
-  Button,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Input } from "~/components/ui/input";
@@ -18,12 +11,12 @@ import {
   FormMessage,
   FormItem,
 } from "~/components/form";
+import { Button } from "~/components/ui/button";
+import { cn } from "~/lib/utils";
+import { BUTTON } from "~/constants/Typography";
 
 const formSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Name must be less than 50 characters" })
-    .max(50),
+  name: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(50),
   // email: z.coerce.string().email().min(5),
 });
 
@@ -44,28 +37,30 @@ const History = () => {
   }
 
   return (
-    <View>
+    <SafeAreaView>
       <Controller
         control={control}
         name="name"
         render={({ field: { onChange, onBlur, value } }) => (
           <FormItem>
-            <FormLabel nativeID="email">Email</FormLabel>
+            <FormLabel nativeID="email">อีเมล</FormLabel>
             <Input
-              placeholder="Enter your name"
+              placeholder="โปรดใส่อีเมล"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
             />
             <FormMessage errorMessage={errors.name?.message}>hello</FormMessage>
 
-            <FormDescription>hellow world</FormDescription>
+            <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
           </FormItem>
         )}
       />
 
-      <Button title="Submit" onPress={handleSubmit(onSubmit)} />
-    </View>
+      <Button onPress={handleSubmit(onSubmit)}>
+        <Text className={cn(BUTTON.white)}>สวัสดี</Text>
+      </Button>
+    </SafeAreaView>
   );
 };
 
