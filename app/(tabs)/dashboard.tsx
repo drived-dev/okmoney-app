@@ -1,11 +1,12 @@
-import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import React from "react";
+import Form from "~/components/form";
 
 const explore = () => {
   return (
-    <View>
-      <Text>explore</Text>
-    </View>
+    <SafeAreaView>
+      <Form></Form>
+    </SafeAreaView>
   );
 };
 
