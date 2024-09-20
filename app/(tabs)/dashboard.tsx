@@ -1,6 +1,12 @@
 import { SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import {
+  useForm,
+  SubmitHandler,
+  Controller,
+  useFormContext,
+  FormProvider,
+} from "react-hook-form";
 import { Input } from "~/components/ui/input";
 import { Schema, TypeOf, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,16 +26,16 @@ import { ArrowLeft, ArrowRight } from "lucide-react-native";
 import { CONTAINER } from "~/constants/Styles";
 const formSchema = z.object({
   name: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(50),
+  lastname: z
+    .string()
+    .min(2, { message: "นามสกุลต้องมากกว่า 2 ตัวอักษร" })
+    .max(50),
 });
 
 const Stack = createNativeStackNavigator();
 
 const History = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<z.infer<typeof formSchema>>({
+  const method = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -42,22 +48,24 @@ const History = () => {
   }
 
   return (
-    <StepContext.Provider
-      value={{ currentStep, setCurrentStep, onSubmit, lastStep: 1 }}
-    >
-      <NavigationContainer independent={true}>
-        <Stack.Navigator
-          initialRouteName="Page-0"
-          screenOptions={{
-            headerShown: false,
-            animation: "none",
-          }}
-        >
-          <Stack.Screen name="Page-0" component={InfoForm} />
-          <Stack.Screen name="Page-1" component={IForm} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </StepContext.Provider>
+    <FormProvider {...method}>
+      <StepContext.Provider
+        value={{ currentStep, setCurrentStep, onSubmit, lastStep: 1 }}
+      >
+        <NavigationContainer independent={true}>
+          <Stack.Navigator
+            initialRouteName="Page-0"
+            screenOptions={{
+              headerShown: false,
+              animation: "none",
+            }}
+          >
+            <Stack.Screen name="Page-0" component={InfoForm} />
+            <Stack.Screen name="Page-1" component={IForm} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </StepContext.Provider>
+    </FormProvider>
   );
 };
 
@@ -88,7 +96,7 @@ const useStepContext = () => {
   return stepContext;
 };
 
-const StepperButtonGroup = ({ navigation }) => {
+const StepperButtonGroup = ({ navigation, validateInput, clearValidation }) => {
   const { currentStep, setCurrentStep, onSubmit, lastStep } = useStepContext();
 
   const isFirstStep = currentStep === 0;
@@ -128,15 +136,18 @@ const StepperButtonGroup = ({ navigation }) => {
 
   function navigateBack() {
     const previousStep = currentStep - 1;
-    setCurrentStep(previousStep);
+    clearValidation();
 
+    setCurrentStep(previousStep);
     navigation.navigate(`Page-${previousStep}`);
   }
 
   function navigateToNextStep() {
     const nextStep = currentStep + 1;
-    setCurrentStep(nextStep);
+    const isValid = validateInput();
+    if (!isValid) return;
 
+    setCurrentStep(nextStep);
     navigation.navigate(`Page-${nextStep}`);
   }
 
@@ -154,26 +165,95 @@ const StepperButtonGroup = ({ navigation }) => {
 };
 
 const InfoForm = ({ navigation }) => {
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    clearErrors,
+    trigger,
+    formState: { errors, isDirty, isValid },
+  } = useFormContext();
+
+  function validateInput() {
+    // clearErrors(["name", "lastname"]);
+    trigger(["name", "lastname"]);
+    return isValid;
+  }
+
+  function clearValidation() {
+    clearErrors(["name", "lastname"]);
+  }
+
   return (
     <SafeAreaView>
       <View className={cn(CONTAINER, "flex flex-col justify-between h-full")}>
-        <View>
-          <Text>Hello</Text>
-        </View>
-        <StepperButtonGroup navigation={navigation} />
+        <Controller
+          control={control}
+          name="name"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <FormItem>
+              <FormLabel nativeID="email">อีเมล</FormLabel>
+              <Input
+                placeholder="โปรดใส่อีเมล"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+              <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
+
+              <FormMessage errorMessage={errors.name?.message}>hle</FormMessage>
+            </FormItem>
+          )}
+        />
+        <Controller
+          control={control}
+          name="lastname"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <FormItem>
+              <FormLabel nativeID="email">อีเมล</FormLabel>
+              <Input
+                placeholder="โปรดใส่อีเมล"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+              <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
+
+              <FormMessage errorMessage={errors.name?.message}></FormMessage>
+            </FormItem>
+          )}
+        />
+        <StepperButtonGroup
+          navigation={navigation}
+          validateInput={validateInput}
+          clearValidation={clearValidation}
+        />
       </View>
     </SafeAreaView>
   );
 };
 
 const IForm = ({ navigation }) => {
+  const form = useFormContext();
+  function validateInput() {
+    form.trigger(["name", "lastname"]);
+  }
+
+  function clearValidation() {
+    form.clearErrors(["name", "lastname"]);
+  }
+
   return (
     <SafeAreaView>
       <View className={cn(CONTAINER, "flex flex-col justify-between h-full")}>
         <View>
           <Text>Hello2</Text>
         </View>
-        <StepperButtonGroup navigation={navigation} />
+        <StepperButtonGroup
+          navigation={navigation}
+          validateInput={validateInput}
+          clearValidation={() => {}}
+        />
       </View>
     </SafeAreaView>
   );
