@@ -24,27 +24,35 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ArrowLeft, ArrowRight } from "lucide-react-native";
 import { CONTAINER } from "~/constants/Styles";
-const formSchema = z.object({
-  name: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(50),
-  lastname: z
-    .string()
-    .min(2, { message: "นามสกุลต้องมากกว่า 2 ตัวอักษร" })
-    .max(50),
-});
+const formSchema = [
+  z.object({
+    name: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(50),
+    lastname: z
+      .string()
+      .min(2, { message: "นามสกุลต้องมากกว่า 2 ตัวอักษร" })
+      .max(50),
+  }),
+  z.object({
+    email: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(50),
+  }),
+];
 
 const Stack = createNativeStackNavigator();
 
 const History = () => {
-  const method = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const [currentStep, setCurrentStep] = React.useState(0);
+  const currentSchema = formSchema[currentStep];
+
+  const method = useForm<z.infer<typeof currentSchema>>({
+    resolver: zodResolver(currentSchema),
     defaultValues: {
       name: "",
+      lastname: "",
     },
   });
-  const [currentStep, setCurrentStep] = React.useState(0);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    alert(values.name);
+  function onSubmit(values: z.infer<typeof currentSchema>) {
+    alert(values);
   }
 
   return (
@@ -171,17 +179,16 @@ const InfoForm = ({ navigation }) => {
     getValues,
     clearErrors,
     trigger,
-    formState: { errors, isDirty, isValid },
+    formState: { errors, isValid },
   } = useFormContext();
 
   function validateInput() {
-    // clearErrors(["name", "lastname"]);
     trigger(["name", "lastname"]);
     return isValid;
   }
 
   function clearValidation() {
-    clearErrors(["name", "lastname"]);
+    clearErrors();
   }
 
   return (
@@ -219,10 +226,13 @@ const InfoForm = ({ navigation }) => {
               />
               <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
 
-              <FormMessage errorMessage={errors.name?.message}></FormMessage>
+              <FormMessage errorMessage={errors.lastname?.message}>
+                d
+              </FormMessage>
             </FormItem>
           )}
         />
+        <Button onPress={clearValidation}></Button>
         <StepperButtonGroup
           navigation={navigation}
           validateInput={validateInput}
@@ -234,13 +244,21 @@ const InfoForm = ({ navigation }) => {
 };
 
 const IForm = ({ navigation }) => {
-  const form = useFormContext();
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    clearErrors,
+    trigger,
+    formState: { errors, isValid },
+  } = useFormContext();
+
   function validateInput() {
-    form.trigger(["name", "lastname"]);
+    trigger(["name", "lastname"]);
   }
 
   function clearValidation() {
-    form.clearErrors(["name", "lastname"]);
+    clearErrors(["name", "lastname"]);
   }
 
   return (
@@ -249,6 +267,26 @@ const IForm = ({ navigation }) => {
         <View>
           <Text>Hello2</Text>
         </View>
+        <Controller
+          control={control}
+          name="email"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <FormItem>
+              <FormLabel nativeID="email">อีเมล</FormLabel>
+              <Input
+                placeholder="โปรดใส่อีเมล"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+              <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
+
+              <FormMessage errorMessage={errors.lastname?.message}>
+                d
+              </FormMessage>
+            </FormItem>
+          )}
+        />
         <StepperButtonGroup
           navigation={navigation}
           validateInput={validateInput}
