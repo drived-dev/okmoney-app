@@ -1,5 +1,5 @@
 import { SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
-import React, { useState } from "react";
+import React, { Children, useState } from "react";
 import {
   useForm,
   SubmitHandler,
@@ -24,14 +24,16 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ArrowLeft, ArrowRight } from "lucide-react-native";
 import { CONTAINER } from "~/constants/Styles";
+import { NavigationContext } from "@react-navigation/native";
+
 const formSchema = [
-  z.object({
-    name: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(50),
-    lastname: z
-      .string()
-      .min(2, { message: "นามสกุลต้องมากกว่า 2 ตัวอักษร" })
-      .max(50),
-  }),
+  // z.object({
+  //   name: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(50),
+  //   lastname: z
+  //     .string()
+  //     .min(2, { message: "นามสกุลต้องมากกว่า 2 ตัวอักษร" })
+  //     .max(50),
+  // }),
   z.object({
     email: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(50),
   }),
@@ -40,20 +42,103 @@ const formSchema = [
 const Stack = createNativeStackNavigator();
 
 const History = () => {
+  function onSubmit(values: z.infer<(typeof formSchema)[0]>) {
+    alert(values);
+  }
+
+  const forms = [Form, Form];
+
+  return <MultiStepForm onSubmit={onSubmit} />;
+};
+
+const Form = ({ navigation }) => {
+  return (
+    <InfoForm navigation={navigation}>
+      <IForm></IForm>
+    </InfoForm>
+  );
+};
+
+const InfoForm = ({ navigation, children }) => {
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    clearErrors,
+    trigger,
+    formState: { errors, isValid },
+  } = useFormContext();
+
+  function validateInput() {
+    const schemaKeys = Object.keys(getValues());
+    trigger(schemaKeys);
+
+    return isValid;
+  }
+
+  function clearValidation() {
+    clearErrors();
+  }
+
+  return (
+    <SafeAreaView>
+      <View className={cn(CONTAINER, "flex flex-col justify-between h-full")}>
+        {children}
+        <StepperButtonGroup
+          navigation={navigation}
+          validateInput={validateInput}
+          clearValidation={clearValidation}
+        />
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const IForm = ({}) => {
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    clearErrors,
+    trigger,
+    formState: { errors, isValid },
+  } = useFormContext();
+
+  return (
+    // <SafeAreaView>
+    <View>
+      <View>
+        <Text>Hello2</Text>
+      </View>
+      <Controller
+        control={control}
+        name="email"
+        render={({ field: { onChange, onBlur, value } }) => (
+          <FormItem>
+            <FormLabel nativeID="email">อีเมล</FormLabel>
+            <Input
+              placeholder="โปรดใส่อีเมล"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+            <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
+
+            <FormMessage errorMessage={errors.email?.message}>d</FormMessage>
+          </FormItem>
+        )}
+      />
+    </View>
+  );
+};
+
+const MultiStepForm = ({ forms, onSubmit }) => {
   const [currentStep, setCurrentStep] = React.useState(0);
   const currentSchema = formSchema[currentStep];
 
   const method = useForm<z.infer<typeof currentSchema>>({
     resolver: zodResolver(currentSchema),
-    defaultValues: {
-      name: "",
-      lastname: "",
-    },
   });
-
-  function onSubmit(values: z.infer<typeof currentSchema>) {
-    alert(values);
-  }
 
   return (
     <FormProvider {...method}>
@@ -68,8 +153,13 @@ const History = () => {
               animation: "none",
             }}
           >
-            <Stack.Screen name="Page-0" component={InfoForm} />
-            <Stack.Screen name="Page-1" component={IForm} />
+            {forms.map((FormComponent, index) => (
+              <Stack.Screen
+                key={index}
+                name={`Page-${index}`}
+                component={FormComponent}
+              />
+            ))}
           </Stack.Navigator>
         </NavigationContainer>
       </StepContext.Provider>
@@ -169,131 +259,6 @@ const StepperButtonGroup = ({ navigation, validateInput, clearValidation }) => {
       <BackButton />
       <NextButton />
     </View>
-  );
-};
-
-const InfoForm = ({ navigation }) => {
-  const {
-    control,
-    handleSubmit,
-    getValues,
-    clearErrors,
-    trigger,
-    formState: { errors, isValid },
-  } = useFormContext();
-
-  function validateInput() {
-    trigger(["name", "lastname"]);
-    return isValid;
-  }
-
-  function clearValidation() {
-    clearErrors();
-  }
-
-  return (
-    <SafeAreaView>
-      <View className={cn(CONTAINER, "flex flex-col justify-between h-full")}>
-        <Controller
-          control={control}
-          name="name"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <FormItem>
-              <FormLabel nativeID="email">อีเมล</FormLabel>
-              <Input
-                placeholder="โปรดใส่อีเมล"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-              <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
-
-              <FormMessage errorMessage={errors.name?.message}>hle</FormMessage>
-            </FormItem>
-          )}
-        />
-        <Controller
-          control={control}
-          name="lastname"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <FormItem>
-              <FormLabel nativeID="email">อีเมล</FormLabel>
-              <Input
-                placeholder="โปรดใส่อีเมล"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-              <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
-
-              <FormMessage errorMessage={errors.lastname?.message}>
-                d
-              </FormMessage>
-            </FormItem>
-          )}
-        />
-        <Button onPress={clearValidation}></Button>
-        <StepperButtonGroup
-          navigation={navigation}
-          validateInput={validateInput}
-          clearValidation={clearValidation}
-        />
-      </View>
-    </SafeAreaView>
-  );
-};
-
-const IForm = ({ navigation }) => {
-  const {
-    control,
-    handleSubmit,
-    getValues,
-    clearErrors,
-    trigger,
-    formState: { errors, isValid },
-  } = useFormContext();
-
-  function validateInput() {
-    trigger(["name", "lastname"]);
-  }
-
-  function clearValidation() {
-    clearErrors(["name", "lastname"]);
-  }
-
-  return (
-    <SafeAreaView>
-      <View className={cn(CONTAINER, "flex flex-col justify-between h-full")}>
-        <View>
-          <Text>Hello2</Text>
-        </View>
-        <Controller
-          control={control}
-          name="email"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <FormItem>
-              <FormLabel nativeID="email">อีเมล</FormLabel>
-              <Input
-                placeholder="โปรดใส่อีเมล"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-              <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
-
-              <FormMessage errorMessage={errors.lastname?.message}>
-                d
-              </FormMessage>
-            </FormItem>
-          )}
-        />
-        <StepperButtonGroup
-          navigation={navigation}
-          validateInput={validateInput}
-          clearValidation={() => {}}
-        />
-      </View>
-    </SafeAreaView>
   );
 };
 
