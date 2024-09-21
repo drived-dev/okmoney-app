@@ -18,7 +18,7 @@ import {
 } from "~/components/form";
 import { StepForm, StepFormScreen } from "~/components/step-form";
 
-const formSchema = [
+const formSchemas = [
   z.object({
     email: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(50),
   }),
@@ -28,14 +28,16 @@ const formSchema = [
 ];
 
 const History = () => {
-  function onSubmit(values: z.infer<(typeof formSchema)[0]>) {
+  function onSubmit(values: z.infer<(typeof formSchemas)[0]>) {
     alert(values);
     console.log(values);
   }
 
   const forms = [EmailForm, NameForm];
 
-  return <StepForm onSubmit={onSubmit} forms={forms} formSchema={formSchema} />;
+  return (
+    <StepForm onSubmit={onSubmit} forms={forms} formSchemas={formSchemas} />
+  );
 };
 
 const EmailForm = ({ navigation }) => {

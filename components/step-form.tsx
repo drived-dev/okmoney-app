@@ -12,12 +12,19 @@ import { Button } from "~/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react-native";
 import { CONTAINER } from "~/constants/Styles";
 import { BUTTON } from "~/constants/Typography";
+import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 
 const Stack = createNativeStackNavigator();
 
-export const StepForm = ({ forms, onSubmit, formSchema }) => {
+interface StepFormProps {
+  forms: Array<React.FC<{ navigation: any }>>;
+  onSubmit: (values: any) => void;
+  formSchemas: z.AnyZodObject[];
+}
+
+const StepForm = ({ forms, onSubmit, formSchemas }: StepFormProps) => {
   const [currentStep, setCurrentStep] = React.useState(0);
-  const currentSchema = formSchema[currentStep];
+  const currentSchema = formSchemas[currentStep];
 
   const method = useForm<z.infer<typeof currentSchema>>({
     resolver: zodResolver(currentSchema),
@@ -30,7 +37,7 @@ export const StepForm = ({ forms, onSubmit, formSchema }) => {
           currentStep,
           setCurrentStep,
           onSubmit,
-          lastStep: formSchema.length - 1,
+          lastStep: formSchemas.length - 1,
         }}
       >
         <NavigationContainer independent={true}>
@@ -65,7 +72,7 @@ type StepContextType = {
 
 const StepContext = React.createContext<StepContextType>({
   currentStep: 0,
-  lastStep: 1,
+  lastStep: 0,
   setCurrentStep: () => {
     console.error("oops, the default got used. Fix your bug!");
   },
@@ -82,24 +89,34 @@ const useStepContext = () => {
   return stepContext;
 };
 
-export const StepFormScreen = ({ navigation, children }) => {
+export type EmailFormNavigationProp = NativeStackNavigationProp<{
+  [key: `Page-${number}`]: undefined;
+}>;
+
+export interface StepFormScreenProps {
+  navigation: EmailFormNavigationProp;
+  children: React.ReactNode;
+}
+
+const StepFormScreen: React.FC<StepFormScreenProps> = ({
+  navigation,
+  children,
+}) => {
   const {
-    control,
-    handleSubmit,
     getValues,
     clearErrors,
     trigger,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useFormContext();
 
-  function validateInput() {
+  function validateInput(): boolean {
     const schemaKeys = Object.keys(getValues());
     trigger(schemaKeys);
 
     return isValid;
   }
 
-  function clearValidation() {
+  function clearValidation(): void {
     clearErrors();
   }
 
@@ -117,7 +134,17 @@ export const StepFormScreen = ({ navigation, children }) => {
   );
 };
 
-const StepperButtonGroup = ({ navigation, validateInput, clearValidation }) => {
+interface StepperButtonGroupType {
+  navigation: EmailFormNavigationProp;
+  validateInput: () => boolean;
+  clearValidation: () => void;
+}
+
+const StepperButtonGroup = ({
+  navigation,
+  validateInput,
+  clearValidation,
+}: StepperButtonGroupType): JSX.Element => {
   const { currentStep, setCurrentStep, onSubmit, lastStep } = useStepContext();
   const { getValues } = useFormContext();
 
@@ -192,3 +219,5 @@ const StepperButtonGroup = ({ navigation, validateInput, clearValidation }) => {
     </View>
   );
 };
+
+export { StepFormScreen, StepForm };
