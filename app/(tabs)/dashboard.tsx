@@ -16,7 +16,7 @@ import {
   FormMessage,
   FormItem,
 } from "~/components/form";
-import { StepForm, StepFormScreen } from "~/components/form-stepper";
+import { StepForm, StepFormScreen } from "~/components/step-form";
 
 const formSchema = [
   z.object({
