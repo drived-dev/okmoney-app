@@ -17,6 +17,8 @@ import {
   FormItem,
 } from "~/components/form";
 import { StepForm, StepFormScreen } from "~/components/step-form";
+import { cn } from "~/lib/utils";
+import { COL_SPAN, FORM, ROW } from "~/constants/Styles";
 
 const formSchemas = [
   z.object({
@@ -52,28 +54,48 @@ const EmailForm = ({ navigation }) => {
 
   return (
     <StepFormScreen navigation={navigation}>
-      <View>
-        <View>
-          <Text>Hello2</Text>
+      <View className={cn(FORM)}>
+        <Text>Hello2</Text>
+        <View className={cn(ROW)}>
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <FormItem className={cn(COL_SPAN["1"])}>
+                <FormLabel nativeID="email">อีเมล</FormLabel>
+                <Input
+                  placeholder="โปรดใส่อีเมล"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+                <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
+                <FormMessage errorMessage={errors.email?.message}>
+                  d
+                </FormMessage>
+              </FormItem>
+            )}
+          />
+          <Controller
+            control={control}
+            name="email"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <FormItem className={cn(COL_SPAN["1"])}>
+                <FormLabel nativeID="email">อีเมล</FormLabel>
+                <Input
+                  placeholder="โปรดใส่อีเมล"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+                <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
+                <FormMessage errorMessage={errors.email?.message}>
+                  d
+                </FormMessage>
+              </FormItem>
+            )}
+          />
         </View>
-        <Controller
-          control={control}
-          name="email"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <FormItem>
-              <FormLabel nativeID="email">อีเมล</FormLabel>
-              <Input
-                placeholder="โปรดใส่อีเมล"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-              <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
-
-              <FormMessage errorMessage={errors.email?.message}>d</FormMessage>
-            </FormItem>
-          )}
-        />
       </View>
     </StepFormScreen>
   );
