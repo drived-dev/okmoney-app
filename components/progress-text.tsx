@@ -78,7 +78,7 @@ const ProgressText = ({
   return (
     <View className={cn(className)} {...props}>
       <View
-        className="relative border-gray-400 border-hairline rounded-lg min-w-20"
+        className="relative border-gray-400 border-hairline rounded-lg"
         onLayout={getWidth}
       >
         <LinearGradient
