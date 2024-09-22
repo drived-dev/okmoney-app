@@ -1,14 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 
+import ProgressText from "~/components/progress-text";
 const DashboardPage = () => {
   return (
-    <View>
-      <Text>DashboardPage</Text>
-    </View>
+    <SafeAreaView>
+      <View className="px-5">
+        <ProgressText percentage={10} textStart="hello" textEnd="hello" />
+      </View>
+    </SafeAreaView>
   );
 };
 
 export default DashboardPage;
-
-const styles = StyleSheet.create({});
