@@ -98,19 +98,19 @@ const LoanItem = ({ loan }) => {
       {/* Action Buttons */}
       <View className="flex-row justify-between items-center mt-3 space-x-2 ml-3 mb-2">
         {/* Remind Button with Icon */}
-        <TouchableOpacity className="bg-destructive-foreground flex-1 flex-row justify-center items-center border border-muted-foreground rounded-2xl py-2">
+        <Button className="bg-destructive-foreground flex-1 flex-row justify-center items-center border border-muted-foreground rounded-2xl py-2">
         <Icon name="Send" color='#71717a' size={22}/>
-          <Text className="text-textb ml-2">ทวงหนี้</Text>
-        </TouchableOpacity>
+          <Text className={cn(BUTTON,"text-textb ml-2 font-ibm-semibold")}>ทวงหนี้</Text>
+        </Button>
 
         <View className='px-1'>
         </View>
 
         {/* Save Button */}
-        <TouchableOpacity className="flex-1 bg-destructive py-2 flex-row justify-center items-center mr-3 rounded-2xl">
+        <Button className="flex-1 bg-destructive py-2 flex-row justify-center items-center mr-3 rounded-2xl">
           <Icon name="NotebookPen" color='white' size={22}/>
-          <Text className="text-destructive-foreground ml-2">บันทึกรายการ</Text>
-        </TouchableOpacity>
+          <Text className={cn(BUTTON,"text-destructive-foreground font-ibm-semibold ml-2")}>บันทึกรายการ</Text>
+        </Button>
       </View>
     </View>
   );
