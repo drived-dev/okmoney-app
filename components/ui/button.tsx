@@ -6,7 +6,7 @@ import { cn } from "~/lib/utils";
 import { BUTTON } from "~/constants/Typography";
 
 const buttonVariants = cva(
-  "group flex items-center justify-center rounded-md web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
+  "group flex items-center justify-center rounded-2xl web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
   {
     variants: {
       variant: {
@@ -16,14 +16,19 @@ const buttonVariants = cva(
           "border border-input bg-background web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent",
         secondary: "bg-secondary web:hover:opacity-80 active:opacity-80",
         ghost:
-          "web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent",
+          "web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent bg-gray-200",
         link: "web:underline-offset-4 web:hover:underline web:focus:underline ",
       },
       size: {
         default: "h-10 px-4 py-2 native:h-12 native:px-5 native:py-3",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8 native:h-14",
+        sm: "h-9 rounded-2xl px-3",
+        lg: "h-11 rounded-2xl px-8 native:h-14",
+        xl: "h-14 rounded-2xl px-10",
         icon: "h-10 w-10",
+        "icon-lg": "h-14 w-14",
+      },
+      fullWidth: {
+        true: "w-full",
       },
     },
     defaultVariants: {
@@ -50,7 +55,9 @@ const buttonTextVariants = cva(
         default: "",
         sm: "",
         lg: "native:text-lg",
+        xl: "",
         icon: "",
+        "icon-lg": "",
       },
     },
     defaultVariants: {

@@ -1,7 +1,11 @@
 import "~/global.css";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Theme, ThemeProvider } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  Theme,
+  ThemeProvider,
+} from "@react-navigation/native";
 import { SplashScreen, Stack, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
@@ -78,6 +82,7 @@ export default function RootLayout() {
   }
 
   return (
+    // <NavigationContainer independent={true}>
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <Stack
@@ -93,7 +98,9 @@ export default function RootLayout() {
           }}
         />
       </Stack>
+
       <PortalHost />
     </ThemeProvider>
+    // </NavigationContainer>
   );
 }
