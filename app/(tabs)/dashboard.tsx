@@ -14,25 +14,8 @@ import {
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { BUTTON } from "~/constants/Typography";
-import PhoneInput from "~/components/phone-input";
-
-const formSchema = z.object({
-  phone: z.string(),
-});
 
 const History = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    alert(values.phone);
-  }
-
   return <SafeAreaView></SafeAreaView>;
 };
 

@@ -27,6 +27,8 @@ const PhoneInput = React.forwardRef<
   const [countryCode, setCountryCode] = React.useState("66");
 
   const formatPhoneNumber = (input: string | undefined) => {
+    if (value == undefined) return input;
+
     if (input == "0") {
       // TODO: change info text
       Toast.show({
@@ -37,8 +39,8 @@ const PhoneInput = React.forwardRef<
       });
     }
 
-    const cleaned = input.replace(/^0/, "");
-    const match = cleaned.match(/^(\d{2})(\d{3})(\d{4})$/);
+    const cleaned = input?.replace(/^0/, "");
+    const match = cleaned?.match(/^(\d{2})(\d{3})(\d{4})$/);
     if (match) {
       return `${match[1]}-${match[2]}-${match[3]}`;
     }
@@ -55,6 +57,8 @@ const PhoneInput = React.forwardRef<
           className="flex-1 bg-transparent border-transparent px-0"
           placeholder="เบอร์โทรศัพท์"
           value={formatPhoneNumber(value)}
+          keyboardType="phone-pad"
+          maxLength={9}
           {...props}
         />
       </View>
