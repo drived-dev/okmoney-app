@@ -17,6 +17,7 @@
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/native": "^6.1.18",
     "@rn-primitives/avatar": "~1.0.4",
+    "@rn-primitives/dropdown-menu": "^1.0.4",
     "@rn-primitives/label": "^1.0.4",
     "@rn-primitives/portal": "~1.0.3",
     "@rn-primitives/progress": "~1.0.3",
