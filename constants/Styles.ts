@@ -1,4 +1,7 @@
-export const CONTAINER = "px-4"
+import { cn } from "~/lib/utils"
+import { PARAGRAPH } from "./Typography"
+
+export const CONTAINER = cn(PARAGRAPH, "px-4")
 export const FORM = "flex flex-col gap-4"
 export const ROW = "flex flex-row gap-2"
 export const COL_SPAN = {

@@ -16,6 +16,7 @@ import { PortalHost } from "@rn-primitives/portal";
 import { ThemeToggle } from "~/components/ThemeToggle";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { useFonts } from "expo-font";
+import Toast from "react-native-toast-message";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -98,7 +99,7 @@ export default function RootLayout() {
           }}
         />
       </Stack>
-
+      <Toast />
       <PortalHost />
     </ThemeProvider>
     // </NavigationContainer>
