@@ -33,32 +33,7 @@ const History = () => {
     alert(values.phone);
   }
 
-  return (
-    <SafeAreaView>
-      <Controller
-        control={control}
-        name="phone"
-        render={({ field: { onChange, onBlur, value } }) => (
-          <FormItem>
-            <FormLabel nativeID="email">อีเมล</FormLabel>
-            <PhoneInput
-              // placeholder="โปรดใส่อเมล"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-            <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
-
-            <FormMessage errorMessage={errors.phone?.message}></FormMessage>
-          </FormItem>
-        )}
-      />
-
-      <Button onPress={handleSubmit(onSubmit)}>
-        <Text className={cn(BUTTON.white)}>สวัสดี</Text>
-      </Button>
-    </SafeAreaView>
-  );
+  return <SafeAreaView></SafeAreaView>;
 };
 
 export default History;
