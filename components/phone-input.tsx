@@ -20,6 +20,7 @@ import { ChevronDown } from "lucide-react-native";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH, PARAGRAPH_BOLD } from "~/constants/Typography";
 import { set } from "react-hook-form";
+import Toast from "react-native-toast-message";
 
 const PhoneInput = () => {
   const [value, setValue] = React.useState("");
@@ -27,7 +28,13 @@ const PhoneInput = () => {
 
   const formatPhoneNumber = (input) => {
     if (input == "0") {
-      // show tooltip
+      // TODO: change info text
+      Toast.show({
+        type: "info",
+        position: "bottom",
+        text1: "Hello",
+        text2: "This is some something 👋",
+      });
     }
     const cleaned = input.replace(/^0/, "");
     const match = cleaned.match(/^(\d{2})(\d{3})(\d{4})$/);
