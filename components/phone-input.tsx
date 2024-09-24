@@ -1,32 +1,32 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import React from "react";
 import { Input } from "~/components/ui/input";
-import Animated, { FadeIn } from "react-native-reanimated";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react-native";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH, PARAGRAPH_BOLD } from "~/constants/Typography";
-import { set } from "react-hook-form";
 import Toast from "react-native-toast-message";
 
-const PhoneInput = () => {
-  const [value, setValue] = React.useState("");
+export function decodePhoneNumber(input: string) {
+  // TODO: turn phone number to usable data
+  return input;
+}
+
+const PhoneInput = React.forwardRef<
+  React.ElementRef<typeof TextInput>,
+  React.ComponentPropsWithoutRef<typeof TextInput>
+>(({ onChange, value, ...props }) => {
   const [countryCode, setCountryCode] = React.useState("66");
 
-  const formatPhoneNumber = (input) => {
+  const formatPhoneNumber = (input: string | undefined) => {
     if (input == "0") {
       // TODO: change info text
       Toast.show({
@@ -36,6 +36,7 @@ const PhoneInput = () => {
         text2: "This is some something 👋",
       });
     }
+
     const cleaned = input.replace(/^0/, "");
     const match = cleaned.match(/^(\d{2})(\d{3})(\d{4})$/);
     if (match) {
@@ -43,10 +44,6 @@ const PhoneInput = () => {
     }
 
     return cleaned;
-  };
-
-  const handleOnChangeText = (text) => {
-    setValue(formatPhoneNumber(text));
   };
 
   return (
@@ -57,13 +54,13 @@ const PhoneInput = () => {
         <Input
           className="flex-1 bg-transparent border-transparent px-0"
           placeholder="เบอร์โทรศัพท์"
-          value={value}
-          onChangeText={handleOnChangeText}
+          value={formatPhoneNumber(value)}
+          {...props}
         />
       </View>
     </View>
   );
-};
+});
 
 const CountryDropdown = () => {
   return (
@@ -85,6 +82,5 @@ const CountryDropdown = () => {
     </DropdownMenu>
   );
 };
-export default PhoneInput;
 
-const styles = StyleSheet.create({});
+export default PhoneInput;
