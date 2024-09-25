@@ -1,6 +1,6 @@
 import { Link } from "expo-router";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { ThemeToggle } from "~/components/ThemeToggle";
 import { PARAGRAPH, TITLE, BUTTON } from "~/constants/Typography";
@@ -10,18 +10,53 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native";
 import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
-import LoanList from "~/components/main/loadlist";
+import LoanItem from "~/components/main/loanitem";
+import { Loan } from "~/types/Loan";
 const Index = () => {
-  const demodata = [
-    { 
-      id: '01', 
-      name: 'ธน สมพง', 
-      nickname: 'สมพง', 
-      status: 'ค้างชำระ', 
-      outstanding: 200, 
+  const demodata: Loan[] = [
+    {
+      id: "01",
+      nickname: "บิบิ",
+      name: "ธน สมพง",
+      status: "รอชำระ",
+      outstanding: 0,
       total: 500,
-      dueDate: '30/5',
-      profileImage: 'https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg' 
+      dueDate: "30/5",
+      profileImage:
+        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    },
+    {
+      id: "02",
+      nickname: "แบงค์",
+      name: "ธนาการ",
+      status: "ใกล้กำหนด",
+      outstanding: 100,
+      total: 500,
+      dueDate: "30/5",
+      profileImage:
+        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    },
+    {
+      id: "03",
+      nickname: "บิน",
+      name: "ธุดง",
+      status: "ครบชำระ",
+      outstanding: 200,
+      total: 500,
+      dueDate: "30/5",
+      profileImage:
+        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    },
+    {
+      id: "04",
+      nickname: "โบ๊ท",
+      name: "ทองสิระ",
+      status: "ค้างชำระ",
+      outstanding: 300,
+      total: 500,
+      dueDate: "30/5",
+      profileImage:
+        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
     },
   ];
 
@@ -52,7 +87,12 @@ const Index = () => {
           </Button>
           <View className="bg-secondary w-20 h-20"></View> */}
           <ThemeToggle />
-          <LoanList data={demodata}/>
+          <FlatList
+            data={demodata}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => <LoanItem loan={item} />}
+            className="mt-4"
+          />
         </View>
       </SafeAreaView>
     </View>
