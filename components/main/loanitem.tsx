@@ -58,7 +58,7 @@ export const LoanItem = ({ loan }: { loan: Loan }) => {
           {/* Loan Status */}
           <View className="flex-row flex">
             <View
-              className={`px-3 py-2 rounded-2xl self-start ${statusColorbg}`}
+              className={`px-3 py-2 pt-3 rounded-2xl self-start ${statusColorbg}`}
             >
               <Text
                 className={cn(

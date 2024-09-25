@@ -10,7 +10,7 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native";
 import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
-import LoanItem from "~/components/main/loanitem";
+import { LoanItem } from "~/components/main/loanitem";
 import { Loan } from "~/types/Loan";
 const Index = () => {
   const demodata: Loan[] = [
@@ -77,15 +77,6 @@ const Index = () => {
             "mt-4 bg-background h-full rounded-3xl pt-5"
           )}
         >
-          {/* <Text className={cn(TITLE)}>hello world สวัสดี</Text>
-          <Text className={cn(TITLE, "text-primary")}>hello world สวัสดี</Text>
-          <Button size="lg" className="mb-2">
-            <Text>hello world สวัสดี</Text>
-          </Button>
-          <Button size="sm">
-            <Text>hello world สวัสดี</Text>
-          </Button>
-          <View className="bg-secondary w-20 h-20"></View> */}
           <ThemeToggle />
           <FlatList
             data={demodata}
