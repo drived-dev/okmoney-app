@@ -10,7 +10,7 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native";
 import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
-import LoanItem from "~/components/main/loanitem";
+import { LoanItem } from "~/components/main/loanitem";
 import { Loan } from "~/types/Loan";
 const Index = () => {
   const demodata: Loan[] = [
