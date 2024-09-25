@@ -21,7 +21,7 @@ const statusColorstxt: Record<string, string> = {
   ใกล้กำหนด: "text-destructive-foreground", // Canceled
 };
 
-const LoanItem = ({ loan }: { loan: Loan }) => {
+export const LoanItem = ({ loan }: { loan: Loan }) => {
   // Calculate the progress based on outstanding vs total
   const progress = loan.outstanding / loan.total;
   const statusColorbg = statusColorsbg[loan.status] || "bg-blue-500";
@@ -131,5 +131,3 @@ const LoanItem = ({ loan }: { loan: Loan }) => {
     </View>
   );
 };
-
-export default LoanItem;
