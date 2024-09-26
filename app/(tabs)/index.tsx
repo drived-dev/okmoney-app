@@ -12,6 +12,7 @@ import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { LoanItem } from "~/components/main/loanitem";
 import { Loan } from "~/types/Loan";
+import { Searchbar } from "~/components/main/search_bar";
 const Index = () => {
   const demodata: Loan[] = [
     {
@@ -86,7 +87,14 @@ const Index = () => {
             <Text>hello world สวัสดี</Text>
           </Button>
           <View className="bg-secondary w-20 h-20"></View> */}
-          <ThemeToggle />
+          <View className="flex flex-col gap-5">
+            <View>
+              <ThemeToggle />
+            </View>
+            <View>
+              <Searchbar></Searchbar>
+            </View>
+          </View>
           <FlatList
             data={demodata}
             keyExtractor={(item) => item.id}

@@ -1,9 +1,8 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH, BUTTON, LABEL, TITLE } from "~/constants/Typography";
-import Icon from "../ui/Icon";
+import { Icon } from "../ui/Icon";
 import { Button } from "../ui/button";
 import { Loan } from "~/types/Loan";
 
@@ -56,7 +55,7 @@ export const LoanItem = ({ loan }: { loan: Loan }) => {
           </View>
 
           {/* Loan Status */}
-          <View className="flex-row flex">
+          <View className="flex-row flex gap-2">
             <View
               className={`px-3 py-2 rounded-2xl self-start ${statusColorbg}`}
             >
