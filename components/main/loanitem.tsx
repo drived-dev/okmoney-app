@@ -5,6 +5,7 @@ import { PARAGRAPH, BUTTON, LABEL, TITLE } from "~/constants/Typography";
 import { Icon } from "../ui/Icon";
 import { Button } from "../ui/button";
 import { Loan } from "~/types/Loan";
+import ProgressText from "../progress-text";
 
 const statusColorsbg: Record<string, string> = {
   ค้างชำระ: "bg-red-500", // Overdue
@@ -76,27 +77,14 @@ export const LoanItem = ({ loan }: { loan: Loan }) => {
         </View>
 
         {/* Outstanding Amount and Progress Bar with Total Amount on the Right */}
-        <View className="flex-row items-center space-x-2">
+        <View className="flex-row gap-2 content-center">
           {/* Progress Bar */}
-          <View className="flex-1 h-6 bg-background rounded-lg relative border border-border ">
-            <View
-              className="absolute h-full bg-orange-500 rounded-md"
-              style={{ width: `${progress * 100}%` }}
-            />
-            <View className="absolute inset-0 flex-row justify-between items-center px-2">
-              {/* Outstanding Amount (left side inside the bar) */}
-              <Text className="text-orange-600 font-bold">
-                {loan.outstanding} บาท
-              </Text>
-              {/* Total Amount (right side inside the bar) */}
-              <Text className="text-gray-400 absolute right-2">
-                {loan.total} บาท
-              </Text>
-            </View>
-          </View>
-
-          <View className="px-2"></View>
-
+          <ProgressText
+            textStart="0 บาท"
+            textEnd="200 บาท"
+            percentage={60}
+            className="flex-1"
+          />
           {/* Due Date */}
           <Text className={cn(TITLE, "text-muted-foreground text-sm mt-1")}>
             ชำระทุก {loan.dueDate}

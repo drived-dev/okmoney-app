@@ -68,7 +68,7 @@ const Toggle = React.forwardRef<
       className={cn(
         toggleVariants({ variant, size }),
         props.disabled && "web:pointer-events-none opacity-50",
-        props.pressed && "bg-accent",
+        props.pressed && "bg-gray-500",
         className
       )}
       {...props}

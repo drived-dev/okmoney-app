@@ -7,15 +7,12 @@ import {
   ToggleGroupIcon,
   ToggleGroupItem,
 } from "~/components/ui/toggle-group";
-
-import { Italic } from "lucide-react-native";
-import { Underline } from "lucide-react-native";
 import { cn } from "~/lib/utils";
 import { HEADER, PARAGRAPH, TITLE } from "~/constants/Typography";
 import { Icon } from "../ui/Icon";
 
 export const Searchbar = () => {
-  const [value, setValue] = React.useState<string[]>([]);
+  const [value, setValue] = React.useState<string>();
   return (
     <View className="flex flex-col gap-3">
       <View>
@@ -23,7 +20,7 @@ export const Searchbar = () => {
       </View>
       <View className="justify-between flex flex-row ">
         <View className="flex flex-row gap-3">
-          <ToggleGroup value={value} onValueChange={setValue} type="multiple">
+          <ToggleGroup value={value} onValueChange={setValue} type="single">
             <ToggleGroupItem value="all" aria-label="Toggle all">
               <Text
                 className={(cn(PARAGRAPH), "pt-2 font-ibm text-base leading-6")}
