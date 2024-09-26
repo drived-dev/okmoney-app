@@ -23,7 +23,7 @@ export function decodePhoneNumber(input: string) {
 const PhoneInput = React.forwardRef<
   React.ElementRef<typeof TextInput>,
   React.ComponentPropsWithoutRef<typeof TextInput>
->(({ onChange, value, ...props }) => {
+>(({ onChange, value, ...props }, ref) => {
   const [countryCode, setCountryCode] = React.useState("66");
 
   const formatPhoneNumber = (input: string | undefined) => {
@@ -51,7 +51,7 @@ const PhoneInput = React.forwardRef<
   return (
     <View className="flex gap-2 flex-row items-stretch">
       <CountryDropdown />
-      <View className="flex-1 flex-row gap-2 items-center rounded-xl border border-input bg-background px-5">
+      <View className="flex-1 flex-row gap-2 items-center rounded-xl  bg-input px-5">
         <Text className={cn(PARAGRAPH_BOLD)}>+{countryCode}</Text>
         <Input
           className="flex-1 bg-transparent border-transparent px-0"
