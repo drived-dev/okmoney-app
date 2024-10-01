@@ -11,17 +11,19 @@ import { SafeAreaView } from "react-native";
 import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
 import LoanList from "~/components/main/loadlist";
+
 const Index = () => {
   const demodata = [
-    { 
-      id: '01', 
-      name: 'ธน สมพง', 
-      nickname: 'สมพง', 
-      status: 'ค้างชำระ', 
-      outstanding: 200, 
+    {
+      id: "01",
+      name: "ธน สมพง",
+      nickname: "สมพง",
+      status: "ค้างชำระ",
+      outstanding: 200,
       total: 500,
-      dueDate: '30/5',
-      profileImage: 'https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg' 
+      dueDate: "30/5",
+      profileImage:
+        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
     },
   ];
 
@@ -52,7 +54,7 @@ const Index = () => {
           </Button>
           <View className="bg-secondary w-20 h-20"></View> */}
           <ThemeToggle />
-          <LoanList data={demodata}/>
+          <LoanList data={demodata} />
         </View>
       </SafeAreaView>
     </View>

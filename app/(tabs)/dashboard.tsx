@@ -14,14 +14,14 @@ import {
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { BUTTON } from "~/constants/Typography";
-import Feedback from "../../components/feedback";
+import {
+  Feedback,
+  FeedbackDescription,
+  FeedbackTitle,
+} from "~/components/feedback";
 
 const History = () => {
-  return (
-    <SafeAreaView>
-      <Feedback />
-    </SafeAreaView>
-  );
+  return <SafeAreaView></SafeAreaView>;
 };
 
 export default History;
