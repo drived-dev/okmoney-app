@@ -2,10 +2,12 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH, BUTTON, LABEL, TITLE } from "~/constants/Typography";
-import { Icon } from "../ui/icon";
-import { Button } from "../ui/button";
+import { Icon } from "~/components/icon";
+import { Button } from "~/components/ui/button";
 import { Loan } from "~/types/Loan";
-import ProgressText from "../progress-text";
+import ProgressText from "~/components/progress-text";
+import { IconButton } from "~/components/icon-button";
+import colors from "tailwindcss/colors";
 
 const statusColorsbg: Record<string, string> = {
   ค้างชำระ: "bg-red-500", // Overdue
@@ -71,7 +73,7 @@ export const LoanCard = ({ loan }: { loan: Loan }) => {
             </View>
 
             <Button variant="ghost" size={"icon"}>
-              <Icon name="Ellipsis" size={24} color="#71717a" />
+              <Icon name="Ellipsis" size={24} color={colors.gray[500]} />
             </Button>
           </View>
         </View>
@@ -95,25 +97,19 @@ export const LoanCard = ({ loan }: { loan: Loan }) => {
       {/* Action Buttons */}
       <View className="flex-row justify-between items-center mt-3 space-x-2 mb- gap-1">
         {/* Remind Button with Icon */}
-        <Button className="bg-destructive-foreground flex-1 flex-row justify-center items-center border border-muted-foreground rounded-2xl py-2">
-          <Icon name="Send" color="#71717a" size={22} />
-          <Text className={cn(BUTTON, "text-textb ml-2 font-ibm-semibold")}>
-            ทวงหนี้
-          </Text>
-        </Button>
+        <IconButton
+          className="flex-1"
+          variant="outline"
+          icon={<Icon name="Send" size={20} />}
+          text="ทวงหนี้"
+        />
 
         {/* Save Button */}
-        <Button className="flex-1 bg-destructive py-2 flex-row justify-center items-center rounded-2xl">
-          <Icon name="NotebookPen" color="white" size={22} />
-          <Text
-            className={cn(
-              BUTTON,
-              "text-destructive-foreground font-ibm-semibold ml-2"
-            )}
-          >
-            บันทึกรายการ
-          </Text>
-        </Button>
+        <IconButton
+          className="flex-1"
+          icon={<Icon name="Plus" size={20} />}
+          text="เพิ่มลูกหนี้"
+        />
       </View>
     </View>
   );

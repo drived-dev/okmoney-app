@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { Button, ButtonProps } from "./ui/button";
+import { Button, ButtonProps } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH_BOLD } from "~/constants/Typography";
 import colors from "tailwindcss/colors";
@@ -18,7 +18,7 @@ const IconButtonColor = {
   outline: colors.gray[500],
 };
 
-const IconButton = ({
+export const IconButton = ({
   icon,
   text,
   variant = "default",
@@ -32,25 +32,16 @@ const IconButton = ({
   });
 
   return (
-    <Button
-      variant={variant}
-      className={cn(
-        "relative  justify-center",
-        iconPosition === "right" ? "flex-row-reverse" : "flex-row"
-      )}
-      {...props}
-    >
-      <View className="left-0">{modifiedIcon}</View>
-      <Text
-        className={cn(PARAGRAPH_BOLD, "flex-1 text-center")}
-        style={{ color: currentColor }}
-      >
-        {text}
-      </Text>
+    <Button variant={variant} {...props}>
+      <View className={cn("justify-center flex flex-row gap-2")}>
+        <View>{modifiedIcon}</View>
+        <Text
+          className={cn(PARAGRAPH_BOLD, "flex-1 text-center")}
+          style={{ color: currentColor }}
+        >
+          {text}
+        </Text>
+      </View>
     </Button>
   );
 };
-
-export default IconButton;
-
-const styles = StyleSheet.create({});
