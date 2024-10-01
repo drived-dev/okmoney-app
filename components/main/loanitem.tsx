@@ -29,6 +29,7 @@ export const LoanItem = ({ loan }: { loan: Loan }) => {
 
   return (
     // background deptor
+    //TODO: status 1 must be show
     <View className="bg-card p-3 my-1 rounded-3xl border border-border space-y-3 ">
       {/* Profile Image and Loan Info */}
       <View className="flex flex-col gap-2">
