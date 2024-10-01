@@ -22,6 +22,7 @@ import { GRID, GRID_COL_SPAN, GRID_ROW } from "~/constants/Styles";
 import { TITLE } from "~/constants/Typography";
 import PhoneInput from "~/components/phone-input";
 import { InfoForm } from "./(components)/info-form";
+import { LoanDetailForm } from "./(components)/loan-detail-form";
 
 const formSchemas = [
   z.object({
@@ -35,17 +36,13 @@ const formSchemas = [
     }),
   }),
   z.object({
-    contract_id: z
-      .string()
-      .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
-      .max(30),
-    lastname: z
-      .string()
-      .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
-      .max(30),
-    phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, {
-      message: "Invalid phone number format",
-    }),
+    loanId: z.string(),
+    dueDate: z.string(),
+    loanType: z.enum(["fixed", "adjustable"]),
+    paymentType: z.enum(["monthly", "daily", "custom"]),
+    firstPaymentDate: z.date(),
+    loanTermType: z.string(),
+    loanCategory: z.enum(["newLoan", "oldLoan"]),
   }),
 ];
 
@@ -55,7 +52,7 @@ const create = () => {
     console.log(values);
   }
 
-  const forms = [InfoForm];
+  const forms = [InfoForm, LoanDetailForm];
 
   return (
     <StepForm onSubmit={onSubmit} forms={forms} formSchemas={formSchemas} />
@@ -63,5 +60,3 @@ const create = () => {
 };
 
 export default create;
-
-const styles = StyleSheet.create({});

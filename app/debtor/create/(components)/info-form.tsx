@@ -17,6 +17,7 @@ import {
   FormItem,
 } from "~/components/form";
 import {
+  NavigationProps,
   StepForm,
   StepFormScreen,
   StepFormScreenProps,
@@ -26,7 +27,7 @@ import { GRID, GRID_COL_SPAN, GRID_ROW } from "~/constants/Styles";
 import { TITLE } from "~/constants/Typography";
 import PhoneInput from "~/components/phone-input";
 
-export const InfoForm = ({ navigation }: StepFormScreenProps) => {
+export const InfoForm = ({ navigation }: NavigationProps) => {
   const {
     control,
     formState: { errors },

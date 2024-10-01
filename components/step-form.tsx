@@ -98,6 +98,10 @@ export interface StepFormScreenProps {
   children: React.ReactNode;
 }
 
+export interface NavigationProps {
+  navigation: StackNavigationProps;
+}
+
 const StepFormScreen: React.FC<StepFormScreenProps> = ({
   navigation,
   children,
