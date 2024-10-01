@@ -96,20 +96,31 @@ export const LoanCard = ({ loan }: { loan: Loan }) => {
 
       {/* Action Buttons */}
       <View className="flex-row justify-between items-center mt-3 space-x-2 mb- gap-1">
-        {/* Remind Button with Icon */}
-        <IconButton
-          className="flex-1"
-          variant="outline"
-          icon={<Icon name="Send" size={20} />}
-          text="ทวงหนี้"
-        />
+        {loan.status !== "ครบชำระ" ? (
+          <>
+            {/* Remind Button with Icon */}
+            <IconButton
+              className="flex-1"
+              variant="outline"
+              icon={<Icon name="Send" size={20} />}
+              text="ทวงหนี้"
+            />
 
-        {/* Save Button */}
-        <IconButton
-          className="flex-1"
-          icon={<Icon name="NotebookPen" size={20} />}
-          text="บันทึกรายการ"
-        />
+            {/* Save Button */}
+            <IconButton
+              className="flex-1"
+              icon={<Icon name="NotebookPen" size={20} />}
+              text="บันทึกรายการ"
+            />
+          </>
+        ) : (
+          <IconButton
+            className="flex-1"
+            variant="outline"
+            icon={<Icon name="Send" size={20} />}
+            text="เปิดรายการใหม่"
+          />
+        )}
       </View>
     </View>
   );

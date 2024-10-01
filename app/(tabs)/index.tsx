@@ -3,7 +3,13 @@ import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { ThemeToggle } from "~/components/ThemeToggle";
-import { PARAGRAPH, TITLE, BUTTON } from "~/constants/Typography";
+import {
+  PARAGRAPH,
+  TITLE,
+  BUTTON,
+  PARAGRAPH_BOLD,
+  LABEL,
+} from "~/constants/Typography";
 import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
 import { StatusBar } from "expo-status-bar";
@@ -18,6 +24,14 @@ import { AvatarText } from "~/components/avatar-text";
 import { IconButton } from "~/components/icon-button";
 import { Plus } from "lucide-react-native";
 const Index = () => {
+  const loandata = {
+    nickname: "บิ้ง",
+    status: 1,
+    profileImage:
+      "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    limit: 7,
+  };
+
   const demodata: Loan[] = [
     {
       id: "01",
@@ -76,23 +90,37 @@ const Index = () => {
 
       <SafeAreaView>
         <View className={cn(CONTAINER, "justify-between flex flex-row")}>
-          <AvatarText
-            url={
-              "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
-            }
-            title="test"
-          >
-            <Text className={cn(PARAGRAPH, "text-primary")}>FOBO01</Text>
+          <AvatarText url={loandata.profileImage} title="test">
+            <Text className={cn(PARAGRAPH, "text-primary")}>
+              {loandata.nickname}
+            </Text>
           </AvatarText>
-          <IconButton
-            className="bg-white"
-            textColor="#E59551"
-            icon={<Plus />}
-            text="เพิ่มลูกหนี้"
-          />
+          <View className="flex flex-row gap-2">
+            {/* Conditionally render the premium button based on loandata.status */}
+            {loandata.status !== 0 && (
+              <>
+                <IconButton
+                  textColor="#E59551"
+                  icon={<Plus />}
+                  variant="secondary"
+                />
+              </>
+            )}
+            <IconButton
+              className="bg-white"
+              textColor="#E59551"
+              icon={<Plus />}
+              text="เพิ่มลูกหนี้"
+            />
+          </View>
         </View>
 
-        <View className={cn(CONTAINER, "mt-4 bg-background rounded-3xl pt-5")}>
+        <View
+          className={cn(
+            CONTAINER,
+            "mt-4 bg-background rounded-3xl pt-5 flex flex-col gap-2"
+          )}
+        >
           <View className="flex flex-col gap-5">
             <View>
               <ThemeToggle />
@@ -101,12 +129,23 @@ const Index = () => {
               <Searchbar></Searchbar>
             </View>
           </View>
-          <FlatList
-            data={demodata}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <LoanCard loan={item} />}
-            className="mt-4"
-          />
+          <View className="flex flex-col">
+            {/* alert */}
+            <View className="bg-[#A35D2B]/10 justify-between flex flex-row rounded-2xl py-3  items-center px-5">
+              <Text className={cn(PARAGRAPH_BOLD, "")}>
+                ลูกหนี้เต็มสำหรับแพ็คเกจคุณ
+              </Text>
+              <Button className="rounded-full">
+                <Text className={cn(LABEL, "items-center")}>ดูแพ็คเกจ</Text>
+              </Button>
+            </View>
+            <FlatList
+              data={demodata}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => <LoanCard loan={item} />}
+              className="mt-4"
+            />
+          </View>
         </View>
       </SafeAreaView>
     </View>

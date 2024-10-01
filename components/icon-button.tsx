@@ -13,7 +13,7 @@ import { PARAGRAPH_BOLD } from "~/constants/Typography";
 import colors from "tailwindcss/colors";
 interface IconButton extends ButtonProps {
   icon: JSX.Element;
-  text: string;
+  text?: string;
   textColor?: string;
   variant?: keyof typeof IconButtonColor;
   iconPosition?: "left" | "right";
