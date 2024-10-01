@@ -107,8 +107,8 @@ export const LoanCard = ({ loan }: { loan: Loan }) => {
         {/* Save Button */}
         <IconButton
           className="flex-1"
-          icon={<Icon name="Plus" size={20} />}
-          text="เพิ่มลูกหนี้"
+          icon={<Icon name="NotebookPen" size={20} />}
+          text="บันทึกรายการ"
         />
       </View>
     </View>
