@@ -14,9 +14,15 @@ import {
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { BUTTON } from "~/constants/Typography";
+import IconButton from "~/components/icon-button";
+import { LucideAArrowDown } from "lucide-react-native";
 
 const History = () => {
-  return <SafeAreaView></SafeAreaView>;
+  return (
+    <SafeAreaView>
+      <IconButton icon={<LucideAArrowDown />} text="hello" />
+    </SafeAreaView>
+  );
 };
 
 export default History;
