@@ -13,9 +13,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { LoanItem } from "~/components/main/loanitem";
 import { Loan } from "~/types/Loan";
 import { Searchbar } from "~/components/main/search_bar";
-import { Picture_profile } from "~/components/picture_profile";
-import { Icon } from "~/components/ui/Icon";
-import { Avatarusing } from "~/components/avatarusing";
+import { Icon } from "~/components/ui/icon";
+import { AvatarText } from "~/components/avatar-text";
 const Index = () => {
   const demodata: Loan[] = [
     {
@@ -74,25 +73,15 @@ const Index = () => {
       />
 
       <SafeAreaView>
-        <View className="justify-between flex flex-row mx-2">
-          <Avatarusing
+        <View className={cn(CONTAINER, "justify-between flex flex-row")}>
+          <AvatarText
             url={
               "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
             }
-          />
-          {/* <View className="flex flex-row gap-2">
-            <Picture_profile
-              url={
-                "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
-              }
-            />
-            <View>
-              <Text>hello world สวัสดี</Text>
-              <Text className={cn(TITLE, "text-primary")}>
-                hello world สวัสดี
-              </Text>
-            </View>
-          </View> */}
+            title="test"
+          >
+            <Text className={cn(PARAGRAPH, "text-primary")}>FOBO01</Text>
+          </AvatarText>
           <View>
             <Button className="flex flex-row gap-2 bg-background">
               <Text className={cn(PARAGRAPH, "text-{E59551}")}>
@@ -103,21 +92,7 @@ const Index = () => {
           </View>
         </View>
 
-        <View
-          className={cn(
-            CONTAINER,
-            "mt-4 bg-background h-full rounded-3xl pt-5"
-          )}
-        >
-          {/* <Text className={cn(TITLE)}>hello world สวัสดี</Text>
-          <Text className={cn(TITLE, "text-primary")}>hello world สวัสดี</Text>
-          <Button size="lg" className="mb-2">
-            <Text>hello world สวัสดี</Text>
-          </Button>
-          <Button size="sm">
-            <Text>hello world สวัสดี</Text>
-          </Button>
-          <View className="bg-secondary w-20 h-20"></View> */}
+        <View className={cn(CONTAINER, "mt-4 bg-background rounded-3xl pt-5")}>
           <View className="flex flex-col gap-5">
             <View>
               <ThemeToggle />

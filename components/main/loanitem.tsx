@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH, BUTTON, LABEL, TITLE } from "~/constants/Typography";
-import { Icon } from "../ui/Icon";
+import { Icon } from "../ui/icon";
 import { Button } from "../ui/button";
 import { Loan } from "~/types/Loan";
 import ProgressText from "../progress-text";
