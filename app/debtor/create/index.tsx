@@ -34,6 +34,19 @@ const formSchemas = [
       message: "Invalid phone number format",
     }),
   }),
+  z.object({
+    contract_id: z
+      .string()
+      .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
+      .max(30),
+    lastname: z
+      .string()
+      .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
+      .max(30),
+    phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, {
+      message: "Invalid phone number format",
+    }),
+  }),
 ];
 
 const create = () => {

@@ -4,6 +4,7 @@ import { Label } from "~/components/ui/label";
 import { cn } from "~/lib/utils";
 import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
 import { LABEL } from "~/constants/Typography";
+import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 
 const FormLabel = Label;
 
@@ -22,7 +23,7 @@ FormDescription.displayName = "FormDescription";
 interface FormMessgeProps {
   className?: string;
   children?: TextProps["children"];
-  errorMessage?: string;
+  errorMessage?: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
 }
 
 const FormMessage = ({

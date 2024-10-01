@@ -89,12 +89,12 @@ const useStepContext = () => {
   return stepContext;
 };
 
-export type EmailFormNavigationProp = NativeStackNavigationProp<{
+export type StackNavigationProps = NativeStackNavigationProp<{
   [key: `Page-${number}`]: undefined;
 }>;
 
 export interface StepFormScreenProps {
-  navigation: EmailFormNavigationProp;
+  navigation: StackNavigationProps;
   children: React.ReactNode;
 }
 
@@ -135,7 +135,7 @@ const StepFormScreen: React.FC<StepFormScreenProps> = ({
 };
 
 interface StepperButtonGroupType {
-  navigation: EmailFormNavigationProp;
+  navigation: StackNavigationProps;
   validateInput: () => boolean;
   clearValidation: () => void;
 }

@@ -16,20 +16,20 @@ import {
   FormMessage,
   FormItem,
 } from "~/components/form";
-import { StepForm, StepFormScreen } from "~/components/step-form";
+import {
+  StepForm,
+  StepFormScreen,
+  StepFormScreenProps,
+} from "~/components/step-form";
 import { cn } from "~/lib/utils";
 import { GRID, GRID_COL_SPAN, GRID_ROW } from "~/constants/Styles";
 import { TITLE } from "~/constants/Typography";
 import PhoneInput from "~/components/phone-input";
 
-export const InfoForm = ({ navigation }) => {
+export const InfoForm = ({ navigation }: StepFormScreenProps) => {
   const {
     control,
-    handleSubmit,
-    getValues,
-    clearErrors,
-    trigger,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useFormContext();
 
   return (
