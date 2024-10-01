@@ -95,26 +95,38 @@ export const LoanItem = ({ loan }: { loan: Loan }) => {
 
       {/* Action Buttons */}
       <View className="flex-row justify-between items-center mt-3 space-x-2 mb- gap-1">
-        {/* Remind Button with Icon */}
-        <Button className="bg-destructive-foreground flex-1 flex-row justify-center items-center border border-muted-foreground rounded-2xl py-2">
-          <Icon name="Send" color="#71717a" size={22} />
-          <Text className={cn(BUTTON, "text-textb ml-2 font-ibm-semibold")}>
-            ทวงหนี้
-          </Text>
-        </Button>
+        {/* Conditionally render buttons based on loan status */}
+        {loan.status !== "ครบชำระ" ? (
+          <>
+            {/* Remind Button with Icon */}
+            <Button className="bg-destructive-foreground flex-1 flex-row justify-center items-center border border-muted-foreground rounded-2xl py-2">
+              <Icon name="Send" color="#71717a" size={22} />
+              <Text className={cn(BUTTON, "text-textb ml-2 font-ibm-semibold")}>
+                ทวงหนี้
+              </Text>
+            </Button>
 
-        {/* Save Button */}
-        <Button className="flex-1 bg-destructive py-2 flex-row justify-center items-center rounded-2xl">
-          <Icon name="NotebookPen" color="white" size={22} />
-          <Text
-            className={cn(
-              BUTTON,
-              "text-destructive-foreground font-ibm-semibold ml-2"
-            )}
-          >
-            บันทึกรายการ
-          </Text>
-        </Button>
+            {/* Save Button */}
+            <Button className="flex-1 bg-destructive py-2 flex-row justify-center items-center rounded-2xl">
+              <Icon name="NotebookPen" color="white" size={22} />
+              <Text
+                className={cn(
+                  BUTTON,
+                  "text-destructive-foreground font-ibm-semibold ml-2"
+                )}
+              >
+                บันทึกรายการ
+              </Text>
+            </Button>
+          </>
+        ) : (
+          <Button className="bg-destructive-foreground flex-1 flex-row justify-center items-center border border-muted-foreground rounded-2xl py-2">
+            <Icon name="Send" color="gray" size={22} />
+            <Text className={cn(BUTTON, "text-gray500 ml-2 font-ibm-semibold")}>
+              เปิดรายการใหม่
+            </Text>
+          </Button>
+        )}
       </View>
     </View>
   );
