@@ -22,28 +22,7 @@ import { GRID, GRID_COL_SPAN, GRID_ROW } from "~/constants/Styles";
 import { TITLE } from "~/constants/Typography";
 import PhoneInput from "~/components/phone-input";
 
-const formSchemas = [
-  z.object({
-    email: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(50),
-  }),
-];
-
-const create = () => {
-  function onSubmit(values: z.infer<(typeof formSchemas)[0]>) {
-    alert(values);
-    console.log(values);
-  }
-
-  const forms = [InfoForm];
-
-  return (
-    <StepForm onSubmit={onSubmit} forms={forms} formSchemas={formSchemas} />
-  );
-};
-
-export default create;
-
-const InfoForm = ({ navigation }) => {
+export const InfoForm = ({ navigation }) => {
   const {
     control,
     handleSubmit,
@@ -56,22 +35,21 @@ const InfoForm = ({ navigation }) => {
   return (
     <StepFormScreen navigation={navigation}>
       <View className="flex flex-col gap-4">
-        <Text className={cn(TITLE)}>สร้างลูกหนี้</Text>
+        <Text className={cn(TITLE)}>สร้างลูกหนี้่</Text>
         <View className="flex flex-col gap-4">
           <Controller
             control={control}
             name="name"
             render={({ field: { onChange, onBlur, value } }) => (
               <FormItem>
-                <FormLabel nativeID="email">ชื่อ</FormLabel>
+                <FormLabel nativeID="name">ชื่อ</FormLabel>
                 <Input
                   placeholder="โปรดใส่อีเมล"
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
                 />
-                <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
-                <FormMessage errorMessage={errors.email?.message}></FormMessage>
+                <FormMessage errorMessage={errors.name?.message}></FormMessage>
               </FormItem>
             )}
           />
@@ -80,15 +58,16 @@ const InfoForm = ({ navigation }) => {
             name="lastname"
             render={({ field: { onChange, onBlur, value } }) => (
               <FormItem>
-                <FormLabel nativeID="email">นามสกุล</FormLabel>
+                <FormLabel nativeID="lastname">นามสกุล</FormLabel>
                 <Input
                   placeholder="โปรดใส่อีเมล"
                   onBlur={onBlur}
                   onChangeText={onChange}
                   value={value}
                 />
-                <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
-                <FormMessage errorMessage={errors.email?.message}></FormMessage>
+                <FormMessage
+                  errorMessage={errors.lastname?.message}
+                ></FormMessage>
               </FormItem>
             )}
           />
@@ -104,8 +83,7 @@ const InfoForm = ({ navigation }) => {
                   onChangeText={onChange}
                   value={value}
                 />
-                <FormDescription>hellow kdsfnjdsกหสกา่ด</FormDescription>
-                <FormMessage errorMessage={errors.email?.message}></FormMessage>
+                <FormMessage errorMessage={errors.phone?.message}></FormMessage>
               </FormItem>
             )}
           />
@@ -114,5 +92,3 @@ const InfoForm = ({ navigation }) => {
     </StepFormScreen>
   );
 };
-
-const styles = StyleSheet.create({});
