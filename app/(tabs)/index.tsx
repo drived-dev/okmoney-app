@@ -13,8 +13,10 @@ import { LinearGradient } from "expo-linear-gradient";
 import { LoanCard } from "~/components/main/loan-card";
 import { Loan } from "~/types/Loan";
 import { Searchbar } from "~/components/main/search_bar";
-import { Icon } from "~/components/ui/icon";
+import { Icon } from "~/components/icon";
 import { AvatarText } from "~/components/avatar-text";
+import { IconButton } from "~/components/icon-button";
+import { Plus } from "lucide-react-native";
 const Index = () => {
   const demodata: Loan[] = [
     {
@@ -82,14 +84,12 @@ const Index = () => {
           >
             <Text className={cn(PARAGRAPH, "text-primary")}>FOBO01</Text>
           </AvatarText>
-          <View>
-            <Button className="flex flex-row gap-2 bg-background">
-              <Text className={cn(PARAGRAPH, "text-{E59551}")}>
-                เพิ่มลูกหนี้
-              </Text>
-              <Icon name="Plus" size={16} color="#E59551" />
-            </Button>
-          </View>
+          <IconButton
+            className="bg-white"
+            textColor="#E59551"
+            icon={<Plus />}
+            text="เพิ่มลูกหนี้"
+          />
         </View>
 
         <View className={cn(CONTAINER, "mt-4 bg-background rounded-3xl pt-5")}>

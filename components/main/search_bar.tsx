@@ -9,7 +9,7 @@ import {
 } from "~/components/ui/toggle-group";
 import { cn } from "~/lib/utils";
 import { HEADER, PARAGRAPH, TITLE } from "~/constants/Typography";
-import { Icon } from "../ui/icon";
+import { Icon } from "../icon";
 
 export const Searchbar = () => {
   const [value, setValue] = React.useState<string>();
