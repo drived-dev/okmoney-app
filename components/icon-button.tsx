@@ -3,7 +3,6 @@ import React from "react";
 import { Button, ButtonProps } from "./ui/button";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH_BOLD } from "~/constants/Typography";
-import { Icon } from "./ui/Icon";
 import colors from "tailwindcss/colors";
 
 interface IconButton extends ButtonProps {

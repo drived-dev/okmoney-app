@@ -10,7 +10,7 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native";
 import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
-import { LoanItem } from "~/components/main/loanitem";
+import { LoanCard } from "~/components/main/loan-card";
 import { Loan } from "~/types/Loan";
 import { Searchbar } from "~/components/main/search_bar";
 import { Icon } from "~/components/ui/icon";
