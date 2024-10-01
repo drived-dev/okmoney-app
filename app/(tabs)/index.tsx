@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Text } from "~/components/ui/text";
@@ -65,6 +65,10 @@ const Index = () => {
     },
   ];
 
+  function goToDebtorCreate() {
+    router.push("/debtor/create");
+  }
+
   return (
     <View className="">
       <LinearGradient
@@ -84,7 +88,10 @@ const Index = () => {
           >
             <Text className={cn(PARAGRAPH, "text-primary")}>FOBO01</Text>
           </AvatarText>
+
+          {/* Add debtor button */}
           <IconButton
+            onPress={goToDebtorCreate}
             className="bg-white"
             textColor="#E59551"
             icon={<Plus />}

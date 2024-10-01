@@ -87,7 +87,7 @@ export default function RootLayout() {
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <Stack
-        initialRouteName="(tabs)"
+        initialRouteName="debtor/create"
         screenOptions={{
           headerShown: false,
         }}
