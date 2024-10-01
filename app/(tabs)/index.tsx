@@ -15,6 +15,7 @@ import { Loan } from "~/types/Loan";
 import { Searchbar } from "~/components/main/search_bar";
 import { Picture_profile } from "~/components/picture_profile";
 import { Icon } from "~/components/ui/Icon";
+import { Avatarusing } from "~/components/avatarusing";
 const Index = () => {
   const demodata: Loan[] = [
     {
@@ -74,7 +75,12 @@ const Index = () => {
 
       <SafeAreaView>
         <View className="justify-between flex flex-row mx-2">
-          <View className="flex flex-row gap-2">
+          <Avatarusing
+            url={
+              "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
+            }
+          />
+          {/* <View className="flex flex-row gap-2">
             <Picture_profile
               url={
                 "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
@@ -86,7 +92,7 @@ const Index = () => {
                 hello world สวัสดี
               </Text>
             </View>
-          </View>
+          </View> */}
           <View>
             <Button className="flex flex-row gap-2 bg-background">
               <Text className={cn(PARAGRAPH, "text-{E59551}")}>
