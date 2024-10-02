@@ -9,13 +9,14 @@ import {
 import React from "react";
 import { Button, ButtonProps } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
-import { PARAGRAPH_BOLD } from "~/constants/Typography";
+import { PARAGRAPH, PARAGRAPH_BOLD } from "~/constants/Typography";
 import colors from "tailwindcss/colors";
-interface IconButton extends ButtonProps {
+export interface IconButtonProps extends ButtonProps {
   icon: JSX.Element;
   text: string;
   textColor?: string;
   variant?: keyof typeof IconButtonColor;
+  fontWeight: "bold" | "normal";
   iconPosition?: "left" | "right";
 }
 
@@ -32,9 +33,10 @@ export const IconButton = ({
   textColor = "",
   variant = "default",
   iconPosition = "left",
+  fontWeight = "bold",
   className,
   ...props
-}: IconButton) => {
+}: IconButtonProps) => {
   const currentColor = textColor
     ? textColor
     : IconButtonColor[variant]?.toString();
@@ -55,7 +57,10 @@ export const IconButton = ({
     >
       <View>{modifiedIcon}</View>
       <Text
-        className={cn(PARAGRAPH_BOLD, "min-w-auto text-center")}
+        className={cn(
+          fontWeight === "bold" ? PARAGRAPH_BOLD : PARAGRAPH,
+          "min-w-auto text-center"
+        )}
         style={{ color: currentColor }}
       >
         {text}

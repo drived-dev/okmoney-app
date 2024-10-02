@@ -16,6 +16,7 @@ import {
   ToggleGroupItem,
 } from "~/components/ui/toggle-group";
 import SelectInput, { SelectInputChoices } from "~/components/select-input";
+import CalendarInput from "~/components/calendar-input";
 
 const paymentTypeChoices: SelectInputChoices[] = [
   {
@@ -73,6 +74,19 @@ export const LoanDetailForm = ({ navigation }: NavigationProps) => {
                 />
                 <FormMessage
                   errorMessage={errors.loanId?.message}
+                ></FormMessage>
+              </FormItem>
+            )}
+          />
+          <Controller
+            control={control}
+            name="firstPaymentDate"
+            render={({ field: { onChange, value } }) => (
+              <FormItem>
+                <FormLabel nativeID="paymentType">เลขที่สัญญากู้</FormLabel>
+                <CalendarInput onChange={onChange} value={value} />
+                <FormMessage
+                  errorMessage={errors.firstPaymentDate?.message}
                 ></FormMessage>
               </FormItem>
             )}
