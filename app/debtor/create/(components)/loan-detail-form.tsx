@@ -31,21 +31,27 @@ const paymentTypeChoices: SelectInputChoices[] = [
     value: "custom",
     alias: "กำหนดเอง",
   },
+];
+
+const loanTypeChoices: SelectInputChoices[] = [
   {
-    value: "custom",
-    alias: "กำหนดเอง",
+    value: "fixed",
+    alias: "ดอกเบี้ยคงที่",
   },
   {
-    value: "custom",
-    alias: "กำหนดเอง",
+    value: "adjustable",
+    alias: "ดอกเบี้ยที่กำหนดเอง",
+  },
+];
+
+const loanCategoryChoices: SelectInputChoices[] = [
+  {
+    value: "newLoan",
+    alias: "สัญญาใหม่",
   },
   {
-    value: "custom",
-    alias: "กำหนดเอง",
-  },
-  {
-    value: "custom",
-    alias: "กำหนดเอง",
+    value: "oldLoan",
+    alias: "สัญญาเก่า",
   },
 ];
 
@@ -72,24 +78,37 @@ export const LoanDetailForm = ({ navigation }: NavigationProps) => {
                   onChangeText={onChange}
                   value={value}
                 />
-                <FormMessage
-                  errorMessage={errors.loanId?.message}
-                ></FormMessage>
+                <FormMessage errorMessage={errors.loanId?.message} />
               </FormItem>
             )}
           />
           <Controller
             control={control}
-            name="firstPaymentDate"
+            name="dueDate"
             render={({ field: { onChange, value } }) => (
               <FormItem>
-                <FormLabel nativeID="paymentType">เลขที่สัญญากู้</FormLabel>
+                <FormLabel nativeID="dueDate">วันที่ครบกำหนดชำระ</FormLabel>
                 <CalendarInput onChange={onChange} value={value} />
-                <FormMessage
-                  errorMessage={errors.firstPaymentDate?.message}
-                ></FormMessage>
+                <FormMessage errorMessage={errors.dueDate?.message} />
               </FormItem>
             )}
+          />
+          <Controller
+            control={control}
+            name="loanType"
+            render={({ field: { onChange, value } }) => {
+              return (
+                <FormItem>
+                  <FormLabel nativeID="loanType">รูปแบบการยืม</FormLabel>
+                  <SelectInput
+                    choices={loanTypeChoices}
+                    value={value}
+                    onChange={onChange}
+                  />
+                  <FormMessage errorMessage={errors.loanType?.message} />
+                </FormItem>
+              );
+            }}
           />
           <Controller
             control={control}
@@ -97,15 +116,47 @@ export const LoanDetailForm = ({ navigation }: NavigationProps) => {
             render={({ field: { onChange, value } }) => {
               return (
                 <FormItem>
-                  <FormLabel nativeID="paymentType">เลขที่สัญญากู้</FormLabel>
+                  <FormLabel nativeID="paymentType">ประเภทการชำระ</FormLabel>
                   <SelectInput
                     choices={paymentTypeChoices}
                     value={value}
                     onChange={onChange}
                   />
+                  <FormMessage errorMessage={errors.paymentType?.message} />
+                </FormItem>
+              );
+            }}
+          />
+          <Controller
+            control={control}
+            name="firstPaymentDate"
+            render={({ field: { onChange, value } }) => {
+              return (
+                <FormItem>
+                  <FormLabel nativeID="firstPaymentDate">
+                    วันที่ชำระงวดแรก
+                  </FormLabel>
+                  <CalendarInput onChange={onChange} value={value} />
                   <FormMessage
-                    errorMessage={errors.paymentType?.message}
-                  ></FormMessage>
+                    errorMessage={errors.firstPaymentDate?.message}
+                  />
+                </FormItem>
+              );
+            }}
+          />
+          <Controller
+            control={control}
+            name="loanCategory"
+            render={({ field: { onChange, value } }) => {
+              return (
+                <FormItem>
+                  <FormLabel nativeID="loanCategory">ประเภทลูกหนี้</FormLabel>
+                  <SelectInput
+                    choices={loanCategoryChoices}
+                    value={value}
+                    onChange={onChange}
+                  />
+                  <FormMessage errorMessage={errors.loanCategory?.message} />
                 </FormItem>
               );
             }}

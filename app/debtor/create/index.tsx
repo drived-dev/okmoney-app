@@ -27,7 +27,7 @@ import { LoanDetailForm } from "./(components)/loan-detail-form";
 export const formSchemas = [
   z.object({
     loanId: z.string(),
-    dueDate: z.string(),
+    dueDate: z.date(),
     loanType: z.enum(["fixed", "adjustable"]),
     paymentType: z.enum(["monthly", "daily", "custom"]),
     firstPaymentDate: z.date(),
