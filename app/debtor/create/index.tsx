@@ -24,7 +24,16 @@ import PhoneInput from "~/components/phone-input";
 import { InfoForm } from "./(components)/info-form";
 import { LoanDetailForm } from "./(components)/loan-detail-form";
 
-const formSchemas = [
+export const formSchemas = [
+  z.object({
+    loanId: z.string(),
+    dueDate: z.string(),
+    loanType: z.enum(["fixed", "adjustable"]),
+    paymentType: z.enum(["monthly", "daily", "custom"]),
+    firstPaymentDate: z.date(),
+    loanTermType: z.string(),
+    loanCategory: z.enum(["newLoan", "oldLoan"]),
+  }),
   z.object({
     name: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(30),
     lastname: z
@@ -35,15 +44,6 @@ const formSchemas = [
       message: "Invalid phone number format",
     }),
   }),
-  z.object({
-    loanId: z.string(),
-    dueDate: z.string(),
-    loanType: z.enum(["fixed", "adjustable"]),
-    paymentType: z.enum(["monthly", "daily", "custom"]),
-    firstPaymentDate: z.date(),
-    loanTermType: z.string(),
-    loanCategory: z.enum(["newLoan", "oldLoan"]),
-  }),
 ];
 
 const create = () => {
@@ -52,7 +52,7 @@ const create = () => {
     console.log(values);
   }
 
-  const forms = [InfoForm, LoanDetailForm];
+  const forms = [LoanDetailForm];
 
   return (
     <StepForm onSubmit={onSubmit} forms={forms} formSchemas={formSchemas} />

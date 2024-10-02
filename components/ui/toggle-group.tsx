@@ -5,6 +5,7 @@ import { toggleTextVariants, toggleVariants } from "~/components/ui/toggle";
 import { TextClassContext } from "~/components/ui/text";
 import * as ToggleGroupPrimitive from "@rn-primitives/toggle-group";
 import { cn } from "~/lib/utils";
+import { PARAGRAPH } from "~/constants/Typography";
 
 const ToggleGroupContext = React.createContext<VariantProps<
   typeof toggleVariants
@@ -62,9 +63,10 @@ const ToggleGroupItem = React.forwardRef<
             variant: context.variant || variant,
             size: context.size || size,
           }),
+          "rounded-2xl",
           props.disabled && "web:pointer-events-none opacity-50",
           ToggleGroupPrimitive.utils.getIsSelected(value, props.value) &&
-            "bg-accent",
+            "bg-gray-200",
           className
         )}
         {...props}

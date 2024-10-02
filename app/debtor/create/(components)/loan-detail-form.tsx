@@ -10,6 +10,27 @@ import { cn } from "~/lib/utils";
 import { GRID, GRID_COL_SPAN, GRID_ROW } from "~/constants/Styles";
 import { TITLE } from "~/constants/Typography";
 import PhoneInput from "~/components/phone-input";
+import {
+  ToggleGroup,
+  ToggleGroupIcon,
+  ToggleGroupItem,
+} from "~/components/ui/toggle-group";
+import SelectInput, { SelectInputChoices } from "~/components/select-input";
+
+const paymentTypeChoices: SelectInputChoices[] = [
+  {
+    value: "monthly",
+    alias: "รายเดือน",
+  },
+  {
+    value: "daily",
+    alias: "รายวัน",
+  },
+  {
+    value: "custom",
+    alias: "กำหนดเอง",
+  },
+];
 
 export const LoanDetailForm = ({ navigation }: NavigationProps) => {
   const {
@@ -39,6 +60,25 @@ export const LoanDetailForm = ({ navigation }: NavigationProps) => {
                 ></FormMessage>
               </FormItem>
             )}
+          />
+          <Controller
+            control={control}
+            name="paymentType"
+            render={({ field: { onChange, value } }) => {
+              return (
+                <FormItem>
+                  <FormLabel nativeID="paymentType">เลขที่สัญญากู้</FormLabel>
+                  <SelectInput
+                    choices={paymentTypeChoices}
+                    value={value}
+                    onChange={onChange}
+                  />
+                  <FormMessage
+                    errorMessage={errors.paymentType?.message}
+                  ></FormMessage>
+                </FormItem>
+              );
+            }}
           />
         </View>
       </View>
