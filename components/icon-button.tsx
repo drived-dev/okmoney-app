@@ -32,6 +32,7 @@ export const IconButton = ({
   textColor = "",
   variant = "default",
   iconPosition = "left",
+  className,
   ...props
 }: IconButton) => {
   const currentColor = textColor
@@ -43,16 +44,22 @@ export const IconButton = ({
   });
 
   return (
-    <Button variant={variant} {...props}>
-      <View className={cn("justify-center items-center flex flex-row gap-2")}>
-        <View>{modifiedIcon}</View>
-        <Text
-          className={cn(PARAGRAPH_BOLD, "min-w-auto text-center")}
-          style={{ color: currentColor }}
-        >
-          {text}
-        </Text>
-      </View>
+    <Button
+      variant={variant}
+      className={cn(
+        "justify-center items-center flex flex-row gap-2",
+        iconPosition === "right" ? "flex-row-reverse" : "flex-row",
+        className
+      )}
+      {...props}
+    >
+      <View>{modifiedIcon}</View>
+      <Text
+        className={cn(PARAGRAPH_BOLD, "min-w-auto text-center")}
+        style={{ color: currentColor }}
+      >
+        {text}
+      </Text>
     </Button>
   );
 };
