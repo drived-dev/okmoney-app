@@ -21,8 +21,13 @@ export interface SelectInputProps {
 
 const SelectInput = ({ choices, value, onChange }: SelectInputProps) => {
   return (
-    <View className=" justify-start flex flex-row gap-2">
-      <ToggleGroup value={value} onValueChange={onChange} type="single">
+    <View>
+      <ToggleGroup
+        value={value}
+        onValueChange={onChange}
+        type="single"
+        className="justify-start flex-wrap"
+      >
         {choices.map((choice) => (
           <ToggleGroupItem value={choice.value} aria-label={choice.value}>
             <Text className={cn(PARAGRAPH)}>{choice.alias}</Text>

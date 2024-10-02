@@ -30,6 +30,22 @@ const paymentTypeChoices: SelectInputChoices[] = [
     value: "custom",
     alias: "กำหนดเอง",
   },
+  {
+    value: "custom",
+    alias: "กำหนดเอง",
+  },
+  {
+    value: "custom",
+    alias: "กำหนดเอง",
+  },
+  {
+    value: "custom",
+    alias: "กำหนดเอง",
+  },
+  {
+    value: "custom",
+    alias: "กำหนดเอง",
+  },
 ];
 
 export const LoanDetailForm = ({ navigation }: NavigationProps) => {
