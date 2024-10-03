@@ -23,6 +23,7 @@ import { AvatarText } from "~/components/avatar-text";
 import { IconButton } from "~/components/icon-button";
 import { Plus } from "lucide-react-native";
 import { GridComponent } from "~/components/main/grid-card";
+
 const Index = () => {
   const [isGridView, setIsGridView] = useState(false); // Track view type (FlatList or Grid)
 
@@ -35,7 +36,7 @@ const Index = () => {
     status: 1,
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    limit: 7,
+    limit: 5,
   };
 
   const demodata: Loan[] = [
@@ -85,6 +86,7 @@ const Index = () => {
     },
   ];
 
+  // Slice the demodata if it exceeds the limit
   const visibleData =
     demodata.length > loandata.limit
       ? demodata.slice(0, loandata.limit)
@@ -153,15 +155,20 @@ const Index = () => {
 
             {/* Only show limited number of loan data */}
             {isGridView ? (
-              <GridComponent data={demodata} />
+              <GridComponent data={visibleData} />
             ) : (
               <FlatList
-                data={demodata}
+                data={visibleData} // Use the limited data
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => <LoanCard loan={item} />}
                 contentContainerStyle={{ marginTop: 20 }}
               />
             )}
+          </View>
+          <View className="items-center justify-center rounded-3xl  bg-green-100 py-5 mx-40">
+            <Text className={cn(PARAGRAPH, "text-green-800")}>
+              จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
+            </Text>
           </View>
         </View>
       </SafeAreaView>
