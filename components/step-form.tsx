@@ -209,9 +209,9 @@ const StepperButtonGroup = ({
     navigation.navigate(`Page-${previousStep}`);
   }
 
-  function navigateToNextStep() {
+  async function navigateToNextStep() {
     const nextStep = currentStep + 1;
-    const isValid = validateInput();
+    const isValid = await validateInput();
     if (!isValid) return;
 
     setCurrentStep(nextStep);
