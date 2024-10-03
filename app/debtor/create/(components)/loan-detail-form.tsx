@@ -58,6 +58,7 @@ const loanCategoryChoices: SelectInputChoices[] = [
 export const LoanDetailForm = ({ navigation }: NavigationProps) => {
   const {
     control,
+    getValues,
     formState: { errors },
   } = useFormContext();
 
@@ -129,7 +130,7 @@ export const LoanDetailForm = ({ navigation }: NavigationProps) => {
             }}
           />
           <View className={cn(GRID_ROW)}>
-            <View className={cn(GRID_COL_SPAN[1])}>
+            <View className={cn(GRID_COL_SPAN[2])}>
               <Controller
                 control={control}
                 name="firstPaymentDate"
@@ -140,36 +141,36 @@ export const LoanDetailForm = ({ navigation }: NavigationProps) => {
                         วันที่ชำระงวดแรก
                       </FormLabel>
                       <CalendarInput onChange={onChange} value={value} />
-                      <FormMessage
-                        errorMessage={errors.firstPaymentDate?.message}
-                      />
                     </FormItem>
                   );
                 }}
               />
             </View>
-            <View className={cn(GRID_COL_SPAN[1])}>
-              <Controller
-                control={control}
-                name="loanTermType"
-                render={({ field: { onBlur, onChange, value } }) => {
-                  return (
-                    <FormItem>
-                      <FormLabel nativeID="loanTermType">ประเภท</FormLabel>
-                      <Input
-                        onChangeText={onChange}
-                        value={value}
-                        onBlur={onBlur}
-                        placeholder="3 วัน"
-                      />
-                      <FormMessage
-                        errorMessage={errors.loanTermType?.message}
-                      />
-                    </FormItem>
-                  );
-                }}
-              />
-            </View>
+            {getValues("paymentType") === "custom" && (
+              <View className={cn(GRID_COL_SPAN[1])}>
+                <Controller
+                  control={control}
+                  name="loanTermType"
+                  render={({ field: { onBlur, onChange, value } }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel nativeID="loanTermType">ประเภท</FormLabel>
+                        <Input
+                          onChangeText={onChange}
+                          value={value}
+                          onBlur={onBlur}
+                          placeholder="3 วัน"
+                        />
+                      </FormItem>
+                    );
+                  }}
+                />
+              </View>
+            )}
+          </View>
+          <View>
+            <FormMessage errorMessage={errors.firstPaymentDate?.message} />
+            <FormMessage errorMessage={errors.loanTermType?.message} />
           </View>
           <Controller
             control={control}

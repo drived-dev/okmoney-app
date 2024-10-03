@@ -61,7 +61,7 @@ export const formSchemas = [
         }
         return true;
       },
-      { message: "จำเป็นต้องใส่ข้อมูล", path: ["loanTermType"] }
+      { message: "จำเป็นต้องใส่ข้อมูลประเภท", path: ["loanTermType"] }
     ),
   z.object({
     name: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(30),
