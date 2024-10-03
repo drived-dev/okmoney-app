@@ -19,15 +19,22 @@ const Stack = createNativeStackNavigator();
 interface StepFormProps {
   forms: Array<React.FC<{ navigation: any }>>;
   onSubmit: (values: any) => void;
-  formSchemas: z.AnyZodObject[];
+  formSchemas: Array<z.AnyZodObject | z.ZodEffects<z.AnyZodObject>>;
+  defaultValues?: any[];
 }
 
-const StepForm = ({ forms, onSubmit, formSchemas }: StepFormProps) => {
+const StepForm = ({
+  forms,
+  onSubmit,
+  formSchemas,
+  defaultValues = [],
+}: StepFormProps) => {
   const [currentStep, setCurrentStep] = React.useState(0);
   const currentSchema = formSchemas[currentStep];
-
+  const currentDefaultValue = defaultValues[currentStep] ?? null;
   const method = useForm<z.infer<typeof currentSchema>>({
     resolver: zodResolver(currentSchema),
+    defaultValues: currentDefaultValue,
   });
 
   return (
@@ -74,7 +81,7 @@ const StepContext = React.createContext<StepContextType>({
   currentStep: 0,
   lastStep: 0,
   setCurrentStep: () => {
-    console.error("oops, the default got used. Fix your bug!");
+    console.error("You need to pass in this function to StepContext");
   },
   onSubmit: () => {},
 });
@@ -113,11 +120,11 @@ const StepFormScreen: React.FC<StepFormScreenProps> = ({
     formState: { isValid },
   } = useFormContext();
 
-  function validateInput(): boolean {
+  async function validateInput(): Promise<boolean> {
     const schemaKeys = Object.keys(getValues());
-    trigger(schemaKeys);
+    const valid = await trigger(schemaKeys);
 
-    return isValid;
+    return valid;
   }
 
   function clearValidation(): void {
@@ -140,7 +147,7 @@ const StepFormScreen: React.FC<StepFormScreenProps> = ({
 
 interface StepperButtonGroupType {
   navigation: StackNavigationProps;
-  validateInput: () => boolean;
+  validateInput: () => Promise<boolean>;
   clearValidation: () => void;
 }
 
@@ -167,8 +174,8 @@ const StepperButtonGroup = ({
   const NextButton = () => {
     const isLastStep = currentStep === lastStep;
 
-    function handleSubmit() {
-      const isValid = validateInput();
+    async function handleSubmit() {
+      const isValid = await validateInput();
       if (!isValid) return;
 
       onSubmit(getValues());
