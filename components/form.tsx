@@ -5,7 +5,8 @@ import { cn } from "~/lib/utils";
 import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
 import { LABEL } from "~/constants/Typography";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
-
+import { CircleAlert } from "lucide-react-native";
+import colors from "tailwindcss/colors";
 const FormLabel = Label;
 
 const FormDescription = ({ className, children, ...props }: TextProps) => {
@@ -39,12 +40,15 @@ const FormMessage = ({
   }
 
   return (
-    <Text
-      className={cn("text-sm font-medium text-destructive", LABEL, className)}
-      {...props}
-    >
-      {body}
-    </Text>
+    <View className="rounded-xl bg-red-300/40 px-3 py-1 self-start flex flex-row items-center gap-2">
+      <CircleAlert size={18} color={colors.red[400]} strokeWidth={2.2} />
+      <Text
+        className={cn("text-sm font-medium text-destructive", LABEL, className)}
+        {...props}
+      >
+        {body}
+      </Text>
+    </View>
   );
 };
 FormMessage.displayName = "FormMessage";
