@@ -48,7 +48,7 @@ export const LoanCard = ({ loan }: { loan: Loan }) => {
                 เลขสัญญา {loan.id}
               </Text>
               {/* Name: Bold nickname, gray full name */}
-              <Text className={cn(PARAGRAPH, "pl-2 ")}>
+              <Text className={cn(PARAGRAPH, "pl-2 text-foreground ")}>
                 {loan.nickname + "  "}
                 <Text className="text-muted-foreground font-ibm text-sm">
                   {loan.name}

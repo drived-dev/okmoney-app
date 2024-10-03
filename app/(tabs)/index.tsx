@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Text } from "~/components/ui/text";
 import { ThemeToggle } from "~/components/ThemeToggle";
@@ -19,11 +19,17 @@ import { LinearGradient } from "expo-linear-gradient";
 import { LoanCard } from "~/components/main/loan-card";
 import { Loan } from "~/types/Loan";
 import { Searchbar } from "~/components/main/search_bar";
-import { Icon } from "~/components/icon";
 import { AvatarText } from "~/components/avatar-text";
 import { IconButton } from "~/components/icon-button";
 import { Plus } from "lucide-react-native";
+import { GridComponent } from "~/components/main/grid-card";
 const Index = () => {
+  const [isGridView, setIsGridView] = useState(false); // Track view type (FlatList or Grid)
+
+  const toggleView = () => {
+    setIsGridView(!isGridView);
+  };
+
   const loandata = {
     nickname: "บิ้ง",
     status: 1,
@@ -79,6 +85,11 @@ const Index = () => {
     },
   ];
 
+  const visibleData =
+    demodata.length > loandata.limit
+      ? demodata.slice(0, loandata.limit)
+      : demodata;
+
   return (
     <View className="">
       <LinearGradient
@@ -96,15 +107,12 @@ const Index = () => {
             </Text>
           </AvatarText>
           <View className="flex flex-row gap-2">
-            {/* Conditionally render the premium button based on loandata.status */}
             {loandata.status !== 0 && (
-              <>
-                <IconButton
-                  textColor="#E59551"
-                  icon={<Plus />}
-                  variant="secondary"
-                />
-              </>
+              <IconButton
+                textColor="#E59551"
+                icon={<Plus />}
+                variant="secondary"
+              />
             )}
             <IconButton
               className="bg-white"
@@ -126,25 +134,34 @@ const Index = () => {
               <ThemeToggle />
             </View>
             <View>
-              <Searchbar></Searchbar>
+              <Searchbar toggleView={toggleView} isGridView={isGridView} />
             </View>
           </View>
+
           <View className="flex flex-col">
-            {/* alert */}
-            <View className="bg-[#A35D2B]/10 justify-between flex flex-row rounded-2xl py-3  items-center px-5">
-              <Text className={cn(PARAGRAPH_BOLD, "")}>
-                ลูกหนี้เต็มสำหรับแพ็คเกจคุณ
-              </Text>
-              <Button className="rounded-full">
-                <Text className={cn(LABEL, "items-center")}>ดูแพ็คเกจ</Text>
-              </Button>
-            </View>
-            <FlatList
-              data={demodata}
-              keyExtractor={(item) => item.id}
-              renderItem={({ item }) => <LoanCard loan={item} />}
-              className="mt-4"
-            />
+            {/* Show alert if demodata exceeds loandata.limit */}
+            {demodata.length > loandata.limit && (
+              <View className="bg-[#A35D2B]/10 justify-between flex flex-row rounded-2xl py-3 items-center px-5">
+                <Text className={cn(PARAGRAPH_BOLD, "")}>
+                  ลูกหนี้เต็มสำหรับแพ็คเกจคุณ
+                </Text>
+                <Button className="rounded-full">
+                  <Text className={cn(LABEL, "items-center")}>ดูแพ็คเกจ</Text>
+                </Button>
+              </View>
+            )}
+
+            {/* Only show limited number of loan data */}
+            {isGridView ? (
+              <GridComponent data={demodata} />
+            ) : (
+              <FlatList
+                data={demodata}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => <LoanCard loan={item} />}
+                contentContainerStyle={{ marginTop: 20 }}
+              />
+            )}
           </View>
         </View>
       </SafeAreaView>
