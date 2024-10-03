@@ -23,6 +23,7 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-10 px-4 py-2 native:h-12 native:px-5 native:py-3",
+        premium: "h-10 px-4 py-2 native:h-12 native:px-2 native:py-3",
         sm: "h-9 rounded-2xl px-3",
         lg: "h-11 rounded-2xl px-8 native:h-14",
         xl: "h-14 rounded-2xl px-10",
@@ -56,6 +57,7 @@ const buttonTextVariants = cva(
       },
       size: {
         default: "",
+        premium: "",
         sm: "",
         lg: "native:text-lg",
         xl: "",

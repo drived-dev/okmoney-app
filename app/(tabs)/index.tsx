@@ -111,7 +111,7 @@ const Index = () => {
           </AvatarText>
           <View className="flex flex-row gap-2">
             {loandata.status !== 0 && (
-              <Button variant={"outline_white"}>
+              <Button variant={"outline_white"} size={"premium"}>
                 <View className="flex flex-row gap-2">
                   <Icon name="Users" color="white" size={24} />
                   <Icon name="Plus" color="white" size={24} />
