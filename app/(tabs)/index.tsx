@@ -23,6 +23,7 @@ import { AvatarText } from "~/components/avatar-text";
 import { IconButton } from "~/components/icon-button";
 import { Plus } from "lucide-react-native";
 import { GridComponent } from "~/components/main/grid-card";
+import { Icon } from "~/components/icon";
 
 const Index = () => {
   const [isGridView, setIsGridView] = useState(false); // Track view type (FlatList or Grid)
@@ -36,7 +37,7 @@ const Index = () => {
     status: 1,
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    limit: 5,
+    limit: 2,
   };
 
   const demodata: Loan[] = [
@@ -110,11 +111,12 @@ const Index = () => {
           </AvatarText>
           <View className="flex flex-row gap-2">
             {loandata.status !== 0 && (
-              <IconButton
-                textColor="#E59551"
-                icon={<Plus />}
-                variant="secondary"
-              />
+              <Button variant={"outline_white"}>
+                <View className="flex flex-row gap-2">
+                  <Icon name="Users" color="white" size={24} />
+                  <Icon name="Plus" color="white" size={24} />
+                </View>
+              </Button>
             )}
             <IconButton
               className="bg-white"
@@ -165,7 +167,7 @@ const Index = () => {
               />
             )}
           </View>
-          <View className="items-center justify-center rounded-3xl  bg-green-100 py-5 mx-40">
+          <View className="items-center justify-center rounded-3xl  bg-green-100 py-4 mx-40">
             <Text className={cn(PARAGRAPH, "text-green-800")}>
               จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
             </Text>
