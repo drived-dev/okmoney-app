@@ -24,6 +24,7 @@ import PhoneInput from "~/components/phone-input";
 import { InfoForm } from "./(components)/info-form";
 import { LoanDetailForm } from "./(components)/loan-detail-form";
 import { LoanAmountForm } from "./(components)/loan-amount-form";
+import { MemoForm } from "./(components)/memo-form";
 
 export const defaultValues = [
   {
@@ -38,6 +39,10 @@ export const defaultValues = [
 ];
 
 export const formSchemas = [
+  z.object({
+    additionalNote: z.string().max(100).optional(),
+    tags: z.array(z.string()).optional(),
+  }),
   z.object({
     loanAmount: z
       .number()
@@ -104,7 +109,7 @@ const create = () => {
     console.log(values);
   }
 
-  const forms = [LoanAmountForm, LoanDetailForm, InfoForm];
+  const forms = [MemoForm, LoanAmountForm, LoanDetailForm, InfoForm];
 
   return (
     <StepForm
