@@ -23,6 +23,7 @@ import { TITLE } from "~/constants/Typography";
 import PhoneInput from "~/components/phone-input";
 import { InfoForm } from "./(components)/info-form";
 import { LoanDetailForm } from "./(components)/loan-detail-form";
+import { LoanAmountForm } from "./(components)/loan-amount-form";
 
 export const defaultValues = [
   {
@@ -37,6 +38,28 @@ export const defaultValues = [
 ];
 
 export const formSchemas = [
+  z.object({
+    loanAmount: z
+      .number()
+      .min(0, { message: "จำนวนเงินกู้ต้องมากกว่าหรือเท่ากับ 0" }),
+    interestRate: z
+      .number()
+      .min(0)
+      .max(100, { message: "อัตราดอกเบี้ยต้องอยู่ระหว่าง 0 ถึง 100" }),
+    totalRepayment: z
+      .number()
+      .min(0, { message: "ยอดหนี้ที่ต้องชำระต้องมากกว่าหรือเท่ากับ 0" }),
+    installments: z
+      .number()
+      .int()
+      .min(1, { message: "จำนวนงวดต้องมากกว่าหรือเท่ากับ 1" }),
+    repaymentPerInstallment: z
+      .number()
+      .min(0, { message: "ยอดที่ต้องชำระแต่ละงวดต้องมากกว่าหรือเท่ากับ 0" }),
+    autoPaymentToggle: z.boolean().refine((val) => typeof val === "boolean", {
+      message: "กรุณาเลือกการชำระหนี้อัตโนมัติ",
+    }),
+  }),
   z
     .object({
       loanId: z
@@ -81,7 +104,7 @@ const create = () => {
     console.log(values);
   }
 
-  const forms = [LoanDetailForm, InfoForm];
+  const forms = [LoanAmountForm, LoanDetailForm, InfoForm];
 
   return (
     <StepForm

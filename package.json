@@ -22,6 +22,7 @@
     "@rn-primitives/portal": "~1.0.3",
     "@rn-primitives/progress": "~1.0.3",
     "@rn-primitives/slot": "~1.0.3",
+    "@rn-primitives/switch": "^1.0.4",
     "@rn-primitives/toggle": "^1.0.4",
     "@rn-primitives/toggle-group": "^1.0.4",
     "@rn-primitives/tooltip": "~1.0.3",
