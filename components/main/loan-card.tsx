@@ -79,7 +79,7 @@ export const LoanCard = ({ loan }: { loan: Loan }) => {
         </View>
 
         {/* Outstanding Amount and Progress Bar with Total Amount on the Right */}
-        <View className="flex-row gap-2 content-center">
+        <View className="flex-row gap-2 content-center justify-center items-center">
           {/* Progress Bar */}
           <ProgressText
             textStart="0 บาท"
