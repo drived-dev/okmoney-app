@@ -29,7 +29,11 @@ const SelectInput = ({ choices, value, onChange }: SelectInputProps) => {
         className="justify-start flex-wrap"
       >
         {choices.map((choice) => (
-          <ToggleGroupItem value={choice.value} aria-label={choice.value}>
+          <ToggleGroupItem
+            key={choice.value}
+            value={choice.value}
+            aria-label={choice.value}
+          >
             <Text className={cn(PARAGRAPH)}>{choice.alias}</Text>
           </ToggleGroupItem>
         ))}
