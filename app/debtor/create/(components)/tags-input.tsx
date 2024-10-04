@@ -11,14 +11,15 @@ import { Plus } from "lucide-react-native";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 
-const tags = ["friend", "mom"]; //TODO: implement state managment (redux?)
-
 export interface TagsInputProps {
   selectedTags: string[];
   onChange: (value: string[] | undefined) => void;
 }
 
 export const TagsInput = ({ selectedTags, onChange }: TagsInputProps) => {
+  //TODO: implement state managment (redux?)
+  const [tags, setTags] = React.useState(["friend"]);
+
   return (
     <View>
       <ToggleGroup
@@ -32,14 +33,15 @@ export const TagsInput = ({ selectedTags, onChange }: TagsInputProps) => {
             <Text className={cn(PARAGRAPH)}>{tag}</Text>
           </ToggleGroupItem>
         ))}
-        <AddTagButton />
+        <AddTagButton tags={tags} setTags={setTags} />
       </ToggleGroup>
     </View>
   );
 };
 
-const AddTagButton = () => {
+const AddTagButton = ({ tags, setTags }) => {
   const [selected, setSelected] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState("");
   const inputRef = React.useRef<TextInput>(null);
 
   function handleSelect() {
@@ -49,7 +51,16 @@ const AddTagButton = () => {
 
   function handleDeselect() {
     setSelected(false);
+    setInputValue("");
     inputRef.current?.blur();
+  }
+
+  function addTag() {
+    handleDeselect();
+    //TODO: add tags to context
+    setTags([...tags, inputValue]);
+
+    setInputValue("");
   }
 
   return (
@@ -64,8 +75,11 @@ const AddTagButton = () => {
       </Button>
       <Input
         ref={inputRef}
+        value={inputValue}
+        onChangeText={setInputValue}
         className={cn(selected ? "block" : "hidden")}
         onBlur={handleDeselect}
+        onSubmitEditing={addTag}
       />
     </View>
   );
