@@ -27,6 +27,7 @@ import { GRID, GRID_COL_SPAN, GRID_ROW } from "~/constants/Styles";
 import { TITLE } from "~/constants/Typography";
 import PhoneInput from "~/components/phone-input";
 import { Textarea } from "~/components/ui/textarea";
+import { TagsInput } from "./tags-input";
 
 export const MemoForm = ({ navigation }: NavigationProps) => {
   const {
@@ -56,16 +57,11 @@ export const MemoForm = ({ navigation }: NavigationProps) => {
         />
         <Controller
           control={control}
-          name="phone"
+          name="tags"
           render={({ field: { onChange, onBlur, value } }) => (
             <FormItem>
               <FormLabel nativeID="phone">เบอร์โทร</FormLabel>
-              <PhoneInput
-                placeholder="โปรดใส่อีเมล"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
+              <TagsInput onChange={onChange} selectedTags={value} />
             </FormItem>
           )}
         />

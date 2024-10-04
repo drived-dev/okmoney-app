@@ -19,7 +19,7 @@ export interface SelectInputProps {
   onChange: (value: string | undefined) => void;
 }
 
-const SelectInput = ({ choices, value, onChange }: SelectInputProps) => {
+export const SelectInput = ({ choices, value, onChange }: SelectInputProps) => {
   return (
     <View>
       <ToggleGroup
@@ -41,7 +41,3 @@ const SelectInput = ({ choices, value, onChange }: SelectInputProps) => {
     </View>
   );
 };
-
-export default SelectInput;
-
-const styles = StyleSheet.create({});

@@ -15,7 +15,7 @@ import {
   ToggleGroupIcon,
   ToggleGroupItem,
 } from "~/components/ui/toggle-group";
-import SelectInput, { SelectInputChoices } from "~/components/select-input";
+import { SelectInputChoices, SelectInput } from "~/components/select-input";
 import CalendarInput from "~/components/calendar-input";
 
 const paymentTypeChoices: SelectInputChoices[] = [
