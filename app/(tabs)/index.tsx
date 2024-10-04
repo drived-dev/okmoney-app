@@ -30,6 +30,9 @@ const screenWidth = Dimensions.get("window").width;
 const Index = () => {
   const [isGridView, setIsGridView] = useState(false);
   const slideAnim = useRef(new Animated.Value(0)).current; // For sliding effect
+  const flatListRef = useRef(null); // FlatList reference
+  const scrollViewRef = useRef(null); // ScrollView reference for Grid
+  const scrollY = useRef(new Animated.Value(0)).current; // Track the scroll position
 
   const toggleView = () => {
     Animated.timing(slideAnim, {
@@ -45,7 +48,7 @@ const Index = () => {
     status: 1,
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    limit: 4,
+    limit: 50,
   };
 
   const demodata: Loan[] = [
@@ -84,6 +87,116 @@ const Index = () => {
     },
     {
       id: "04",
+      nickname: "โบ๊ท",
+      name: "ทองสิระ",
+      status: "ค้างชำระ",
+      outstanding: 300,
+      total: 500,
+      dueDate: "30/5",
+      profileImage:
+        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    },
+    {
+      id: "05",
+      nickname: "โบ๊ท",
+      name: "ทองสิระ",
+      status: "ค้างชำระ",
+      outstanding: 300,
+      total: 500,
+      dueDate: "30/5",
+      profileImage:
+        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    },
+    {
+      id: "06",
+      nickname: "โบ๊ท",
+      name: "ทองสิระ",
+      status: "ค้างชำระ",
+      outstanding: 300,
+      total: 500,
+      dueDate: "30/5",
+      profileImage:
+        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    },
+    {
+      id: "07",
+      nickname: "โบ๊ท",
+      name: "ทองสิระ",
+      status: "ค้างชำระ",
+      outstanding: 300,
+      total: 500,
+      dueDate: "30/5",
+      profileImage:
+        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    },
+    {
+      id: "08",
+      nickname: "โบ๊ท",
+      name: "ทองสิระ",
+      status: "ค้างชำระ",
+      outstanding: 300,
+      total: 500,
+      dueDate: "30/5",
+      profileImage:
+        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    },
+    {
+      id: "09",
+      nickname: "โบ๊ท",
+      name: "ทองสิระ",
+      status: "ค้างชำระ",
+      outstanding: 300,
+      total: 500,
+      dueDate: "30/5",
+      profileImage:
+        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    },
+    {
+      id: "10",
+      nickname: "โบ๊ท",
+      name: "ทองสิระ",
+      status: "ค้างชำระ",
+      outstanding: 300,
+      total: 500,
+      dueDate: "30/5",
+      profileImage:
+        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    },
+    {
+      id: "11",
+      nickname: "โบ๊ท",
+      name: "ทองสิระ",
+      status: "ค้างชำระ",
+      outstanding: 300,
+      total: 500,
+      dueDate: "30/5",
+      profileImage:
+        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    },
+    {
+      id: "12",
+      nickname: "โบ๊ท",
+      name: "ทองสิระ",
+      status: "ค้างชำระ",
+      outstanding: 300,
+      total: 500,
+      dueDate: "30/5",
+      profileImage:
+        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    },
+    {
+      id: "13",
+      nickname: "โบ๊ท",
+      name: "ทองสิระ",
+      status: "ค้างชำระ",
+      outstanding: 300,
+      total: 500,
+      dueDate: "30/5",
+      profileImage:
+        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    },
+    {
+      id: "14",
       nickname: "โบ๊ท",
       name: "ทองสิระ",
       status: "ค้างชำระ",
@@ -149,6 +262,18 @@ const Index = () => {
             </View>
           </View>
 
+          {/* Alert Bar if the number of debtors exceeds the limit */}
+          {demodata.length > loandata.limit && (
+            <View className="bg-[#A35D2B]/10 justify-between flex flex-row rounded-2xl py-3 items-center px-5 mb-3">
+              <Text className={cn(PARAGRAPH_BOLD, "")}>
+                ลูกหนี้เต็มสำหรับแพ็คเกจคุณ
+              </Text>
+              <Button className="rounded-full">
+                <Text className={cn(LABEL, "items-center")}>ดูแพ็คเกจ</Text>
+              </Button>
+            </View>
+          )}
+
           <Animated.View
             style={[
               {
@@ -160,10 +285,16 @@ const Index = () => {
           >
             <View style={{ width: screenWidth }}>
               <FlatList
+                ref={flatListRef} // FlatList ref to prevent reset
                 data={visibleData}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => <LoanCard loan={item} />}
                 contentContainerStyle={{ marginTop: 20, paddingBottom: 100 }} // Ensure padding for the footer
+                onScroll={Animated.event(
+                  [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                  { useNativeDriver: false }
+                )}
+                scrollEventThrottle={16} // Update scroll every 16ms (about 60fps)
                 ListFooterComponent={() => (
                   <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mx-40 mt-3">
                     <Text className={cn(PARAGRAPH, "text-green-800")}>
@@ -175,9 +306,14 @@ const Index = () => {
             </View>
 
             <View style={{ width: screenWidth }}>
-              {/* Wrap GridComponent in ScrollView */}
               <ScrollView
+                ref={scrollViewRef} // ScrollView ref to prevent reset
                 contentContainerStyle={{ paddingBottom: 100 }} // Padding for footer
+                onScroll={Animated.event(
+                  [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                  { useNativeDriver: false }
+                )}
+                scrollEventThrottle={16}
               >
                 <GridComponent data={visibleData} />
                 {/* Footer for grid view */}
