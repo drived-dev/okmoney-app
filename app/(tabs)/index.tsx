@@ -1,18 +1,18 @@
 import { Link } from "expo-router";
-import React, { useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import React, { useState, useRef } from "react";
+import {
+  FlatList,
+  StyleSheet,
+  View,
+  Animated,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import { Text } from "~/components/ui/text";
 import { ThemeToggle } from "~/components/ThemeToggle";
-import {
-  PARAGRAPH,
-  TITLE,
-  BUTTON,
-  PARAGRAPH_BOLD,
-  LABEL,
-} from "~/constants/Typography";
+import { PARAGRAPH, PARAGRAPH_BOLD, LABEL } from "~/constants/Typography";
 import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
-import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native";
 import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
@@ -25,10 +25,18 @@ import { Plus } from "lucide-react-native";
 import { GridComponent } from "~/components/main/grid-card";
 import { Icon } from "~/components/icon";
 
+const screenWidth = Dimensions.get("window").width;
+
 const Index = () => {
-  const [isGridView, setIsGridView] = useState(false); // Track view type (FlatList or Grid)
+  const [isGridView, setIsGridView] = useState(false);
+  const slideAnim = useRef(new Animated.Value(0)).current; // For sliding effect
 
   const toggleView = () => {
+    Animated.timing(slideAnim, {
+      toValue: isGridView ? 0 : -screenWidth, // Slide between 0 and screen width
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
     setIsGridView(!isGridView);
   };
 
@@ -37,7 +45,7 @@ const Index = () => {
     status: 1,
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    limit: 2,
+    limit: 4,
   };
 
   const demodata: Loan[] = [
@@ -87,7 +95,6 @@ const Index = () => {
     },
   ];
 
-  // Slice the demodata if it exceeds the limit
   const visibleData =
     demodata.length > loandata.limit
       ? demodata.slice(0, loandata.limit)
@@ -142,36 +149,46 @@ const Index = () => {
             </View>
           </View>
 
-          <View className="flex flex-col">
-            {/* Show alert if demodata exceeds loandata.limit */}
-            {demodata.length > loandata.limit && (
-              <View className="bg-[#A35D2B]/10 justify-between flex flex-row rounded-2xl py-3 items-center px-5">
-                <Text className={cn(PARAGRAPH_BOLD, "")}>
-                  ลูกหนี้เต็มสำหรับแพ็คเกจคุณ
-                </Text>
-                <Button className="rounded-full">
-                  <Text className={cn(LABEL, "items-center")}>ดูแพ็คเกจ</Text>
-                </Button>
-              </View>
-            )}
-
-            {/* Only show limited number of loan data */}
-            {isGridView ? (
-              <GridComponent data={visibleData} />
-            ) : (
+          <Animated.View
+            style={[
+              {
+                flexDirection: "row",
+                width: screenWidth * 2, // Total width (both views side by side)
+              },
+              { transform: [{ translateX: slideAnim }] }, // Slide effect
+            ]}
+          >
+            <View style={{ width: screenWidth }}>
               <FlatList
-                data={visibleData} // Use the limited data
+                data={visibleData}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => <LoanCard loan={item} />}
-                contentContainerStyle={{ marginTop: 20 }}
+                contentContainerStyle={{ marginTop: 20, paddingBottom: 100 }} // Ensure padding for the footer
+                ListFooterComponent={() => (
+                  <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mx-40 mt-3">
+                    <Text className={cn(PARAGRAPH, "text-green-800")}>
+                      จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
+                    </Text>
+                  </View>
+                )}
               />
-            )}
-          </View>
-          <View className="items-center justify-center rounded-3xl  bg-green-100 py-4 mx-40">
-            <Text className={cn(PARAGRAPH, "text-green-800")}>
-              จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
-            </Text>
-          </View>
+            </View>
+
+            <View style={{ width: screenWidth }}>
+              {/* Wrap GridComponent in ScrollView */}
+              <ScrollView
+                contentContainerStyle={{ paddingBottom: 100 }} // Padding for footer
+              >
+                <GridComponent data={visibleData} />
+                {/* Footer for grid view */}
+                <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mx-40">
+                  <Text className={cn(PARAGRAPH, "text-green-800")}>
+                    จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
+                  </Text>
+                </View>
+              </ScrollView>
+            </View>
+          </Animated.View>
         </View>
       </SafeAreaView>
     </View>
