@@ -13,6 +13,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react-native";
 import { CONTAINER } from "~/constants/Styles";
 import { BUTTON } from "~/constants/Typography";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import { Form } from "./form";
 
 const Stack = createNativeStackNavigator();
 
@@ -133,14 +134,16 @@ const StepFormScreen: React.FC<StepFormScreenProps> = ({
 
   return (
     <SafeAreaView>
-      <View className={cn(CONTAINER, "flex flex-col justify-between h-full")}>
-        {children}
-        <StepperButtonGroup
-          navigation={navigation}
-          validateInput={validateInput}
-          clearValidation={clearValidation}
-        />
-      </View>
+      <Form className={cn(CONTAINER, "flex flex-col justify-between h-full")}>
+        <>
+          {children}
+          <StepperButtonGroup
+            navigation={navigation}
+            validateInput={validateInput}
+            clearValidation={clearValidation}
+          />
+        </>
+      </Form>
     </SafeAreaView>
   );
 };

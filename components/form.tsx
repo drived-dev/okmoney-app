@@ -1,4 +1,10 @@
-import { Text, TextProps, View } from "react-native";
+import {
+  Keyboard,
+  Text,
+  TextProps,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import React from "react";
 import { Label } from "~/components/ui/label";
 import { cn } from "~/lib/utils";
@@ -21,7 +27,7 @@ const FormDescription = ({ className, children, ...props }: TextProps) => {
 };
 FormDescription.displayName = "FormDescription";
 
-interface FormMessgeProps {
+interface FormMessageProps {
   className?: string;
   children?: TextProps["children"];
   errorMessage?: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
@@ -32,7 +38,7 @@ const FormMessage = ({
   children,
   errorMessage,
   ...props
-}: FormMessgeProps) => {
+}: FormMessageProps) => {
   const body = errorMessage ? String(errorMessage) : children;
 
   if (!body) {
@@ -60,4 +66,19 @@ const FormItem = ({ className, children, ...props }: ViewProps) => {
 };
 FormItem.displayName = "FormItem";
 
-export { FormLabel, FormDescription, FormMessage, FormItem };
+const Form = ({ className, children, ...props }: ViewProps) => {
+  const handleOutsidePress = () => {
+    Keyboard.dismiss(); // Dismiss the keyboard
+  };
+
+  return (
+    <TouchableWithoutFeedback onPress={handleOutsidePress}>
+      <View className={cn("flex flex-col gap-4", className)} {...props}>
+        {children}
+      </View>
+    </TouchableWithoutFeedback>
+  );
+};
+Form.displayName = "Form";
+
+export { Form, FormLabel, FormDescription, FormMessage, FormItem };
