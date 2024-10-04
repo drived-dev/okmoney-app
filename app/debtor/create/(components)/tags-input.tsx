@@ -10,6 +10,7 @@ import { cn } from "~/lib/utils";
 import { Plus } from "lucide-react-native";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import ContextMenu from "react-native-context-menu-view";
 
 export interface TagsInputProps {
   selectedTags: string[];
@@ -29,9 +30,23 @@ export const TagsInput = ({ selectedTags, onChange }: TagsInputProps) => {
         className="justify-start flex-wrap"
       >
         {tags.map((tag) => (
-          <ToggleGroupItem key={tag} value={tag} aria-label={tag}>
-            <Text className={cn(PARAGRAPH)}>{tag}</Text>
-          </ToggleGroupItem>
+          <ContextMenu
+            actions={[
+              {
+                title: "Delete Tag",
+                destructive: true,
+                icon: "trash",
+              },
+            ]}
+            onPress={(e) => {
+              if (e.nativeEvent.name === "Delete Tag")
+                setTags((prev) => prev.filter((t) => t !== tag));
+            }}
+          >
+            <ToggleGroupItem key={tag} value={tag} aria-label={tag}>
+              <Text className={cn(PARAGRAPH)}>{tag}</Text>
+            </ToggleGroupItem>
+          </ContextMenu>
         ))}
         <AddTagButton tags={tags} setTags={setTags} />
       </ToggleGroup>
