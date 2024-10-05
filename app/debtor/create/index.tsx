@@ -9,7 +9,7 @@ import {
 } from "react-hook-form";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { z } from "zod";
+import { coerce, z } from "zod";
 import {
   FormLabel,
   FormDescription,
@@ -47,6 +47,7 @@ interface Form {
   schema: z.AnyZodObject | z.ZodEffects<z.AnyZodObject>;
 }
 
+// TODO: custom message on schema
 export const forms: Form[] = [
   {
     screen: InfoForm,
@@ -102,7 +103,6 @@ export const forms: Form[] = [
         { message: "จำเป็นต้องใส่ข้อมูลประเภท", path: ["loanTermType"] }
       ),
   },
-
   {
     screen: LoanAmountForm,
     schema: z.object({
@@ -124,11 +124,24 @@ export const forms: Form[] = [
         .positive()
         .int()
         .min(1, { message: "จำนวนงวดต้องมากกว่าหรือเท่ากับ 1" }),
+      amountPaid: z.coerce
+        .number()
+        .positive()
+        .min(0, { message: "ยอดที่ชำระแล้วต้องมากกว่าหรือเท่ากับ 0" }),
+      installmentsPaid: z.coerce
+        .number()
+        .positive()
+        .int()
+        .min(0, { message: "จำนวนงวดที่ชำระแล้วต้องมากกว่าหรือเท่ากับ 0" }),
+      remainingAmount: z.coerce
+        .number()
+        .positive()
+        .min(0, { message: "ยอดคงเหลือที่ต้องชำระต้องมากกว่าหรือเท่ากับ 0" }),
       repaymentPerInstallment: z.coerce
         .number()
         .positive()
         .min(0, { message: "ยอดที่ต้องชำระแต่ละงวดต้องมากกว่าหรือเท่ากับ 0" }),
-      autoPaymentToggle: z.boolean().optional().default(true),
+      autoPaymentToggle: z.boolean(),
     }),
   },
   {

@@ -31,6 +31,7 @@ import { Switch } from "~/components/ui/switch";
 export const LoanAmountForm = ({ navigation }: NavigationProps) => {
   const {
     control,
+    getValues,
     formState: { errors },
   } = useFormContext();
 
@@ -40,7 +41,7 @@ export const LoanAmountForm = ({ navigation }: NavigationProps) => {
         <Text className={cn(TITLE)}>สร้างลูกหนี้่</Text>
         <View className={cn(GRID)}>
           <View className={cn(GRID_ROW)}>
-            <View className={cn(GRID_COL_SPAN[2])}>
+            <View className={cn(GRID_COL_SPAN[1])}>
               <Controller
                 control={control}
                 name="loanAmount"
@@ -48,6 +49,7 @@ export const LoanAmountForm = ({ navigation }: NavigationProps) => {
                   <FormItem>
                     <FormLabel nativeID="loanAmount">จำนวนเงินที่กู้</FormLabel>
                     <Input
+                      keyboardType="numeric"
                       onBlur={onBlur}
                       onChangeText={onChange}
                       value={value}
@@ -67,6 +69,7 @@ export const LoanAmountForm = ({ navigation }: NavigationProps) => {
                   <FormItem>
                     <FormLabel nativeID="interestRate">ดอกเบี้ย %</FormLabel>
                     <Input
+                      keyboardType="numeric"
                       onBlur={onBlur}
                       onChangeText={onChange}
                       value={value}
@@ -78,7 +81,7 @@ export const LoanAmountForm = ({ navigation }: NavigationProps) => {
             </View>
           </View>
           <View className={cn(GRID_ROW)}>
-            <View className={cn(GRID_COL_SPAN[2])}>
+            <View className={cn(GRID_COL_SPAN[1])}>
               <Controller
                 control={control}
                 name="totalRepayment"
@@ -88,13 +91,14 @@ export const LoanAmountForm = ({ navigation }: NavigationProps) => {
                       ยอดหนี้ที่ต้องชำระ
                     </FormLabel>
                     <Input
+                      keyboardType="numeric"
                       onBlur={onBlur}
                       onChangeText={onChange}
                       value={value}
                     />
                     <FormMessage
                       errorMessage={errors.totalRepayment?.message}
-                    ></FormMessage>
+                    />
                   </FormItem>
                 )}
               />
@@ -105,8 +109,9 @@ export const LoanAmountForm = ({ navigation }: NavigationProps) => {
                 name="installments"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <FormItem>
-                    <FormLabel nativeID="installments">จำนวนงวด </FormLabel>
+                    <FormLabel nativeID="installments">จำนวนงวด</FormLabel>
                     <Input
+                      keyboardType="numeric"
                       onBlur={onBlur}
                       onChangeText={onChange}
                       value={value}
@@ -117,15 +122,94 @@ export const LoanAmountForm = ({ navigation }: NavigationProps) => {
               />
             </View>
           </View>
+          {
+            // conditionally rendering paid amount when loanCategory is "oldLoan"
+            getValues("loanCategory") === "oldLoan" && (
+              <>
+                <View className={cn(GRID_ROW)}>
+                  <View className={cn(GRID_COL_SPAN[1])}>
+                    <Controller
+                      control={control}
+                      name="amountPaid"
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <FormItem>
+                          <FormLabel nativeID="amountPaid">
+                            ยอดที่ชำระแล้ว
+                          </FormLabel>
+                          <Input
+                            keyboardType="numeric"
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                          />
+                          <FormMessage
+                            errorMessage={errors.amountPaid?.message}
+                          />
+                        </FormItem>
+                      )}
+                    />
+                  </View>
+                  <View className={cn(GRID_COL_SPAN[1])}>
+                    <Controller
+                      control={control}
+                      name="installmentsPaid"
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <FormItem>
+                          <FormLabel nativeID="installmentsPaid">
+                            จำนวนงวดที่ชำระแล้ว
+                          </FormLabel>
+                          <Input
+                            keyboardType="numeric"
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                          />
+                          <FormMessage
+                            errorMessage={errors.installmentsPaid?.message}
+                          />
+                        </FormItem>
+                      )}
+                    />
+                  </View>
+                </View>
+                <Controller
+                  control={control}
+                  name="repaymentPerInstallment"
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <FormItem>
+                      <FormLabel nativeID="repaymentPerInstallment">
+                        ยอดคงเหลือที่ต้องชำระ
+                      </FormLabel>
+                      <Input
+                        keyboardType="numeric"
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                      />
+                      <FormMessage
+                        errorMessage={errors.repaymentPerInstallment?.message}
+                      />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )
+          }
+
           <Controller
             control={control}
             name="repaymentPerInstallment"
             render={({ field: { onChange, onBlur, value } }) => (
               <FormItem>
                 <FormLabel nativeID="repaymentPerInstallment">
-                  ยอดที่ต้องชำระแต่ละงวด
+                  ยอดคงเหลือที่ต้องชำระ
                 </FormLabel>
-                <Input onBlur={onBlur} onChangeText={onChange} value={value} />
+                <Input
+                  keyboardType="numeric"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
                 <FormMessage
                   errorMessage={errors.repaymentPerInstallment?.message}
                 />
