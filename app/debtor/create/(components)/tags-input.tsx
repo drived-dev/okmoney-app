@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import {
   ToggleGroup,
@@ -14,23 +14,47 @@ import ContextMenu from "react-native-context-menu-view";
 
 export interface TagsInputProps {
   selectedTags: string[];
-  onChange: (value: string[] | undefined) => void;
+  setSelectedTags: (value: string[] | undefined) => void;
 }
 
-export const TagsInput = ({ selectedTags, onChange }: TagsInputProps) => {
+export const TagsInput = ({
+  selectedTags,
+  setSelectedTags,
+}: TagsInputProps) => {
   //TODO: implement state managment (redux?)
   const [tags, setTags] = React.useState(["friend"]);
+
+  function deleteTag(tag) {
+    Alert.alert(
+      "ลบตัวกรอง",
+      "การลบตัวกรองจะลบสำหรับทุกลูกหนี่ที่มีตัวกรองนี้อยู่ด้วย",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => {
+            setTags((prev) => prev.filter((t) => t !== tag));
+          },
+        },
+      ]
+    );
+  }
 
   return (
     <View>
       <ToggleGroup
         value={selectedTags}
-        onValueChange={onChange}
+        onValueChange={setSelectedTags}
         type="multiple"
         className="justify-start flex-wrap"
       >
         {tags.map((tag) => (
           <ContextMenu
+            key={tag}
             actions={[
               {
                 title: "Delete Tag",
@@ -39,22 +63,26 @@ export const TagsInput = ({ selectedTags, onChange }: TagsInputProps) => {
               },
             ]}
             onPress={(e) => {
-              if (e.nativeEvent.name === "Delete Tag")
-                setTags((prev) => prev.filter((t) => t !== tag));
+              if (e.nativeEvent.name === "Delete Tag") deleteTag(tag);
             }}
           >
-            <ToggleGroupItem key={tag} value={tag} aria-label={tag}>
+            <ToggleGroupItem value={tag} aria-label={tag}>
               <Text className={cn(PARAGRAPH)}>{tag}</Text>
             </ToggleGroupItem>
           </ContextMenu>
         ))}
-        <AddTagButton tags={tags} setTags={setTags} />
+        <AddTagButton
+          tags={tags}
+          setTags={setTags}
+          setSelectedTags={setSelectedTags}
+          selectedTags={selectedTags}
+        />
       </ToggleGroup>
     </View>
   );
 };
 
-const AddTagButton = ({ tags, setTags }) => {
+const AddTagButton = ({ tags, setTags, setSelectedTags, selectedTags }) => {
   const [selected, setSelected] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
   const inputRef = React.useRef<TextInput>(null);
@@ -71,10 +99,16 @@ const AddTagButton = ({ tags, setTags }) => {
   }
 
   function addTag() {
-    handleDeselect();
-    //TODO: add tags to context
-    setTags([...tags, inputValue]);
+    const formattedValue = inputValue.trim().toLowerCase();
 
+    if (formattedValue === "") return;
+    if (tags.includes(formattedValue)) return;
+
+    handleDeselect();
+    setSelectedTags([...(selectedTags ?? []), formattedValue]);
+
+    //TODO: add tags to context
+    setTags([...tags, formattedValue]);
     setInputValue("");
   }
 
@@ -90,6 +124,7 @@ const AddTagButton = ({ tags, setTags }) => {
       </Button>
       <Input
         ref={inputRef}
+        placeholder="เพิ่มตัวกรอง"
         value={inputValue}
         onChangeText={setInputValue}
         className={cn(selected ? "block" : "hidden")}

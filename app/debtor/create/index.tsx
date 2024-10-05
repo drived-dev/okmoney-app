@@ -109,7 +109,7 @@ const create = () => {
     console.log(values);
   }
 
-  const forms = [MemoForm, LoanAmountForm, LoanDetailForm, InfoForm];
+  const forms = [MemoForm];
 
   return (
     <StepForm
