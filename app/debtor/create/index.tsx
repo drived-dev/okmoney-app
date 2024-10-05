@@ -29,6 +29,9 @@ import { InfoForm } from "./(components)/info-form";
 import { LoanDetailForm } from "./(components)/loan-detail-form";
 import { LoanAmountForm } from "./(components)/loan-amount-form";
 import { MemoForm } from "./(components)/memo-form";
+import { Button } from "~/components/ui/button";
+import { LucideX } from "lucide-react-native";
+import { router } from "expo-router";
 
 export const defaultValues = [
   {
@@ -48,6 +51,7 @@ interface Form {
 }
 
 // TODO: custom message on schema
+// TOOD: date constrant
 export const forms: Form[] = [
   {
     screen: InfoForm,
@@ -163,12 +167,24 @@ const create = () => {
   }
 
   return (
-    <StepForm
-      onSubmit={onSubmit}
-      forms={formScreens}
-      formSchemas={formSchemas}
-      defaultValues={defaultValues}
-    />
+    <>
+      <Button
+        size="icon-lg"
+        variant="ghost"
+        className="ml-4 my-6"
+        onPress={() => {
+          router.back();
+        }}
+      >
+        <LucideX color="black" size={24} />
+      </Button>
+      <StepForm
+        onSubmit={onSubmit}
+        forms={formScreens}
+        formSchemas={formSchemas}
+        defaultValues={defaultValues}
+      />
+    </>
   );
 };
 

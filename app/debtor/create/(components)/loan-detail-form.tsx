@@ -85,6 +85,23 @@ export const LoanDetailForm = ({ navigation }: NavigationProps) => {
           />
           <Controller
             control={control}
+            name="loanCategory"
+            render={({ field: { onChange, value } }) => {
+              return (
+                <FormItem>
+                  <FormLabel nativeID="loanCategory">ประเภทลูกหนี้</FormLabel>
+                  <SelectInput
+                    choices={loanCategoryChoices}
+                    value={value}
+                    onChange={onChange}
+                  />
+                  <FormMessage errorMessage={errors.loanCategory?.message} />
+                </FormItem>
+              );
+            }}
+          />
+          <Controller
+            control={control}
             name="dueDate"
             render={({ field: { onChange, value } }) => (
               <FormItem>
@@ -168,27 +185,12 @@ export const LoanDetailForm = ({ navigation }: NavigationProps) => {
               </View>
             )}
           </View>
-          <View>
-            <FormMessage errorMessage={errors.firstPaymentDate?.message} />
-            <FormMessage errorMessage={errors.loanTermType?.message} />
-          </View>
-          <Controller
-            control={control}
-            name="loanCategory"
-            render={({ field: { onChange, value } }) => {
-              return (
-                <FormItem>
-                  <FormLabel nativeID="loanCategory">ประเภทลูกหนี้</FormLabel>
-                  <SelectInput
-                    choices={loanCategoryChoices}
-                    value={value}
-                    onChange={onChange}
-                  />
-                  <FormMessage errorMessage={errors.loanCategory?.message} />
-                </FormItem>
-              );
-            }}
-          />
+          {errors.loanTermType && (
+            <View>
+              <FormMessage errorMessage={errors.firstPaymentDate?.message} />
+              <FormMessage errorMessage={errors.loanTermType?.message} />
+            </View>
+          )}
         </View>
       </View>
     </StepFormScreen>

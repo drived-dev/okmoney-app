@@ -54,6 +54,9 @@ const StepForm = ({
             screenOptions={{
               headerShown: false,
               animation: "none",
+              contentStyle: {
+                backgroundColor: "white",
+              },
             }}
           >
             {forms.map((FormComponent, index) => (
