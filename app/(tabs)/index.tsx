@@ -4,7 +4,6 @@ import {
   FlatList,
   StyleSheet,
   View,
-  Animated,
   ScrollView,
   Dimensions,
 } from "react-native";
@@ -28,18 +27,12 @@ import { Icon } from "~/components/icon";
 const screenWidth = Dimensions.get("window").width;
 
 const Index = () => {
-  const [isGridView, setIsGridView] = useState(false);
-  const slideAnim = useRef(new Animated.Value(0)).current; // For sliding effect
+  const [isGridView, setIsGridView] = useState(false); // State for toggling between FlatList and GridView
   const flatListRef = useRef(null); // FlatList reference
   const scrollViewRef = useRef(null); // ScrollView reference for Grid
-  const scrollY = useRef(new Animated.Value(0)).current; // Track the scroll position
+  // const scrollY = useRef(new Animated.Value(0)).current; // Track the scroll position
 
   const toggleView = () => {
-    Animated.timing(slideAnim, {
-      toValue: isGridView ? 0 : -screenWidth, // Slide between 0 and screen width
-      duration: 500,
-      useNativeDriver: true,
-    }).start();
     setIsGridView(!isGridView);
   };
 
@@ -48,7 +41,7 @@ const Index = () => {
     status: 1,
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    limit: 50,
+    limit: 14,
   };
 
   const demodata: Loan[] = [
@@ -275,29 +268,46 @@ const Index = () => {
             </View>
           )}
 
-          <Animated.View
-            style={[
-              {
-                flexDirection: "row",
-                width: screenWidth * 2, // Total width (both views side by side)
-              },
-              { transform: [{ translateX: slideAnim }] }, // Slide effect
-            ]}
-          >
-            <View style={{ width: screenWidth }}>
+          {/* Conditionally Render FlatList or ScrollView */}
+          {isGridView ? (
+            <View>
+              <ScrollView
+                ref={scrollViewRef}
+                contentContainerStyle={{
+                  paddingBottom: 120,
+                }}
+                // onScroll={Animated.event(
+                //   [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                //   { useNativeDriver: false }
+                // )}
+                scrollEventThrottle={16}
+              >
+                <GridComponent data={visibleData} />
+                {/* Footer for grid view */}
+                <View className="flex flex-col justify-center items-center">
+                  <View className="items-center justify-center rounded-3xl bg-green-100 py-4 px-4">
+                    <Text className={cn(PARAGRAPH, "text-green-800")}>
+                      จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
+                    </Text>
+                  </View>
+                </View>
+              </ScrollView>
+            </View>
+          ) : (
+            <View>
               <FlatList
-                ref={flatListRef} // FlatList ref to prevent reset
+                ref={flatListRef}
                 data={visibleData}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => <LoanCard loan={item} />}
                 contentContainerStyle={{
                   paddingBottom: 200,
                 }}
-                onScroll={Animated.event(
-                  [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                  { useNativeDriver: false }
-                )}
-                scrollEventThrottle={16} // Update scroll every 16ms (about 60fps)
+                // onScroll={Animated.event(
+                //   [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                //   { useNativeDriver: false }
+                // )}
+                scrollEventThrottle={16}
                 ListFooterComponent={() => (
                   <View className="flex flex-col justify-center items-center">
                     <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mt-3 px-4">
@@ -309,31 +319,7 @@ const Index = () => {
                 )}
               />
             </View>
-
-            <View style={{ width: screenWidth }}>
-              <ScrollView
-                ref={scrollViewRef} // ScrollView ref to prevent reset
-                contentContainerStyle={{
-                  paddingBottom: 120, // Padding for footer and navbar
-                }}
-                onScroll={Animated.event(
-                  [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                  { useNativeDriver: false }
-                )}
-                scrollEventThrottle={16}
-              >
-                <GridComponent data={visibleData} />
-                {/* Footer for grid view */}
-                <View className="flex flex-col justify-center items-center">
-                  <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mx-40">
-                    <Text className={cn(PARAGRAPH, "text-green-800")}>
-                      จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
-                    </Text>
-                  </View>
-                </View>
-              </ScrollView>
-            </View>
-          </Animated.View>
+          )}
         </View>
       </SafeAreaView>
     </View>
