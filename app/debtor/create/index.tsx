@@ -171,7 +171,7 @@ const create = () => {
       <Button
         size="icon-lg"
         variant="ghost"
-        className="ml-4 my-6"
+        className="ml-4 mt-6 mb-10"
         onPress={() => {
           router.back();
         }}
