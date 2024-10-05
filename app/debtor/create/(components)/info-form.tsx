@@ -24,7 +24,7 @@ import {
 } from "~/components/step-form";
 import { cn } from "~/lib/utils";
 import { GRID, GRID_COL_SPAN, GRID_ROW } from "~/constants/Styles";
-import { TITLE } from "~/constants/Typography";
+import { LABEL, TITLE } from "~/constants/Typography";
 import PhoneInput from "~/components/phone-input";
 
 export const InfoForm = ({ navigation }: NavigationProps) => {
@@ -63,7 +63,9 @@ export const InfoForm = ({ navigation }: NavigationProps) => {
               name="name"
               render={({ field: { onChange, onBlur, value } }) => (
                 <FormItem>
-                  <FormLabel nativeID="name">ชื่อ</FormLabel>
+                  <FormLabel nativeID="name" optional>
+                    ชื่อ
+                  </FormLabel>
                   <Input
                     placeholder="โปรดใส่อีเมล"
                     onBlur={onBlur}
@@ -80,7 +82,9 @@ export const InfoForm = ({ navigation }: NavigationProps) => {
               name="lastname"
               render={({ field: { onChange, onBlur, value } }) => (
                 <FormItem>
-                  <FormLabel nativeID="lastname">นามสกุล</FormLabel>
+                  <FormLabel nativeID="lastname" optional>
+                    นามสกุล
+                  </FormLabel>
                   <Input
                     placeholder="โปรดใส่อีเมล"
                     onBlur={onBlur}
@@ -100,7 +104,9 @@ export const InfoForm = ({ navigation }: NavigationProps) => {
           name="phone"
           render={({ field: { onChange, onBlur, value } }) => (
             <FormItem>
-              <FormLabel nativeID="phone">เบอร์โทร</FormLabel>
+              <FormLabel nativeID="phone" optional>
+                เบอร์โทร
+              </FormLabel>
               <PhoneInput
                 placeholder="โปรดใส่อีเมล"
                 onBlur={onBlur}

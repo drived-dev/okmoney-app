@@ -13,7 +13,32 @@ import { LABEL } from "~/constants/Typography";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 import { CircleAlert } from "lucide-react-native";
 import colors from "tailwindcss/colors";
-const FormLabel = Label;
+
+interface FormLabelProps extends TextProps {
+  nativeID: string;
+  children?: TextProps["children"];
+  className?: string;
+  optional?: boolean;
+}
+
+const FormOptionalText = () => {
+  return <Text className={cn(LABEL, "text-gray-400")}> · ไม่จำเป็น</Text>;
+};
+
+const FormLabel = ({
+  className,
+  nativeID,
+  children,
+  optional = false,
+  ...props
+}: FormLabelProps) => {
+  return (
+    <Label nativeID={nativeID} className={cn(className)} {...props}>
+      {children}
+      {optional && <FormOptionalText />}
+    </Label>
+  );
+};
 
 const FormDescription = ({ className, children, ...props }: TextProps) => {
   return (
@@ -81,4 +106,5 @@ const Form = ({ className, children, ...props }: ViewProps) => {
 };
 Form.displayName = "Form";
 
+Form.FormOptionalText = FormOptionalText;
 export { Form, FormLabel, FormDescription, FormMessage, FormItem };

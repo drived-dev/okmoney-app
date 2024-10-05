@@ -49,6 +49,31 @@ interface Form {
 
 export const forms: Form[] = [
   {
+    screen: InfoForm,
+    schema: z.object({
+      nickname: z
+        .string()
+        .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
+        .max(10),
+      name: z
+        .string()
+        .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
+        .max(20)
+        .optional(),
+      lastname: z
+        .string()
+        .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
+        .max(20)
+        .optional(),
+      phone: z
+        .string()
+        .regex(/^\+?[1-9]\d{1,14}$/, {
+          message: "Invalid phone number format",
+        })
+        .optional(),
+    }),
+  },
+  {
     screen: LoanDetailForm,
     schema: z
       .object({
@@ -77,34 +102,6 @@ export const forms: Form[] = [
         { message: "จำเป็นต้องใส่ข้อมูลประเภท", path: ["loanTermType"] }
       ),
   },
-  {
-    screen: InfoForm,
-    schema: z.object({
-      nickname: z
-        .string()
-        .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
-        .max(10),
-      name: z
-        .string()
-        .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
-        .max(20),
-      lastname: z
-        .string()
-        .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
-        .max(20),
-      phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, {
-        message: "Invalid phone number format",
-      }),
-    }),
-  },
-
-  {
-    screen: MemoForm,
-    schema: z.object({
-      additionalNote: z.string().max(100).optional(),
-      tags: z.array(z.string()).optional(),
-    }),
-  },
 
   {
     screen: LoanAmountForm,
@@ -129,6 +126,13 @@ export const forms: Form[] = [
       autoPaymentToggle: z.boolean().refine((val) => typeof val === "boolean", {
         message: "กรุณาเลือกการชำระหนี้อัตโนมัติ",
       }),
+    }),
+  },
+  {
+    screen: MemoForm,
+    schema: z.object({
+      additionalNote: z.string().max(100).optional(),
+      tags: z.array(z.string()).optional(),
     }),
   },
 ];

@@ -44,7 +44,9 @@ export const MemoForm = ({ navigation }: NavigationProps) => {
           name="additionalNote"
           render={({ field: { onChange, onBlur, value } }) => (
             <FormItem>
-              <FormLabel nativeID="additionalNote">โน๊ตเพิ่มเติม</FormLabel>
+              <FormLabel nativeID="additionalNote" optional>
+                โน๊ตเพิ่มเติม
+              </FormLabel>
               <Textarea
                 placeholder="Write some stuff..."
                 value={value}
@@ -60,7 +62,9 @@ export const MemoForm = ({ navigation }: NavigationProps) => {
           name="tags"
           render={({ field: { onChange, onBlur, value } }) => (
             <FormItem>
-              <FormLabel nativeID="phone">เบอร์โทร</FormLabel>
+              <FormLabel nativeID="phone" optional>
+                เบอร์โทร
+              </FormLabel>
               <TagsInput setSelectedTags={onChange} selectedTags={value} />
             </FormItem>
           )}
