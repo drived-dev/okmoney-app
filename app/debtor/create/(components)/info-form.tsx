@@ -44,12 +44,7 @@ export const InfoForm = ({ navigation }: NavigationProps) => {
           render={({ field: { onChange, onBlur, value } }) => (
             <FormItem>
               <FormLabel nativeID="nickname">ชื่อเล่น</FormLabel>
-              <Input
-                placeholder="โปรดใส่อีเมล"
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
+              <Input onBlur={onBlur} onChangeText={onChange} value={value} />
               <FormMessage
                 errorMessage={errors.nickname?.message}
               ></FormMessage>
@@ -67,11 +62,11 @@ export const InfoForm = ({ navigation }: NavigationProps) => {
                     ชื่อ
                   </FormLabel>
                   <Input
-                    placeholder="โปรดใส่อีเมล"
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
                   />
+                  <FormMessage errorMessage={errors.name?.message} />
                 </FormItem>
               )}
             />
@@ -86,18 +81,16 @@ export const InfoForm = ({ navigation }: NavigationProps) => {
                     นามสกุล
                   </FormLabel>
                   <Input
-                    placeholder="โปรดใส่อีเมล"
                     onBlur={onBlur}
                     onChangeText={onChange}
                     value={value}
                   />
+                  <FormMessage errorMessage={errors.lastname?.message} />
                 </FormItem>
               )}
             />
           </View>
         </View>
-        <FormMessage errorMessage={errors.name?.message} />
-        <FormMessage errorMessage={errors.lastname?.message} />
 
         <Controller
           control={control}
@@ -108,13 +101,11 @@ export const InfoForm = ({ navigation }: NavigationProps) => {
                 เบอร์โทร
               </FormLabel>
               <PhoneInput
-                placeholder="โปรดใส่อีเมล"
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
               />
-
-              <FormMessage errorMessage={errors.phone?.message}></FormMessage>
+              <FormMessage errorMessage={errors.phone?.message} />
             </FormItem>
           )}
         />

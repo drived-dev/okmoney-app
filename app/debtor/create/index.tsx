@@ -106,26 +106,29 @@ export const forms: Form[] = [
   {
     screen: LoanAmountForm,
     schema: z.object({
-      loanAmount: z
+      loanAmount: z.coerce
         .number()
+        .positive()
         .min(0, { message: "จำนวนเงินกู้ต้องมากกว่าหรือเท่ากับ 0" }),
-      interestRate: z
+      interestRate: z.coerce
         .number()
+        .positive()
         .min(0)
         .max(100, { message: "อัตราดอกเบี้ยต้องอยู่ระหว่าง 0 ถึง 100" }),
-      totalRepayment: z
+      totalRepayment: z.coerce
         .number()
+        .positive()
         .min(0, { message: "ยอดหนี้ที่ต้องชำระต้องมากกว่าหรือเท่ากับ 0" }),
-      installments: z
+      installments: z.coerce
         .number()
+        .positive()
         .int()
         .min(1, { message: "จำนวนงวดต้องมากกว่าหรือเท่ากับ 1" }),
-      repaymentPerInstallment: z
+      repaymentPerInstallment: z.coerce
         .number()
+        .positive()
         .min(0, { message: "ยอดที่ต้องชำระแต่ละงวดต้องมากกว่าหรือเท่ากับ 0" }),
-      autoPaymentToggle: z.boolean().refine((val) => typeof val === "boolean", {
-        message: "กรุณาเลือกการชำระหนี้อัตโนมัติ",
-      }),
+      autoPaymentToggle: z.boolean().optional().default(true),
     }),
   },
   {

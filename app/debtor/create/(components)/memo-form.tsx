@@ -63,7 +63,7 @@ export const MemoForm = ({ navigation }: NavigationProps) => {
           render={({ field: { onChange, onBlur, value } }) => (
             <FormItem>
               <FormLabel nativeID="phone" optional>
-                เบอร์โทร
+                เลือกตัวกรอง
               </FormLabel>
               <TagsInput setSelectedTags={onChange} selectedTags={value} />
             </FormItem>
