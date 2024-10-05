@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Text } from "~/components/ui/text";
@@ -10,8 +10,13 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native";
 import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
-import LoanItem from "~/components/main/loanitem";
+import { LoanCard } from "~/components/main/loan-card";
 import { Loan } from "~/types/Loan";
+import { Searchbar } from "~/components/main/search_bar";
+import { Icon } from "~/components/icon";
+import { AvatarText } from "~/components/avatar-text";
+import { IconButton } from "~/components/icon-button";
+import { Plus } from "lucide-react-native";
 const Index = () => {
   const demodata: Loan[] = [
     {
@@ -60,6 +65,10 @@ const Index = () => {
     },
   ];
 
+  function goToDebtorCreate() {
+    router.push("/debtor/create");
+  }
+
   return (
     <View className="">
       <LinearGradient
@@ -70,27 +79,39 @@ const Index = () => {
       />
 
       <SafeAreaView>
-        <Text>hello world สวัสดี</Text>
-        <View
-          className={cn(
-            CONTAINER,
-            "mt-4 bg-background h-full rounded-3xl pt-5"
-          )}
-        >
-          {/* <Text className={cn(TITLE)}>hello world สวัสดี</Text>
-          <Text className={cn(TITLE, "text-primary")}>hello world สวัสดี</Text>
-          <Button size="lg" className="mb-2">
-            <Text>hello world สวัสดี</Text>
-          </Button>
-          <Button size="sm">
-            <Text>hello world สวัสดี</Text>
-          </Button>
-          <View className="bg-secondary w-20 h-20"></View> */}
-          <ThemeToggle />
+        <View className={cn(CONTAINER, "justify-between flex flex-row")}>
+          <AvatarText
+            url={
+              "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
+            }
+            title="test"
+          >
+            <Text className={cn(PARAGRAPH, "text-primary")}>FOBO01</Text>
+          </AvatarText>
+
+          {/* Add debtor button */}
+          <IconButton
+            onPress={goToDebtorCreate}
+            className="bg-white"
+            textColor="#E59551"
+            icon={<Plus />}
+            text="เพิ่มลูกหนี้"
+          />
+        </View>
+
+        <View className={cn(CONTAINER, "mt-4 bg-background rounded-3xl pt-5")}>
+          <View className="flex flex-col gap-5">
+            <View>
+              <ThemeToggle />
+            </View>
+            <View>
+              <Searchbar></Searchbar>
+            </View>
+          </View>
           <FlatList
             data={demodata}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <LoanItem loan={item} />}
+            renderItem={({ item }) => <LoanCard loan={item} />}
             className="mt-4"
           />
         </View>

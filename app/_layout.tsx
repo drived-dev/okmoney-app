@@ -9,7 +9,7 @@ import {
 import { SplashScreen, Stack, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import { Platform, TouchableOpacity } from "react-native";
+import { Button, Platform, TouchableOpacity } from "react-native";
 import { NAV_THEME } from "~/constants/Colors";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { PortalHost } from "@rn-primitives/portal";
@@ -87,7 +87,7 @@ export default function RootLayout() {
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <Stack
-        initialRouteName="(tabs)"
+        initialRouteName="debtor/create"
         screenOptions={{
           headerShown: false,
         }}
@@ -96,6 +96,12 @@ export default function RootLayout() {
           name="(tabs)"
           options={{
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="debtor/create/index"
+          options={{
+            presentation: "formSheet",
           }}
         />
       </Stack>
