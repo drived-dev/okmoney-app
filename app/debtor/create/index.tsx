@@ -54,6 +54,13 @@ interface Form {
 // TOOD: date constrant
 export const forms: Form[] = [
   {
+    screen: MemoForm,
+    schema: z.object({
+      additionalNote: z.string().max(100).optional(),
+      tags: z.array(z.string()).optional(),
+    }),
+  },
+  {
     screen: InfoForm,
     schema: z.object({
       nickname: z
@@ -146,13 +153,6 @@ export const forms: Form[] = [
         .positive()
         .min(0, { message: "ยอดที่ต้องชำระแต่ละงวดต้องมากกว่าหรือเท่ากับ 0" }),
       autoPaymentToggle: z.boolean(),
-    }),
-  },
-  {
-    screen: MemoForm,
-    schema: z.object({
-      additionalNote: z.string().max(100).optional(),
-      tags: z.array(z.string()).optional(),
     }),
   },
 ];

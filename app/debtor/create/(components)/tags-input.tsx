@@ -11,6 +11,7 @@ import { Plus } from "lucide-react-native";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import ContextMenu from "react-native-context-menu-view";
+import useTagStore from "~/store/use-tag-store";
 
 export interface TagsInputProps {
   selectedTags: string[];
@@ -22,7 +23,7 @@ export const TagsInput = ({
   setSelectedTags,
 }: TagsInputProps) => {
   //TODO: implement state managment (redux?)
-  const [tags, setTags] = React.useState(["friend"]);
+  const { tags, removeTag } = useTagStore();
 
   function deleteTag(tag) {
     Alert.alert(
@@ -37,7 +38,7 @@ export const TagsInput = ({
           text: "Delete",
           style: "destructive",
           onPress: () => {
-            setTags((prev) => prev.filter((t) => t !== tag));
+            removeTag(tag);
           },
         },
       ]
@@ -72,8 +73,6 @@ export const TagsInput = ({
           </ContextMenu>
         ))}
         <AddTagButton
-          tags={tags}
-          setTags={setTags}
           setSelectedTags={setSelectedTags}
           selectedTags={selectedTags}
         />
@@ -82,7 +81,9 @@ export const TagsInput = ({
   );
 };
 
-const AddTagButton = ({ tags, setTags, setSelectedTags, selectedTags }) => {
+const AddTagButton = ({ setSelectedTags, selectedTags }) => {
+  const { tags, addTag } = useTagStore();
+
   const [selected, setSelected] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
   const inputRef = React.useRef<TextInput>(null);
@@ -98,7 +99,7 @@ const AddTagButton = ({ tags, setTags, setSelectedTags, selectedTags }) => {
     inputRef.current?.blur();
   }
 
-  function addTag() {
+  function addTagToStore() {
     const formattedValue = inputValue.trim().toLowerCase();
 
     if (formattedValue === "") return;
@@ -108,7 +109,7 @@ const AddTagButton = ({ tags, setTags, setSelectedTags, selectedTags }) => {
     setSelectedTags([...(selectedTags ?? []), formattedValue]);
 
     //TODO: add tags to context
-    setTags([...tags, formattedValue]);
+    addTag(formattedValue);
     setInputValue("");
   }
 
@@ -129,7 +130,7 @@ const AddTagButton = ({ tags, setTags, setSelectedTags, selectedTags }) => {
         onChangeText={setInputValue}
         className={cn(selected ? "block" : "hidden")}
         onBlur={handleDeselect}
-        onSubmitEditing={addTag}
+        onSubmitEditing={addTagToStore}
       />
     </View>
   );
