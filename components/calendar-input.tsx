@@ -14,7 +14,7 @@ interface CalendarInputProps
   onChange: (date: Date) => void;
 }
 
-const CalendarInput = ({
+export const CalendarInput = ({
   value,
   onChange,
   className,
@@ -66,5 +66,3 @@ const CalendarInput = ({
     </View>
   );
 };
-
-export default CalendarInput;
