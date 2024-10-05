@@ -15,17 +15,25 @@ export const GridComponent: React.FC<GridComponentProps> = ({ data }) => {
   return (
     <View
       className={cn(CONTAINER, "flex flex-row flex-wrap justify-between mt-5")}
+      style={{
+        paddingHorizontal: 10, // Padding around the entire grid
+      }}
     >
-      {data.map((item) => (
+      {data.map((item, index) => (
         <View
           key={item.id}
-          className="w-[48%] bg-card p-3 rounded-lg shadow-sm mb-4 border border-border "
+          className="bg-card p-3 rounded-lg shadow-sm mb-4 border border-border"
           style={{
+            width: "48%", // Ensures two items per row
             shadowColor: "#000",
             shadowOffset: { width: 0, height: 1 },
             shadowOpacity: 0.2,
             shadowRadius: 1.41,
-            elevation: 2, // for Android shadow
+            elevation: 2, // Android shadow
+
+            // Apply margin spacing between items
+            marginBottom: 15,
+            marginRight: index % 2 === 0 ? 10 : 0, // Apply right margin to the first item in each row
           }}
         >
           {/* Progress indicator wrapping around the circular image */}
@@ -49,7 +57,7 @@ export const GridComponent: React.FC<GridComponentProps> = ({ data }) => {
 
           {/* Text content */}
           <View className="mt-3 items-center justify-center">
-            <Text className={cn(PARAGRAPH, "text-sm text-gray-500 ")}>
+            <Text className={cn(PARAGRAPH, "text-sm text-gray-500")}>
               เลขสัญญา {item.id}
             </Text>
             <Text

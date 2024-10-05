@@ -13,7 +13,7 @@ import { ThemeToggle } from "~/components/ThemeToggle";
 import { PARAGRAPH, PARAGRAPH_BOLD, LABEL } from "~/constants/Typography";
 import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { LoanCard } from "~/components/main/loan-card";
@@ -214,7 +214,8 @@ const Index = () => {
       : demodata;
 
   return (
-    <View className="">
+    <View className="flex-1">
+      {/* Linear Gradient Background */}
       <LinearGradient
         colors={["#F3D791", "#DF9C59", "#FD954B"]}
         start={{ x: 1, y: -0.4 }}
@@ -222,7 +223,7 @@ const Index = () => {
         style={styles.gradientBackground}
       />
 
-      <SafeAreaView>
+      <SafeAreaView style={{ flex: 1 }}>
         <View className={cn(CONTAINER, "justify-between flex flex-row")}>
           <AvatarText url={loandata.profileImage} title="test">
             <Text className={cn(PARAGRAPH, "text-primary")}>
@@ -250,7 +251,7 @@ const Index = () => {
         <View
           className={cn(
             CONTAINER,
-            "mt-4 bg-background rounded-3xl pt-5 flex flex-col gap-2"
+            "mt-4 bg-background rounded-3xl pt-5 flex flex-col gap-2 flex-1"
           )}
         >
           <View className="flex flex-col gap-5">
@@ -289,17 +290,21 @@ const Index = () => {
                 data={visibleData}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => <LoanCard loan={item} />}
-                contentContainerStyle={{ marginTop: 20, paddingBottom: 100 }} // Ensure padding for the footer
+                contentContainerStyle={{
+                  paddingBottom: 200,
+                }}
                 onScroll={Animated.event(
                   [{ nativeEvent: { contentOffset: { y: scrollY } } }],
                   { useNativeDriver: false }
                 )}
                 scrollEventThrottle={16} // Update scroll every 16ms (about 60fps)
                 ListFooterComponent={() => (
-                  <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mx-40 mt-3">
-                    <Text className={cn(PARAGRAPH, "text-green-800")}>
-                      จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
-                    </Text>
+                  <View className="flex flex-col justify-center items-center">
+                    <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mt-3 px-4">
+                      <Text className={cn(PARAGRAPH, "text-green-800")}>
+                        จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
+                      </Text>
+                    </View>
                   </View>
                 )}
               />
@@ -308,7 +313,9 @@ const Index = () => {
             <View style={{ width: screenWidth }}>
               <ScrollView
                 ref={scrollViewRef} // ScrollView ref to prevent reset
-                contentContainerStyle={{ paddingBottom: 100 }} // Padding for footer
+                contentContainerStyle={{
+                  paddingBottom: 120, // Padding for footer and navbar
+                }}
                 onScroll={Animated.event(
                   [{ nativeEvent: { contentOffset: { y: scrollY } } }],
                   { useNativeDriver: false }
@@ -317,10 +324,12 @@ const Index = () => {
               >
                 <GridComponent data={visibleData} />
                 {/* Footer for grid view */}
-                <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mx-40">
-                  <Text className={cn(PARAGRAPH, "text-green-800")}>
-                    จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
-                  </Text>
+                <View className="flex flex-col justify-center items-center">
+                  <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mx-40">
+                    <Text className={cn(PARAGRAPH, "text-green-800")}>
+                      จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
+                    </Text>
+                  </View>
                 </View>
               </ScrollView>
             </View>

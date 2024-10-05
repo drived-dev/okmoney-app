@@ -6,6 +6,7 @@ import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH } from "~/constants/Typography";
 import { Icon } from "../icon";
+import Seachbaronly from "./seachbar-only";
 
 export const Searchbar = ({
   toggleView,
@@ -19,7 +20,7 @@ export const Searchbar = ({
   return (
     <View className="flex flex-col gap-3">
       <View>
-        <PhoneInput></PhoneInput>
+        <Seachbaronly></Seachbaronly>
       </View>
       <View className="justify-between flex flex-row">
         <View className="flex flex-row gap-3">
