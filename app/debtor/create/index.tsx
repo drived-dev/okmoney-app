@@ -16,7 +16,11 @@ import {
   FormMessage,
   FormItem,
 } from "~/components/form";
-import { StepForm, StepFormScreen } from "~/components/step-form";
+import {
+  StepForm,
+  StepFormScreen,
+  StepFormScreenProps,
+} from "~/components/step-form";
 import { cn } from "~/lib/utils";
 import { GRID, GRID_COL_SPAN, GRID_ROW } from "~/constants/Styles";
 import { TITLE } from "~/constants/Typography";
@@ -38,83 +42,109 @@ export const defaultValues = [
   },
 ];
 
-export const formSchemas = [
-  z.object({
-    additionalNote: z.string().max(100).optional(),
-    tags: z.array(z.string()).optional(),
-  }),
-  z.object({
-    loanAmount: z
-      .number()
-      .min(0, { message: "จำนวนเงินกู้ต้องมากกว่าหรือเท่ากับ 0" }),
-    interestRate: z
-      .number()
-      .min(0)
-      .max(100, { message: "อัตราดอกเบี้ยต้องอยู่ระหว่าง 0 ถึง 100" }),
-    totalRepayment: z
-      .number()
-      .min(0, { message: "ยอดหนี้ที่ต้องชำระต้องมากกว่าหรือเท่ากับ 0" }),
-    installments: z
-      .number()
-      .int()
-      .min(1, { message: "จำนวนงวดต้องมากกว่าหรือเท่ากับ 1" }),
-    repaymentPerInstallment: z
-      .number()
-      .min(0, { message: "ยอดที่ต้องชำระแต่ละงวดต้องมากกว่าหรือเท่ากับ 0" }),
-    autoPaymentToggle: z.boolean().refine((val) => typeof val === "boolean", {
-      message: "กรุณาเลือกการชำระหนี้อัตโนมัติ",
-    }),
-  }),
-  z
-    .object({
-      loanId: z
+interface Form {
+  screen: React.FC<{ navigation: any }>;
+  schema: z.AnyZodObject | z.ZodEffects<z.AnyZodObject>;
+}
+
+export const forms: Form[] = [
+  {
+    screen: InfoForm,
+    schema: z.object({
+      nickname: z
         .string()
-        .min(1, { message: "ชื่อต้องมากกว่า 1 ตัวอักษร" })
+        .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
         .max(10),
-      dueDate: z.date().default(new Date()),
-      loanType: z.enum(["fixed", "adjustable"]),
-      paymentType: z.enum(["monthly", "daily", "custom"]),
-      firstPaymentDate: z.date(),
-      loanTermType: z.string().optional(),
-      loanCategory: z.enum(["newLoan", "oldLoan"]),
-    })
-    .refine(
-      // raise error when paymentType custom is selected
-      (input) => {
-        if (
-          input.paymentType === "custom" &&
-          (input.loanTermType === "" || input.loanTermType === undefined)
-        ) {
-          return false;
-        }
-        return true;
-      },
-      { message: "จำเป็นต้องใส่ข้อมูลประเภท", path: ["loanTermType"] }
-    ),
-  z.object({
-    name: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(30),
-    lastname: z
-      .string()
-      .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
-      .max(30),
-    phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, {
-      message: "Invalid phone number format",
+      name: z
+        .string()
+        .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
+        .max(20),
+      lastname: z
+        .string()
+        .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
+        .max(20),
+      phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, {
+        message: "Invalid phone number format",
+      }),
     }),
-  }),
+  },
+  {
+    screen: LoanDetailForm,
+    schema: z
+      .object({
+        loanId: z
+          .string()
+          .min(1, { message: "ชื่อต้องมากกว่า 1 ตัวอักษร" })
+          .max(10),
+        dueDate: z.date().default(new Date()),
+        loanType: z.enum(["fixed", "adjustable"]),
+        paymentType: z.enum(["monthly", "daily", "custom"]),
+        firstPaymentDate: z.date(),
+        loanTermType: z.string().optional(),
+        loanCategory: z.enum(["newLoan", "oldLoan"]),
+      })
+      .refine(
+        // raise error when paymentType custom is selected
+        (input) => {
+          if (
+            input.paymentType === "custom" &&
+            (input.loanTermType === "" || input.loanTermType === undefined)
+          ) {
+            return false;
+          }
+          return true;
+        },
+        { message: "จำเป็นต้องใส่ข้อมูลประเภท", path: ["loanTermType"] }
+      ),
+  },
+  {
+    screen: MemoForm,
+    schema: z.object({
+      additionalNote: z.string().max(100).optional(),
+      tags: z.array(z.string()).optional(),
+    }),
+  },
+
+  {
+    screen: LoanAmountForm,
+    schema: z.object({
+      loanAmount: z
+        .number()
+        .min(0, { message: "จำนวนเงินกู้ต้องมากกว่าหรือเท่ากับ 0" }),
+      interestRate: z
+        .number()
+        .min(0)
+        .max(100, { message: "อัตราดอกเบี้ยต้องอยู่ระหว่าง 0 ถึง 100" }),
+      totalRepayment: z
+        .number()
+        .min(0, { message: "ยอดหนี้ที่ต้องชำระต้องมากกว่าหรือเท่ากับ 0" }),
+      installments: z
+        .number()
+        .int()
+        .min(1, { message: "จำนวนงวดต้องมากกว่าหรือเท่ากับ 1" }),
+      repaymentPerInstallment: z
+        .number()
+        .min(0, { message: "ยอดที่ต้องชำระแต่ละงวดต้องมากกว่าหรือเท่ากับ 0" }),
+      autoPaymentToggle: z.boolean().refine((val) => typeof val === "boolean", {
+        message: "กรุณาเลือกการชำระหนี้อัตโนมัติ",
+      }),
+    }),
+  },
 ];
 
 const create = () => {
+  const formSchemas = forms.map((form) => form.schema);
+  const formScreens = forms.map((form) => form.screen);
+
   function onSubmit(values: z.infer<(typeof formSchemas)[0]>) {
     alert(values);
     console.log(values);
   }
 
-  const forms = [MemoForm];
-
   return (
     <StepForm
       onSubmit={onSubmit}
-      forms={forms}
+      forms={formScreens}
       formSchemas={formSchemas}
       defaultValues={defaultValues}
     />

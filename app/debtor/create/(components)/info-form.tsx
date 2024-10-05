@@ -35,60 +35,83 @@ export const InfoForm = ({ navigation }: NavigationProps) => {
 
   return (
     <StepFormScreen navigation={navigation}>
-      <View className="flex flex-col gap-4">
+      <View className={cn(GRID)}>
         <Text className={cn(TITLE)}>สร้างลูกหนี้่</Text>
-        <View className="flex flex-col gap-4">
-          <Controller
-            control={control}
-            name="name"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <FormItem>
-                <FormLabel nativeID="name">ชื่อ</FormLabel>
-                <Input
-                  placeholder="โปรดใส่อีเมล"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
-                <FormMessage errorMessage={errors.name?.message}></FormMessage>
-              </FormItem>
-            )}
-          />
-          <Controller
-            control={control}
-            name="lastname"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <FormItem>
-                <FormLabel nativeID="lastname">นามสกุล</FormLabel>
-                <Input
-                  placeholder="โปรดใส่อีเมล"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
-                <FormMessage
-                  errorMessage={errors.lastname?.message}
-                ></FormMessage>
-              </FormItem>
-            )}
-          />
-          <Controller
-            control={control}
-            name="phone"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <FormItem>
-                <FormLabel nativeID="phone">เบอร์โทร</FormLabel>
-                <PhoneInput
-                  placeholder="โปรดใส่อีเมล"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
-                <FormMessage errorMessage={errors.phone?.message}></FormMessage>
-              </FormItem>
-            )}
-          />
+
+        <Controller
+          control={control}
+          name="nickname"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <FormItem>
+              <FormLabel nativeID="nickname">ชื่อเล่น</FormLabel>
+              <Input
+                placeholder="โปรดใส่อีเมล"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+              <FormMessage
+                errorMessage={errors.nickname?.message}
+              ></FormMessage>
+            </FormItem>
+          )}
+        />
+        <View className={cn(GRID_ROW)}>
+          <View className={cn(GRID_COL_SPAN[1])}>
+            <Controller
+              control={control}
+              name="name"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <FormItem>
+                  <FormLabel nativeID="name">ชื่อ</FormLabel>
+                  <Input
+                    placeholder="โปรดใส่อีเมล"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                </FormItem>
+              )}
+            />
+          </View>
+          <View className={cn(GRID_COL_SPAN[1])}>
+            <Controller
+              control={control}
+              name="lastname"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <FormItem>
+                  <FormLabel nativeID="lastname">นามสกุล</FormLabel>
+                  <Input
+                    placeholder="โปรดใส่อีเมล"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                </FormItem>
+              )}
+            />
+          </View>
         </View>
+        <FormMessage errorMessage={errors.name?.message} />
+        <FormMessage errorMessage={errors.lastname?.message} />
+
+        <Controller
+          control={control}
+          name="phone"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <FormItem>
+              <FormLabel nativeID="phone">เบอร์โทร</FormLabel>
+              <PhoneInput
+                placeholder="โปรดใส่อีเมล"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+
+              <FormMessage errorMessage={errors.phone?.message}></FormMessage>
+            </FormItem>
+          )}
+        />
       </View>
     </StepFormScreen>
   );
