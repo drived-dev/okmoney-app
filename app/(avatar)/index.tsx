@@ -1,5 +1,5 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { PARAGRAPH, TITLE } from "~/constants/Typography";
 import { cn } from "~/lib/utils";
@@ -12,9 +12,48 @@ import { Icon } from "~/components/icon";
 import { IconButton } from "~/components/icon-button";
 import { ArrowLeft, ArrowRight } from "lucide-react-native";
 import { useRouter } from "expo-router";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import * as ImagePicker from "expo-image-picker"; // Import ImagePicker
 
 const index = () => {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const [image, setImage] = useState<string | null>(null); // Allow image state to accept string or null
+
+  const contentInsets = {
+    top: insets.top,
+    bottom: insets.bottom,
+    left: 12,
+    right: 12,
+  };
+
+  // Function to handle picking an image
+  const pickImage = async () => {
+    // Request media library permission
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to make this work!");
+      return;
+    }
+
+    // Launch the image library picker
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri); // Set the picked image URI to state
+    }
+  };
+
   return (
     <SafeAreaView>
       <View className={cn(CONTAINER, "mt-20 flex flex-col gap-80 mx-4")}>
@@ -22,13 +61,20 @@ const index = () => {
           <Text className={cn(TITLE, "")}>ข้อมูลร้านค้า</Text>
           <View className="flex flex-col gap-12">
             <View className="flex flex-col items-center justify-center gap-2">
-              <AvatarText url="https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"></AvatarText>
-              <Button variant={"ghost"}>
+              {/* Display selected image or default avatar */}
+              <AvatarText
+                url={
+                  image ||
+                  "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
+                }
+              />
+              {/* Change Img button */}
+              <Button variant={"ghost"} onPress={pickImage}>
                 <Text className={cn(PARAGRAPH, "")}>เปลี่ยนโปรไฟล์</Text>
               </Button>
             </View>
             <View className={cn(FORM, "")}>
-              <View className="flex flex-col gap-2">
+              <View className={cn(FORM, "")}>
                 <Text>ชื่อผู้ใช้</Text>
                 <Input
                   placeholder="ชื่อผู้ใช้งาน"
@@ -39,8 +85,21 @@ const index = () => {
               <View className="flex flex-col gap-2">
                 <View className={cn(ROW, "items-center")}>
                   <Text>เบอร์โทร</Text>
-                  <Icon name="Info" size={16}></Icon>
+                  {/* Icon */}
+                  <Tooltip delayDuration={150}>
+                    <TooltipTrigger asChild>
+                      <TouchableOpacity>
+                        <Icon name="Info" size={16}></Icon>
+                      </TouchableOpacity>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <Text className={cn(PARAGRAPH, "")}>
+                        ใช้ในการส่ง sms เเจ้งเตือน
+                      </Text>
+                    </TooltipContent>
+                  </Tooltip>
                 </View>
+
                 <PhoneInput></PhoneInput>
               </View>
             </View>
