@@ -23,6 +23,7 @@ import { IconButton } from "~/components/icon-button";
 import { Plus } from "lucide-react-native";
 import { GridComponent } from "~/components/main/grid-card";
 import { Icon } from "~/components/icon";
+import { useRouter } from "expo-router";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -206,6 +207,7 @@ const Index = () => {
       ? demodata.slice(0, loandata.limit)
       : demodata;
 
+  const router = useRouter();
   return (
     <View className="flex-1">
       {/* Linear Gradient Background */}
@@ -225,7 +227,11 @@ const Index = () => {
           </AvatarText>
           <View className="flex flex-row gap-2">
             {loandata.status !== 0 && (
-              <Button variant={"outline_white"} size={"premium"}>
+              <Button
+                variant={"outline_white"}
+                size={"premium"}
+                onPress={() => router.push("/(avatar)")}
+              >
                 <View className="flex flex-row gap-2">
                   <Icon name="Users" color="white" size={24} />
                   <Icon name="Plus" color="white" size={24} />
