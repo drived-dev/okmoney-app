@@ -1,10 +1,15 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { zustandStorage } from './storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware'
+import { zustandStorage } from './storage';
+
+interface TagState {
+  tags: string[];
+  addTag: (tag: string) => void;
+  removeTag: (tag: string) => void;
+}
 
 const useTagStore = create(
-  persist(
+  persist<TagState>(
     (set, get) => ({
     tags: ["favorite", "เพื่อน"],
     addTag: (tag) => set((state) => ({ tags: [...state.tags, tag] })),
@@ -12,7 +17,7 @@ const useTagStore = create(
     }),
     {
       name: 'tag-storage', // name of the item in the storage (must be unique)
-      storage: createJSONStorage(() => AsyncStorage)
+      storage: createJSONStorage(() => zustandStorage)
       // storage: createJSONStorage(() => zustandStorage), // (optional) by default, 'localStorage' is used
     },
 ));

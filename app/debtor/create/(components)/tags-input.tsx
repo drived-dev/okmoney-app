@@ -25,7 +25,7 @@ export const TagsInput = ({
   //TODO: implement state managment (redux?)
   const { tags, removeTag } = useTagStore();
 
-  function deleteTag(tag) {
+  function deleteTag(tag: string) {
     Alert.alert(
       "ลบตัวกรอง",
       "การลบตัวกรองจะลบสำหรับทุกลูกหนี่ที่มีตัวกรองนี้อยู่ด้วย",
@@ -81,7 +81,7 @@ export const TagsInput = ({
   );
 };
 
-const AddTagButton = ({ setSelectedTags, selectedTags }) => {
+const AddTagButton = ({ setSelectedTags, selectedTags }: TagsInputProps) => {
   const { tags, addTag } = useTagStore();
 
   const [selected, setSelected] = React.useState(false);

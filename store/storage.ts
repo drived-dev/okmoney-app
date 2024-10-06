@@ -1,5 +1,8 @@
+// TODO: setup MMKV-storage
 // import { StateStorage } from 'zustand/middleware'
 // import { MMKV } from 'react-native-mmkv'
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // const storage = new MMKV()
 
@@ -15,3 +18,5 @@
 //     return storage.delete(name)
 //   },
 // }
+
+export const zustandStorage = AsyncStorage
