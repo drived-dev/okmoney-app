@@ -86,6 +86,7 @@ export default function RootLayout() {
     // <NavigationContainer independent={true}>
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+
       <Stack
         initialRouteName="(tabs)"
         screenOptions={{
