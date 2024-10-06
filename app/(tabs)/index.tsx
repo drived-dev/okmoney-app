@@ -28,6 +28,7 @@ const screenWidth = Dimensions.get("window").width;
 
 const Index = () => {
   const [isGridView, setIsGridView] = useState(false); // State for toggling between FlatList and GridView
+  const [searchQuery, setSearchQuery] = useState("");
   const flatListRef = useRef(null); // FlatList reference
   const scrollViewRef = useRef(null); // ScrollView reference for Grid
   // const scrollY = useRef(new Animated.Value(0)).current; // Track the scroll position
@@ -201,10 +202,17 @@ const Index = () => {
     },
   ];
 
+  const filteredData = demodata.filter(
+    (item) =>
+      item.id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.nickname?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.name?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const visibleData =
-    demodata.length > loandata.limit
-      ? demodata.slice(0, loandata.limit)
-      : demodata;
+    filteredData.length > loandata.limit
+      ? filteredData.slice(0, loandata.limit)
+      : filteredData;
 
   return (
     <View className="flex-1">
@@ -252,7 +260,11 @@ const Index = () => {
               <ThemeToggle />
             </View>
             <View>
-              <Searchbar toggleView={toggleView} isGridView={isGridView} />
+              <Searchbar
+                toggleView={toggleView}
+                isGridView={isGridView}
+                onSearch={setSearchQuery}
+              />
             </View>
           </View>
 
