@@ -24,6 +24,7 @@ const IconButtonColor = {
   default: colors.white,
   outline: colors.gray[500],
   secondary: colors.orange,
+  green: colors.black,
 };
 
 export const IconButton = ({
