@@ -17,6 +17,8 @@ import { ThemeToggle } from "~/components/ThemeToggle";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { useFonts } from "expo-font";
 import Toast from "react-native-toast-message";
+import { Drawer } from "expo-router/drawer";
+import { CustomDrawer } from "~/components/custom-drawer";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -86,19 +88,20 @@ export default function RootLayout() {
     // <NavigationContainer independent={true}>
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-      <Stack
+      <Drawer
+        drawerContent={() => <CustomDrawer />}
         initialRouteName="(tabs)"
         screenOptions={{
           headerShown: false,
         }}
       >
-        <Stack.Screen
+        <Drawer.Screen
           name="(tabs)"
           options={{
             headerShown: false,
           }}
         />
-      </Stack>
+      </Drawer>
       <Toast />
       <PortalHost />
     </ThemeProvider>

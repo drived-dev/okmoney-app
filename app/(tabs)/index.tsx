@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 import React, { useState, useRef } from "react";
 import {
   FlatList,
@@ -6,6 +6,7 @@ import {
   View,
   ScrollView,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import { Text } from "~/components/ui/text";
 import { ThemeToggle } from "~/components/ThemeToggle";
@@ -27,6 +28,7 @@ import { Icon } from "~/components/icon";
 const screenWidth = Dimensions.get("window").width;
 
 const Index = () => {
+  const navigation = useNavigation();
   const [isGridView, setIsGridView] = useState(false); // State for toggling between FlatList and GridView
   const flatListRef = useRef(null); // FlatList reference
   const scrollViewRef = useRef(null); // ScrollView reference for Grid
@@ -218,11 +220,14 @@ const Index = () => {
 
       <SafeAreaView style={{ flex: 1 }}>
         <View className={cn(CONTAINER, "justify-between flex flex-row")}>
-          <AvatarText url={loandata.profileImage} title="test">
-            <Text className={cn(PARAGRAPH, "text-primary")}>
-              {loandata.nickname}
-            </Text>
-          </AvatarText>
+          {/* @ts-ignore*/}
+          <TouchableOpacity onPress={() => navigation.openDrawer()}>
+            <AvatarText url={loandata.profileImage} title="test">
+              <Text className={cn(PARAGRAPH, "text-primary")}>
+                {loandata.nickname}
+              </Text>
+            </AvatarText>
+          </TouchableOpacity>
           <View className="flex flex-row gap-2">
             {loandata.status !== 0 && (
               <Button variant={"outline_white"} size={"premium"}>
