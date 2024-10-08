@@ -87,13 +87,13 @@ export default function RootLayout() {
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <Stack
-        initialRouteName="(tabs)"
+        initialRouteName="(login)"
         screenOptions={{
           headerShown: false,
         }}
       >
         <Stack.Screen
-          name="(tabs)"
+          name="(login)"
           options={{
             headerShown: false,
           }}
