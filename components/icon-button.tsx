@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React from "react";
 import { Button, ButtonProps } from "~/components/ui/button";
-import { cn } from "~/lib/utils";
+import { cn } from "~/lib/utils"; // Assumes you're using a utility function like cn to merge class names
 import { PARAGRAPH_BOLD } from "~/constants/Typography";
 import colors from "tailwindcss/colors";
 
@@ -17,6 +17,7 @@ interface IconButton extends ButtonProps {
   icon: JSX.Element | string; // JSX.Element for an icon or string for a URI
   text?: string;
   textColor?: string;
+  textClassName?: string; // New prop for NativeWind/Tailwind classes
   variant?: keyof typeof IconButtonColor;
   iconPosition?: "left" | "right";
 }
@@ -26,12 +27,14 @@ const IconButtonColor = {
   default: colors.white,
   outline: colors.gray[500],
   secondary: colors.orange,
+  green: colors.green,
 };
 
 export const IconButton = ({
   icon,
   text,
   textColor = "",
+  textClassName = "", // Default to an empty string
   variant = "default",
   iconPosition = "left",
   ...props
@@ -60,7 +63,11 @@ export const IconButton = ({
         {iconPosition === "left" && <View>{renderIcon()}</View>}
         {text && (
           <Text
-            className={cn(PARAGRAPH_BOLD, "min-w-auto text-center")}
+            className={cn(
+              PARAGRAPH_BOLD,
+              textClassName,
+              "min-w-auto text-center"
+            )}
             style={{ color: currentColor }}
           >
             {text}

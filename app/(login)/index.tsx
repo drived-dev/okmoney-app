@@ -58,47 +58,24 @@ const index = () => {
                     text="เข้าร่วมผ่าน Line"
                     variant="green"
                     size={"xl"}
+                    textClassName="flex-1"
                   ></IconButton>
-
-                  <View
-                    className={cn(
-                      ROW,
-                      CONTAINER,
-                      "bg-green-200 rounded-xl items-center py-4"
-                    )}
-                  >
-                    <Image
-                      source={{
-                        uri: "https://reactjs.org/logo-og.png",
-                      }}
-                      className="w-8 h-8"
-                    />
-                    <View className="flex justify-center">
-                      <Text className={cn(PARAGRAPH_BOLD, "")}>
-                        เข้าร่วมผ่าน Facebook
-                      </Text>
-                    </View>
-                  </View>
-                  <View
-                    className={cn(
-                      ROW,
-                      CONTAINER,
-                      "bg-green-200 rounded-xl items-center py-4"
-                    )}
-                  >
-                    <Image
-                      source={{
-                        uri: "https://reactjs.org/logo-og.png",
-                      }}
-                      className="w-8 h-8"
-                    />
-                    <View className="flex flex-row item-c">
-                      <Text className={cn(PARAGRAPH_BOLD, "")}>
-                        เข้าร่วมผ่าน Google
-                      </Text>
-                    </View>
-                  </View>
+                  <IconButton
+                    icon={"https://reactjs.org/logo-og.png"}
+                    text="เข้าร่วมผ่าน Facebook"
+                    variant="green"
+                    size={"xl"}
+                    textClassName="flex-1"
+                  ></IconButton>
+                  <IconButton
+                    icon={"https://reactjs.org/logo-og.png"}
+                    text="เข้าร่วมผ่าน Google"
+                    variant="green"
+                    size={"xl"}
+                    textClassName="flex-1"
+                  ></IconButton>
                 </View>
+
                 <View className="justify-center items-center">
                   <Text className={cn(PARAGRAPH, "text-foreground")}>
                     ลืมรหัสผ่าน?
