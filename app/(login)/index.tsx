@@ -6,8 +6,10 @@ import { SUBHEADER, TITLE } from "~/constants/Typography";
 import { IconButton } from "~/components/icon-button";
 import { ArrowRight } from "lucide-react-native";
 import { CONTAINER } from "~/constants/Styles";
+import { useRouter } from "expo-router";
 
 const index = () => {
+  const router = useRouter();
   return (
     <View className="h-full">
       <SafeAreaView>
@@ -33,6 +35,7 @@ const index = () => {
           text="เริ่มเลย"
           iconPosition="right"
           className="px-40 justify-center items-center"
+          onPress={router.push("/(login)/login")}
         ></IconButton>
       </View>
     </View>
