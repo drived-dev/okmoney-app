@@ -10,7 +10,7 @@ import {
   TITLE,
 } from "~/constants/Typography";
 import { IconButton } from "~/components/icon-button";
-import { ArrowRight } from "lucide-react-native";
+import { ArrowRight, Icon } from "lucide-react-native";
 import { CONTAINER, FORM, ROW } from "~/constants/Styles";
 import { useRouter } from "expo-router";
 import PhoneInput from "~/components/phone-input";
@@ -53,25 +53,12 @@ const index = () => {
               </View>
               <View className="felx flex-col gap-4">
                 <View className="felx flex-col gap-2">
-                  <View
-                    className={cn(
-                      ROW,
-                      CONTAINER,
-                      "bg-green-200 rounded-xl items-center py-4"
-                    )}
-                  >
-                    <Image
-                      source={{
-                        uri: "https://reactjs.org/logo-og.png",
-                      }}
-                      className="w-8 h-8"
-                    />
-                    <View className="flex justify-center">
-                      <Text className={cn(PARAGRAPH_BOLD, "")}>
-                        เข้าร่วมผ่าน Line
-                      </Text>
-                    </View>
-                  </View>
+                  <IconButton
+                    icon={"https://reactjs.org/logo-og.png"}
+                    text="เข้าร่วมผ่าน Line"
+                    variant="green"
+                    size={"xl"}
+                  ></IconButton>
 
                   <View
                     className={cn(
