@@ -77,16 +77,22 @@ const index = () => {
                 </View>
 
                 <View className="justify-center items-center">
-                  <Text className={cn(PARAGRAPH, "text-foreground")}>
+                  <Text className={cn(PARAGRAPH, "text-foreground underline")}>
                     ลืมรหัสผ่าน?
                   </Text>
                 </View>
               </View>
             </View>
             <View className="justify-center items-center flex flex-col mt-5">
-              <Text className={cn(PARAGRAPH, " text-gray-500")}>
-                การเข้าสู่ระบบแสดงว่าคุณยอมรับนโยบายความเป็นส่วนตัว
-              </Text>
+              <View className="flex flex-row">
+                <Text className={cn(PARAGRAPH, " text-gray-500")}>
+                  การเข้าสู่ระบบแสดงว่าคุณยอมรับ
+                </Text>
+                <Text className={cn(PARAGRAPH, " text-gray-500 underline")}>
+                  นโยบายความเป็นส่วนตัว
+                </Text>
+              </View>
+
               <Text className={cn(PARAGRAPH, " text-gray-500")}>
                 และข้อกำหนดการใช้งานของเรา
               </Text>
