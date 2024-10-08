@@ -56,12 +56,13 @@ const index = () => {
                   <View
                     className={cn(
                       ROW,
+                      CONTAINER,
                       "bg-green-200 rounded-xl items-center py-4"
                     )}
                   >
                     <Image
                       source={{
-                        uri: "https://www.google.co.th/url?sa=i&url=https%3A%2F%2Fth.wikipedia.org%2Fwiki%2F%25E0%25B9%2584%25E0%25B8%259F%25E0%25B8%25A5%25E0%25B9%258C%3ALINE_New_App_Icon_%25282020-12%2529.png&psig=AOvVaw0XNT7aNgD9s4_TCz6S0wm3&ust=1728486360143000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjIv86H_4gDFQAAAAAdAAAAABAE",
+                        uri: "https://reactjs.org/logo-og.png",
                       }}
                       className="w-8 h-8"
                     />
@@ -75,12 +76,13 @@ const index = () => {
                   <View
                     className={cn(
                       ROW,
+                      CONTAINER,
                       "bg-green-200 rounded-xl items-center py-4"
                     )}
                   >
                     <Image
                       source={{
-                        uri: "https://www.google.co.th/url?sa=i&url=https%3A%2F%2Fth.wikipedia.org%2Fwiki%2F%25E0%25B9%2584%25E0%25B8%259F%25E0%25B8%25A5%25E0%25B9%258C%3ALINE_New_App_Icon_%25282020-12%2529.png&psig=AOvVaw0XNT7aNgD9s4_TCz6S0wm3&ust=1728486360143000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjIv86H_4gDFQAAAAAdAAAAABAE",
+                        uri: "https://reactjs.org/logo-og.png",
                       }}
                       className="w-8 h-8"
                     />
@@ -93,16 +95,17 @@ const index = () => {
                   <View
                     className={cn(
                       ROW,
+                      CONTAINER,
                       "bg-green-200 rounded-xl items-center py-4"
                     )}
                   >
                     <Image
                       source={{
-                        uri: "https://www.google.co.th/url?sa=i&url=https%3A%2F%2Fth.wikipedia.org%2Fwiki%2F%25E0%25B9%2584%25E0%25B8%259F%25E0%25B8%25A5%25E0%25B9%258C%3ALINE_New_App_Icon_%25282020-12%2529.png&psig=AOvVaw0XNT7aNgD9s4_TCz6S0wm3&ust=1728486360143000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKjIv86H_4gDFQAAAAAdAAAAABAE",
+                        uri: "https://reactjs.org/logo-og.png",
                       }}
                       className="w-8 h-8"
                     />
-                    <View className="flex flex-row justify-center">
+                    <View className="flex flex-row item-c">
                       <Text className={cn(PARAGRAPH_BOLD, "")}>
                         เข้าร่วมผ่าน Google
                       </Text>

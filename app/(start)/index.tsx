@@ -7,12 +7,14 @@ import { IconButton } from "~/components/icon-button";
 import { ArrowRight } from "lucide-react-native";
 import { CONTAINER } from "~/constants/Styles";
 import { useRouter } from "expo-router";
+import { ThemeToggle } from "~/components/ThemeToggle";
 
 const index = () => {
   const router = useRouter();
   return (
     <View className="h-full">
       <SafeAreaView>
+        <ThemeToggle />
         <View className="justify-center items-center mt-40">
           <View className="flex flex-col gap-8 items-center justify-center">
             <Image
@@ -22,8 +24,12 @@ const index = () => {
               className="w-24 h-24 border border-gray-400 rounded-lg"
             />
             <View className="flex flex-col gap-2 items-center">
-              <Text className={cn(SUBHEADER, "")}>OK moneys</Text>
-              <Text className={cn(TITLE, "")}>ระบบจัดการลูกหนี้</Text>
+              <Text className={cn(SUBHEADER, "text-foreground")}>
+                OK moneys
+              </Text>
+              <Text className={cn(TITLE, "text-foreground")}>
+                ระบบจัดการลูกหนี้
+              </Text>
             </View>
           </View>
         </View>
