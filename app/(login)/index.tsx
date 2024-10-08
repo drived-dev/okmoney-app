@@ -35,7 +35,7 @@ const index = () => {
           text="เริ่มเลย"
           iconPosition="right"
           className="px-40 justify-center items-center"
-          onPress={router.push("/(login)/login")}
+          onPress={() => router.push("/(tabs)")}
         ></IconButton>
       </View>
     </View>
