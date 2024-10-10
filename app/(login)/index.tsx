@@ -54,21 +54,27 @@ const index = () => {
               <View className="felx flex-col gap-4">
                 <View className="felx flex-col gap-2">
                   <IconButton
-                    icon={"https://reactjs.org/logo-og.png"}
+                    icon={
+                      "https://upload.wikimedia.org/wikipedia/commons/2/2e/LINE_New_App_Icon_%282020-12%29.png"
+                    }
                     text="เข้าร่วมผ่าน Line"
                     variant="green"
                     size={"xl"}
                     textClassName="flex-1"
                   ></IconButton>
                   <IconButton
-                    icon={"https://reactjs.org/logo-og.png"}
+                    icon={
+                      "https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"
+                    }
                     text="เข้าร่วมผ่าน Facebook"
                     variant="green"
                     size={"xl"}
                     textClassName="flex-1"
                   ></IconButton>
                   <IconButton
-                    icon={"https://reactjs.org/logo-og.png"}
+                    icon={
+                      "https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-1024.png"
+                    }
                     text="เข้าร่วมผ่าน Google"
                     variant="green"
                     size={"xl"}
