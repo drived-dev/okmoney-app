@@ -73,7 +73,7 @@ const index = () => {
                   ></IconButton>
                   <IconButton
                     icon={
-                      "https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-1024.png"
+                      "https://image.similarpng.com/very-thumbnail/2020/06/Logo-google-icon-PNG.png"
                     }
                     text="เข้าร่วมผ่าน Google"
                     variant="green"
