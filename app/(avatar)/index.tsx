@@ -19,6 +19,7 @@ import {
 } from "~/components/ui/tooltip";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker"; // Import ImagePicker
+import { Form } from "~/components/form";
 
 const index = () => {
   const router = useRouter();
@@ -73,7 +74,7 @@ const index = () => {
                 <Text className={cn(PARAGRAPH, "")}>เปลี่ยนโปรไฟล์</Text>
               </Button>
             </View>
-            <View className={cn(FORM, "")}>
+            <Form className={cn(FORM, "")}>
               <View className={cn(FORM, "")}>
                 <Text>ชื่อผู้ใช้</Text>
                 <Input
@@ -102,7 +103,7 @@ const index = () => {
 
                 <PhoneInput></PhoneInput>
               </View>
-            </View>
+            </Form>
           </View>
         </View>
         <View className="flex flex-row justify-between items-center">

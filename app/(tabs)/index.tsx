@@ -96,118 +96,6 @@ const Index = () => {
     router.push("/debtor/create");
   }
 
-    {
-      id: "05",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "06",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "07",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "08",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "09",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "10",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "11",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "12",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "13",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "14",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-  ];
-
   const visibleData =
     demodata.length > loandata.limit
       ? demodata.slice(0, loandata.limit)
@@ -244,11 +132,11 @@ const Index = () => {
                 </View>
               </Button>
             )}
-  
-          {/* Add debtor button */}
-          <IconButton
+
+            {/* Add debtor button */}
+            <IconButton
               onPress={goToDebtorCreate}
-            className="bg-white"
+              className="bg-white"
               textColor="#E59551"
               icon={<Plus />}
               text="เพิ่มลูกหนี้"
