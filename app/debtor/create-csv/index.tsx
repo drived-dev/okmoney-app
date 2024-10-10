@@ -1,4 +1,10 @@
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import {
   LABEL,
@@ -11,7 +17,12 @@ import { GRID, GRID_ROW, CONTAINER, GRID_COL_SPAN } from "~/constants/Styles";
 import { NumberBadge } from "./(components)/number-badge";
 import { Button } from "~/components/ui/button";
 import { IconButton } from "~/components/icon-button";
-import { ChevronDown, FolderDotIcon, FolderUpIcon } from "lucide-react-native";
+import {
+  ChevronDown,
+  FolderDotIcon,
+  FolderUpIcon,
+  Upload,
+} from "lucide-react-native";
 import {
   Collapsible,
   CollapsibleContent,
@@ -19,6 +30,8 @@ import {
 } from "~/components/ui/collapsible";
 import { Card, CardHeader } from "~/components/ui/card";
 import { Image } from "expo-image";
+import DocumentInput from "~/components/document-input";
+import TemplateDownload from "./(components)/template-download";
 
 const index = () => {
   return (
@@ -31,7 +44,7 @@ const index = () => {
           <NumberBadge text="1" />
           <View className={cn(GRID_COL_SPAN[1], "flex flex-col gap-1")}>
             <Text className={cn(PARAGRAPH)}>ดาวโหลด template.csv</Text>
-            <IconButton icon={<FolderUpIcon />} text="ดาวโหลด" />
+            <TemplateDownload />
           </View>
         </View>
 
@@ -75,6 +88,7 @@ const index = () => {
             <Text className={cn(LABEL, "text-gray-500")}>
               กรอกข้อมูลตามแบบฟอร์ม
             </Text>
+            <DocumentInput />
           </View>
         </View>
       </View>
