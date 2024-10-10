@@ -16,9 +16,15 @@ import { cn } from "~/lib/utils";
 import { BUTTON } from "~/constants/Typography";
 import { LucideAArrowDown } from "lucide-react-native";
 import PhoneInput from "~/components/phone-input";
+import { router, useRouter } from "expo-router";
 
 const History = () => {
-  return <SafeAreaView></SafeAreaView>;
+  const router = useRouter();
+  return (
+    <SafeAreaView>
+      <Button onPress={() => router.push("/debtor/create-csv")}></Button>
+    </SafeAreaView>
+  );
 };
 
 export default History;
