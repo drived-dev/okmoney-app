@@ -57,6 +57,7 @@ const Index = () => {
       dueDate: "30/5",
       profileImage:
         "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+      percent: 70, // This one has progress
     },
     {
       id: "02",
@@ -68,6 +69,8 @@ const Index = () => {
       dueDate: "30/5",
       profileImage:
         "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+      percent: 60,
+      // This one doesn't have 'percent', so it will default to 0% progress
     },
     {
       id: "03",
@@ -79,128 +82,9 @@ const Index = () => {
       dueDate: "30/5",
       profileImage:
         "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+      percent: 90, // This one has progress
     },
-    {
-      id: "04",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "05",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "06",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "07",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "08",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "09",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "10",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "11",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "12",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "13",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "14",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
+    // More items...
   ];
 
   const visibleData =
