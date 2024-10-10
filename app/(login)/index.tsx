@@ -23,18 +23,15 @@ const index = () => {
     <View className="h-full">
       <SafeAreaView>
         <ThemeToggle />
-        <View className={cn(CONTAINER, "mt-32 mx-4")}>
+        <View className={cn(CONTAINER, "mt-20 mx-4")}>
           <View className="flex flex-col gap-8">
             <View className="flex flex-col">
               <Text className={cn(SUBHEADER, "text-foreground")}>
-                เลือกช่องทาง
-              </Text>
-              <Text className={cn(SUBHEADER, "text-foreground")}>
-                การสมัคร/เข้าสู่ระบบ
+                เลือกช่องทาง{"\n"}การสมัคร/เข้าสู่ระบบ
               </Text>
             </View>
             <View />
-            <View className="flex flex-col gap-4">
+            <View className="flex flex-col gap-3">
               <View className={cn(FORM, "")}>
                 <Text className={cn(TITLE, "text-foreground")}>
                   เข้าร่วมผ่านเบอร์
@@ -83,7 +80,7 @@ const index = () => {
                 </View>
               </View>
             </View>
-            <View className="justify-center items-center flex flex-col mt-5">
+            <View className="justify-center items-center flex flex-col mt-10">
               <View className="flex flex-row">
                 <Text className={cn(PARAGRAPH, " text-gray-500")}>
                   การเข้าสู่ระบบแสดงว่าคุณยอมรับ

@@ -1,0 +1,6 @@
+module Pods_StarterBase {
+  umbrella header "Pods-StarterBase-umbrella.h"
+
+  export *
+  module * { export * }
+}

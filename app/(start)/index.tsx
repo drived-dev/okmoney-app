@@ -35,7 +35,7 @@ const index = () => {
         </View>
       </SafeAreaView>
       {/* next Button */}
-      <View className={cn(CONTAINER, "absolute bottom-10 px-10")}>
+      <View className={cn(CONTAINER, "absolute bottom-20 px-10")}>
         <IconButton
           icon={<ArrowRight />}
           size={"xl"}
