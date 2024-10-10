@@ -18,14 +18,7 @@ import { LucideAArrowDown } from "lucide-react-native";
 import PhoneInput from "~/components/phone-input";
 
 const History = () => {
-  const [phone, setPhone] = React.useState("");
-
-  return (
-    <SafeAreaView>
-      <PhoneInput value={phone} onChangeText={setPhone} />
-      <Button onPress={() => console.log(phone)}></Button>
-    </SafeAreaView>
-  );
+  return <SafeAreaView></SafeAreaView>;
 };
 
 export default History;
