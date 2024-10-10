@@ -11,60 +11,15 @@ import { SafeAreaView } from "react-native";
 import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { LoanCard } from "~/components/main/loan-card";
-import { Loan } from "~/types/Loan";
 import { Searchbar } from "~/components/main/search_bar";
 import { Icon } from "~/components/icon";
 import { AvatarText } from "~/components/avatar-text";
 import { IconButton } from "~/components/icon-button";
 import { Plus } from "lucide-react-native";
-const Index = () => {
-  const demodata: Loan[] = [
-    {
-      id: "01",
-      nickname: "บิบิ",
-      name: "ธน สมพง",
-      status: "รอชำระ",
-      outstanding: 0,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "02",
-      nickname: "แบงค์",
-      name: "ธนาการ",
-      status: "ใกล้กำหนด",
-      outstanding: 100,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "03",
-      nickname: "บิน",
-      name: "ธุดง",
-      status: "ครบชำระ",
-      outstanding: 200,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "04",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-  ];
+import useLoanStore from "~/store/use-loan-store";
 
+const Index = () => {
+  const loans = useLoanStore((state) => state.loans);
   function goToDebtorCreate() {
     router.push("/debtor/create");
   }
@@ -109,7 +64,7 @@ const Index = () => {
             </View>
           </View>
           <FlatList
-            data={demodata}
+            data={loans}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => <LoanCard loan={item} />}
             className="mt-4"
