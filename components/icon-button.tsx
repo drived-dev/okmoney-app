@@ -29,7 +29,7 @@ const IconButtonColor = {
 
 export const IconButton = ({
   icon,
-  text,
+  text = "",
   textColor = "",
   variant = "default",
   iconPosition = "left",

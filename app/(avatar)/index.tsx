@@ -18,13 +18,13 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import * as ImagePicker from "expo-image-picker"; // Import ImagePicker
+import * as ImagePicker from "expo-image-picker";
 import { Form } from "~/components/form";
 
 const index = () => {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const [image, setImage] = useState<string | null>(null); // Allow image state to accept string or null
+  const [image, setImage] = useState<string | null>(null);
 
   const contentInsets = {
     top: insets.top,
