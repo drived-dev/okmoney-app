@@ -16,6 +16,7 @@ import { useRouter } from "expo-router";
 import PhoneInput from "~/components/phone-input";
 import { Button } from "~/components/ui/button";
 import { ThemeToggle } from "~/components/ThemeToggle";
+import { TouchableOpacity } from "react-native";
 
 const index = () => {
   const router = useRouter();
@@ -51,21 +52,21 @@ const index = () => {
               <View className="felx flex-col gap-4">
                 <View className="felx flex-col gap-2">
                   <IconButton
-                    icon={"https://reactjs.org/logo-og.png"}
+                    icon={require("assets/images/line.png")}
                     text="เข้าร่วมผ่าน Line"
                     variant="green"
                     size={"xl"}
                     textClassName="flex-1"
                   ></IconButton>
                   <IconButton
-                    icon={"https://reactjs.org/logo-og.png"}
+                    icon={require("assets/images/facebook.png")}
                     text="เข้าร่วมผ่าน Facebook"
                     variant="green"
                     size={"xl"}
                     textClassName="flex-1"
                   ></IconButton>
                   <IconButton
-                    icon={"https://reactjs.org/logo-og.png"}
+                    icon={require("assets/images/google.png")}
                     text="เข้าร่วมผ่าน Google"
                     variant="green"
                     size={"xl"}
@@ -73,11 +74,11 @@ const index = () => {
                   ></IconButton>
                 </View>
 
-                <View className="justify-center items-center">
+                <Button variant={"link"}>
                   <Text className={cn(PARAGRAPH, "text-foreground underline")}>
                     ลืมรหัสผ่าน?
                   </Text>
-                </View>
+                </Button>
               </View>
             </View>
             <View className="justify-center items-center flex flex-col mt-10">
@@ -85,9 +86,11 @@ const index = () => {
                 <Text className={cn(PARAGRAPH, " text-gray-500")}>
                   การเข้าสู่ระบบแสดงว่าคุณยอมรับ
                 </Text>
-                <Text className={cn(PARAGRAPH, " text-gray-500 underline")}>
-                  นโยบายความเป็นส่วนตัว
-                </Text>
+                <TouchableOpacity>
+                  <Text className={cn(PARAGRAPH, " text-gray-500 underline")}>
+                    นโยบายความเป็นส่วนตัว
+                  </Text>
+                </TouchableOpacity>
               </View>
 
               <Text className={cn(PARAGRAPH, " text-gray-500")}>
