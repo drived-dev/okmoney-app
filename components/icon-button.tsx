@@ -40,12 +40,7 @@ export const IconButton = ({
   const renderIcon = (icon: JSX.Element | number | string) => {
     if (typeof icon === "number") {
       // Local image from require()
-      return (
-        <Image
-          source={icon}
-          style={{ tintColor: currentColor, width: 24, height: 24 }}
-        />
-      );
+      return <Image source={icon} style={{ width: 24, height: 24 }} />;
     } else if (typeof icon === "string") {
       // Remote image from URL
       return <Image source={{ uri: icon }} style={{ width: 24, height: 24 }} />;

@@ -55,27 +55,21 @@ const index = () => {
               <View className="felx flex-col gap-4">
                 <View className="felx flex-col gap-2">
                   <IconButton
-                    icon={
-                      "https://upload.wikimedia.org/wikipedia/commons/2/2e/LINE_New_App_Icon_%282020-12%29.png"
-                    }
+                    icon={require("assets/images/line.png")}
                     text="เข้าร่วมผ่าน Line"
                     variant="green"
                     size={"xl"}
                     textClassName="flex-1"
                   ></IconButton>
                   <IconButton
-                    icon={
-                      "https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"
-                    }
+                    icon={require("assets/images/facebook.png")}
                     text="เข้าร่วมผ่าน Facebook"
                     variant="green"
                     size={"xl"}
                     textClassName="flex-1"
                   ></IconButton>
                   <IconButton
-                    icon={
-                      "https://image.similarpng.com/very-thumbnail/2020/06/Logo-google-icon-PNG.png"
-                    }
+                    icon={require("assets/images/google.png")}
                     text="เข้าร่วมผ่าน Google"
                     variant="green"
                     size={"xl"}
