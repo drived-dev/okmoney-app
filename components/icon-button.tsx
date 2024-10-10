@@ -1,23 +1,15 @@
-import {
-  ColorValue,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-  View,
-  Image,
-} from "react-native";
+import { Image, Text, View } from "react-native";
 import React from "react";
 import { Button, ButtonProps } from "~/components/ui/button";
-import { cn } from "~/lib/utils"; // Assumes you're using a utility function like cn to merge class names
-import { PARAGRAPH_BOLD } from "~/constants/Typography";
+import { cn } from "~/lib/utils";
+import { PARAGRAPH, PARAGRAPH_BOLD } from "~/constants/Typography";
 import colors from "tailwindcss/colors";
 
-interface IconButton extends ButtonProps {
-  icon: JSX.Element | string; // JSX.Element for an icon or string for a URI
-  text?: string;
+export interface IconButtonProps extends ButtonProps {
+  icon: JSX.Element | number | string; // JSX Element, local image (require), or URL string
+  text: string;
   textColor?: string;
-  textClassName?: string; // New prop for NativeWind/Tailwind classes
+  textClassName?: string;
   variant?: keyof typeof IconButtonColor;
   iconPosition?: "left" | "right";
 }
@@ -27,54 +19,61 @@ const IconButtonColor = {
   default: colors.white,
   outline: colors.gray[500],
   secondary: colors.orange,
-  green: colors.green,
+  green: colors.black,
 };
 
 export const IconButton = ({
   icon,
   text,
   textColor = "",
-  textClassName = "", // Default to an empty string
+  textClassName = "",
   variant = "default",
   iconPosition = "left",
+  className,
   ...props
-}: IconButton) => {
+}: IconButtonProps) => {
   const currentColor = textColor
     ? textColor
     : IconButtonColor[variant]?.toString();
 
-  const renderIcon = () => {
-    if (typeof icon === "string") {
-      // If the icon is a URI, render it using the Image component
+  // Determine if the icon is a local image, remote URL, or a JSX icon component
+  const renderIcon = (icon: JSX.Element | number | string) => {
+    if (typeof icon === "number") {
+      // Local image from require()
       return (
         <Image
-          source={{ uri: icon }}
-          style={{ width: 24, height: 24, tintColor: currentColor }}
+          source={icon}
+          style={{ tintColor: currentColor, width: 24, height: 24 }}
         />
       );
+    } else if (typeof icon === "string") {
+      // Remote image from URL
+      return <Image source={{ uri: icon }} style={{ width: 24, height: 24 }} />;
+    } else {
+      // JSX element (e.g., Lucide icon), modify its color
+      return React.cloneElement(icon, {
+        color: currentColor,
+      });
     }
-    // Otherwise, assume it's a JSX element and clone it with the current color
-    return React.cloneElement(icon, { color: currentColor });
   };
 
   return (
-    <Button variant={variant} {...props}>
-      <View className={cn("justify-center items-center flex flex-row gap-2")}>
-        {iconPosition === "left" && <View>{renderIcon()}</View>}
-        {text && (
-          <Text
-            className={cn(
-              PARAGRAPH_BOLD,
-              textClassName,
-              "min-w-auto text-center"
-            )}
-            style={{ color: currentColor }}
-          >
-            {text}
-          </Text>
-        )}
-        {iconPosition === "right" && <View>{renderIcon()}</View>}
-      </View>
+    <Button
+      variant={variant}
+      className={cn(
+        "justify-center items-center flex flex-row gap-2",
+        iconPosition === "right" ? "flex-row-reverse" : "flex-row",
+        className
+      )}
+      {...props}
+    >
+      <View>{renderIcon(icon)}</View>
+      <Text
+        className={cn(PARAGRAPH_BOLD, textClassName, "min-w-auto text-center")}
+        style={{ color: currentColor }}
+      >
+        {text}
+      </Text>
     </Button>
   );
 };
