@@ -16,6 +16,7 @@ import { useRouter } from "expo-router";
 import PhoneInput from "~/components/phone-input";
 import { Button } from "~/components/ui/button";
 import { ThemeToggle } from "~/components/ThemeToggle";
+import { TouchableOpacity } from "react-native";
 
 const index = () => {
   const router = useRouter();
@@ -82,11 +83,11 @@ const index = () => {
                   ></IconButton>
                 </View>
 
-                <View className="justify-center items-center">
+                <Button variant={"link"}>
                   <Text className={cn(PARAGRAPH, "text-foreground underline")}>
                     ลืมรหัสผ่าน?
                   </Text>
-                </View>
+                </Button>
               </View>
             </View>
             <View className="justify-center items-center flex flex-col mt-5">
@@ -94,9 +95,11 @@ const index = () => {
                 <Text className={cn(PARAGRAPH, " text-gray-500")}>
                   การเข้าสู่ระบบแสดงว่าคุณยอมรับ
                 </Text>
-                <Text className={cn(PARAGRAPH, " text-gray-500 underline")}>
-                  นโยบายความเป็นส่วนตัว
-                </Text>
+                <TouchableOpacity>
+                  <Text className={cn(PARAGRAPH, " text-gray-500 underline")}>
+                    นโยบายความเป็นส่วนตัว
+                  </Text>
+                </TouchableOpacity>
               </View>
 
               <Text className={cn(PARAGRAPH, " text-gray-500")}>
