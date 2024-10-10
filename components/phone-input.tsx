@@ -67,9 +67,11 @@ const PhoneInput = React.forwardRef<
 
   return (
     <View className="flex gap-2 flex-row items-stretch">
-      <CountryDropdown />
-      <View className="flex-1 flex-row gap-2 items-center rounded-xl  bg-input px-5">
-        <Text className={cn(PARAGRAPH_BOLD)}>+{countryCode}</Text>
+      <CountryDropdown
+        countryCode={countryCode}
+        setCountryCode={setCountryCode}
+      />
+      <View className="flex-1 flex-row gap-2 items-center rounded-2xl bg-input px-5">
         <Input
           className="flex-1 bg-transparent border-transparent px-0"
           placeholder="เบอร์โทรศัพท์"
@@ -85,12 +87,21 @@ const PhoneInput = React.forwardRef<
   );
 });
 
-const CountryDropdown = () => {
+interface CountryDropdownProps {
+  countryCode: string;
+  setCountryCode: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const CountryDropdown = ({
+  countryCode,
+  setCountryCode,
+}: CountryDropdownProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="outline flex flex-row gap-2">
-          <Text className={cn(PARAGRAPH, "scale-125")}>🇹🇭</Text>
+        <Button variant="ghost" className="outline flex flex-row gap-1">
+          <Text className={cn(PARAGRAPH, "scale-125")}>🇹🇭 </Text>
+          <Text className={cn(PARAGRAPH)}>+{countryCode}</Text>
           <ChevronDown color="black" size={16} />
         </Button>
       </DropdownMenuTrigger>
@@ -99,7 +110,7 @@ const CountryDropdown = () => {
         <DropdownMenuSeparator />
         <DropdownMenuItem className="flex flex-row justify-between">
           <Text className={cn(PARAGRAPH)}>🇹🇭 ไทย</Text>
-          <Text className={cn(PARAGRAPH)}> +66</Text>
+          <Text className={cn(PARAGRAPH)}> +{countryCode}</Text>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
