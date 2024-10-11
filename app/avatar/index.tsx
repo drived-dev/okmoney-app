@@ -150,7 +150,9 @@ const Index = () => {
               {/* Add the phone number input field */}
               <View className="flex flex-col gap-2">
                 <View className={cn(GRID_ROW, "items-center")}>
-                  <Text>เบอร์โทร</Text>
+                  <Text className={cn(PARAGRAPH, "items-center")}>
+                    เบอร์โทร
+                  </Text>
                   <Tooltip delayDuration={150}>
                     <TooltipTrigger asChild>
                       <TouchableOpacity>
@@ -168,8 +170,15 @@ const Index = () => {
                 <Controller
                   control={control}
                   name="phone"
-                  render={({ field: { onChange, value } }) => (
-                    <PhoneInput value={value} onChange={onChange} />
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <FormItem>
+                      <PhoneInput
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                      />
+                      <FormMessage errorMessage={errors.phone?.message} />
+                    </FormItem>
                   )}
                 />
                 <FormMessage errorMessage={errors.phone?.message}></FormMessage>
