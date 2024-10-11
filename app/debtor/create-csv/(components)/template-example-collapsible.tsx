@@ -17,10 +17,20 @@ import {
   CollapsibleTrigger,
 } from "~/components/ui/collapsible";
 import { Card, CardHeader } from "~/components/ui/card";
+import { Asset, useAssets } from "expo-asset";
+// import { Image } from "react-native";
+// import exampleImage from "~/assets/images/placeholder.png";
+import { Separator } from "~/components/ui/separator";
 
 const TemplateExampleCollapsible = () => {
+  const [assets, error] = useAssets(require("assets/images/placeholder.png"));
+
   return (
     <View>
+      {/* {assets ? ( */}
+      {/* <Image source={{ uri: exampleImageUri }} /> */}
+
+      {/* ) : null} */}
       <Collapsible>
         <CollapsibleTrigger>
           <Card className="p-4">
@@ -29,15 +39,21 @@ const TemplateExampleCollapsible = () => {
               <ChevronDown color="black" />
             </CardHeader>
 
-            <CollapsibleContent>
+            <CollapsibleContent className="flex-col gap-1">
+              <Separator className="my-2" />
               <Text className={cn(PARAGRAPH)}>กรอกข้อมูลตามแบบฟอร์ม</Text>
-              <Image
-                style={styles.image}
-                className="w-20 h-20"
-                source="https://reactnative.dev/img/tiny_logo.png"
-                contentFit="cover"
-                alt="template image"
-              />
+              {assets ? (
+                <Image
+                  style={{
+                    height: assets[0].height,
+                    width: assets[0].width,
+                  }}
+                  //@ts-ignore
+                  source={assets[0]}
+                  contentFit="cover"
+                  alt="template image"
+                />
+              ) : null}
             </CollapsibleContent>
           </Card>
         </CollapsibleTrigger>
@@ -45,20 +61,5 @@ const TemplateExampleCollapsible = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  image: {
-    flex: 1,
-    height: 100,
-    width: 100,
-    backgroundColor: "#0553",
-  },
-});
 
 export default TemplateExampleCollapsible;
