@@ -63,8 +63,12 @@ const Index = () => {
 
     if (!result.canceled) {
       const imageUri = result.assets[0].uri;
-      setImage(imageUri);
-      onChange(imageUri); // Update form's img field
+
+      // Extract the filename from the URI
+      const filename = imageUri.split("/").pop(); // Get the last part of the path
+
+      setImage(imageUri); // You can still use the full URI if needed for the image display
+      onChange(filename || ""); // Update the form's img field with just the filename
     }
   };
 
