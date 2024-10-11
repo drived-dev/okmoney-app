@@ -7,4 +7,5 @@ export interface Loan {
   dueDate: string;
   nickname?: string;
   profileImage: string;
+  totalLoanTerm: number;
 }

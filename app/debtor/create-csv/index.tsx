@@ -32,6 +32,7 @@ import { Card, CardHeader } from "~/components/ui/card";
 import { Image } from "expo-image";
 import DocumentInput from "~/components/document-input";
 import TemplateDownload from "./(components)/template-download";
+import TemplateExampleCollapsible from "./(components)/template-example-collapsible";
 
 const index = () => {
   return (
@@ -55,27 +56,7 @@ const index = () => {
             <Text className={cn(LABEL, "text-gray-500")}>
               โดยใช้โปรแกรม เช่น Excel, google sheet
             </Text>
-            <Collapsible>
-              <CollapsibleTrigger>
-                <Card className="p-4">
-                  <CardHeader className="p-0 flex flex-row justify-between">
-                    <Text className={cn(PARAGRAPH)}>ตัวอย่างการกรอกข้อมูล</Text>
-                    <ChevronDown color="black" />
-                  </CardHeader>
-
-                  <CollapsibleContent>
-                    <Text className={cn(PARAGRAPH)}>กรอกข้อมูลตามแบบฟอร์ม</Text>
-                    <Image
-                      style={styles.image}
-                      className="w-20 h-20"
-                      source="https://reactnative.dev/img/tiny_logo.png"
-                      contentFit="cover"
-                      alt="template image"
-                    />
-                  </CollapsibleContent>
-                </Card>
-              </CollapsibleTrigger>
-            </Collapsible>
+            <TemplateExampleCollapsible />
           </View>
         </View>
 
@@ -97,18 +78,3 @@ const index = () => {
 };
 
 export default index;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  image: {
-    flex: 1,
-    height: 100,
-    width: 100,
-    backgroundColor: "#0553",
-  },
-});

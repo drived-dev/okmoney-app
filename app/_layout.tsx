@@ -87,7 +87,7 @@ export default function RootLayout() {
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <Stack
-        initialRouteName="debtor/create-csv/index"
+        initialRouteName="debtor/create-csv/summary"
         screenOptions={{
           headerShown: false,
         }}
