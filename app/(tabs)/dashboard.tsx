@@ -22,7 +22,9 @@ const History = () => {
   const router = useRouter();
   return (
     <SafeAreaView>
-      <Button onPress={() => router.push("/debtor/create-csv")}></Button>
+      <Button
+        onPress={() => router.push("/debtor/create-csv/summary")}
+      ></Button>
     </SafeAreaView>
   );
 };

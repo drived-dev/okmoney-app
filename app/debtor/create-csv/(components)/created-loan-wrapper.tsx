@@ -1,14 +1,18 @@
 import React from "react";
-import { StyleSheet, View, Text, FlatList } from "react-native";
+import { StyleSheet, View, Text, FlatList, ViewProps } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LABEL, PARAGRAPH, TITLE } from "~/constants/Typography";
 import { cn } from "~/lib/utils";
 import { Separator } from "~/components/ui/separator";
 import { Button } from "~/components/ui/button";
-import { Edit } from "lucide-react-native";
+import { ChevronDown, Edit } from "lucide-react-native";
 import { Loan } from "~/types/Loan";
 import { DebtorName } from "~/components/debtor-name";
-import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "~/components/ui/collapsible";
 
 interface CreatedLoanWrapperProps extends ViewProps {
   title: string;
@@ -23,22 +27,27 @@ const CreatedLoanWrapper = ({
   className,
   ...props
 }: CreatedLoanWrapperProps) => {
+  const [isOpen, setIsOpen] = React.useState(true);
   return (
-    <View className={cn(className)} {...props}>
-      <View className="flex flex-row gap-2">
-        <Text className={cn(PARAGRAPH)}>{title}</Text>
-        <Text className={cn(LABEL, "text-gray-500")}>
-          ทั้งหมด {loanCount} คน
-        </Text>
-      </View>
-      <Separator className="my-2" />
-      <FlatList
-        data={loans}
-        contentContainerStyle={{ gap: 4 }}
-        renderItem={(item) => <CreatedLoanCard loan={item.item} />}
-        keyExtractor={(item) => item.id}
-      />
-    </View>
+    <Collapsible open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
+      <CollapsibleTrigger className="flex flex-row justify-between bg-muted rounded-2xl py-3 px-4">
+        <View className="flex flex-row gap-2 ">
+          <Text className={cn(PARAGRAPH)}>{title}</Text>
+          <Text className={cn(LABEL, "text-gray-500")}>
+            ทั้งหมด {loanCount} คน
+          </Text>
+        </View>
+        <ChevronDown color="gray" className={isOpen ? "rotate-180" : ""} />
+      </CollapsibleTrigger>
+      <CollapsibleContent className="max-h-[30vh] mt-2">
+        <FlatList
+          data={loans}
+          contentContainerStyle={{ gap: 4 }}
+          renderItem={(item) => <CreatedLoanCard loan={item.item} />}
+          keyExtractor={(item) => item.id}
+        />
+      </CollapsibleContent>
+    </Collapsible>
   );
 };
 

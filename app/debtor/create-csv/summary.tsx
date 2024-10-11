@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { LABEL, PARAGRAPH, TITLE } from "~/constants/Typography";
+import { BUTTON, LABEL, PARAGRAPH, TITLE } from "~/constants/Typography";
 import { cn } from "~/lib/utils";
 import { Separator } from "~/components/ui/separator";
 import { CONTAINER } from "~/constants/Styles";
@@ -69,18 +69,28 @@ const Summary = () => {
           <Text className={cn(TITLE)}>สร้างลูกหนี้่จำนวนมาก</Text>
           <Text className={cn(PARAGRAPH)}>สร้างลูกหนี้หลายคนพร้อมกัน</Text>
         </View>
-        <CreatedLoanWrapper
-          className="flex-1"
-          title="เพิ่มลูกหนี้สำเร็จ"
-          loanCount={createdLoans.length}
-          loans={createdLoans}
-        />
-        <CreatedLoanWrapper
-          className="flex-1"
-          title="เพิ่มลูกหนี้สำเร็จ"
-          loanCount={createdLoans.length}
-          loans={createdLoans}
-        />
+        <View className="flex flex-col gap-2">
+          <CreatedLoanWrapper
+            className="flex-auto"
+            title="เพิ่มลูกหนี้สำเร็จ"
+            loanCount={createdLoans.length}
+            loans={createdLoans}
+          />
+          <CreatedLoanWrapper
+            className="flex-auto"
+            title="เกิดข้อผิดพลาด"
+            loanCount={createdLoans.length}
+            loans={createdLoans}
+          />
+        </View>
+        <View className="flex-row gap-1 mt-auto">
+          <Button className="flex-1" variant="outline">
+            <Text className={cn(BUTTON.black)}>อัปโหลดใหม่</Text>
+          </Button>
+          <Button className="flex-1">
+            <Text className={cn(BUTTON.white)}>บันทึก</Text>
+          </Button>
+        </View>
       </View>
     </SafeAreaView>
   );
