@@ -124,7 +124,7 @@ const Index = () => {
               <Button
                 variant={"outline_white"}
                 size={"premium"}
-                onPress={() => router.push("/(avatar)")}
+                onPress={() => router.push("/avatar")}
               >
                 <View className="flex flex-row gap-2">
                   <Icon name="Users" color="white" size={24} />
