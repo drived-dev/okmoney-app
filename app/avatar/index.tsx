@@ -30,7 +30,7 @@ import { FormMessage, FormItem, FormLabel } from "~/components/form";
 const formSchema = z.object({
   img: z.string().nonempty({ message: "ต้องเลือกโปรไฟล์รูปภาพ" }), // Image is required
   name: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(50),
-  phone: z.string().nonempty({ message: "กรุณากรอกเบอร์โทรศัพท์" }), // Ensure phone number is required
+  phone: z.string().min(9, { message: "กรุณากรอกเบอร์โทรศัพท์ให้ครบ" }), // Ensure phone number is required
 });
 
 const Index = () => {
