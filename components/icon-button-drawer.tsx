@@ -22,7 +22,7 @@ const IconButtonColor = {
   green: colors.black,
 };
 
-export const IconButton = ({
+export const IconButtonDrawer = ({
   icon,
   text,
   textColor = "",
@@ -64,7 +64,7 @@ export const IconButton = ({
     >
       <View>{renderIcon(icon)}</View>
       <Text
-        className={cn(PARAGRAPH_BOLD, textClassName, "min-w-auto text-center")}
+        className={cn(PARAGRAPH_BOLD, textClassName, "min-w-auto text-start")}
         style={{ color: currentColor }}
       >
         {text}
