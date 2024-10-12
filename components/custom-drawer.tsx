@@ -17,7 +17,7 @@ import { IconButtonDrawer } from "./icon-button-drawer";
 
 export const CustomDrawer = () => {
   return (
-    <View className="h-full">
+    <View className="h-full pb-10">
       <SafeAreaView className="">
         <View className={cn(CONTAINER, "mx-2")}>
           <View className={cn(FORM, "")}>
@@ -56,22 +56,21 @@ export const CustomDrawer = () => {
           </View>
         </View>
       </SafeAreaView>
-      <View className={cn(CONTAINER, "absolute bottom-10 px-4")}>
+      <View className={cn(CONTAINER, "mt-auto px-4 flex flex-col")}>
         <View className="flex flex-col gap-2">
           <IconButtonDrawer
             variant="green"
             icon={<Phone />}
             text="ติดต่อ support"
-            textClassName="w-44"
+            textClassName="w-56"
             size={"xl"}
           />
           <IconButtonDrawer
             variant="green"
             icon={<MessageCircle />}
             text="ให้ feedback"
-            textClassName="w-44"
+            textClassName="w-56"
             size={"xl"}
-            className="justify-start"
           />
         </View>
       </View>

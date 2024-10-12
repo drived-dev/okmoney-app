@@ -20,6 +20,7 @@ const IconButtonColor = {
   outline: colors.gray[500],
   secondary: colors.orange,
   green: colors.black,
+  gradient: colors.white,
 };
 
 export const IconButtonDrawer = ({
