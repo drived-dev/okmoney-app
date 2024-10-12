@@ -82,7 +82,7 @@ const Index = () => {
       dueDate: "30/5",
       profileImage:
         "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-      percent: 90, // This one has progress
+      percent: 100, // This one has progress
     },
     // More items...
   ];
