@@ -45,7 +45,7 @@ const CreatedLoanWrapper = ({
           data={loans}
           contentContainerStyle={{ gap: 4 }}
           renderItem={(item) => <CreatedLoanCard loan={item.item} />}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => `${title}-${index}`}
         />
       </CollapsibleContent>
     </Collapsible>
@@ -66,9 +66,9 @@ const CreatedLoanCard = ({ loan }: { loan: Loan }) => {
           </Text>
         )}
       </View>
-      <Button size="icon" variant="ghost">
+      {/* <Button size="icon" variant="ghost">
         <Edit color="gray" size={20} />
-      </Button>
+      </Button> */}
     </View>
   );
 };

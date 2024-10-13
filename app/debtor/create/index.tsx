@@ -37,6 +37,7 @@ import {
   LoanAmountFormSchema,
   MemoFormSchema,
 } from "~/lib/validation/loan-create";
+import CloseButton from "~/components/close-button";
 
 export const defaultValues = [
   {
@@ -87,16 +88,7 @@ const create = () => {
 
   return (
     <>
-      <Button
-        size="icon-lg"
-        variant="ghost"
-        className="ml-4 mt-6 mb-10"
-        onPress={() => {
-          router.back();
-        }}
-      >
-        <LucideX color="black" size={24} />
-      </Button>
+      <CloseButton className="ml-4 mt-6 mb-10" />
       <StepForm
         onSubmit={onSubmit}
         forms={formScreens}

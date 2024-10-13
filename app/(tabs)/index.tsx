@@ -65,7 +65,7 @@ const Index = () => {
           </View>
           <FlatList
             data={loans}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, index) => `${item.id}+${index.toString()}`}
             renderItem={({ item }) => <LoanCard loan={item} />}
             className="mt-4"
           />
