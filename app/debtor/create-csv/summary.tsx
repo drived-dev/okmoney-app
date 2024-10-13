@@ -9,7 +9,7 @@ import { Loan } from "~/types/Loan";
 import { Edit } from "lucide-react-native";
 import { Button } from "~/components/ui/button";
 import CreatedLoanWrapper from "./(components)/created-loan-wrapper";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useLoanBufferStore } from "~/store/use-loan-buffer-store";
 import { LoanAmountForm } from "../create/(components)/loan-amount-form";
 import { LoanDetailForm } from "../create/(components)/loan-detail-form";
@@ -77,18 +77,27 @@ const createdLoans: Loan[] = [
 ];
 
 const Summary = () => {
+  const router = useRouter();
   const [errors, setErrors] = useState([]);
   const [validLoans, setValidLoans] = useState([]);
   const [invalidLoans, setInvalidLoans] = useState([]);
-
-  const loanBuffers = useLoanBufferStore((state) => state.loanBuffers);
-
+  const { loanBuffers, resetLoanBuffers } = useLoanBufferStore();
   const loansValidationSchemas = z.object({
     ...InfoFormSchema.shape,
-    // ...LoanDetailFormSchema.shape,
-    // ...LoanAmountFormSchema.shape,
-    // ...MemoFormSchema.shape,
+    ...LoanDetailFormSchema.shape,
+    ...LoanAmountFormSchema.shape,
+    ...MemoFormSchema.shape,
   });
+
+  function reset() {
+    resetLoanBuffers();
+    router.back();
+  }
+
+  function onSubmit() {
+    // TODO: integrate with backend
+    console.log(validLoans);
+  }
 
   function validateLoans(loanBuffers) {
     loanBuffers.forEach((loan) => {
@@ -130,30 +139,33 @@ const Summary = () => {
           <Text className={cn(TITLE)}>สร้างลูกหนี้่จำนวนมาก</Text>
           <Text className={cn(PARAGRAPH)}>สร้างลูกหนี้หลายคนพร้อมกัน</Text>
         </View>
-        <View className="flex flex-col gap-2">
-          <CreatedLoanWrapper
-            className="flex-auto"
-            title="เพิ่มลูกหนี้สำเร็จ"
-            loans={validLoans}
-          />
-          <CreatedLoanWrapper
-            className="flex-auto"
-            title="เกิดข้อผิดพลาด"
-            loans={invalidLoans}
-          />
-          {errors.length > 0 &&
-            errors.map((error) => (
-              <ErrorDropdown error={error} key={Object.keys(error)[0]} />
-            ))}
+        <View className="flex flex-col gap-2 flex-1">
+          <CreatedLoanWrapper title="เพิ่มลูกหนี้สำเร็จ" loans={validLoans} />
+          <CreatedLoanWrapper title="เกิดข้อผิดพลาด" loans={invalidLoans} />
         </View>
 
-        <View className="flex-row gap-1 mt-auto">
-          <Button className="flex-1" variant="outline">
-            <Text className={cn(BUTTON.black)}>อัปโหลดใหม่</Text>
-          </Button>
-          <Button className="flex-1">
-            <Text className={cn(BUTTON.white)}>บันทึก</Text>
-          </Button>
+        <View className="mt-auto flex-col gap-2 justify-end">
+          {errors.length > 0 && (
+            <FlatList
+              className="max-h-[10vh]"
+              data={errors}
+              contentContainerStyle={{ gap: 4 }}
+              renderItem={({ item }) => <ErrorDropdown error={item} />}
+              keyExtractor={(item, index) => index.toString()}
+            />
+          )}
+          <View className="flex-row gap-1">
+            <Button className="flex-1" variant="outline" onPress={reset}>
+              <Text className={cn(BUTTON.black)}>อัปโหลดใหม่</Text>
+            </Button>
+            <Button
+              className="flex-1"
+              disabled={invalidLoans.length > 0}
+              onPress={onSubmit}
+            >
+              <Text className={cn(BUTTON.white)}>บันทึก</Text>
+            </Button>
+          </View>
         </View>
       </View>
     </SafeAreaView>

@@ -26,7 +26,11 @@ const CreatedLoanWrapper = ({
 }: CreatedLoanWrapperProps) => {
   const [isOpen, setIsOpen] = React.useState(true);
   return (
-    <Collapsible open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
+    <Collapsible
+      open={isOpen}
+      onOpenChange={() => setIsOpen(!isOpen)}
+      className={cn("min-h-auto max-h-[40vh]")}
+    >
       <CollapsibleTrigger className="flex flex-row justify-between bg-muted rounded-2xl py-3 px-4">
         <View className="flex flex-row gap-2 ">
           <Text className={cn(PARAGRAPH)}>{title}</Text>
@@ -36,7 +40,7 @@ const CreatedLoanWrapper = ({
         </View>
         <ChevronDown color="gray" className={isOpen ? "rotate-180" : ""} />
       </CollapsibleTrigger>
-      <CollapsibleContent className="max-h-[30vh] mt-2">
+      <CollapsibleContent className="mt-2">
         <FlatList
           data={loans}
           contentContainerStyle={{ gap: 4 }}
