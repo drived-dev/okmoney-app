@@ -20,11 +20,7 @@ import { router, useRouter } from "expo-router";
 
 const History = () => {
   const router = useRouter();
-  return (
-    <SafeAreaView>
-      <Button onPress={() => router.push("/debtor/create-csv")}></Button>
-    </SafeAreaView>
-  );
+  return <SafeAreaView></SafeAreaView>;
 };
 
 export default History;
