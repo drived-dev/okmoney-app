@@ -12,7 +12,14 @@ const history = () => {
       <View className={cn(CONTAINER, "mt-4")}>
         <Text className={cn(TITLE, "")}>ประวัติการชำระ</Text>
 
-        <Historylist />
+        <Historylist
+          url="https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
+          nickname="ธาม"
+          name="สมพง นักบิด"
+          variant="payment"
+          slip="https://example.com/slip.png"
+          value="1500"
+        />
       </View>
     </SafeAreaView>
   );
