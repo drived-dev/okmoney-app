@@ -26,6 +26,17 @@ const Index = () => {
     router.push("/debtor/create");
   }
 
+  const [phoneValue, setPhoneValue] = useState("");
+  const [toggleValue, setToggleValue] = useState("all");
+
+  const handlePhoneChange = (value) => {
+    setPhoneValue(value); // Sync phone input across both Searchbars
+  };
+
+  const handleToggleChange = (value) => {
+    setToggleValue(value); // Sync toggle group value across both Searchbars
+  };
+
   // Handler to track scroll position
   const handleScroll = (event) => {
     const scrollPosition = event.nativeEvent.contentOffset.y;
@@ -82,7 +93,12 @@ const Index = () => {
           <View
             className={cn(CONTAINER, "mt-4 bg-background rounded-3xl pt-5")}
           >
-            <Searchbar />
+            <Searchbar
+              phoneValue={phoneValue}
+              onPhoneChange={handlePhoneChange}
+              toggleValue={toggleValue}
+              onToggleChange={handleToggleChange}
+            />
             {/* <ThemeToggle /> */}
 
             <View className="mt-4">
@@ -110,7 +126,12 @@ const Index = () => {
           //   isSearchbarSticky ? styles.stickySearchbar : null, // Conditionally apply sticky style
           // ]}
         >
-          <Searchbar />
+          <Searchbar
+            phoneValue={phoneValue}
+            onPhoneChange={handlePhoneChange}
+            toggleValue={toggleValue}
+            onToggleChange={handleToggleChange}
+          />
         </Animated.View>
       </SafeAreaView>
     </View>
