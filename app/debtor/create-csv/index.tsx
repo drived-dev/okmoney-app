@@ -70,7 +70,6 @@ const index = () => {
       });
       return obj;
     });
-    console.log(mappedData);
 
     return mappedData;
   }

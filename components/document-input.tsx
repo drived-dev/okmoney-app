@@ -8,8 +8,6 @@ import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 
 const DocumentInput = ({ documentType, onSubmit }) => {
-  const [fileContent, setFileContent] = React.useState("");
-
   async function getDocument() {
     try {
       // Open the document picker
