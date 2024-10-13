@@ -1,14 +1,21 @@
 import { StatusBar, StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { CONTAINER } from "~/constants/Styles";
+import { cn } from "~/lib/utils";
+import { TITLE } from "~/constants/Typography";
+import { Historylist } from "~/components/history/history-list";
 
 const history = () => {
   return (
-    <View>
-      <Text>history</Text>
-    </View>
+    <SafeAreaView>
+      <View className={cn(CONTAINER, "mt-4")}>
+        <Text className={cn(TITLE, "")}>ประวัติการชำระ</Text>
+
+        <Historylist />
+      </View>
+    </SafeAreaView>
   );
 };
 
 export default history;
-
-const styles = StyleSheet.create({});

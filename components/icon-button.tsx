@@ -16,7 +16,7 @@ export interface IconButtonProps extends ButtonProps {
   text: string;
   textColor?: string;
   variant?: keyof typeof IconButtonColor;
-  fontWeight: "bold" | "normal";
+  fontWeight?: "bold" | "normal";
   iconPosition?: "left" | "right";
 }
 

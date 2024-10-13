@@ -51,6 +51,7 @@ const Index = () => {
             textColor="#E59551"
             icon={<Plus />}
             text="เพิ่มลูกหนี้"
+            fontWeight="normal"
           />
         </View>
 
