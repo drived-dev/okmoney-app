@@ -1,6 +1,6 @@
 import { Link, router } from "expo-router";
 import React, { useState } from "react";
-import { FlatList, StyleSheet, View, ScrollView } from "react-native";
+import { FlatList, StyleSheet, View, ScrollView, Animated } from "react-native";
 import { Text } from "~/components/ui/text";
 import { ThemeToggle } from "~/components/ThemeToggle";
 import { PARAGRAPH, TITLE, BUTTON } from "~/constants/Typography";
@@ -12,7 +12,6 @@ import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { LoanCard } from "~/components/main/loan-card";
 import { Searchbar } from "~/components/main/search_bar";
-import { Icon } from "~/components/icon";
 import { AvatarText } from "~/components/avatar-text";
 import { IconButton } from "~/components/icon-button";
 import { Plus } from "lucide-react-native";
@@ -21,6 +20,7 @@ import useLoanStore from "~/store/use-loan-store";
 const Index = () => {
   const loans = useLoanStore((state) => state.loans);
   const [isGradientVisible, setGradientVisible] = useState(true); // State to control background color
+  const [isSearchbarSticky, setSearchbarSticky] = useState(false); // State to control sticky searchbar
 
   function goToDebtorCreate() {
     router.push("/debtor/create");
@@ -29,16 +29,20 @@ const Index = () => {
   // Handler to track scroll position
   const handleScroll = (event) => {
     const scrollPosition = event.nativeEvent.contentOffset.y;
-    if (scrollPosition > 60) {
-      // Adjust this value based on when you want the color to change
+
+    // Control gradient visibility
+    if (scrollPosition > 55) {
       setGradientVisible(false);
+      setSearchbarSticky(true); // Make Searchbar sticky when the gradient changes
     } else {
       setGradientVisible(true);
+      setSearchbarSticky(false); // Reset Searchbar to normal
     }
   };
 
   return (
-    <View className="">
+    <View className="flex-1">
+      {/* Linear Gradient Background */}
       <LinearGradient
         colors={
           isGradientVisible
@@ -50,8 +54,10 @@ const Index = () => {
         style={styles.gradientBackground}
       />
 
-      <SafeAreaView>
+      <SafeAreaView className="">
+        {/* ScrollView to handle scrolling */}
         <ScrollView onScroll={handleScroll} scrollEventThrottle={16}>
+          {/* Avatar and Add Button */}
           <View className={cn(CONTAINER, "justify-between flex flex-row")}>
             <AvatarText
               url={
@@ -72,10 +78,12 @@ const Index = () => {
             />
           </View>
 
+          {/* Loan List Content */}
           <View
             className={cn(CONTAINER, "mt-4 bg-background rounded-3xl pt-5")}
           >
             <Searchbar />
+            {/* <ThemeToggle /> */}
 
             <View className="mt-4">
               {loans.length > 0 ? (
@@ -86,6 +94,24 @@ const Index = () => {
             </View>
           </View>
         </ScrollView>
+
+        {/* Conditionally Sticky Searchbar */}
+        <Animated.View
+          className={cn(
+            CONTAINER,
+            `${
+              isSearchbarSticky
+                ? "absolute top-16 left-0 right-0 bg-background z-10"
+                : "relative"
+            }px-2 py-4`
+          )}
+          // style={[
+          //   styles.searchbar,
+          //   isSearchbarSticky ? styles.stickySearchbar : null, // Conditionally apply sticky style
+          // ]}
+        >
+          <Searchbar />
+        </Animated.View>
       </SafeAreaView>
     </View>
   );
@@ -102,5 +128,21 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: "100%",
     height: 200,
+  },
+  searchbar: {
+    position: "relative", // Normal position when not sticky
+    zIndex: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
+  stickySearchbar: {
+    position: "absolute", // Stick it to the top when active
+    top: 60, // Position it just below the avatar section
+    left: 0,
+    right: 0,
+    backgroundColor: "#fff", // Keep background to stand out
+    zIndex: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
   },
 });
