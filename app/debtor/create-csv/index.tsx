@@ -37,7 +37,6 @@ import { readString } from "react-native-csv";
 import { useRouter } from "expo-router";
 import { useStore } from "zustand";
 import { useLoanBufferStore } from "~/store/use-loan-buffer-store";
-import { Loan } from "~/types/Loan";
 
 interface InputData {
   data: string[][];
@@ -59,7 +58,7 @@ const index = () => {
   const router = useRouter();
   const setLoanBuffers = useLoanBufferStore((state) => state.setLoanBuffers);
 
-  function onSubmit(fileContent) {
+  function onSubmit(fileContent: string) {
     const json: InputData = readString(fileContent) as InputData;
     const data = json.data;
 
@@ -112,7 +111,7 @@ const index = () => {
           <Text className={cn(LABEL, "text-gray-500")}>
             กรอกข้อมูลตามแบบฟอร์ม
           </Text>
-          <DocumentInput onSubmit={onSubmit} />
+          <DocumentInput onSubmit={onSubmit} documentType={"text/csv"} />
         </View>
       </View>
     </>

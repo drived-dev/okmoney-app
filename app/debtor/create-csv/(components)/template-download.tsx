@@ -6,6 +6,7 @@ import * as FileSystem from "expo-file-system";
 import { shareAsync } from "expo-sharing";
 import { useAssets } from "expo-asset";
 
+//TODO: change to proper template
 const template = `
 Username;Identifier;First name;Last name
 booker12;9012;Rachel;Booker
@@ -16,7 +17,7 @@ smith79;5079;Jamie;Smith
 `;
 
 const TemplateDownload = () => {
-  async function saveFile(uri, filename, mimetype) {
+  async function saveFile(uri: string, filename: string, mimetype: string) {
     if (Platform.OS === "android") {
       const permissions =
         await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();

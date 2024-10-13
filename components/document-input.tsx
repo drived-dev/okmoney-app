@@ -7,12 +7,17 @@ import { cn } from "~/lib/utils";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 
-const DocumentInput = ({ documentType, onSubmit }) => {
+interface DocumentInputProps {
+  documentType: string;
+  onSubmit: (fileContent: string) => void;
+}
+
+const DocumentInput = ({ documentType, onSubmit }: DocumentInputProps) => {
   async function getDocument() {
     try {
       // Open the document picker
       const document = await DocumentPicker.getDocumentAsync({
-        type: "text/csv",
+        type: documentType,
       });
 
       if (document.canceled === true) {
@@ -23,12 +28,12 @@ const DocumentInput = ({ documentType, onSubmit }) => {
 
       const asset = document.assets[0];
 
-      // Read the file content as a string
       const content = await FileSystem.readAsStringAsync(asset.uri, {
         encoding: FileSystem.EncodingType.UTF8,
       });
       onSubmit(content);
     } catch (error) {
+      //TODO: error handle
       console.error("Error reading the file:", error);
     }
   }
