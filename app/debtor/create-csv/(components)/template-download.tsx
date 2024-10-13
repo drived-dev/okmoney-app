@@ -4,6 +4,16 @@ import { IconButton } from "~/components/icon-button";
 import { FolderUpIcon } from "lucide-react-native";
 import * as FileSystem from "expo-file-system";
 import { shareAsync } from "expo-sharing";
+import { useAssets } from "expo-asset";
+
+const template = `
+Username;Identifier;First name;Last name
+booker12;9012;Rachel;Booker
+grey07;2070;;Grey
+johnson81;4081;Craig;Johnson
+jenkins46;9346;Mary;Jenkins
+smith79;5079;Jamie;Smith
+`;
 
 const TemplateDownload = () => {
   async function saveFile(uri, filename, mimetype) {
@@ -36,19 +46,16 @@ const TemplateDownload = () => {
   }
 
   async function download() {
-    // TODO: change to real template file
     const filename = "template.csv";
-    const result = await FileSystem.downloadAsync(
-      "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.csv",
-      FileSystem.documentDirectory + filename
-    );
+    const fileUri = FileSystem.documentDirectory + filename;
 
-    // Log the download result
-    console.log(result);
+    await FileSystem.writeAsStringAsync(fileUri, template, {
+      encoding: FileSystem.EncodingType.UTF8,
+    });
 
-    // Save the downloaded file
-    saveFile(result.uri, filename, result.headers["Content-Type"]);
+    saveFile(fileUri, filename, "text/csv");
   }
+
   return (
     <IconButton icon={<FolderUpIcon />} text="ดาวโหลด" onPress={download} />
   );

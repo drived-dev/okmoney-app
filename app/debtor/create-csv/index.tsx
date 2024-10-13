@@ -33,8 +33,47 @@ import { Image } from "expo-image";
 import DocumentInput from "~/components/document-input";
 import TemplateDownload from "./(components)/template-download";
 import TemplateExampleCollapsible from "./(components)/template-example-collapsible";
+import { readString } from "react-native-csv";
+import { ParseResult } from "zod";
+
+interface InputData {
+  data: string[][];
+  errors: any[];
+  meta: {
+    delimiter: string;
+    linebreak: string;
+    aborted: boolean;
+    truncated: boolean;
+    cursor: number;
+  };
+}
+
+interface MappedData {
+  [key: string]: string;
+}
 
 const index = () => {
+  function onSubmit(fileContent) {
+    const json: InputData = readString(fileContent) as InputData;
+    const data = json.data;
+
+    const filteredData = data.filter((row) => row.length > 1);
+
+    // Extract headers (first row, index 0 after filtering)
+    const headers = filteredData[0].map((header) => header.trim());
+
+    // Map each subsequent row to an object using the headers as keys
+    const mappedData = filteredData.slice(1).map((row) => {
+      let obj: MappedData = {};
+      headers.forEach((header, index) => {
+        obj[header] = row[index];
+      });
+      return obj;
+    });
+    console.log(mappedData);
+
+    return mappedData;
+  }
   return (
     <SafeAreaView>
       <View className={cn(CONTAINER, "flex flex-col gap-5")}>
@@ -69,7 +108,7 @@ const index = () => {
             <Text className={cn(LABEL, "text-gray-500")}>
               กรอกข้อมูลตามแบบฟอร์ม
             </Text>
-            <DocumentInput />
+            <DocumentInput onSubmit={onSubmit} />
           </View>
         </View>
       </View>
