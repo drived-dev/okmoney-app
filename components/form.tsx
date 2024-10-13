@@ -71,10 +71,15 @@ const FormMessage = ({
   }
 
   return (
-    <View className="rounded-xl bg-red-300/40 px-3 py-1 self-start flex flex-row items-center gap-2">
+    <View
+      className={cn(
+        "rounded-xl bg-red-300/40 px-3 py-1 self-start flex flex-row items-center gap-2",
+        className
+      )}
+    >
       <CircleAlert size={18} color={colors.red[400]} strokeWidth={2.2} />
       <Text
-        className={cn("text-sm font-medium text-destructive", LABEL, className)}
+        className={cn("text-sm font-medium text-destructive", LABEL)}
         {...props}
       >
         {body}

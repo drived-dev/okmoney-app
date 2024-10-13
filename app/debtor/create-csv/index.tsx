@@ -34,7 +34,10 @@ import DocumentInput from "~/components/document-input";
 import TemplateDownload from "./(components)/template-download";
 import TemplateExampleCollapsible from "./(components)/template-example-collapsible";
 import { readString } from "react-native-csv";
-import { ParseResult } from "zod";
+import { useRouter } from "expo-router";
+import { useStore } from "zustand";
+import { useLoanBufferStore } from "~/store/use-loan-buffer-store";
+import { Loan } from "~/types/Loan";
 
 interface InputData {
   data: string[][];
@@ -53,6 +56,9 @@ interface MappedData {
 }
 
 const index = () => {
+  const router = useRouter();
+  const setLoanBuffers = useLoanBufferStore((state) => state.setLoanBuffers);
+
   function onSubmit(fileContent) {
     const json: InputData = readString(fileContent) as InputData;
     const data = json.data;
@@ -68,10 +74,13 @@ const index = () => {
       headers.forEach((header, index) => {
         obj[header] = row[index];
       });
+
       return obj;
     });
 
-    return mappedData;
+    setLoanBuffers(mappedData);
+
+    router.push("/debtor/create-csv/summary");
   }
   return (
     <SafeAreaView>
