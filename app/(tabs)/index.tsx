@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 import React, { useState, useRef } from "react";
 import {
   FlatList,
@@ -6,6 +6,7 @@ import {
   View,
   ScrollView,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import { Text } from "~/components/ui/text";
 import { ThemeToggle } from "~/components/ThemeToggle";
@@ -28,6 +29,7 @@ import useLoanStore from "~/store/use-loan-store";
 const screenWidth = Dimensions.get("window").width;
 
 const Index = () => {
+  const navigation = useNavigation();
   const [isGridView, setIsGridView] = useState(false); // State for toggling between FlatList and GridView
   const flatListRef = useRef(null); // FlatList reference
   const scrollViewRef = useRef(null); // ScrollView reference for Grid
@@ -67,11 +69,14 @@ const Index = () => {
 
       <SafeAreaView style={{ flex: 1 }}>
         <View className={cn(CONTAINER, "justify-between flex flex-row")}>
-          <AvatarText url={creditorData.profileImage} title="test">
-            <Text className={cn(PARAGRAPH, "text-primary")}>
-              {creditorData.nickname}
-            </Text>
-          </AvatarText>
+          {/* @ts-ignore */}
+          <TouchableOpacity onPress={() => navigation.openDrawer()}>
+            <AvatarText url={creditorData.profileImage} title="test">
+              <Text className={cn(PARAGRAPH, "text-primary")}>
+                {creditorData.nickname}
+              </Text>
+            </AvatarText>
+          </TouchableOpacity>
           <View className="flex flex-row gap-2">
             {creditorData.status !== 0 && (
               <Button
