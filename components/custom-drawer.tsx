@@ -5,7 +5,7 @@ import { Text } from "~/components/ui/text";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AvatarText } from "./avatar-text";
 import { Image, View } from "react-native";
-import { CONTAINER, FORM, ROW } from "~/constants/Styles";
+import { CONTAINER, GRID } from "~/constants/Styles";
 import { cn } from "~/lib/utils";
 import ProgressText from "./progress-text";
 import { PARAGRAPH } from "~/constants/Typography";
@@ -20,7 +20,7 @@ export const CustomDrawer = () => {
     <View className="h-full pb-10">
       <SafeAreaView className="">
         <View className={cn(CONTAINER, "mx-2")}>
-          <View className={cn(FORM, "")}>
+          <View className={cn(GRID, "")}>
             <AvatarText url="https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"></AvatarText>
             <Text className={cn(PARAGRAPH, "")}>sms ที่ใช้ไปแล้ว</Text>
             <ProgressText
