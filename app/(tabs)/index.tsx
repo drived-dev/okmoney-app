@@ -16,7 +16,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { LoanCard } from "~/components/main/loan-card";
-import { Loan } from "~/types/Loan";
 import { Searchbar } from "~/components/main/search_bar";
 import { AvatarText } from "~/components/avatar-text";
 import { IconButton } from "~/components/icon-button";
@@ -26,6 +25,8 @@ import { Icon } from "~/components/icon";
 import { useRouter } from "expo-router";
 
 const screenWidth = Dimensions.get("window").width;
+
+import useLoanStore from "~/store/use-loan-store";
 
 const Index = () => {
   const [isGridView, setIsGridView] = useState(false); // State for toggling between FlatList and GridView
@@ -45,53 +46,7 @@ const Index = () => {
     limit: 14,
   };
 
-  const demodata: Loan[] = [
-    {
-      id: "01",
-      nickname: "บิบิ",
-      name: "ธน สมพง",
-      status: "รอชำระ",
-      outstanding: 0,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "02",
-      nickname: "แบงค์",
-      name: "ธนาการ",
-      status: "ใกล้กำหนด",
-      outstanding: 100,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "03",
-      nickname: "บิน",
-      name: "ธุดง",
-      status: "ครบชำระ",
-      outstanding: 200,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-    {
-      id: "04",
-      nickname: "โบ๊ท",
-      name: "ทองสิระ",
-      status: "ค้างชำระ",
-      outstanding: 300,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    },
-  ];
-
+  const loans = useLoanStore((state) => state.loans);
   function goToDebtorCreate() {
     router.push("/debtor/create");
   }
@@ -158,6 +113,12 @@ const Index = () => {
               <Searchbar toggleView={toggleView} isGridView={isGridView} />
             </View>
           </View>
+          <FlatList
+            data={loans}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => <LoanCard loan={item} />}
+            className="mt-4"
+          />
 
           {/* Alert Bar if the number of debtors exceeds the limit */}
           {demodata.length > loandata.limit && (
