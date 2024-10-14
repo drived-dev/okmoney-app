@@ -15,9 +15,17 @@ import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { BUTTON } from "~/constants/Typography";
 import { LucideAArrowDown } from "lucide-react-native";
+import PhoneInput from "~/components/phone-input";
 
 const History = () => {
-  return <SafeAreaView></SafeAreaView>;
+  const [phone, setPhone] = React.useState("");
+
+  return (
+    <SafeAreaView>
+      <PhoneInput value={phone} onChangeText={setPhone} />
+      <Button onPress={() => console.log(phone)}></Button>
+    </SafeAreaView>
+  );
 };
 
 export default History;

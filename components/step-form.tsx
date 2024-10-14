@@ -13,21 +13,29 @@ import { ArrowLeft, ArrowRight } from "lucide-react-native";
 import { CONTAINER } from "~/constants/Styles";
 import { BUTTON } from "~/constants/Typography";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import { Form } from "./form";
 
 const Stack = createNativeStackNavigator();
 
 interface StepFormProps {
   forms: Array<React.FC<{ navigation: any }>>;
   onSubmit: (values: any) => void;
-  formSchemas: z.AnyZodObject[];
+  formSchemas: Array<z.AnyZodObject | z.ZodEffects<z.AnyZodObject>>;
+  defaultValues?: any[];
 }
 
-const StepForm = ({ forms, onSubmit, formSchemas }: StepFormProps) => {
+const StepForm = ({
+  forms,
+  onSubmit,
+  formSchemas,
+  defaultValues = [],
+}: StepFormProps) => {
   const [currentStep, setCurrentStep] = React.useState(0);
   const currentSchema = formSchemas[currentStep];
-
+  const currentDefaultValue = defaultValues[currentStep] ?? null;
   const method = useForm<z.infer<typeof currentSchema>>({
     resolver: zodResolver(currentSchema),
+    defaultValues: currentDefaultValue,
   });
 
   return (
@@ -46,6 +54,9 @@ const StepForm = ({ forms, onSubmit, formSchemas }: StepFormProps) => {
             screenOptions={{
               headerShown: false,
               animation: "none",
+              contentStyle: {
+                backgroundColor: "white",
+              },
             }}
           >
             {forms.map((FormComponent, index) => (
@@ -74,7 +85,7 @@ const StepContext = React.createContext<StepContextType>({
   currentStep: 0,
   lastStep: 0,
   setCurrentStep: () => {
-    console.error("oops, the default got used. Fix your bug!");
+    console.error("You need to pass in this function to StepContext");
   },
   onSubmit: () => {},
 });
@@ -89,13 +100,17 @@ const useStepContext = () => {
   return stepContext;
 };
 
-export type EmailFormNavigationProp = NativeStackNavigationProp<{
+export type StackNavigationProps = NativeStackNavigationProp<{
   [key: `Page-${number}`]: undefined;
 }>;
 
 export interface StepFormScreenProps {
-  navigation: EmailFormNavigationProp;
+  navigation: StackNavigationProps;
   children: React.ReactNode;
+}
+
+export interface NavigationProps {
+  navigation: StackNavigationProps;
 }
 
 const StepFormScreen: React.FC<StepFormScreenProps> = ({
@@ -109,11 +124,11 @@ const StepFormScreen: React.FC<StepFormScreenProps> = ({
     formState: { isValid },
   } = useFormContext();
 
-  function validateInput(): boolean {
+  async function validateInput(): Promise<boolean> {
     const schemaKeys = Object.keys(getValues());
-    trigger(schemaKeys);
+    const valid = await trigger(schemaKeys);
 
-    return isValid;
+    return valid;
   }
 
   function clearValidation(): void {
@@ -122,21 +137,23 @@ const StepFormScreen: React.FC<StepFormScreenProps> = ({
 
   return (
     <SafeAreaView>
-      <View className={cn(CONTAINER, "flex flex-col justify-between h-full")}>
-        {children}
-        <StepperButtonGroup
-          navigation={navigation}
-          validateInput={validateInput}
-          clearValidation={clearValidation}
-        />
-      </View>
+      <Form className={cn(CONTAINER, "flex flex-col justify-between h-full")}>
+        <>
+          {children}
+          <StepperButtonGroup
+            navigation={navigation}
+            validateInput={validateInput}
+            clearValidation={clearValidation}
+          />
+        </>
+      </Form>
     </SafeAreaView>
   );
 };
 
 interface StepperButtonGroupType {
-  navigation: EmailFormNavigationProp;
-  validateInput: () => boolean;
+  navigation: StackNavigationProps;
+  validateInput: () => Promise<boolean>;
   clearValidation: () => void;
 }
 
@@ -163,8 +180,8 @@ const StepperButtonGroup = ({
   const NextButton = () => {
     const isLastStep = currentStep === lastStep;
 
-    function handleSubmit() {
-      const isValid = validateInput();
+    async function handleSubmit() {
+      const isValid = await validateInput();
       if (!isValid) return;
 
       onSubmit(getValues());
@@ -198,9 +215,9 @@ const StepperButtonGroup = ({
     navigation.navigate(`Page-${previousStep}`);
   }
 
-  function navigateToNextStep() {
+  async function navigateToNextStep() {
     const nextStep = currentStep + 1;
-    const isValid = validateInput();
+    const isValid = await validateInput();
     if (!isValid) return;
 
     setCurrentStep(nextStep);

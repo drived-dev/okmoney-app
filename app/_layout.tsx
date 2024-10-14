@@ -9,7 +9,7 @@ import {
 import { SplashScreen, Stack, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import { Platform, TouchableOpacity } from "react-native";
+import { Button, Platform, TouchableOpacity } from "react-native";
 import { NAV_THEME } from "~/constants/Colors";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { PortalHost } from "@rn-primitives/portal";

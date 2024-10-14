@@ -17,13 +17,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { LoanCard } from "~/components/main/loan-card";
-import { Loan } from "~/types/Loan";
 import { Searchbar } from "~/components/main/search_bar";
 import { AvatarText } from "~/components/avatar-text";
 import { IconButton } from "~/components/icon-button";
 import { Plus } from "lucide-react-native";
 import { GridComponent } from "~/components/main/grid-card";
 import { Icon } from "~/components/icon";
+import { useRouter } from "expo-router";
+import useLoanStore from "~/store/use-loan-store";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -32,13 +33,12 @@ const Index = () => {
   const [isGridView, setIsGridView] = useState(false); // State for toggling between FlatList and GridView
   const flatListRef = useRef(null); // FlatList reference
   const scrollViewRef = useRef(null); // ScrollView reference for Grid
-  // const scrollY = useRef(new Animated.Value(0)).current; // Track the scroll position
 
   const toggleView = () => {
     setIsGridView(!isGridView);
   };
 
-  const loandata = {
+  const creditorData = {
     nickname: "บิ้ง",
     status: 1,
     profileImage:
@@ -46,52 +46,17 @@ const Index = () => {
     limit: 14,
   };
 
-  const demodata: Loan[] = [
-    {
-      id: "01",
-      nickname: "บิบิ",
-      name: "ธน สมพง",
-      status: "รอชำระ",
-      outstanding: 0,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-      percent: 70, // This one has progress
-    },
-    {
-      id: "02",
-      nickname: "แบงค์",
-      name: "ธนาการ",
-      status: "ใกล้กำหนด",
-      outstanding: 100,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-      percent: 60,
-      // This one doesn't have 'percent', so it will default to 0% progress
-    },
-    {
-      id: "03",
-      nickname: "บิน",
-      name: "ธุดง",
-      status: "ครบชำระ",
-      outstanding: 200,
-      total: 500,
-      dueDate: "30/5",
-      profileImage:
-        "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-      percent: 100, // This one has progress
-    },
-    // More items...
-  ];
+  const loans = useLoanStore((state) => state.loans);
+  function goToDebtorCreate() {
+    router.push("/debtor/create");
+  }
 
   const visibleData =
-    demodata.length > loandata.limit
-      ? demodata.slice(0, loandata.limit)
-      : demodata;
+    loans.length > creditorData.limit
+      ? loans.slice(0, creditorData.limit)
+      : loans;
 
+  const router = useRouter();
   return (
     <View className="flex-1">
       {/* Linear Gradient Background */}
@@ -104,24 +69,28 @@ const Index = () => {
 
       <SafeAreaView style={{ flex: 1 }}>
         <View className={cn(CONTAINER, "justify-between flex flex-row")}>
-          {/* @ts-ignore*/}
-          <TouchableOpacity onPress={() => navigation.openDrawer()}>
-            <AvatarText url={loandata.profileImage} title="test">
-              <Text className={cn(PARAGRAPH, "text-primary")}>
-                {loandata.nickname}
-              </Text>
-            </AvatarText>
-          </TouchableOpacity>
+          <AvatarText url={creditorData.profileImage} title="test">
+            <Text className={cn(PARAGRAPH, "text-primary")}>
+              {creditorData.nickname}
+            </Text>
+          </AvatarText>
           <View className="flex flex-row gap-2">
-            {loandata.status !== 0 && (
-              <Button variant={"outline_white"} size={"premium"}>
+            {creditorData.status !== 0 && (
+              <Button
+                variant={"outline_white"}
+                size={"premium"}
+                onPress={() => router.push("/avatar")}
+              >
                 <View className="flex flex-row gap-2">
                   <Icon name="Users" color="white" size={24} />
                   <Icon name="Plus" color="white" size={24} />
                 </View>
               </Button>
             )}
+
+            {/* Add debtor button */}
             <IconButton
+              onPress={goToDebtorCreate}
               className="bg-white"
               textColor="#E59551"
               icon={<Plus />}
@@ -144,9 +113,15 @@ const Index = () => {
               <Searchbar toggleView={toggleView} isGridView={isGridView} />
             </View>
           </View>
+          <FlatList
+            data={loans}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => <LoanCard loan={item} />}
+            className="mt-4"
+          />
 
           {/* Alert Bar if the number of debtors exceeds the limit */}
-          {demodata.length > loandata.limit && (
+          {loans.length > creditorData.limit && (
             <View className="bg-[#A35D2B]/10 justify-between flex flex-row rounded-2xl py-3 items-center px-5 mb-3">
               <Text className={cn(PARAGRAPH_BOLD, "")}>
                 ลูกหนี้เต็มสำหรับแพ็คเกจคุณ
@@ -176,7 +151,7 @@ const Index = () => {
                 <View className="flex flex-col justify-center items-center">
                   <View className="items-center justify-center rounded-3xl bg-green-100 py-4 px-4">
                     <Text className={cn(PARAGRAPH, "text-green-800")}>
-                      จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
+                      จำนวนลูกหนี้ {loans.length} / {creditorData.limit}
                     </Text>
                   </View>
                 </View>
@@ -201,7 +176,7 @@ const Index = () => {
                   <View className="flex flex-col justify-center items-center">
                     <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mt-3 px-4">
                       <Text className={cn(PARAGRAPH, "text-green-800")}>
-                        จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
+                        จำนวนลูกหนี้ {loans.length} / {creditorData.limit}
                       </Text>
                     </View>
                   </View>
