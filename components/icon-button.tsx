@@ -13,10 +13,10 @@ import { PARAGRAPH, PARAGRAPH_BOLD } from "~/constants/Typography";
 import colors from "tailwindcss/colors";
 export interface IconButtonProps extends ButtonProps {
   icon: JSX.Element;
-  text: string;
+  text?: string;
   textColor?: string;
   variant?: keyof typeof IconButtonColor;
-  fontWeight: "bold" | "normal";
+  fontWeight?: "bold" | "normal";
   iconPosition?: "left" | "right";
 }
 
@@ -29,7 +29,7 @@ const IconButtonColor = {
 
 export const IconButton = ({
   icon,
-  text,
+  text = "",
   textColor = "",
   variant = "default",
   iconPosition = "left",
