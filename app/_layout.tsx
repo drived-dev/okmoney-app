@@ -9,7 +9,7 @@ import {
 import { SplashScreen, Stack, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import { Platform, TouchableOpacity } from "react-native";
+import { Button, Platform, TouchableOpacity } from "react-native";
 import { NAV_THEME } from "~/constants/Colors";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { PortalHost } from "@rn-primitives/portal";
@@ -86,6 +86,7 @@ export default function RootLayout() {
     // <NavigationContainer independent={true}>
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+
       <Stack
         initialRouteName="(auth)/index"
         screenOptions={{
@@ -96,6 +97,12 @@ export default function RootLayout() {
           name="(auth)/index"
           options={{
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="avatar/index"
+          options={{
+            presentation: "formSheet",
           }}
         />
       </Stack>

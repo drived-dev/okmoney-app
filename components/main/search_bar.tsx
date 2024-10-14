@@ -41,13 +41,23 @@ export const Searchbar = ({
             type="single"
           >
             <ToggleGroupItem value="all" aria-label="Toggle all">
-              <Text className={cn(PARAGRAPH, "pt-2 font-ibm text-foreground")}>
-                ทั้งหมด {/* "All" in Thai */}
+              <Text
+                className={cn(
+                  PARAGRAPH,
+                  "pt-2 font-ibm text-base leading-6 text-foreground"
+                )}
+              >
+                ทั้งหมด
               </Text>
             </ToggleGroupItem>
             <ToggleGroupItem value="old" aria-label="Toggle old">
-              <Text className={cn(PARAGRAPH, "pt-2 font-ibm text-foreground")}>
-                ลูกหนี้เก่า {/* "Old Debtors" in Thai */}
+              <Text
+                className={cn(
+                  PARAGRAPH,
+                  "pt-2 font-ibm text-base leading-6 text-foreground"
+                )}
+              >
+                ลูกหนี้เก่า
               </Text>
             </ToggleGroupItem>
             <ToggleGroupItem value="filter" aria-label="Toggle filter">
@@ -55,25 +65,35 @@ export const Searchbar = ({
                 <View className="mt-3">
                   <Icon name="Filter" size={16} />
                 </View>
-                <Text
-                  className={cn(PARAGRAPH, "pt-2 font-ibm text-foreground")}
-                >
-                  กรอง {/* "Filter" in Thai */}
-                </Text>
+                <View>
+                  <Text
+                    className={cn(
+                      PARAGRAPH,
+                      "pt-2 font-ibm text-base leading-6 text-foreground"
+                    )}
+                  >
+                    กรอง
+                  </Text>
+                </View>
               </View>
             </ToggleGroupItem>
           </ToggleGroup>
         </View>
-
-        {/* Toggle view button (List/Grid toggle) */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="mt-1"
-          onPress={toggleView}
-        >
-          <Icon name={isGridView ? "List" : "LayoutGrid"} size={16} />
-        </Button>
+        <View>
+          {/* Toggle view button */}
+          <Button
+            variant="ghost"
+            size={"icon"}
+            className="mt-1"
+            onPress={toggleView}
+          >
+            <Icon
+              name={isGridView ? "List" : "LayoutGrid"}
+              size={16}
+              color="#71717a"
+            />
+          </Button>
+        </View>
       </View>
     </View>
   );
