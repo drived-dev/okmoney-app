@@ -94,7 +94,9 @@ const Index = () => {
 
   return (
     <SafeAreaView>
-      <View className={cn(CONTAINER, "mt-20 flex flex-col gap-80 mx-4")}>
+      <View
+        className={cn(CONTAINER, "flex flex-col justify-between h-full mx-4")}
+      >
         <View className="flex flex-col gap-5">
           <Text className={cn(TITLE, "")}>ข้อมูลร้านค้า</Text>
           <View className="flex flex-col gap-12">
@@ -181,7 +183,6 @@ const Index = () => {
                     </FormItem>
                   )}
                 />
-                <FormMessage errorMessage={errors.phone?.message}></FormMessage>
               </View>
             </Form>
           </View>
