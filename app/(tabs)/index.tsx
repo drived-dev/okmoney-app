@@ -1,7 +1,6 @@
 import { Link, router, useNavigation } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
-  FlatList,
   StyleSheet,
   View,
   ScrollView,
@@ -9,10 +8,8 @@ import {
   Dimensions,
 } from "react-native";
 import { Text } from "~/components/ui/text";
-import { ThemeToggle } from "~/components/ThemeToggle";
-import { PARAGRAPH, PARAGRAPH_BOLD, LABEL } from "~/constants/Typography";
+import { PARAGRAPH } from "~/constants/Typography";
 import { cn } from "~/lib/utils";
-import { Button } from "~/components/ui/button";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
@@ -22,23 +19,19 @@ import { AvatarText } from "~/components/avatar-text";
 import { IconButton } from "~/components/icon-button";
 import { Plus } from "lucide-react-native";
 import { GridComponent } from "~/components/main/grid-card";
-import { Icon } from "~/components/icon";
-import { useRouter } from "expo-router";
 import useLoanStore from "~/store/use-loan-store";
 
-const screenWidth = Dimensions.get("window").width;
-
 const Index = () => {
-  const navigation = useNavigation();
-  const [isGridView, setIsGridView] = useState(false); // State for toggling between FlatList and GridView
-  const flatListRef = useRef(null); // FlatList reference
-  const scrollViewRef = useRef(null); // ScrollView reference for Grid
+  const [isGridView, setIsGridView] = useState(false); // Toggle between GridView and ListView
+  const [searchQuery, setSearchQuery] = useState(""); // Search state, shared by both search bars
+  const [toggleValue, setToggleValue] = useState("all"); // Filter toggle status, shared by both search bars
+  const [isGradientVisible, setGradientVisible] = useState(true); // Gradient control
+  const [isSearchbarSticky, setSearchbarSticky] = useState(false); // Sticky search bar control
 
-  const toggleView = () => {
-    setIsGridView(!isGridView);
-  };
+  const scrollViewRef = useRef(null); // ScrollView reference
+  const loans = useLoanStore((state) => state.loans);
 
-  const creditorData = {
+  const loandata = {
     nickname: "บิ้ง",
     status: 1,
     profileImage:
@@ -46,33 +39,37 @@ const Index = () => {
     limit: 14,
   };
 
-  const loans = useLoanStore((state) => state.loans);
-  const [isGradientVisible, setGradientVisible] = useState(true); // State to control background color
-  const [isSearchbarSticky, setSearchbarSticky] = useState(false); // State to control sticky searchbar
+  const demodata = loans; // Assuming loans come from the store
 
-  function goToDebtorCreate() {
-    router.push("/debtor/create");
-  }
+  // Filtered data based on the search query and toggle filter
+  const filteredData = demodata.filter(
+    (item) =>
+      (toggleValue === "all" || item.filter === toggleValue) && // Apply toggle filter
+      (item.id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.nickname?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.name?.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
 
-  const [phoneValue, setPhoneValue] = useState("");
-  const [toggleValue, setToggleValue] = useState("all");
+  const visibleData =
+    filteredData.length > loandata.limit
+      ? filteredData.slice(0, loandata.limit)
+      : filteredData;
 
-  const handlePhoneChange = (value) => {
-    setPhoneValue(value); // Sync phone input across both Searchbars
-  };
-
-  // Handler to track scroll position
+  // Handle scrolling to control gradient and sticky search bar
   const handleScroll = (event) => {
     const scrollPosition = event.nativeEvent.contentOffset.y;
-
-    // Control gradient visibility
     if (scrollPosition > 55) {
       setGradientVisible(false);
-      setSearchbarSticky(true); // Make Searchbar sticky when the gradient changes
+      setSearchbarSticky(true);
     } else {
       setGradientVisible(true);
-      setSearchbarSticky(false); // Reset Searchbar to normal
+      setSearchbarSticky(false);
     }
+  };
+
+  // Toggle between GridView and ListView
+  const toggleView = () => {
+    setIsGridView(!isGridView);
   };
 
   return (
@@ -91,20 +88,25 @@ const Index = () => {
 
       <SafeAreaView className="">
         {/* ScrollView to handle scrolling */}
-        <ScrollView onScroll={handleScroll} scrollEventThrottle={16}>
+        <ScrollView
+          ref={scrollViewRef}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+          contentContainerStyle={{ paddingBottom: 150 }} // Ensure proper padding at the bottom
+        >
           {/* Avatar and Add Button */}
           <View className={cn(CONTAINER, "justify-between flex flex-row")}>
             <AvatarText
-              url={
-                "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
-              }
+              url="https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
               title="test"
             >
-              <Text className={cn(PARAGRAPH, "text-primary")}>FOBO01</Text>
+              <Text className={cn(PARAGRAPH, "text-primary")}>
+                {loandata.nickname}
+              </Text>
             </AvatarText>
 
             <IconButton
-              onPress={goToDebtorCreate}
+              onPress={() => router.push("/debtor/create")}
               className="bg-white"
               textColor="#E59551"
               icon={<Plus />}
@@ -113,16 +115,29 @@ const Index = () => {
             />
           </View>
 
-          {/* Loan List Content */}
+          {/* Searchbar and Theme Toggle */}
           <View
             className={cn(CONTAINER, "mt-4 bg-background rounded-3xl pt-5")}
           >
-            {/* <Searchbar /> */}
-            {/* <ThemeToggle /> */}
+            <Searchbar
+              toggleView={toggleView}
+              isGridView={isGridView}
+              onSearch={setSearchQuery} // Sync the search query with the parent
+              value={searchQuery} // Pass the search query to keep it synchronized
+              toggleValue={toggleValue} // Sync the toggle filter value
+              onToggleChange={setToggleValue} // Sync the toggle filter handler
+            />
 
+            {/* Content Section (Grid/List based on toggle) */}
             <View className="mt-4">
               {loans.length > 0 ? (
-                loans.map((loan) => <LoanCard key={loan.id} loan={loan} />)
+                isGridView ? (
+                  <GridComponent data={visibleData} />
+                ) : (
+                  visibleData.map((loan) => (
+                    <LoanCard key={loan.id} loan={loan} />
+                  ))
+                )
               ) : (
                 <Text>No Loans Available</Text>
               )}
@@ -131,27 +146,27 @@ const Index = () => {
         </ScrollView>
 
         {/* Conditionally Sticky Searchbar */}
-        <Animated.View
-          className={cn(
-            CONTAINER,
-            `${
-              isSearchbarSticky
-                ? "absolute top-16 left-0 right-0 bg-background z-10"
-                : "relative"
-            }px-2 py-4`
-          )}
-          // style={[
-          //   styles.searchbar,
-          //   isSearchbarSticky ? styles.stickySearchbar : null, // Conditionally apply sticky style
-          // ]}
-        >
-          {/* <Searchbar
-            phoneValue={phoneValue}
-            onPhoneChange={handlePhoneChange}
-            toggleValue={toggleValue}
-            onToggleChange={handleToggleChange}
-          /> */}
-        </Animated.View>
+        {isSearchbarSticky && (
+          <Animated.View
+            className={cn(
+              CONTAINER,
+              `${
+                isSearchbarSticky
+                  ? "absolute top-16 left-0 right-0 bg-background z-10"
+                  : "relative"
+              }px-2 py-4`
+            )}
+          >
+            <Searchbar
+              toggleView={toggleView}
+              isGridView={isGridView}
+              onSearch={setSearchQuery} // Sync the search query with the parent
+              value={searchQuery} // Pass the search query to keep it synchronized
+              toggleValue={toggleValue} // Sync the toggle filter value
+              onToggleChange={setToggleValue} // Sync the toggle filter handler
+            />
+          </Animated.View>
+        )}
       </SafeAreaView>
     </View>
   );
@@ -168,21 +183,5 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: "100%",
     height: 200,
-  },
-  searchbar: {
-    position: "relative", // Normal position when not sticky
-    zIndex: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-  },
-  stickySearchbar: {
-    position: "absolute", // Stick it to the top when active
-    top: 60, // Position it just below the avatar section
-    left: 0,
-    right: 0,
-    backgroundColor: "#fff", // Keep background to stand out
-    zIndex: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
   },
 });
