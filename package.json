@@ -6,8 +6,8 @@
     "dev": "expo start -c --ios",
     "dev:web": "expo start -c --web",
     "dev:android": "expo start -c --android",
-    "android": "expo start -c --android",
-    "ios": "expo start -c --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start -c --web",
     "clean": "rm -rf .expo node_modules",
     "postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css"
@@ -15,6 +15,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
     "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-community/datetimepicker": "8.0.1",
     "@react-navigation/drawer": "^6.7.2",
     "@react-navigation/native": "^6.1.18",
     "@rn-primitives/avatar": "~1.0.4",
@@ -23,6 +24,7 @@
     "@rn-primitives/portal": "~1.0.3",
     "@rn-primitives/progress": "~1.0.3",
     "@rn-primitives/slot": "~1.0.3",
+    "@rn-primitives/switch": "^1.0.4",
     "@rn-primitives/toggle": "^1.0.4",
     "@rn-primitives/toggle-group": "^1.0.4",
     "@rn-primitives/tooltip": "~1.0.3",
@@ -46,6 +48,8 @@
     "react-native": "0.74.3",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-linear-gradient": "^2.8.3",
+    "react-native-context-menu-view": "^1.16.0",
+    "react-native-modal-datetime-picker": "^18.0.0",
     "react-native-reanimated": "~3.10.1",
     "react-native-safe-area-context": "^4.10.5",
     "react-native-screens": "~3.31.1",
@@ -56,7 +60,8 @@
     "tailwindcss": "3.3.5",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8",
-    "zustand": "^4.4.7"
+    "zustand": "^4.4.7",
+    "expo-image-picker": "~15.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

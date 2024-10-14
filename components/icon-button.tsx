@@ -3,6 +3,7 @@ import React from "react";
 import { Button, ButtonProps } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH, PARAGRAPH_BOLD } from "~/constants/Typography";
+import { PARAGRAPH, PARAGRAPH_BOLD } from "~/constants/Typography";
 import colors from "tailwindcss/colors";
 
 export interface IconButtonProps extends ButtonProps {
@@ -11,6 +12,7 @@ export interface IconButtonProps extends ButtonProps {
   textColor?: string;
   textClassName?: string;
   variant?: keyof typeof IconButtonColor;
+  fontWeight?: "bold" | "normal";
   iconPosition?: "left" | "right";
 }
 
@@ -25,11 +27,12 @@ const IconButtonColor = {
 
 export const IconButton = ({
   icon,
-  text,
+  text = "",
   textColor = "",
   textClassName = "",
   variant = "default",
   iconPosition = "left",
+  fontWeight = "bold",
   className,
   ...props
 }: IconButtonProps) => {
