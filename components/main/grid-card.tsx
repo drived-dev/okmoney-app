@@ -123,7 +123,7 @@ export const GridComponent: React.FC<GridComponentProps> = ({ data }) => {
               <CircularProgress
                 size={80}
                 strokeWidth={12}
-                progress={item.percent ?? 100}
+                progress={Math.round((item.outstanding / item.total) * 100)}
                 maxProgress={100}
                 imageUri={item.profileImage}
               />

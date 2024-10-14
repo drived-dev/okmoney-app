@@ -82,9 +82,9 @@ export const LoanCard = ({ loan }: { loan: Loan }) => {
         <View className="flex-row gap-2 content-center justify-center items-center">
           {/* Progress Bar */}
           <ProgressText
-            textStart="0 บาท"
-            textEnd="200 บาท"
-            percentage={60}
+            textStart={`${loan.outstanding} บาท`}
+            textEnd={`${loan.total} บาท`}
+            percentage={Math.round((loan.outstanding / loan.total) * 100)}
             className="flex-1"
           />
           {/* Due Date */}

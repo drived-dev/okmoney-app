@@ -9,7 +9,7 @@ const demodata: Loan[] = [
     nickname: "บิบิ",
     name: "ธน สมพง",
     status: "รอชำระ",
-    outstanding: 0,
+    outstanding: 400,
     total: 500,
     dueDate: "30/5",
     profileImage:
