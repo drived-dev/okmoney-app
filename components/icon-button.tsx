@@ -4,9 +4,10 @@ import { Button, ButtonProps } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH, PARAGRAPH_BOLD } from "~/constants/Typography";
 import colors from "tailwindcss/colors";
+
 export interface IconButtonProps extends ButtonProps {
-  icon: JSX.Element;
-  text?: string;
+  icon: JSX.Element | number | string; // JSX Element, local image (require), or URL string
+  text: string;
   textColor?: string;
   textClassName?: string;
   variant?: keyof typeof IconButtonColor;
@@ -20,6 +21,7 @@ const IconButtonColor = {
   outline: colors.gray[500],
   secondary: colors.orange,
   green: colors.black,
+  gradient: colors.white,
 };
 
 export const IconButton = ({

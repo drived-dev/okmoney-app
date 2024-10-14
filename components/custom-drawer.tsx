@@ -5,19 +5,22 @@ import { Text } from "~/components/ui/text";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AvatarText } from "./avatar-text";
 import { Image, View } from "react-native";
-import { CONTAINER, FORM, ROW } from "~/constants/Styles";
+import { CONTAINER, GRID } from "~/constants/Styles";
 import { cn } from "~/lib/utils";
 import ProgressText from "./progress-text";
 import { PARAGRAPH } from "~/constants/Typography";
 import { Icon } from "./icon";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { IconButton } from "./icon-button";
+import { Mail, MessageCircle, Phone, User } from "lucide-react-native";
+import { IconButtonDrawer } from "./icon-button-drawer";
 
 export const CustomDrawer = () => {
   return (
-    <View className="h-full  bg-green-400">
+    <View className="h-full pb-10">
       <SafeAreaView className="">
         <View className={cn(CONTAINER, "mx-2")}>
-          <View className={cn(FORM, "")}>
+          <View className={cn(GRID, "")}>
             <AvatarText url="https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"></AvatarText>
             <Text className={cn(PARAGRAPH, "")}>sms ที่ใช้ไปแล้ว</Text>
             <ProgressText
@@ -33,59 +36,42 @@ export const CustomDrawer = () => {
             ></Image>
             <View className="flex flex-col ">
               <View className="flex flex-col gap-2">
-                <TouchableOpacity>
-                  <View
-                    className={cn(
-                      ROW,
-                      "bg-[#E7F7F6] flex flex-row py-4 px-4 rounded-2xl"
-                    )}
-                  >
-                    <Icon name="User" />
-                    <Text>เเก้ไขข้อมูลของคุณ</Text>
-                  </View>
-                </TouchableOpacity>
+                <IconButtonDrawer
+                  variant="green"
+                  icon={<User />}
+                  text="เเก้ไขข้อมูลของคุณ"
+                  textClassName="w-56"
+                  size={"xl"}
+                />
 
-                <TouchableOpacity>
-                  <View
-                    className={cn(
-                      ROW,
-                      "bg-[#E7F7F6] flex flex-row py-4 px-4 rounded-2xl"
-                    )}
-                  >
-                    <Icon name="Mail" />
-                    <Text>เพิ่มช่องทางกู้ข้อมูล</Text>
-                  </View>
-                </TouchableOpacity>
+                <IconButtonDrawer
+                  variant="green"
+                  icon={<Mail />}
+                  text="เพิ่มช่องทางกู้ข้อมูล"
+                  textClassName="w-56"
+                  size={"xl"}
+                />
               </View>
             </View>
           </View>
         </View>
       </SafeAreaView>
-      <View className={cn(CONTAINER, "absolute bottom-2 ")}>
+      <View className={cn(CONTAINER, "mt-auto px-4 flex flex-col")}>
         <View className="flex flex-col gap-2">
-          <TouchableOpacity>
-            <View
-              className={cn(
-                ROW,
-                "bg-[#E7F7F6] flex flex-row py-4 px-4 rounded-2xl"
-              )}
-            >
-              <Icon name="Phone" />
-              <Text>ติดต่อ support</Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <View
-              className={cn(
-                ROW,
-                "bg-[#E7F7F6] flex flex-row py-4 px-4 rounded-2xl"
-              )}
-            >
-              <Icon name="MessageCircle" />
-              <Text>ให้ feedback</Text>
-            </View>
-          </TouchableOpacity>
+          <IconButtonDrawer
+            variant="green"
+            icon={<Phone />}
+            text="ติดต่อ support"
+            textClassName="w-56"
+            size={"xl"}
+          />
+          <IconButtonDrawer
+            variant="green"
+            icon={<MessageCircle />}
+            text="ให้ feedback"
+            textClassName="w-56"
+            size={"xl"}
+          />
         </View>
       </View>
     </View>
