@@ -63,12 +63,9 @@ export const IconButton = ({
       )}
       {...props}
     >
-      <View>{modifiedIcon}</View>
+      <View>{renderIcon(icon)}</View>
       <Text
-        className={cn(
-          fontWeight === "bold" ? PARAGRAPH_BOLD : PARAGRAPH,
-          "min-w-auto text-center"
-        )}
+        className={cn(PARAGRAPH_BOLD, textClassName, "min-w-auto text-center")}
         style={{ color: currentColor }}
       >
         {text}

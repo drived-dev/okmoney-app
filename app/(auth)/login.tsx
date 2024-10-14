@@ -11,7 +11,7 @@ import {
 } from "~/constants/Typography";
 import { IconButton } from "~/components/icon-button";
 import { ArrowRight, Icon } from "lucide-react-native";
-import { CONTAINER, FORM, ROW } from "~/constants/Styles";
+import { CONTAINER, GRID, GRID_ROW } from "~/constants/Styles";
 import { useRouter } from "expo-router";
 import PhoneInput from "~/components/phone-input";
 import { Button } from "~/components/ui/button";
@@ -20,6 +20,8 @@ import { TouchableOpacity } from "react-native";
 
 const index = () => {
   const router = useRouter();
+  const [phoneNumber, setPhoneNumber] = React.useState("");
+  // TODO: implement functionality
   return (
     <View className="h-full">
       <SafeAreaView>
@@ -33,12 +35,12 @@ const index = () => {
             </View>
             <View />
             <View className="flex flex-col gap-3">
-              <View className={cn(FORM, "")}>
+              <View className={cn(GRID)}>
                 <Text className={cn(TITLE, "text-foreground")}>
                   เข้าร่วมผ่านเบอร์
                 </Text>
-                <PhoneInput />
-                <Button>
+                <PhoneInput value={phoneNumber} onChangeText={setPhoneNumber} />
+                <Button onPress={() => router.push("/(tabs)/")}>
                   <Text className={cn(PARAGRAPH_BOLD, "text-background")}>
                     ต่อไป
                   </Text>
