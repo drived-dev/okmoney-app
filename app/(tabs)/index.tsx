@@ -20,6 +20,9 @@ import { IconButton } from "~/components/icon-button";
 import { Plus } from "lucide-react-native";
 import { GridComponent } from "~/components/main/grid-card";
 import useLoanStore from "~/store/use-loan-store";
+import { Button } from "~/components/ui/button";
+import { Icon } from "~/components/icon";
+import { PARAGRAPH_BOLD, LABEL } from "~/constants/Typography";
 
 const Index = () => {
   const [isGridView, setIsGridView] = useState(false); // Toggle between GridView and ListView
@@ -36,7 +39,7 @@ const Index = () => {
     status: 1,
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    limit: 14,
+    limit: 2,
   };
 
   const demodata = loans; // Assuming loans come from the store
@@ -104,20 +107,32 @@ const Index = () => {
                 {loandata.nickname}
               </Text>
             </AvatarText>
-
-            <IconButton
-              onPress={() => router.push("/debtor/create")}
-              className="bg-white"
-              textColor="#E59551"
-              icon={<Plus />}
-              text="เพิ่มลูกหนี้"
-              fontWeight="normal"
-            />
+            <View className="flex flex-row gap-2">
+              {loandata.status !== 0 && (
+                <Button variant={"outline_white"} size={"premium"}>
+                  <View className="flex flex-row gap-2">
+                    <Icon name="Users" color="white" size={24} />
+                    <Icon name="Plus" color="white" size={24} />
+                  </View>
+                </Button>
+              )}
+              <IconButton
+                onPress={() => router.push("/debtor/create")}
+                className="bg-white"
+                textColor="#E59551"
+                icon={<Plus />}
+                text="เพิ่มลูกหนี้"
+                fontWeight="normal"
+              />
+            </View>
           </View>
 
           {/* Searchbar and Theme Toggle */}
           <View
-            className={cn(CONTAINER, "mt-4 bg-background rounded-3xl pt-5")}
+            className={cn(
+              CONTAINER,
+              "mt-4 bg-background rounded-3xl pt-5 flex flex-col gap-5"
+            )}
           >
             <Searchbar
               toggleView={toggleView}
@@ -128,8 +143,19 @@ const Index = () => {
               onToggleChange={setToggleValue} // Sync the toggle filter handler
             />
 
+            {demodata.length > loandata.limit && (
+              <View className="bg-[#A35D2B]/10 justify-between flex flex-row rounded-2xl py-3 items-center px-5 mb-3">
+                <Text className={cn(PARAGRAPH_BOLD, "")}>
+                  ลูกหนี้เต็มสำหรับแพ็คเกจคุณ
+                </Text>
+                <Button className="rounded-full">
+                  <Text className={cn(LABEL, "items-center")}>ดูแพ็คเกจ</Text>
+                </Button>
+              </View>
+            )}
+
             {/* Content Section (Grid/List based on toggle) */}
-            <View className="mt-4">
+            <View className="mt-1">
               {loans.length > 0 ? (
                 isGridView ? (
                   <GridComponent data={visibleData} />
@@ -141,6 +167,14 @@ const Index = () => {
               ) : (
                 <Text>No Loans Available</Text>
               )}
+            </View>
+
+            <View className="flex flex-col justify-center items-center">
+              <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mt-3 px-4">
+                <Text className={cn(PARAGRAPH, "text-green-800")}>
+                  จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
+                </Text>
+              </View>
             </View>
           </View>
         </ScrollView>
