@@ -1,42 +1,42 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { Button } from "../ui/button"; // Assuming you have a Button component
-import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group"; // Assuming you're using a ToggleGroup
-import { cn } from "~/lib/utils"; // Utility function for classnames
+import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
+import { cn } from "~/lib/utils";
 import { PARAGRAPH } from "~/constants/Typography";
-import { Icon } from "../icon"; // Assuming you have an Icon component
-import SeachbarOnly from "./seachbar-only"; // Assuming you have a separate search input component
+import { Icon } from "../icon";
+import SeachbarOnly from "./seachbar-only";
 
 export const Searchbar = ({
   toggleView,
   isGridView,
   onSearch,
-  value, // Synchronized search query
-  toggleValue, // Synchronized toggle filter
-  onToggleChange, // Handler for toggle filter changes
+  value,
+  toggleValue,
+  onToggleChange,
 }: {
   toggleView: () => void;
   isGridView: boolean;
   onSearch: (query: string) => void;
-  value: string; // Value for the search input field
-  toggleValue: string; // The current filter value
-  onToggleChange: (value: string) => void; // Function to change the filter
+  value: string;
+  toggleValue: string;
+  onToggleChange: (value: string) => void;
 }) => {
   const handleSearchChange = (query: string) => {
-    onSearch(query); // Call the parent handler to update the search query
+    onSearch(query);
   };
 
   return (
     <View className="flex flex-col gap-3">
-      {/* SearchbarOnly component for the search input */}
+      {/* Searchbar input */}
       <SeachbarOnly value={value} onChangeText={handleSearchChange} />
 
       {/* Filter and Toggle controls */}
       <View className="flex flex-row justify-between items-center">
         <View className="flex flex-row gap-3">
           <ToggleGroup
-            value={toggleValue} // Sync toggle state with the parent
-            onValueChange={onToggleChange} // Handle filter change
+            value={toggleValue}
+            onValueChange={onToggleChange} // Calls onToggleChange when toggles are changed
             type="single"
           >
             <ToggleGroupItem value="all" aria-label="Toggle all">
