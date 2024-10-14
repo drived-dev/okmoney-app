@@ -23,22 +23,20 @@ import { Plus } from "lucide-react-native";
 import { GridComponent } from "~/components/main/grid-card";
 import { Icon } from "~/components/icon";
 import { useRouter } from "expo-router";
+import useLoanStore from "~/store/use-loan-store";
 
 const screenWidth = Dimensions.get("window").width;
-
-import useLoanStore from "~/store/use-loan-store";
 
 const Index = () => {
   const [isGridView, setIsGridView] = useState(false); // State for toggling between FlatList and GridView
   const flatListRef = useRef(null); // FlatList reference
   const scrollViewRef = useRef(null); // ScrollView reference for Grid
-  // const scrollY = useRef(new Animated.Value(0)).current; // Track the scroll position
 
   const toggleView = () => {
     setIsGridView(!isGridView);
   };
 
-  const loandata = {
+  const creditorData = {
     nickname: "บิ้ง",
     status: 1,
     profileImage:
@@ -52,9 +50,9 @@ const Index = () => {
   }
 
   const visibleData =
-    demodata.length > loandata.limit
-      ? demodata.slice(0, loandata.limit)
-      : demodata;
+    loans.length > creditorData.limit
+      ? loans.slice(0, creditorData.limit)
+      : loans;
 
   const router = useRouter();
   return (
@@ -69,13 +67,13 @@ const Index = () => {
 
       <SafeAreaView style={{ flex: 1 }}>
         <View className={cn(CONTAINER, "justify-between flex flex-row")}>
-          <AvatarText url={loandata.profileImage} title="test">
+          <AvatarText url={creditorData.profileImage} title="test">
             <Text className={cn(PARAGRAPH, "text-primary")}>
-              {loandata.nickname}
+              {creditorData.nickname}
             </Text>
           </AvatarText>
           <View className="flex flex-row gap-2">
-            {loandata.status !== 0 && (
+            {creditorData.status !== 0 && (
               <Button
                 variant={"outline_white"}
                 size={"premium"}
@@ -121,7 +119,7 @@ const Index = () => {
           />
 
           {/* Alert Bar if the number of debtors exceeds the limit */}
-          {demodata.length > loandata.limit && (
+          {loans.length > creditorData.limit && (
             <View className="bg-[#A35D2B]/10 justify-between flex flex-row rounded-2xl py-3 items-center px-5 mb-3">
               <Text className={cn(PARAGRAPH_BOLD, "")}>
                 ลูกหนี้เต็มสำหรับแพ็คเกจคุณ
@@ -151,7 +149,7 @@ const Index = () => {
                 <View className="flex flex-col justify-center items-center">
                   <View className="items-center justify-center rounded-3xl bg-green-100 py-4 px-4">
                     <Text className={cn(PARAGRAPH, "text-green-800")}>
-                      จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
+                      จำนวนลูกหนี้ {loans.length} / {creditorData.limit}
                     </Text>
                   </View>
                 </View>
@@ -176,7 +174,7 @@ const Index = () => {
                   <View className="flex flex-col justify-center items-center">
                     <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mt-3 px-4">
                       <Text className={cn(PARAGRAPH, "text-green-800")}>
-                        จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
+                        จำนวนลูกหนี้ {loans.length} / {creditorData.limit}
                       </Text>
                     </View>
                   </View>
