@@ -39,7 +39,7 @@ const Index = () => {
     status: 1,
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    limit: 2,
+    limit: 4,
   };
 
   const demodata = loans; // Assuming loans come from the store
@@ -47,7 +47,8 @@ const Index = () => {
   // Filtered data based on the search query and toggle filter
   const filteredData = demodata.filter(
     (item) =>
-      (toggleValue === "all" || item.filter === toggleValue) && // Apply toggle filter
+      (toggleValue === "all" ||
+        (toggleValue === "old" && item.tags?.includes("old"))) && // Apply toggle filter
       (item.id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.nickname?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.name?.toLowerCase().includes(searchQuery.toLowerCase()))
