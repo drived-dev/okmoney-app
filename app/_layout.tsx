@@ -86,9 +86,8 @@ export default function RootLayout() {
     // <NavigationContainer independent={true}>
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-
       <Stack
-        initialRouteName="avatar/index"
+        initialRouteName="debtor/create"
         screenOptions={{
           headerShown: false,
         }}
@@ -100,7 +99,7 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
-          name="avatar/index"
+          name="debtor/create/index"
           options={{
             presentation: "formSheet",
           }}

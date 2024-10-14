@@ -48,7 +48,7 @@ export const LoanCard = ({ loan }: { loan: Loan }) => {
                 เลขสัญญา {loan.id}
               </Text>
               {/* Name: Bold nickname, gray full name */}
-              <Text className={cn(PARAGRAPH, "pl-2 text-foreground ")}>
+              <Text className={cn(PARAGRAPH, "pl-2 ")}>
                 {loan.nickname + "  "}
                 <Text className="text-muted-foreground font-ibm text-sm">
                   {loan.name}
@@ -79,7 +79,7 @@ export const LoanCard = ({ loan }: { loan: Loan }) => {
         </View>
 
         {/* Outstanding Amount and Progress Bar with Total Amount on the Right */}
-        <View className="flex-row gap-2 content-center justify-center items-center">
+        <View className="flex-row gap-2 content-center">
           {/* Progress Bar */}
           <ProgressText
             textStart="0 บาท"
@@ -96,31 +96,20 @@ export const LoanCard = ({ loan }: { loan: Loan }) => {
 
       {/* Action Buttons */}
       <View className="flex-row justify-between items-center mt-3 space-x-2 mb- gap-1">
-        {loan.status !== "ครบชำระ" ? (
-          <>
-            {/* Remind Button with Icon */}
-            <IconButton
-              className="flex-1"
-              variant="outline"
-              icon={<Icon name="Send" size={20} />}
-              text="ทวงหนี้"
-            />
+        {/* Remind Button with Icon */}
+        <IconButton
+          className="flex-1"
+          variant="outline"
+          icon={<Icon name="Send" size={20} />}
+          text="ทวงหนี้"
+        />
 
-            {/* Save Button */}
-            <IconButton
-              className="flex-1"
-              icon={<Icon name="NotebookPen" size={20} />}
-              text="บันทึกรายการ"
-            />
-          </>
-        ) : (
-          <IconButton
-            className="flex-1"
-            variant="outline"
-            icon={<Icon name="Send" size={20} />}
-            text="เปิดรายการใหม่"
-          />
-        )}
+        {/* Save Button */}
+        <IconButton
+          className="flex-1"
+          icon={<Icon name="NotebookPen" size={20} />}
+          text="บันทึกรายการ"
+        />
       </View>
     </View>
   );
