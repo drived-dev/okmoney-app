@@ -3,11 +3,10 @@ import React, { useState } from "react";
 import { FlatList, StyleSheet, View, ScrollView, Animated } from "react-native";
 import { Text } from "~/components/ui/text";
 import { ThemeToggle } from "~/components/ThemeToggle";
-import { PARAGRAPH, TITLE, BUTTON } from "~/constants/Typography";
+import { PARAGRAPH, PARAGRAPH_BOLD, LABEL } from "~/constants/Typography";
 import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
-import { StatusBar } from "expo-status-bar";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { CONTAINER } from "~/constants/Styles";
 import { LinearGradient } from "expo-linear-gradient";
 import { LoanCard } from "~/components/main/loan-card";
@@ -15,9 +14,31 @@ import { Searchbar } from "~/components/main/search_bar";
 import { AvatarText } from "~/components/avatar-text";
 import { IconButton } from "~/components/icon-button";
 import { Plus } from "lucide-react-native";
+import { GridComponent } from "~/components/main/grid-card";
+import { Icon } from "~/components/icon";
+import { useRouter } from "expo-router";
 import useLoanStore from "~/store/use-loan-store";
 
+const screenWidth = Dimensions.get("window").width;
+
 const Index = () => {
+  const navigation = useNavigation();
+  const [isGridView, setIsGridView] = useState(false); // State for toggling between FlatList and GridView
+  const flatListRef = useRef(null); // FlatList reference
+  const scrollViewRef = useRef(null); // ScrollView reference for Grid
+
+  const toggleView = () => {
+    setIsGridView(!isGridView);
+  };
+
+  const creditorData = {
+    nickname: "บิ้ง",
+    status: 1,
+    profileImage:
+      "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    limit: 14,
+  };
+
   const loans = useLoanStore((state) => state.loans);
   const [isGradientVisible, setGradientVisible] = useState(true); // State to control background color
   const [isSearchbarSticky, setSearchbarSticky] = useState(false); // State to control sticky searchbar
@@ -52,6 +73,8 @@ const Index = () => {
   };
 
   return (
+    <View className="flex-1">
+      {/* Linear Gradient Background */}
     <View className="flex-1">
       {/* Linear Gradient Background */}
       <LinearGradient

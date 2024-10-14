@@ -5,13 +5,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH, TITLE } from "~/constants/Typography";
 interface AvatarText extends ViewProps {
-  url: string;
+  url?: string;
   title?: string;
   children?: JSX.Element;
 }
 export const AvatarText = ({
   url,
-  title = "สวัสดี",
+  title,
   children,
   className,
   ...props
