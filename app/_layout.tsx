@@ -88,13 +88,13 @@ export default function RootLayout() {
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
 
       <Stack
-        initialRouteName="avatar/index"
+        initialRouteName="(auth)/index"
         screenOptions={{
           headerShown: false,
         }}
       >
         <Stack.Screen
-          name="(tabs)"
+          name="(auth)/index"
           options={{
             headerShown: false,
           }}

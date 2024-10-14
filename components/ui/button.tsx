@@ -20,6 +20,7 @@ const buttonVariants = cva(
         link: "web:underline-offset-4 web:hover:underline web:focus:underline ",
         outline_white:
           "border border-white bg-transparent web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent",
+        green: "bg-[#E7F7F6] web:hover:opacity-90 active:opacity-90",
       },
       size: {
         default: "h-10 px-4 py-2 native:h-12 native:px-5 native:py-3",
@@ -54,6 +55,7 @@ const buttonTextVariants = cva(
         ghost: "group-active:text-accent-foreground",
         link: "text-primary group-active:underline",
         outline_white: "group-active:text-white",
+        green: "group-active:text-black",
       },
       size: {
         default: "",

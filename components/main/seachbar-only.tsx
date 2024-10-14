@@ -1,33 +1,31 @@
-import { Text, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 import React from "react";
-import { Input } from "~/components/ui/input";
-import { Button } from "~/components/ui/button";
-import { cn } from "~/lib/utils";
-import { PARAGRAPH, PARAGRAPH_BOLD } from "~/constants/Typography";
+import { Input } from "~/components/ui/input"; // Assuming you are using this component for a stylized input
 import Toast from "react-native-toast-message";
 import { Icon } from "../icon";
 
 export function decodePhoneNumber(input: string) {
-  // TODO: turn phone number to usable data
+  // Convert phone number to usable data (logic to be added if needed)
   return input;
 }
 
-const Seachbaronly = React.forwardRef<
-  React.ElementRef<typeof TextInput>,
-  React.ComponentPropsWithoutRef<typeof TextInput>
->(({ onChange, value, ...props }, ref) => {
-  const [countryCode, setCountryCode] = React.useState("66");
-
+const SeachbarOnly = ({
+  value,
+  onChangeText,
+}: {
+  value: string;
+  onChangeText: (text: string) => void;
+}) => {
   const formatPhoneNumber = (input: string | undefined) => {
-    if (value == undefined) return input;
+    if (input === undefined) return input;
 
-    if (input == "0") {
-      // TODO: change info text
+    if (input === "0") {
+      // Show a toast notification for some input (optional behavior)
       Toast.show({
         type: "info",
         position: "bottom",
-        text1: "Hello",
-        text2: "This is some something 👋",
+        text1: "Info",
+        text2: "Number formatted!",
       });
     }
 
@@ -41,20 +39,17 @@ const Seachbaronly = React.forwardRef<
   };
 
   return (
-    <View className="flex gap-2 flex-row items-stretch">
-      <View className="flex-1 flex-row gap-2 items-center rounded-xl  bg-input px-5">
-        <Icon name="Search"></Icon>
-        <Input
-          className="flex-1 bg-transparent border-transparent px-0"
-          placeholder="ค้นหา"
-          value={formatPhoneNumber(value)}
-          keyboardType="default"
-          maxLength={30}
-          {...props}
-        />
-      </View>
+    <View className="flex flex-row gap-2 items-center rounded-xl bg-input px-5">
+      <Icon name="Search" />
+      <Input
+        className="flex-1 bg-transparent border-transparent px-0"
+        placeholder="ค้นหา" // Thai for "Search"
+        value={value} // Format the value if needed
+        onChangeText={onChangeText} // Correct prop for handling text changes
+        maxLength={30}
+      />
     </View>
   );
-});
+};
 
-export default Seachbaronly;
+export default SeachbarOnly;
