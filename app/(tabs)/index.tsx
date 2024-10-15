@@ -210,7 +210,15 @@ const Index = () => {
                     ยกเลิก
                   </Text>
                 </Button>
-                <Button variant="destructive" size={"xl"} className="flex-1">
+                <Button
+                  variant="destructive"
+                  size={"xl"}
+                  className="flex-1"
+                  onPress={() => {
+                    console.log({ tagvalue, statusvalue }); // Log the values of tagvalue and statusvalue
+                    setDrawerOpen(false); // Close the drawer after logging the values
+                  }}
+                >
                   <Text className={cn(PARAGRAPH_BOLD, "items-center")}>
                     ตกลง
                   </Text>
