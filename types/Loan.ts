@@ -7,5 +7,5 @@ export interface Loan {
   total: number;
   dueDate: string;
   profileImage: string;
-  percent?: number; // New property for the progress percentage
+  tags?: string[];
 }
