@@ -119,7 +119,7 @@ const Index = () => {
                 </Button>
               )}
               <IconButton
-                onPress={() => router.push("/debtor/create")}
+                onPress={() => router.push("/term-and-service")}
                 className="bg-white"
                 textColor="#E59551"
                 icon={<Plus />}
