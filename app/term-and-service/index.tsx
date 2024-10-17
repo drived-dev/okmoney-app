@@ -1,5 +1,5 @@
-import { View, SafeAreaView, ScrollView } from "react-native";
-import React from "react";
+import { View, SafeAreaView, ScrollView, LayoutAnimation } from "react-native";
+import React, { useState } from "react";
 import { cn } from "~/lib/utils";
 import { CONTAINER } from "~/constants/Styles";
 import { Text } from "~/components/ui/text";
@@ -23,12 +23,28 @@ const demodata: Term = {
 };
 
 const index = () => {
+  const [showCard, setShowCard] = useState(false);
+
+  const handleScroll = ({ nativeEvent }) => {
+    const { layoutMeasurement, contentOffset, contentSize } = nativeEvent;
+    const isScrolledToBottom =
+      layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
+
+    if (isScrolledToBottom && !showCard) {
+      LayoutAnimation.easeInEaseOut(); // Add animation for smooth appearance
+      setShowCard(true);
+    }
+  };
+
   return (
     <View className="h-full">
       <SafeAreaView>
-        <ScrollView>
+        <ScrollView
+          onScroll={handleScroll}
+          scrollEventThrottle={16} // Controls scroll event frequency
+        >
           <View className={cn(CONTAINER, "px-8")}>
-            <View className=" flex flex-col gap-4">
+            <View className="flex flex-col gap-4">
               <View className="flex flex-col gap-1">
                 <Text className={cn(TITLE, "")}>
                   กรุณาพิจรณา{"\n"}นโยบายความเป็นส่วนตัว
@@ -47,33 +63,36 @@ const index = () => {
           </View>
         </ScrollView>
       </SafeAreaView>
-      <View className="mt-auto justify-center items-center pb-10">
-        <Card className="w-full max-w-sm">
-          <View className="px-4 pt-4 pb-2">
-            <CardDescription className={cn(PARAGRAPH, "text-foreground")}>
-              จากการกด “ยินยอม” เเปลว่าคุณได้ยอมรับเงื้อนไขการ ใช้งานของ Ok
-              Money
-            </CardDescription>
-          </View>
 
-          <CardFooter className="justify-between">
-            <IconButton
-              icon={<ArrowLeft />}
-              variant="green"
-              size={"icon-lg"}
-              className="items-center"
-            />
+      {showCard && (
+        <View className="mt-auto justify-center items-center pb-10">
+          <Card className="w-full max-w-sm">
+            <View className="px-4 pt-4 pb-2">
+              <CardDescription className={cn(PARAGRAPH, "text-foreground")}>
+                จากการกด “ยินยอม” เเปลว่าคุณได้ยอมรับเงื้อนไขการใช้งานของ Ok
+                Money
+              </CardDescription>
+            </View>
 
-            <IconButton
-              icon={<ArrowRight />}
-              text="ยอมรับ"
-              variant="default"
-              className="items-center"
-              iconPosition="right"
-            />
-          </CardFooter>
-        </Card>
-      </View>
+            <CardFooter className="justify-between">
+              <IconButton
+                icon={<ArrowLeft />}
+                variant="green"
+                size={"icon-lg"}
+                className="items-center"
+              />
+
+              <IconButton
+                icon={<ArrowRight />}
+                text="ยอมรับ"
+                variant="default"
+                className="items-center"
+                iconPosition="right"
+              />
+            </CardFooter>
+          </Card>
+        </View>
+      )}
     </View>
   );
 };
