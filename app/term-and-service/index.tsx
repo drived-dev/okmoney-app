@@ -10,11 +10,10 @@ import {
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
 } from "~/components/ui/card";
 import { ArrowLeft, ArrowRight } from "lucide-react-native";
 import { IconButton } from "~/components/icon-button";
+import { useRouter } from "expo-router"; // Assuming you're using Expo Router
 
 const demodata: Term = {
   description:
@@ -23,16 +22,24 @@ const demodata: Term = {
 };
 
 const index = () => {
-  const [showCard, setShowCard] = useState(false);
+  const [isBottomReached, setIsBottomReached] = useState(false);
+  const router = useRouter(); // Using Expo Router for navigation
 
   const handleScroll = ({ nativeEvent }) => {
     const { layoutMeasurement, contentOffset, contentSize } = nativeEvent;
     const isScrolledToBottom =
       layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
 
-    if (isScrolledToBottom && !showCard) {
-      LayoutAnimation.easeInEaseOut(); // Add animation for smooth appearance
-      setShowCard(true);
+    // Once scrolled to bottom, allow navigation
+    if (isScrolledToBottom && !isBottomReached) {
+      LayoutAnimation.easeInEaseOut();
+      setIsBottomReached(true);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (isBottomReached) {
+      router.push("/(tabs)"); // Replace with your next page route
     }
   };
 
@@ -64,35 +71,35 @@ const index = () => {
         </ScrollView>
       </SafeAreaView>
 
-      {showCard && (
-        <View className="mt-auto justify-center items-center pb-10">
-          <Card className="w-full max-w-sm">
-            <View className="px-4 pt-4 pb-2">
-              <CardDescription className={cn(PARAGRAPH, "text-foreground")}>
-                จากการกด “ยินยอม” เเปลว่าคุณได้ยอมรับเงื้อนไขการใช้งานของ Ok
-                Money
-              </CardDescription>
-            </View>
+      {/* Card is always visible */}
+      <View className="mt-auto justify-center items-center pb-10">
+        <Card className="w-full max-w-sm">
+          <View className="px-4 pt-4 pb-2">
+            <CardDescription className={cn(PARAGRAPH, "text-foreground")}>
+              จากการกด “ยินยอม” เเปลว่าคุณได้ยอมรับเงื้อนไขการใช้งานของ Ok Money
+            </CardDescription>
+          </View>
 
-            <CardFooter className="justify-between">
-              <IconButton
-                icon={<ArrowLeft />}
-                variant="green"
-                size={"icon-lg"}
-                className="items-center"
-              />
+          <CardFooter className="justify-between">
+            <IconButton
+              icon={<ArrowLeft />}
+              variant="green"
+              size={"icon-lg"}
+              className="items-center"
+            />
 
-              <IconButton
-                icon={<ArrowRight />}
-                text="ยอมรับ"
-                variant="default"
-                className="items-center"
-                iconPosition="right"
-              />
-            </CardFooter>
-          </Card>
-        </View>
-      )}
+            <IconButton
+              icon={<ArrowRight />}
+              text="ยอมรับ"
+              // The button starts green and only changes to "default" after reaching the bottom
+              variant={isBottomReached ? "default" : "outline"}
+              className="items-center"
+              iconPosition="right"
+              onPress={handleNextPage}
+            />
+          </CardFooter>
+        </Card>
+      </View>
     </View>
   );
 };
