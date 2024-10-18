@@ -7,7 +7,7 @@ import colors from "tailwindcss/colors";
 
 export interface IconButtonProps extends ButtonProps {
   icon: JSX.Element | number | string; // JSX Element, local image (require), or URL string
-  text: string;
+  text?: string;
   textColor?: string;
   textClassName?: string;
   variant?: keyof typeof IconButtonColor;
