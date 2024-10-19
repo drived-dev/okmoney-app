@@ -8,6 +8,7 @@ import { Loan } from "~/types/Loan";
 import ProgressText from "~/components/progress-text";
 import { IconButton } from "~/components/icon-button";
 import colors from "tailwindcss/colors";
+import { LoanCardMenu } from "./loan-card-menu";
 
 const statusColorsbg: Record<string, string> = {
   ค้างชำระ: "bg-red-500", // Overdue
@@ -72,9 +73,7 @@ export const LoanCard = ({ loan }: { loan: Loan }) => {
               </Text>
             </View>
 
-            <Button variant="ghost" size={"icon"}>
-              <Icon name="Ellipsis" size={24} color={colors.gray[500]} />
-            </Button>
+            <LoanCardMenu />
           </View>
         </View>
 
