@@ -5,8 +5,9 @@ import {
   Animated,
   Pressable,
   TouchableOpacity,
+  Platform,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CONTAINER, GRID_ROW, GRID } from "~/constants/Styles";
 import { cn } from "~/lib/utils";
 import { X, Users, MessageSquare, PieChart, Check } from "lucide-react-native";
@@ -14,6 +15,23 @@ import { Button } from "~/components/ui/button";
 import { black } from "tailwindcss/colors";
 import { router } from "expo-router";
 import { LABEL, PARAGRAPH, TITLE } from "~/constants/Typography";
+import * as RNIap from "react-native-iap";
+
+// Define the in-app purchase product IDs for each platform
+const productIds = Platform.select({
+  ios: ["com.yourapp.productid.ios"], // Replace with your actual iOS product ID
+  android: ["com.yourapp.productid.android"], // Replace with your actual Android product ID
+});
+
+// Initialize the in-app purchase connection
+const initializeIAPConnection = async () => {
+  try {
+    await RNIap.initConnection();
+    console.log("IAP connection initialized");
+  } catch (err) {
+    console.error("Error initializing IAP connection:", err);
+  }
+};
 
 // Define the interface for a feature
 interface Feature {
@@ -41,11 +59,9 @@ const ItemList: React.FC<ItemListProps> = ({
   selected,
   onPress,
 }) => {
-  // Animate scale on selection
   const scaleValue = new Animated.Value(selected ? 1.05 : 1);
 
-  // Run animation when selected changes
-  React.useEffect(() => {
+  useEffect(() => {
     Animated.timing(scaleValue, {
       toValue: selected ? 1.05 : 1, // More subtle scaling
       duration: 300, // Smooth animation
@@ -63,14 +79,12 @@ const ItemList: React.FC<ItemListProps> = ({
           "relative flex flex-row justify-between w-full bg-slate-300 px-4 py-4 rounded-2xl"
         )}
       >
-        {/* Conditionally render the Recommended badge */}
         {recommended && (
           <View className="absolute top-0 left-0 bg-red-500 rounded-full px-3 py-1 z-10 transform -translate-y-1/2 translate-x-2">
             <Text className="text-white font-bold">Recommended</Text>
           </View>
         )}
 
-        {/* Conditionally render the checkmark icon on top right when selected */}
         {selected && (
           <View className="absolute top-0 right-0 bg-green-500 rounded-full p-1 z-10 transform -translate-y-2 translate-x-2">
             <Check color={"white"} size={16} />
@@ -101,13 +115,12 @@ const ItemList: React.FC<ItemListProps> = ({
 };
 
 const index: React.FC = () => {
-  // State to manage selected package and its details
   const [selectedPackageDetails, setSelectedPackageDetails] = useState<{
     packageName: string;
     price: number;
   } | null>(null);
 
-  // Data for packages with the recommended property
+  // Data for packages
   const packages = [
     {
       packageName: "เล็ก",
@@ -153,18 +166,33 @@ const index: React.FC = () => {
     },
   ];
 
-  // Handle selection of an item
+  useEffect(() => {
+    initializeIAPConnection(); // Initialize IAP on component mount
+  }, []);
+
   const handleSelectPackage = (pkg: { packageName: string; price: number }) => {
     setSelectedPackageDetails(
       pkg.packageName === selectedPackageDetails?.packageName ? null : pkg
     );
   };
 
-  // Handle button press and log selected package details
-  const handleButtonPress = () => {
-    if (selectedPackageDetails) {
-      console.log(`Selected Package: ${selectedPackageDetails.packageName}`);
-      console.log(`Price: ฿${selectedPackageDetails.price}`);
+  // Handle in-app purchase
+  const handleButtonPress = async () => {
+    try {
+      if (!productIds || !selectedPackageDetails) {
+        console.error("Product ID or package details missing");
+        return;
+      }
+
+      const products = await RNIap.getProducts(productIds);
+      if (products.length > 0) {
+        const purchase = await RNIap.requestPurchase(productIds[0]);
+        console.log("Purchase successful:", purchase.transactionId);
+        alert("Success");
+      }
+    } catch (err) {
+      console.error("Error with purchase:", err);
+      alert("Fail");
     }
   };
 
@@ -194,8 +222,8 @@ const index: React.FC = () => {
                   recommended={pkg.recommended}
                   selected={
                     selectedPackageDetails?.packageName === pkg.packageName
-                  } // Check if selected
-                  onPress={() => handleSelectPackage(pkg)} // Handle press
+                  }
+                  onPress={() => handleSelectPackage(pkg)}
                 />
               ))}
             </View>
@@ -206,8 +234,8 @@ const index: React.FC = () => {
       {/* Bottom button */}
       <View className="p-5 pb-10">
         <TouchableOpacity
-          disabled={!selectedPackageDetails} // Disable button if no package is selected
-          onPress={handleButtonPress} // Log the selected package details when pressed
+          disabled={!selectedPackageDetails}
+          onPress={handleButtonPress}
           className={cn(
             "rounded-lg p-4 items-center",
             selectedPackageDetails ? "bg-orange-500" : "bg-gray-300"
