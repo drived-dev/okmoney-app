@@ -86,6 +86,7 @@ const index = () => {
               variant="green"
               size={"icon-lg"}
               className="items-center"
+              onPress={() => router.back()}
             />
 
             <IconButton
