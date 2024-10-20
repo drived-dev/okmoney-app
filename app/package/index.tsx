@@ -180,8 +180,10 @@ const index: React.FC = () => {
             <X color={black} />
           </Button>
 
-          <View className="items-center justify-center px-2">
-            <Text className={cn(TITLE, "")}>เลือกแพคเกจ</Text>
+          <View className="items-center justify-center px-2 flex flex-col gap-2">
+            <View>
+              <Text className={cn(TITLE, "")}>เลือกแพคเกจ</Text>
+            </View>
             <View className={cn(GRID, "")}>
               {packages.map((pkg, index) => (
                 <ItemList
