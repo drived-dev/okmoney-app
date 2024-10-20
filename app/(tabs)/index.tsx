@@ -6,6 +6,7 @@ import {
   ScrollView,
   Animated,
   Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import { Text } from "~/components/ui/text";
 import { PARAGRAPH } from "~/constants/Typography";
@@ -34,6 +35,7 @@ const Index = () => {
 
   const scrollViewRef = useRef(null); // ScrollView reference
   const loans = useLoanStore((state) => state.loans);
+  const navigation = useNavigation();
 
   const loandata = {
     nickname: "บิ้ง",
@@ -101,14 +103,16 @@ const Index = () => {
         >
           {/* Avatar and Add Button */}
           <View className={cn(CONTAINER, "justify-between flex flex-row")}>
-            <AvatarText
-              url="https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
-              title="test"
-            >
-              <Text className={cn(PARAGRAPH, "text-primary")}>
-                {loandata.nickname}
-              </Text>
-            </AvatarText>
+            <TouchableOpacity onPress={() => navigation.openDrawer()}>
+              <AvatarText
+                url="https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
+                title="test"
+              >
+                <Text className={cn(PARAGRAPH, "text-primary")}>
+                  {loandata.nickname}
+                </Text>
+              </AvatarText>
+            </TouchableOpacity>
             <View className="flex flex-row gap-2">
               {loandata.status !== 0 && (
                 <Button variant={"outline_white"} size={"premium"}>
