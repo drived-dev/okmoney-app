@@ -65,13 +65,19 @@ const Index = () => {
       statusValue.forEach((status) => addTag(status));
     }
 
+    console.log(tags);
+
     // If toggleValue is "filter", apply tag and status filtering
     if (toggleValue === "filter") {
       const filtered = loans
         .slice(0, loandata.limit) // Apply the limit first
         .filter((loan) => {
           const matchesTag =
-            tags.length === 0 || loan.tags?.some((tag) => tags.includes(tag));
+            tags.length === 0 ||
+            (loan.tags?.some((tag) => tags.includes(tag)) &&
+              tags.length === 0) ||
+            loan.tags?.some((status) => tags.includes(status));
+
           return matchesTag; // We can add status filtering as well if needed
         });
       setVisibleLoans(filtered);
