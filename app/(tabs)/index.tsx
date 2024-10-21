@@ -1,3 +1,4 @@
+import { Link, router, useNavigation } from "expo-router";
 import React, { useRef, useState } from "react";
 import { StyleSheet, View, ScrollView, Animated } from "react-native";
 import { Text } from "~/components/ui/text";
@@ -13,31 +14,27 @@ import { IconButton } from "~/components/icon-button";
 import { Plus } from "lucide-react-native";
 import { GridComponent } from "~/components/main/grid-card";
 import useLoanStore from "~/store/use-loan-store";
-import useFilterStore from "~/store/use-filter-store"; // Import the filter store
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/icon";
 import { Drawer } from "react-native-drawer-layout";
-import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
+import {
+  ToggleGroup,
+  ToggleGroupIcon,
+  ToggleGroupItem,
+} from "~/components/ui/toggle-group";
 
 const Index = () => {
+  const [tagvalue, settagValue] = React.useState<string[]>([]);
+  const [statusvalue, setstatusValue] = React.useState<string[]>([]);
   const [isGridView, setIsGridView] = useState(false); // Toggle between GridView and ListView
-  const [searchQuery, setSearchQuery] = useState(""); // Search state
+  const [searchQuery, setSearchQuery] = useState(""); // Search state, shared by both search bars
   const [toggleValue, setToggleValue] = useState("all"); // Filter toggle status, shared by both search bars
   const [isGradientVisible, setGradientVisible] = useState(true); // Gradient control
   const [isSearchbarSticky, setSearchbarSticky] = useState(false); // Sticky search bar control
   const [isDrawerOpen, setDrawerOpen] = useState(false); // Drawer open/close state
 
   const scrollViewRef = useRef(null); // ScrollView reference
-  const loans = useLoanStore((state) => state.loans); // Fetch loans from the loan store
-
-  // Use filter store to manage tagvalue and statusvalue
-  const {
-    tagvalue,
-    statusvalue,
-    addValue, // Make sure addValue is being correctly used
-    deleteValue,
-    clearValues,
-  } = useFilterStore();
+  const loans = useLoanStore((state) => state.loans);
 
   const loandata = {
     nickname: "บิ้ง",
@@ -49,27 +46,30 @@ const Index = () => {
 
   const demodata = loans; // Assuming loans come from the store
 
-  // Filtered data based on the search query, selected tags, and status
+  // Filtered data based on the search query and toggle filter
   const filteredData = demodata.filter((item) => {
-    // Apply tag filter if tags are selected
-    const tagMatch =
-      tagvalue.length === 0 || tagvalue.some((tag) => item.tags.includes(tag));
+    // Apply toggle filter logic
+    const toggleMatch =
+      toggleValue === "all" || // Show all items when 'all' is selected
+      (toggleValue === "old" && item.tags?.includes("old")) || // Filter for 'old' tag
+      (toggleValue === "filter" &&
+        // Check if tagvalue is an array and filter accordingly
+        (tagvalue.length === 0 ||
+          tagvalue.some((tag) => item.tags?.includes(tag))) &&
+        // Check if statusvalue is an array and filter accordingly
+        (statusvalue.length === 0 ||
+          statusvalue.some((status) => item.status === status)));
 
-    // Apply status filter if statuses are selected
-    const statusMatch =
-      statusvalue.length === 0 || statusvalue.includes(item.status);
-
-    // Apply search filter
+    // Apply search filter (searching in id, nickname, or name)
     const searchMatch =
       item.id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.nickname?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.name?.toLowerCase().includes(searchQuery.toLowerCase());
 
-    // Return true only if the loan matches all the conditions
-    return tagMatch && statusMatch && searchMatch;
+    // Return true only if both toggle filter and search filter match
+    return toggleMatch && searchMatch;
   });
 
-  // Visible data is restricted to the limit of the loan data
   const visibleData =
     filteredData.length > loandata.limit
       ? filteredData.slice(0, loandata.limit)
@@ -97,7 +97,7 @@ const Index = () => {
       open={isDrawerOpen}
       onOpen={() => setDrawerOpen(true)}
       onClose={() => setDrawerOpen(false)}
-      drawerPosition="right"
+      drawerPosition="right" // Drawer opens from the right side
       renderDrawerContent={() => {
         return (
           <View className={cn(CONTAINER, "bg-background h-full ")}>
@@ -114,12 +114,12 @@ const Index = () => {
                     <View>
                       <ToggleGroup
                         value={tagvalue}
-                        onValueChange={(value) => addValue("tag", [value])} // Add tag
+                        onValueChange={settagValue}
                         type="single"
                         className="flex flex-col gap-2"
                       >
                         <ToggleGroupItem
-                          value="friend"
+                          value="friends"
                           aria-label="Toggle all"
                           className="w-full"
                         >
@@ -159,7 +159,7 @@ const Index = () => {
                   <View>
                     <ToggleGroup
                       value={statusvalue}
-                      onValueChange={(value) => addValue("status", [value])} // Add status
+                      onValueChange={setstatusValue}
                       type="single"
                       className="flex flex-col gap-2"
                     >
@@ -210,40 +210,35 @@ const Index = () => {
                   </View>
                 </View>
               </View>
-
-              <View className={cn(CONTAINER, "mt-auto px-4 w-full")}>
-                <View className="flex flex-row gap-2 ">
-                  <Button
-                    variant="outline"
-                    size={"xl"}
-                    onPress={() => setDrawerOpen(false)} // Close the drawer on cancel
-                  >
-                    <Text className={cn(PARAGRAPH_BOLD, "items-center")}>
-                      ยกเลิก
-                    </Text>
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    size={"xl"}
-                    className="flex-1"
-                    onPress={() => {
-                      // Add the selected tagvalue and statusvalue to the store
-                      if (tagvalue.length > 0) {
-                        addValue("tag", tagvalue);
-                      }
-                      if (statusvalue.length > 0) {
-                        addValue("status", statusvalue);
-                      }
-                      setDrawerOpen(false); // Close the drawer
-                    }}
-                  >
-                    <Text className={cn(PARAGRAPH_BOLD, "items-center")}>
-                      ตกลง
-                    </Text>
-                  </Button>
-                </View>
-              </View>
             </SafeAreaView>
+
+            <View className={cn(CONTAINER, "mt-auto px-4 w-full")}>
+              <View className="flex flex-row gap-2 ">
+                <Button
+                  variant="outline"
+                  size={"xl"}
+                  className=""
+                  onPress={() => setDrawerOpen(false)}
+                >
+                  <Text className={cn(PARAGRAPH_BOLD, "items-center")}>
+                    ยกเลิก
+                  </Text>
+                </Button>
+                <Button
+                  variant="destructive"
+                  size={"xl"}
+                  className="flex-1"
+                  onPress={() => {
+                    console.log({ tagvalue, statusvalue }); // Log the values of tagvalue and statusvalue
+                    setDrawerOpen(false); // Close the drawer after logging the values
+                  }}
+                >
+                  <Text className={cn(PARAGRAPH_BOLD, "items-center")}>
+                    ตกลง
+                  </Text>
+                </Button>
+              </View>
+            </View>
           </View>
         );
       }}
@@ -261,12 +256,13 @@ const Index = () => {
           style={styles.gradientBackground}
         />
 
-        <SafeAreaView>
+        <SafeAreaView className="">
+          {/* ScrollView to handle scrolling */}
           <ScrollView
             ref={scrollViewRef}
             onScroll={handleScroll}
             scrollEventThrottle={16}
-            contentContainerStyle={{ paddingBottom: 150 }}
+            contentContainerStyle={{ paddingBottom: 150 }} // Ensure proper padding at the bottom
           >
             {/* Avatar and Add Button */}
             <View className={cn(CONTAINER, "justify-between flex flex-row")}>
@@ -298,6 +294,7 @@ const Index = () => {
               </View>
             </View>
 
+            {/* Searchbar and Theme Toggle */}
             <View
               className={cn(
                 CONTAINER,
@@ -307,15 +304,15 @@ const Index = () => {
               <Searchbar
                 toggleView={toggleView}
                 isGridView={isGridView}
-                onSearch={setSearchQuery}
-                value={searchQuery}
-                toggleValue={toggleValue}
+                onSearch={setSearchQuery} // Sync the search query with the parent
+                value={searchQuery} // Pass the search query to keep it synchronized
+                toggleValue={toggleValue} // Sync the toggle filter value
                 onToggleChange={(value) => {
                   if (value === "filter") {
                     setDrawerOpen(true); // Open drawer on filter toggle
                   }
                   setToggleValue(value);
-                }}
+                }} // Sync the toggle filter handler
               />
 
               {demodata.length > loandata.limit && (
@@ -354,6 +351,7 @@ const Index = () => {
             </View>
           </ScrollView>
 
+          {/* Conditionally Sticky Searchbar */}
           {isSearchbarSticky && (
             <Animated.View
               className={cn(
@@ -368,10 +366,10 @@ const Index = () => {
               <Searchbar
                 toggleView={toggleView}
                 isGridView={isGridView}
-                onSearch={setSearchQuery}
-                value={searchQuery}
-                toggleValue={toggleValue}
-                onToggleChange={setToggleValue}
+                onSearch={setSearchQuery} // Sync the search query with the parent
+                value={searchQuery} // Pass the search query to keep it synchronized
+                toggleValue={toggleValue} // Sync the toggle filter value
+                onToggleChange={setToggleValue} // Sync the toggle filter handler
               />
             </Animated.View>
           )}
