@@ -1,5 +1,5 @@
 import { Link, router, useNavigation } from "expo-router";
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -17,15 +17,41 @@ import { LoanCard } from "~/components/main/loan-card";
 import { Searchbar } from "~/components/main/search_bar";
 import { AvatarText } from "~/components/avatar-text";
 import { IconButton } from "~/components/icon-button";
-import { Plus } from "lucide-react-native";
+import { NotebookPen, Plus } from "lucide-react-native";
 import { GridComponent } from "~/components/main/grid-card";
 import useLoanStore from "~/store/use-loan-store";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/icon";
 import { PARAGRAPH_BOLD, LABEL } from "~/constants/Typography";
-import { Drawer } from "react-native-drawer-layout";
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Form } from "~/components/form";
+import { Textarea } from "~/components/ui/textarea";
+import { useForm, Controller } from "react-hook-form";
+import { FormLabel, FormItem, FormMessage } from "~/components/form";
+import { TITLE } from "~/constants/Typography";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "~/components/ui/input";
+import MemoSheet from "~/components/main/memo-sheet";
+
+const amountMemoSchema = z.object({
+  amount: z.string().max(100).optional(),
+  // image: z.array(z.string()).optional(),
+});
 
 const Index = () => {
+  const {
+    control,
+    formState: { errors },
+  } = useForm<z.infer<typeof amountMemoSchema>>({
+    resolver: zodResolver(amountMemoSchema),
+  });
+
   const [isGridView, setIsGridView] = useState(false); // Toggle between GridView and ListView
   const [searchQuery, setSearchQuery] = useState(""); // Search state, shared by both search bars
   const [toggleValue, setToggleValue] = useState("all"); // Filter toggle status, shared by both search bars
@@ -76,135 +102,151 @@ const Index = () => {
   const toggleView = () => {
     setIsGridView(!isGridView);
   };
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  // callbacks
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
 
   return (
-    <View className="flex-1">
-      {/* Linear Gradient Background */}
-      <LinearGradient
-        colors={
-          isGradientVisible
-            ? ["#F3D791", "#DF9C59", "#FD954B"]
-            : ["#FFFFFF", "#FFFFFF", "#FFFFFF"] // Change to bg-background when scrolled
-        }
-        start={{ x: 1, y: -0.4 }}
-        end={{ x: 0, y: 0.5 }}
-        style={styles.gradientBackground}
-      />
+    <BottomSheetModalProvider>
+      <View className="flex-1">
+        {/* Linear Gradient Background */}
+        <LinearGradient
+          colors={
+            isGradientVisible
+              ? ["#F3D791", "#DF9C59", "#FD954B"]
+              : ["#FFFFFF", "#FFFFFF", "#FFFFFF"] // Change to bg-background when scrolled
+          }
+          start={{ x: 1, y: -0.4 }}
+          end={{ x: 0, y: 0.5 }}
+          style={styles.gradientBackground}
+        />
 
-      <SafeAreaView className="">
-        {/* ScrollView to handle scrolling */}
-        <ScrollView
-          ref={scrollViewRef}
-          onScroll={handleScroll}
-          scrollEventThrottle={16}
-          contentContainerStyle={{ paddingBottom: 150 }} // Ensure proper padding at the bottom
-        >
-          {/* Avatar and Add Button */}
-          <View className={cn(CONTAINER, "justify-between flex flex-row")}>
-            <AvatarText
-              url="https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
-              title="test"
+        <SafeAreaView className="">
+          {/* ScrollView to handle scrolling */}
+          <ScrollView
+            ref={scrollViewRef}
+            onScroll={handleScroll}
+            scrollEventThrottle={16}
+            contentContainerStyle={{ paddingBottom: 150 }} // Ensure proper padding at the bottom
+          >
+            {/* Avatar and Add Button */}
+            <View className={cn(CONTAINER, "justify-between flex flex-row")}>
+              <AvatarText
+                url="https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
+                title="test"
+              >
+                <Text className={cn(PARAGRAPH, "text-primary")}>
+                  {loandata.nickname}
+                </Text>
+              </AvatarText>
+              <View className="flex flex-row gap-2">
+                {loandata.status !== 0 && (
+                  <Button variant={"outline_white"} size={"premium"}>
+                    <View className="flex flex-row gap-2">
+                      <Icon name="Users" color="white" size={24} />
+                      <Icon name="Plus" color="white" size={24} />
+                    </View>
+                  </Button>
+                )}
+                <IconButton
+                  onPress={() => router.push("/term-and-service")}
+                  className="bg-white"
+                  textColor="#E59551"
+                  icon={<Plus />}
+                  text="เพิ่มลูกหนี้"
+                  fontWeight="normal"
+                />
+              </View>
+            </View>
+
+            {/* Searchbar and Theme Toggle */}
+            <View
+              className={cn(
+                CONTAINER,
+                "mt-4 bg-background rounded-3xl pt-5 flex flex-col gap-5"
+              )}
             >
-              <Text className={cn(PARAGRAPH, "text-primary")}>
-                {loandata.nickname}
-              </Text>
-            </AvatarText>
-            <View className="flex flex-row gap-2">
-              {loandata.status !== 0 && (
-                <Button variant={"outline_white"} size={"premium"}>
-                  <View className="flex flex-row gap-2">
-                    <Icon name="Users" color="white" size={24} />
-                    <Icon name="Plus" color="white" size={24} />
-                  </View>
-                </Button>
-              )}
-              <IconButton
-                onPress={() => router.push("/term-and-service")}
-                className="bg-white"
-                textColor="#E59551"
-                icon={<Plus />}
-                text="เพิ่มลูกหนี้"
-                fontWeight="normal"
+              <Searchbar
+                toggleView={toggleView}
+                isGridView={isGridView}
+                onSearch={setSearchQuery} // Sync the search query with the parent
+                value={searchQuery} // Pass the search query to keep it synchronized
+                toggleValue={toggleValue} // Sync the toggle filter value
+                onToggleChange={setToggleValue} // Sync the toggle filter handler
               />
-            </View>
-          </View>
 
-          {/* Searchbar and Theme Toggle */}
-          <View
-            className={cn(
-              CONTAINER,
-              "mt-4 bg-background rounded-3xl pt-5 flex flex-col gap-5"
-            )}
-          >
-            <Searchbar
-              toggleView={toggleView}
-              isGridView={isGridView}
-              onSearch={setSearchQuery} // Sync the search query with the parent
-              value={searchQuery} // Pass the search query to keep it synchronized
-              toggleValue={toggleValue} // Sync the toggle filter value
-              onToggleChange={setToggleValue} // Sync the toggle filter handler
-            />
-
-            {demodata.length > loandata.limit && (
-              <View className="bg-[#A35D2B]/10 justify-between flex flex-row rounded-2xl py-3 items-center px-5 mb-3">
-                <Text className={cn(PARAGRAPH_BOLD, "")}>
-                  ลูกหนี้เต็มสำหรับแพ็คเกจคุณ
-                </Text>
-                <Button className="rounded-full">
-                  <Text className={cn(LABEL, "items-center")}>ดูแพ็คเกจ</Text>
-                </Button>
-              </View>
-            )}
-
-            {/* Content Section (Grid/List based on toggle) */}
-            <View className="mt-1">
-              {loans.length > 0 ? (
-                isGridView ? (
-                  <GridComponent data={visibleData} />
-                ) : (
-                  visibleData.map((loan) => (
-                    <LoanCard key={loan.id} loan={loan} />
-                  ))
-                )
-              ) : (
-                <Text>No Loans Available</Text>
+              {demodata.length > loandata.limit && (
+                <View className="bg-[#A35D2B]/10 justify-between flex flex-row rounded-2xl py-3 items-center px-5 mb-3">
+                  <Text className={cn(PARAGRAPH_BOLD, "")}>
+                    ลูกหนี้เต็มสำหรับแพ็คเกจคุณ
+                  </Text>
+                  <Button className="rounded-full">
+                    <Text className={cn(LABEL, "items-center")}>ดูแพ็คเกจ</Text>
+                  </Button>
+                </View>
               )}
-            </View>
 
-            <View className="flex flex-col justify-center items-center">
-              <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mt-3 px-4">
-                <Text className={cn(PARAGRAPH, "text-green-800")}>
-                  จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
-                </Text>
+              {/* Content Section (Grid/List based on toggle) */}
+              <View className="mt-1">
+                {loans.length > 0 ? (
+                  isGridView ? (
+                    <GridComponent data={visibleData} />
+                  ) : (
+                    visibleData.map((loan) => (
+                      <LoanCard
+                        key={loan.id}
+                        loan={loan}
+                        onMemo={handlePresentModalPress}
+                      />
+                    ))
+                  )
+                ) : (
+                  <Text>No Loans Available</Text>
+                )}
+              </View>
+
+              <View className="flex flex-col justify-center items-center">
+                <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mt-3 px-4">
+                  <Text className={cn(PARAGRAPH, "text-green-800")}>
+                    จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
 
-        {/* Conditionally Sticky Searchbar */}
-        {isSearchbarSticky && (
-          <Animated.View
-            className={cn(
-              CONTAINER,
-              `${
-                isSearchbarSticky
-                  ? "absolute top-16 left-0 right-0 bg-background z-10"
-                  : "relative"
-              }px-2 py-4`
-            )}
-          >
-            <Searchbar
-              toggleView={toggleView}
-              isGridView={isGridView}
-              onSearch={setSearchQuery} // Sync the search query with the parent
-              value={searchQuery} // Pass the search query to keep it synchronized
-              toggleValue={toggleValue} // Sync the toggle filter value
-              onToggleChange={setToggleValue} // Sync the toggle filter handler
-            />
-          </Animated.View>
-        )}
-      </SafeAreaView>
-    </View>
+          {/* Conditionally Sticky Searchbar */}
+          {isSearchbarSticky && (
+            <Animated.View
+              className={cn(
+                CONTAINER,
+                `${
+                  isSearchbarSticky
+                    ? "absolute top-16 left-0 right-0 bg-background z-10"
+                    : "relative"
+                }px-2 py-4`
+              )}
+            >
+              <Searchbar
+                toggleView={toggleView}
+                isGridView={isGridView}
+                onSearch={setSearchQuery} // Sync the search query with the parent
+                value={searchQuery} // Pass the search query to keep it synchronized
+                toggleValue={toggleValue} // Sync the toggle filter value
+                onToggleChange={setToggleValue} // Sync the toggle filter handler
+              />
+            </Animated.View>
+          )}
+        </SafeAreaView>
+        <MemoSheet ref={bottomSheetModalRef}></MemoSheet>
+      </View>
+    </BottomSheetModalProvider>
   );
 };
 
