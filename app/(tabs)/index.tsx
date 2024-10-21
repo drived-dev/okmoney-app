@@ -38,6 +38,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "~/components/ui/input";
 import MemoSheet from "~/components/main/memo-sheet";
+import GuarantorSheet from "~/components/main/guarantor-sheet";
 
 const amountMemoSchema = z.object({
   amount: z.string().max(100).optional(),
@@ -102,14 +103,15 @@ const Index = () => {
   const toggleView = () => {
     setIsGridView(!isGridView);
   };
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const memoSheetRef = useRef<BottomSheetModal>(null);
+  const guarantorSheetRef = useRef<BottomSheetModal>(null);
 
-  // callbacks
-  const handlePresentModalPress = useCallback(() => {
-    bottomSheetModalRef.current?.present();
+  const handlePresentMemo = useCallback(() => {
+    memoSheetRef.current?.present();
   }, []);
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
+
+  const handlePresentGuarantor = useCallback(() => {
+    guarantorSheetRef.current?.present();
   }, []);
 
   return (
@@ -202,7 +204,8 @@ const Index = () => {
                       <LoanCard
                         key={loan.id}
                         loan={loan}
-                        onMemo={handlePresentModalPress}
+                        onMemo={handlePresentMemo}
+                        onGuarantor={handlePresentGuarantor}
                       />
                     ))
                   )
@@ -244,7 +247,8 @@ const Index = () => {
             </Animated.View>
           )}
         </SafeAreaView>
-        <MemoSheet ref={bottomSheetModalRef}></MemoSheet>
+        <MemoSheet ref={memoSheetRef} />
+        <GuarantorSheet ref={guarantorSheetRef} />
       </View>
     </BottomSheetModalProvider>
   );

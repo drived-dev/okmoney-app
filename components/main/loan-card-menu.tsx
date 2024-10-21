@@ -21,23 +21,24 @@ import { PARAGRAPH } from "~/constants/Typography";
 import { cn } from "~/lib/utils";
 import { Trash } from "lucide-react-native";
 
-const menuLinks = [
-  { name: "ดูข้อมูลเพิ่มเติม", route: "/" },
-  {
-    name: "ดูประวัติ",
-    route: "/",
-  },
-  {
-    name: "แก้ไขข้อมูล",
-    route: "/",
-  },
-  {
-    name: "ดูข้อมูลเพิ่มเติม",
-  },
-];
-
 const deleteLoanRoute = "/";
-export const LoanCardMenu = () => {
+export const LoanCardMenu = ({ openGuarantorSheet }) => {
+  const menuLinks = [
+    { name: "ดูข้อมูลเพิ่มเติม", onPress: "/" },
+    {
+      name: "ดูประวัติ",
+      onPress: "/",
+    },
+    {
+      name: "แก้ไขข้อมูล",
+      onPress: "/",
+    },
+    {
+      name: "ข้อมูลผู้ค้ำประกัน",
+      onPress: () => openGuarantorSheet(),
+    },
+  ];
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -52,7 +53,7 @@ export const LoanCardMenu = () => {
         <DropdownMenuSeparator />
         {menuLinks.map((item, index) => (
           // TODO: map with link
-          <DropdownMenuItem key={index}>
+          <DropdownMenuItem key={index} onPress={item.onPress}>
             <Text className={cn(PARAGRAPH)}>{item.name}</Text>
           </DropdownMenuItem>
         ))}
