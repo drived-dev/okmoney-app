@@ -14,6 +14,7 @@ import { IconButton } from "~/components/icon-button";
 import { Plus } from "lucide-react-native";
 import { GridComponent } from "~/components/main/grid-card";
 import useLoanStore from "~/store/use-loan-store";
+import useTagStore from "~/store/use-tag-store";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/icon";
 import { Drawer } from "react-native-drawer-layout";
@@ -24,8 +25,8 @@ import {
 } from "~/components/ui/toggle-group";
 
 const Index = () => {
-  const [tagvalue, settagValue] = React.useState<string[]>([]);
-  const [statusvalue, setstatusValue] = React.useState<string[]>([]);
+  const [tagValue, settagValue] = React.useState<string[]>([]); // Ensure this is always an array
+  const [statusValue, setstatusValue] = React.useState<string[]>([]); // Ensure this is always an array
   const [isGridView, setIsGridView] = useState(false); // Toggle between GridView and ListView
   const [searchQuery, setSearchQuery] = useState(""); // Search state, shared by both search bars
   const [toggleValue, setToggleValue] = useState("all"); // Filter toggle status, shared by both search bars
@@ -34,7 +35,42 @@ const Index = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false); // Drawer open/close state
 
   const scrollViewRef = useRef(null); // ScrollView reference
-  const loans = useLoanStore((state) => state.loans);
+  const { loans } = useLoanStore(); // Retrieve loans from useLoanStore
+  const { tags, addTag } = useTagStore(); // Retrieve selected tags and statuses from useTagStore
+  const [filteredLoans, setFilteredLoans] = useState(loans);
+
+  const demodata = loans; // Assuming loans come from the store
+
+  // Handle Confirm (ตกลง) Button
+  const handleConfirm = () => {
+    // Clear existing tags and statuses
+
+    // Add selected tagValue to the store (handle as an array)
+    if (Array.isArray(tagValue) && tagValue.length > 0) {
+      tagValue.forEach((tag) => addTag(tag));
+    }
+
+    // Add selected statusValue to the store (handle as an array)
+    if (Array.isArray(statusValue) && statusValue.length > 0) {
+      statusValue.forEach((status) => addTag(status));
+    }
+
+    console.log(tags);
+
+    // Filter loans based on selected tags and statuses
+    const filtered = loans.filter((loan) => {
+      const matchesTag =
+        tags.length === 0 || loan.tags?.some((tag) => tags.includes(tag));
+
+      return matchesTag;
+    });
+
+    // Update the filtered loans in state
+    setFilteredLoans(filtered);
+
+    // Close the drawer after confirming
+    setDrawerOpen(false);
+  };
 
   const loandata = {
     nickname: "บิ้ง",
@@ -44,10 +80,8 @@ const Index = () => {
     limit: 4,
   };
 
-  const demodata = loans; // Assuming loans come from the store
-
   // Filtered data based on the search query and toggle filter
-  const filteredData = demodata.filter(
+  const filteredData = filteredLoans.filter(
     (item) =>
       (toggleValue === "all" ||
         (toggleValue === "old" && item.tags?.includes("old"))) && // Apply toggle filter
@@ -99,13 +133,15 @@ const Index = () => {
                     </View>
                     <View>
                       <ToggleGroup
-                        value={tagvalue}
-                        onValueChange={settagValue}
+                        value={tagValue}
+                        onValueChange={(value) =>
+                          settagValue(value ? [value] : [])
+                        } // Ensure it is always an array
                         type="single"
                         className="flex flex-col gap-2"
                       >
                         <ToggleGroupItem
-                          value="friends"
+                          value="friend"
                           aria-label="Toggle all"
                           className="w-full"
                         >
@@ -144,8 +180,10 @@ const Index = () => {
                   </View>
                   <View>
                     <ToggleGroup
-                      value={statusvalue}
-                      onValueChange={setstatusValue}
+                      value={statusValue}
+                      onValueChange={(value) =>
+                        setstatusValue(value ? [value] : [])
+                      } // Ensure it is always an array
                       type="single"
                       className="flex flex-col gap-2"
                     >
@@ -214,10 +252,7 @@ const Index = () => {
                   variant="destructive"
                   size={"xl"}
                   className="flex-1"
-                  onPress={() => {
-                    console.log({ tagvalue, statusvalue }); // Log the values of tagvalue and statusvalue
-                    setDrawerOpen(false); // Close the drawer after logging the values
-                  }}
+                  onPress={handleConfirm}
                 >
                   <Text className={cn(PARAGRAPH_BOLD, "items-center")}>
                     ตกลง
