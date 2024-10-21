@@ -9,6 +9,7 @@ import ProgressText from "~/components/progress-text";
 import { IconButton } from "~/components/icon-button";
 import colors from "tailwindcss/colors";
 import { LoanCardMenu } from "./loan-card-menu";
+import useEditingLoanStore from "~/store/use-editing-loan-store";
 
 const statusColorsbg: Record<string, string> = {
   ค้างชำระ: "bg-red-500", // Overdue
@@ -25,14 +26,20 @@ const statusColorstxt: Record<string, string> = {
 };
 
 export const LoanCard = ({ loan, onMemo }: { loan: Loan }) => {
+  const { setId } = useEditingLoanStore();
   // Calculate the progress based on outstanding vs total
   const progress = loan.outstanding / loan.total;
   const statusColorbg = statusColorsbg[loan.status] || "bg-blue-500";
   const statusColortxt = statusColorstxt[loan.status] || "text-textb";
 
+  function openMemoSheet() {
+    setId(loan.id);
+    onMemo();
+  }
+
   return (
     // background deptor
-    <TouchableOpacity onPress={onMemo}>
+    <TouchableOpacity>
       <View className="bg-card p-3 my-1 rounded-3xl border border-border space-y-3 ">
         {/* Profile Image and Loan Info */}
         <View className="flex flex-col gap-2">
@@ -103,7 +110,7 @@ export const LoanCard = ({ loan, onMemo }: { loan: Loan }) => {
               {/* Memo Button */}
               <IconButton
                 className="flex-1"
-                onPress={onMemo}
+                onPress={openMemoSheet}
                 icon={<Icon name="NotebookPen" size={20} />}
                 text="บันทึกรายการ"
               />

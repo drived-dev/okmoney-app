@@ -26,12 +26,15 @@ import * as ImagePicker from "expo-image-picker";
 import { Button } from "../ui/button";
 import { AvatarText } from "../avatar-text";
 import Toast from "react-native-toast-message";
+import useEditingLoanStore from "~/store/use-editing-loan-store";
 const amountMemoSchema = z.object({
   amount: z.number(),
   img: z.string().optional(), // Image is required
 });
 
 const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
+  const { id, removeId } = useEditingLoanStore();
+
   const {
     control,
     formState: { errors },
@@ -66,11 +69,12 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
   };
 
   function onSubmit() {
+    console.log(id);
     // TODO: change info text
     Toast.show({
       type: "success",
       position: "bottom",
-      text1: "Hello",
+      text1: `${id}`,
       text2: "This is some something 👋",
     });
   }
@@ -87,7 +91,7 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
             <FormItem>
               <FormLabel nativeID="amount">ยอดที่จ่าย</FormLabel>
               <Input
-                placeholder="โปรดใส่อีเมล"
+                placeholder=""
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
