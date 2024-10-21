@@ -133,7 +133,13 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
   );
 });
 
-const ImagePreview = ({ image, setImage }) => {
+const ImagePreview = ({
+  image,
+  setImage,
+}: {
+  image: string;
+  setImage: React.Dispatch<React.SetStateAction<string | null>>;
+}) => {
   return (
     <FormItem>
       <FormLabel nativeID="amount">หลักฐานการโอนเงินของคุณ</FormLabel>

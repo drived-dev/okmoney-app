@@ -25,7 +25,13 @@ const statusColorstxt: Record<string, string> = {
   ใกล้กำหนด: "text-destructive-foreground", // Canceled
 };
 
-export const LoanCard = ({ loan, onMemo }: { loan: Loan }) => {
+export const LoanCard = ({
+  loan,
+  onMemo,
+}: {
+  loan: Loan;
+  onMemo: () => void;
+}) => {
   const { setId } = useEditingLoanStore();
   // Calculate the progress based on outstanding vs total
   const progress = loan.outstanding / loan.total;

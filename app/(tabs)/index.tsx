@@ -23,7 +23,6 @@ import useLoanStore from "~/store/use-loan-store";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/icon";
 import { PARAGRAPH_BOLD, LABEL } from "~/constants/Typography";
-import { Drawer } from "react-native-drawer-layout";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
