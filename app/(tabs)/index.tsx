@@ -17,7 +17,7 @@ import { LoanCard } from "~/components/main/loan-card";
 import { Searchbar } from "~/components/main/search_bar";
 import { AvatarText } from "~/components/avatar-text";
 import { IconButton } from "~/components/icon-button";
-import { Plus } from "lucide-react-native";
+import { NotebookPen, Plus } from "lucide-react-native";
 import { GridComponent } from "~/components/main/grid-card";
 import useLoanStore from "~/store/use-loan-store";
 import { Button } from "~/components/ui/button";
@@ -30,8 +30,29 @@ import {
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Form } from "~/components/form";
+import { Textarea } from "~/components/ui/textarea";
+import { useForm, Controller } from "react-hook-form";
+import { FormLabel, FormItem, FormMessage } from "~/components/form";
+import { TITLE } from "~/constants/Typography";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "~/components/ui/input";
+import MemoSheet from "~/components/main/memo-sheet";
+
+const amountMemoSchema = z.object({
+  amount: z.string().max(100).optional(),
+  // image: z.array(z.string()).optional(),
+});
 
 const Index = () => {
+  const {
+    control,
+    formState: { errors },
+  } = useForm<z.infer<typeof amountMemoSchema>>({
+    resolver: zodResolver(amountMemoSchema),
+  });
+
   const [isGridView, setIsGridView] = useState(false); // Toggle between GridView and ListView
   const [searchQuery, setSearchQuery] = useState(""); // Search state, shared by both search bars
   const [toggleValue, setToggleValue] = useState("all"); // Filter toggle status, shared by both search bars
@@ -224,15 +245,7 @@ const Index = () => {
             </Animated.View>
           )}
         </SafeAreaView>
-        <BottomSheetModal
-          ref={bottomSheetModalRef}
-          onChange={handleSheetChanges}
-          style={styles.shadow}
-        >
-          <BottomSheetView style={styles.contentContainer}>
-            <Text>Awesome 🎉</Text>
-          </BottomSheetView>
-        </BottomSheetModal>
+        <MemoSheet ref={bottomSheetModalRef}></MemoSheet>
       </View>
     </BottomSheetModalProvider>
   );
@@ -241,21 +254,6 @@ const Index = () => {
 export default Index;
 
 const styles = StyleSheet.create({
-  shadow: {
-    shadowColor: "#000000", // Shadow color
-    shadowOffset: {
-      width: 0, // Horizontal shadow offset
-      height: 2, // Vertical shadow offset
-    },
-    shadowOpacity: 0.25, // Shadow opacity (0 - 1 range)
-    shadowRadius: 3.84, // Shadow blur radius
-    elevation: 5,
-  },
-  contentContainer: {
-    flex: 1,
-    alignItems: "center",
-    height: 500,
-  },
   gradientBackground: {
     position: "absolute",
     left: 0,
