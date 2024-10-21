@@ -47,28 +47,14 @@ const Index = () => {
   const demodata = loans; // Assuming loans come from the store
 
   // Filtered data based on the search query and toggle filter
-  const filteredData = demodata.filter((item) => {
-    // Apply toggle filter logic
-    const toggleMatch =
-      toggleValue === "all" || // Show all items when 'all' is selected
-      (toggleValue === "old" && item.tags?.includes("old")) || // Filter for 'old' tag
-      (toggleValue === "filter" &&
-        // Check if tagvalue is an array and filter accordingly
-        (tagvalue.length === 0 ||
-          tagvalue.some((tag) => item.tags?.includes(tag))) &&
-        // Check if statusvalue is an array and filter accordingly
-        (statusvalue.length === 0 ||
-          statusvalue.some((status) => item.status === status)));
-
-    // Apply search filter (searching in id, nickname, or name)
-    const searchMatch =
-      item.id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.nickname?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.name?.toLowerCase().includes(searchQuery.toLowerCase());
-
-    // Return true only if both toggle filter and search filter match
-    return toggleMatch && searchMatch;
-  });
+  const filteredData = demodata.filter(
+    (item) =>
+      (toggleValue === "all" ||
+        (toggleValue === "old" && item.tags?.includes("old"))) && // Apply toggle filter
+      (item.id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.nickname?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.name?.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
 
   const visibleData =
     filteredData.length > loandata.limit
