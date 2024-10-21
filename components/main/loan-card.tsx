@@ -28,6 +28,7 @@ const statusColorstxt: Record<string, string> = {
 export const LoanCard = ({
   loan,
   onMemo,
+  onGuarantor,
 }: {
   loan: Loan;
   onMemo: () => void;
@@ -41,6 +42,11 @@ export const LoanCard = ({
   function openMemoSheet() {
     setId(loan.id);
     onMemo();
+  }
+
+  function openGuarantorSheet() {
+    setId(loan.id);
+    onGuarantor();
   }
 
   return (
@@ -84,7 +90,7 @@ export const LoanCard = ({
                   {loan.status}
                 </Text>
               </View>
-              <LoanCardMenu />
+              <LoanCardMenu openGuarantorSheet={openGuarantorSheet} />
             </View>
           </View>
           {/* Outstanding Amount and Progress Bar with Total Amount on the Right */}
