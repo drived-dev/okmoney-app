@@ -137,24 +137,6 @@ const Index = () => {
             scrollEventThrottle={16}
             contentContainerStyle={{ paddingBottom: 150 }} // Ensure proper padding at the bottom
           >
-            <Text className={cn(PARAGRAPH, "text-primary")}>FOBO01</Text>
-          </AvatarText>
-
-          {/* Add debtor button */}
-          <IconButton
-            onPress={goToDebtorCreate}
-            className="bg-white"
-            textColor="#E59551"
-            icon={<Plus />}
-            text="เพิ่มลูกหนี้"
-            fontWeight="normal"
-          />
-        </View>
-
-        <View className={cn(CONTAINER, "mt-4 bg-background rounded-3xl pt-5")}>
-          <View className="flex flex-col gap-5">
-            <View>
-              <ThemeToggle />
             {/* Avatar and Add Button */}
             <View className={cn(CONTAINER, "justify-between flex flex-row")}>
               <AvatarText
