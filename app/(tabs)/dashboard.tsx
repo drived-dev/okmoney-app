@@ -1,31 +1,59 @@
-import { SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
-import React from "react";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { Input } from "~/components/ui/input";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Label } from "~/components/ui/label";
+import React, { useCallback, useMemo, useRef } from "react";
+import { View, Text, StyleSheet, Button } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
-  FormLabel,
-  FormDescription,
-  FormMessage,
-  FormItem,
-} from "~/components/form";
-import { Button } from "~/components/ui/button";
-import { cn } from "~/lib/utils";
-import { BUTTON } from "~/constants/Typography";
-import { LucideAArrowDown } from "lucide-react-native";
-import PhoneInput from "~/components/phone-input";
+  BottomSheetModal,
+  BottomSheetView,
+  BottomSheetModalProvider,
+} from "@gorhom/bottom-sheet";
 
-const History = () => {
-  const [phone, setPhone] = React.useState("");
+const App = () => {
+  // ref
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
+  // callbacks
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
+
+  // renders
   return (
-    <SafeAreaView>
-      <PhoneInput value={phone} onChangeText={setPhone} />
-      <Button onPress={() => console.log(phone)}></Button>
-    </SafeAreaView>
+    <BottomSheetModalProvider>
+      <View style={styles.container}>
+        <Button
+          onPress={handlePresentModalPress}
+          title="Present Modal"
+          color="black"
+        />
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          onChange={handleSheetChanges}
+        >
+          <BottomSheetView style={styles.contentContainer}>
+            <Text>hello 🎉</Text>
+          </BottomSheetView>
+        </BottomSheetModal>
+      </View>
+    </BottomSheetModalProvider>
   );
 };
 
-export default History;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    justifyContent: "center",
+    backgroundColor: "red",
+  },
+  contentContainer: {
+    zIndex: 20,
+    flex: 1,
+    alignItems: "center",
+  },
+});
+
+export default App;

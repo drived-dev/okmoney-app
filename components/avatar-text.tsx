@@ -11,7 +11,7 @@ interface AvatarText extends ViewProps {
 }
 export const AvatarText = ({
   url,
-  title = "สวัสดี",
+  title,
   children,
   className,
   ...props

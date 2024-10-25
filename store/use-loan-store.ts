@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware'
-import { zustandStorage } from './storage';
-import { Loan} from "~/types/Loan"
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
+import { zustandStorage } from "./storage";
+import { Loan } from "~/types/Loan";
 
 const demodata: Loan[] = [
   {
@@ -9,11 +9,12 @@ const demodata: Loan[] = [
     nickname: "บิบิ",
     name: "ธน สมพง",
     status: "รอชำระ",
-    outstanding: 0,
+    outstanding: 400,
     total: 500,
     dueDate: "30/5",
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    tags: ["old", "friend"], // Manually assigned tags
   },
   {
     id: "02",
@@ -25,6 +26,7 @@ const demodata: Loan[] = [
     dueDate: "30/5",
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    tags: ["urgent"], // Manually assigned tags
   },
   {
     id: "03",
@@ -36,6 +38,7 @@ const demodata: Loan[] = [
     dueDate: "30/5",
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    tags: ["old"], // Manually assigned tags
   },
   {
     id: "04",
@@ -47,6 +50,19 @@ const demodata: Loan[] = [
     dueDate: "30/5",
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    tags: ["friend", "important"], // Manually assigned tags
+  },
+  {
+    id: "05",
+    nickname: "โบ๊ท",
+    name: "ทองสิระ",
+    status: "ค้างชำระ",
+    outstanding: 300,
+    total: 500,
+    dueDate: "30/5",
+    profileImage:
+      "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
+    tags: ["old", "urgent", "important"], // Manually assigned tags
   },
 ];
 
@@ -59,15 +75,17 @@ interface LoanStore {
 const useLoanStore = create(
   persist<LoanStore>(
     (set, get) => ({
-    loans: demodata,
-    addLoan: (loan) => set((state) => ({ loans: [...state.loans, loan] })),
-    removeLoan: (loan) => set((state) => ({ loans: state.loans.filter((t) => t !== loan) })),
+      loans: demodata,
+      addLoan: (loan) => set((state) => ({ loans: [...state.loans, loan] })),
+      removeLoan: (loan) =>
+        set((state) => ({ loans: state.loans.filter((t) => t !== loan) })),
     }),
     {
-      name: 'loan-storage', // name of the item in the storage (must be unique)
-      storage: createJSONStorage(() => zustandStorage)
+      name: "loan-storage", // name of the item in the storage (must be unique)
+      storage: createJSONStorage(() => zustandStorage),
       // storage: createJSONStorage(() => zustandStorage), // (optional) by default, 'localStorage' is used
-    },
-));
+    }
+  )
+);
 
 export default useLoanStore;
