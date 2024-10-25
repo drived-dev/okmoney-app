@@ -46,7 +46,7 @@ const demoData: HistoryItem[] = [
     nickname: "แจ็ค",
     name: "สมพงค์ มนตรี",
     variant: "payment",
-    slip: "https://example.com/slip1.png",
+    slip: "https://www.kasikornbank.com/SiteCollectionDocuments/personal/digital-banking/kplus/v2/img/instruction/slip-history-05.jpg?v1",
     value: "1,500",
     date: "2024-10-13", // Today
     time: "14:30",
