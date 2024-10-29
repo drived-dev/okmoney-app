@@ -37,7 +37,7 @@ const Index = () => {
 
   const scrollViewRef = useRef(null); // ScrollView reference
   const { loans } = useLoanStore(); // Retrieve loans from useLoanStore
-  const { tags, addTag } = useTagStore(); // Retrieve selected tags from useTagStore
+  const { tags, addTag, clearTags } = useTagStore(); // Retrieve selected tags from useTagStore
 
   const loandata = {
     nickname: "บิ้ง",
@@ -47,6 +47,16 @@ const Index = () => {
     limit: 4, // Limit for loan display
   };
 
+  const openDrawerAndClearTags = () => {
+    setDrawerOpen(true);
+  };
+
+  // useEffect(() => {
+  //   if (toggleValue !== "filter") {
+  //     clearTags();
+  //   }
+  // }, [toggleValue]);
+
   // First, limit loans to the number of `loandata.limit` and update visible loans
   useEffect(() => {
     const limitedLoans = loans.slice(0, loandata.limit); // Limit loans to the number of loandata.limit
@@ -55,6 +65,7 @@ const Index = () => {
 
   // Handle Confirm Button (ตกลง) for "filter" mode
   const handleConfirm = () => {
+    clearTags();
     // Add selected tagValue to the store
     if (Array.isArray(tagValue) && tagValue.length > 0) {
       tagValue.forEach((tag) => addTag(tag));
@@ -128,7 +139,7 @@ const Index = () => {
   return (
     <Drawer
       open={isDrawerOpen}
-      onOpen={() => setDrawerOpen(true)}
+      onOpen={openDrawerAndClearTags}
       onClose={() => setDrawerOpen(false)}
       drawerPosition="right"
       renderDrawerContent={() => (
