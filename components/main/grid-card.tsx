@@ -7,7 +7,6 @@ import { Button } from "../ui/button";
 import { cn } from "~/lib/utils";
 import { CONTAINER } from "~/constants/Styles";
 import { LABEL, PARAGRAPH, TITLE } from "~/constants/Typography";
-import { LoanCardMenu } from "./loan-card-menu";
 
 interface CircularProgressProps {
   size: number; // The size of the circle
@@ -92,7 +91,12 @@ interface GridComponentProps {
 
 export const GridComponent: React.FC<GridComponentProps> = ({ data }) => {
   return (
-    <View className={cn("flex flex-row flex-wrap justify-between mt-5")}>
+    <View
+      className={cn(CONTAINER, "flex flex-row flex-wrap justify-between mt-5")}
+      style={{
+        paddingHorizontal: 10,
+      }}
+    >
       {data.map((item, index) => (
         <View
           key={item.id}
@@ -110,7 +114,9 @@ export const GridComponent: React.FC<GridComponentProps> = ({ data }) => {
         >
           <View className="relative justify-center items-center">
             <View className="absolute top-0 right-0">
-              <LoanCardMenu />
+              <Button variant={"link"} size={"icon"}>
+                <Icon name="Ellipsis" size={18} color="#A1A1AA" />
+              </Button>
             </View>
             <View className="mt-3">
               {/* Circular Progress Bar with Profile Image Inside */}
