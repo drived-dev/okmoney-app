@@ -1,5 +1,5 @@
 import { Link, router, useNavigation } from "expo-router";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useCallback, useRef, useState, useEffect } from "react";
 import { StyleSheet, View, ScrollView, Animated } from "react-native";
 import { Text } from "~/components/ui/text";
 import { PARAGRAPH, PARAGRAPH_BOLD, LABEL } from "~/constants/Typography";
@@ -11,7 +11,7 @@ import { LoanCard } from "~/components/main/loan-card";
 import { Searchbar } from "~/components/main/search_bar";
 import { AvatarText } from "~/components/avatar-text";
 import { IconButton } from "~/components/icon-button";
-import { Plus } from "lucide-react-native";
+import { NotebookPen, Plus } from "lucide-react-native";
 import { GridComponent } from "~/components/main/grid-card";
 import useLoanStore from "~/store/use-loan-store";
 import useFilterStore from "~/store/use-filter-store";
@@ -23,8 +23,36 @@ import {
   ToggleGroupIcon,
   ToggleGroupItem,
 } from "~/components/ui/toggle-group";
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Form } from "~/components/form";
+import { Textarea } from "~/components/ui/textarea";
+import { useForm, Controller } from "react-hook-form";
+import { FormLabel, FormItem, FormMessage } from "~/components/form";
+import { TITLE } from "~/constants/Typography";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "~/components/ui/input";
+import MemoSheet from "~/components/main/memo-sheet";
+import GuarantorSheet from "~/components/main/guarantor-sheet";
+
+const amountMemoSchema = z.object({
+  amount: z.string().max(100).optional(),
+  // image: z.array(z.string()).optional(),
+});
 
 const Index = () => {
+  const {
+    control,
+    formState: { errors },
+  } = useForm<z.infer<typeof amountMemoSchema>>({
+    resolver: zodResolver(amountMemoSchema),
+  });
+
   const [tagValue, settagValue] = React.useState<string[]>([]); // Store selected tags
   const [statusValue, setstatusValue] = React.useState<string[]>([]); // Store selected statuses
   const [isGridView, setIsGridView] = useState(false); // Toggle between GridView and ListView
@@ -111,154 +139,26 @@ const Index = () => {
   const toggleView = () => {
     setIsGridView(!isGridView);
   };
+  const memoSheetRef = useRef<BottomSheetModal>(null);
+  const guarantorSheetRef = useRef<BottomSheetModal>(null);
+
+  const handlePresentMemo = useCallback(() => {
+    memoSheetRef.current?.present();
+  }, []);
+
+  const handlePresentGuarantor = useCallback(() => {
+    guarantorSheetRef.current?.present();
+  }, []);
 
   return (
-    <Drawer
-      open={isDrawerOpen}
-      onOpen={openDrawerAndClearTags}
-      onClose={() => setDrawerOpen(false)}
-      drawerPosition="right"
-      renderDrawerContent={() => (
-        <View className={cn(CONTAINER, "bg-background h-full")}>
-          <SafeAreaView>
-            <View className="flex flex-col gap-4">
-              <Text className={cn(PARAGRAPH, "")}>ค้นหาด้วยฟิวเตอร์</Text>
-              <View className="h-px bg-gray-400" />
-              <View>
-                <View className="flex flex-col gap-2">
-                  <View className="flex flex-row gap-1 items-center">
-                    <Icon name="Tag" size={16} />
-                    <Text className={cn(LABEL, "")}>แท็ก</Text>
-                  </View>
-                  <View>
-                    <ToggleGroup
-                      value={tagValue}
-                      onValueChange={(value) =>
-                        settagValue(value ? [value] : [])
-                      }
-                      type="single"
-                      className="flex flex-col gap-2"
-                    >
-                      <ToggleGroupItem
-                        value="friend"
-                        aria-label="Toggle all"
-                        className="w-full"
-                      >
-                        <Text
-                          className={cn(
-                            PARAGRAPH,
-                            "pt-2 font-ibm text-base leading-6 text-foreground"
-                          )}
-                        >
-                          เพื่อน
-                        </Text>
-                      </ToggleGroupItem>
-                      <ToggleGroupItem
-                        value="family"
-                        aria-label="Toggle old"
-                        className="w-full"
-                      >
-                        <Text
-                          className={cn(
-                            PARAGRAPH,
-                            "pt-2 font-ibm text-base leading-6 text-foreground"
-                          )}
-                        >
-                          ครอบครัว
-                        </Text>
-                      </ToggleGroupItem>
-                    </ToggleGroup>
-                  </View>
-                </View>
-              </View>
-              <View className="h-px bg-gray-400" />
-              <View className="flex flex-col gap-2">
-                <View className="flex flex-row gap-1 items-center">
-                  <Icon name="CircleCheckBig" size={16} />
-                  <Text className={cn(LABEL, "")}>สถานะ</Text>
-                </View>
-                <View>
-                  <ToggleGroup
-                    value={statusValue}
-                    onValueChange={(value) =>
-                      setstatusValue(value ? [value] : [])
-                    }
-                    type="single"
-                    className="flex flex-col gap-2"
-                  >
-                    <ToggleGroupItem
-                      value="overdue"
-                      aria-label="Toggle all"
-                      className="w-full"
-                    >
-                      <Text
-                        className={cn(
-                          PARAGRAPH,
-                          "pt-2 font-ibm text-base leading-6 text-foreground"
-                        )}
-                      >
-                        ค้างชำระ
-                      </Text>
-                    </ToggleGroupItem>
-                    <ToggleGroupItem
-                      value="nearly"
-                      aria-label="Toggle old"
-                      className="w-full"
-                    >
-                      <Text
-                        className={cn(
-                          PARAGRAPH,
-                          "pt-2 font-ibm text-base leading-6 text-foreground"
-                        )}
-                      >
-                        ใกล้กำหนด
-                      </Text>
-                    </ToggleGroupItem>
-                    <ToggleGroupItem
-                      value="waiting"
-                      aria-label="Toggle old"
-                      className="w-full"
-                    >
-                      <Text
-                        className={cn(
-                          PARAGRAPH,
-                          "pt-2 font-ibm text-base leading-6 text-foreground"
-                        )}
-                      >
-                        รอชำระ
-                      </Text>
-                    </ToggleGroupItem>
-                  </ToggleGroup>
-                </View>
-              </View>
-            </View>
-          </SafeAreaView>
-
-          <View className={cn(CONTAINER, "mt-auto px-4 w-full")}>
-            <View className="flex flex-row gap-2 ">
-              <Button
-                variant="outline"
-                size={"xl"}
-                onPress={() => setDrawerOpen(false)}
-              >
-                <Text className={cn(PARAGRAPH_BOLD, "items-center")}>
-                  ยกเลิก
-                </Text>
-              </Button>
-              <Button variant="destructive" size={"xl"} onPress={handleConfirm}>
-                <Text className={cn(PARAGRAPH_BOLD, "items-center")}>ตกลง</Text>
-              </Button>
-            </View>
-          </View>
-        </View>
-      )}
-    >
+    <BottomSheetModalProvider>
       <View className="flex-1">
+        {/* Linear Gradient Background */}
         <LinearGradient
           colors={
             isGradientVisible
               ? ["#F3D791", "#DF9C59", "#FD954B"]
-              : ["#FFFFFF", "#FFFFFF", "#FFFFFF"]
+              : ["#FFFFFF", "#FFFFFF", "#FFFFFF"] // Change to bg-background when scrolled
           }
           start={{ x: 1, y: -0.4 }}
           end={{ x: 0, y: 0.5 }}
@@ -329,49 +229,63 @@ const Index = () => {
                 </View>
               )}
 
+              {/* Content Section (Grid/List based on toggle) */}
               <View className="mt-1">
                 {loans.length > 0 ? (
                   isGridView ? (
-                    <GridComponent data={filteredData} />
+                    <GridComponent data={visibleData} />
                   ) : (
-                    filteredData.map((loan) => (
-                      <LoanCard key={loan.id} loan={loan} />
+                    visibleData.map((loan) => (
+                      <LoanCard
+                        key={loan.id}
+                        loan={loan}
+                        onMemo={handlePresentMemo}
+                        onGuarantor={handlePresentGuarantor}
+                      />
                     ))
                   )
                 ) : (
                   <Text>No Loans Available</Text>
                 )}
               </View>
-              <View>
-                <Button onPress={() => console.log(tagValue)}>
-                  <Text className={cn(PARAGRAPH, "text-background")}>
-                    Debug
+
+              <View className="flex flex-col justify-center items-center">
+                <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mt-3 px-4">
+                  <Text className={cn(PARAGRAPH, "text-green-800")}>
+                    จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
                   </Text>
-                </Button>
+                </View>
               </View>
             </View>
           </ScrollView>
 
+          {/* Conditionally Sticky Searchbar */}
           {isSearchbarSticky && (
             <Animated.View
               className={cn(
                 CONTAINER,
-                "absolute top-16 left-0 right-0 bg-background z-10 px-2 py-4"
+                `${
+                  isSearchbarSticky
+                    ? "absolute top-16 left-0 right-0 bg-background z-10"
+                    : "relative"
+                }px-2 py-4`
               )}
             >
               <Searchbar
                 toggleView={toggleView}
                 isGridView={isGridView}
-                onSearch={setSearchQuery}
-                value={searchQuery}
-                toggleValue={toggleValue}
-                onToggleChange={setToggleValue}
+                onSearch={setSearchQuery} // Sync the search query with the parent
+                value={searchQuery} // Pass the search query to keep it synchronized
+                toggleValue={toggleValue} // Sync the toggle filter value
+                onToggleChange={setToggleValue} // Sync the toggle filter handler
               />
             </Animated.View>
           )}
         </SafeAreaView>
+        <MemoSheet ref={memoSheetRef} />
+        <GuarantorSheet ref={guarantorSheetRef} />
       </View>
-    </Drawer>
+    </BottomSheetModalProvider>
   );
 };
 
