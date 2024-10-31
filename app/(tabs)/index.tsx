@@ -94,6 +94,9 @@ const Index = () => {
 
     // Step 4: Close the drawer
     setDrawerOpen(false);
+
+    settagValue([]);
+    setstatusValue([]);
   };
 
   // **Filtering logic when toggleValue is "all" or "old"**
