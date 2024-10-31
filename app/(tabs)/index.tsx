@@ -37,7 +37,7 @@ const Index = () => {
 
   const scrollViewRef = useRef(null); // ScrollView reference
   const { loans } = useLoanStore(); // Retrieve loans from useLoanStore
-  const { tags, addTag, clearTags } = useFilterStore(); // Retrieve selected tags from useTagStore
+  const { addTag, clearTags } = useFilterStore(); // Retrieve selected tags from useTagStore
 
   const loandata = {
     nickname: "บิ้ง",
