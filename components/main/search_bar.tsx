@@ -5,9 +5,17 @@ import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH } from "~/constants/Typography";
 import { Icon } from "../icon";
-import { X } from "lucide-react-native"; // Import X icon
+import { X, User, Star, Home } from "lucide-react-native"; // Import X icon and other icons
 import SeachbarOnly from "./seachbar-only";
 import useFilterStore from "~/store/use-filter-store";
+
+// Icon mapping based on tag names
+const tagIcons = {
+  friend: <User size={12} color="#333" />,
+  family: <Home size={12} color="#333" />,
+  favorite: <Star size={12} color="#333" />,
+  // Add more tags and icons as needed
+};
 
 export const Searchbar = ({
   toggleView,
@@ -85,25 +93,26 @@ export const Searchbar = ({
 
       {/* Display tags if toggleValue is "filter" */}
       {toggleValue === "filter" && (
-        <View className="flex flex-row flex-wrap gap-2">
-          {tags.length > 0 ? (
+        <View className="flex flex-row flex-wrap gap-2 items-center">
+          {tags.length > 0 &&
             tags.map((tag, index) => (
               <View
                 key={index}
-                className="px-2 py-1 bg-gray-200 rounded-md flex flex-row items-center"
+                className="px-2 py-1 bg-gray-200 rounded-md flex flex-row items-center p-4"
               >
-                <Text className={cn(PARAGRAPH, "text-foreground mr-2")}>
+                {/* Display the icon before the text, using the tagIcons mapping */}
+                {tagIcons[tag] && <View className="mr-2">{tagIcons[tag]}</View>}
+                <Text className={cn(PARAGRAPH, "text-foreground mr-2 mt-1")}>
                   {tag}
                 </Text>
                 {/* Cross icon to remove the tag */}
                 <TouchableOpacity onPress={() => removeTag(tag)}>
-                  <X size={16} color="#333" />
+                  <View className="bg-gray-500 rounded-2xl p-1">
+                    <X size={12} color="white" />
+                  </View>
                 </TouchableOpacity>
               </View>
-            ))
-          ) : (
-            <Text>No tags available</Text> // Optional placeholder when no tags
-          )}
+            ))}
         </View>
       )}
     </View>

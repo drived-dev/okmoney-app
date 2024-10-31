@@ -393,7 +393,7 @@ const Index = () => {
                       ))
                     )
                   ) : (
-                    <Text>No Loans Available</Text>
+                    <Text></Text>
                   )}
                 </View>
 
@@ -422,10 +422,15 @@ const Index = () => {
                 <Searchbar
                   toggleView={toggleView}
                   isGridView={isGridView}
-                  onSearch={setSearchQuery} // Sync the search query with the parent
-                  value={searchQuery} // Pass the search query to keep it synchronized
-                  toggleValue={toggleValue} // Sync the toggle filter value
-                  onToggleChange={setToggleValue} // Sync the toggle filter handler
+                  onSearch={setSearchQuery}
+                  value={searchQuery}
+                  toggleValue={toggleValue}
+                  onToggleChange={(value) => {
+                    if (value === "filter") {
+                      setDrawerOpen(true);
+                    }
+                    setToggleValue(value);
+                  }}
                 />
               </Animated.View>
             )}
