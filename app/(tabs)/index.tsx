@@ -37,7 +37,7 @@ const Index = () => {
 
   const scrollViewRef = useRef(null); // ScrollView reference
   const { loans } = useLoanStore(); // Retrieve loans from useLoanStore
-  const { addTag, clearTags } = useFilterStore(); // Retrieve selected tags from useTagStore
+  const { tags, addTag, clearTags, removeTag } = useFilterStore();
 
   const loandata = {
     nickname: "บิ้ง",
@@ -59,58 +59,33 @@ const Index = () => {
 
   // First, limit loans to the number of `loandata.limit` and update visible loans
   useEffect(() => {
-    const limitedLoans = loans.slice(0, loandata.limit); // Limit loans to the number of loandata.limit
-    setVisibleLoans(limitedLoans);
-  }, [loans]); // This runs only when loans are retrieved
+    if (toggleValue === "filter") {
+      const filtered = loans.slice(0, loandata.limit).filter((loan) => {
+        const matchesTag =
+          tags.length === 0 || loan.tags?.some((tag) => tags.includes(tag));
+        return matchesTag;
+      });
 
-  // Handle Confirm Button (ตกลง) for "filter" mode
+      setVisibleLoans(filtered);
+    } else if (toggleValue === "all" || toggleValue === "old") {
+      const filtered = loans.slice(0, loandata.limit).filter((loan) => {
+        if (toggleValue === "all") return true;
+        if (toggleValue === "old") return loan.tags?.includes("old");
+      });
+      setVisibleLoans(filtered);
+    }
+  }, [toggleValue, loans, tags]); // Add `tags` dependency here
+
+  // Handle Confirm Button (ตกลง) to add tags and statuses to store and reset state
   const handleConfirm = () => {
-    // Step 1: Clear previous tags from the store
     clearTags();
-
-    // Step 2: Add new tags to the store
     tagValue.forEach((tag) => addTag(tag));
     statusValue.forEach((status) => addTag(status));
 
-    // Step 3: Access the latest tags in the store immediately using get()
-    const latestTags = useFilterStore.getState().tags;
-
-    // Filter loans using the updated store tags
-    if (toggleValue === "filter") {
-      const filtered = loans
-        .slice(0, loandata.limit) // Apply the limit first
-        .filter((loan) => {
-          const matchesTag =
-            latestTags.length === 0 ||
-            loan.tags?.some((tag) => latestTags.includes(tag));
-
-          return matchesTag;
-        });
-
-      setVisibleLoans(filtered);
-
-      console.log("Updated tags:", latestTags);
-    }
-
-    // Step 4: Close the drawer
     setDrawerOpen(false);
-
     settagValue([]);
     setstatusValue([]);
   };
-
-  // **Filtering logic when toggleValue is "all" or "old"**
-  useEffect(() => {
-    if (toggleValue === "all" || toggleValue === "old") {
-      const filtered = loans
-        .slice(0, loandata.limit) // Apply the limit first
-        .filter((loan) => {
-          if (toggleValue === "all") return true; // If "all", show everything within the limit
-          if (toggleValue === "old") return loan.tags?.includes("old"); // If "old", filter by tag "old"
-        });
-      setVisibleLoans(filtered);
-    }
-  }, [toggleValue, loans]);
 
   // Additional search query filtering
   const filteredData = visibleLoans.filter(
