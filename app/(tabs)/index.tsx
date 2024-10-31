@@ -179,7 +179,7 @@ const Index = () => {
                         className="flex flex-col gap-2"
                       >
                         <ToggleGroupItem
-                          value="friend"
+                          value="เพื่อน"
                           aria-label="Toggle all"
                           className="w-full"
                         >
@@ -193,7 +193,7 @@ const Index = () => {
                           </Text>
                         </ToggleGroupItem>
                         <ToggleGroupItem
-                          value="family"
+                          value="ครอบครัว"
                           aria-label="Toggle old"
                           className="w-full"
                         >
@@ -226,7 +226,7 @@ const Index = () => {
                       className="flex flex-col gap-2"
                     >
                       <ToggleGroupItem
-                        value="overdue"
+                        value="ค้างชำระ"
                         aria-label="Toggle all"
                         className="w-full"
                       >
@@ -240,7 +240,7 @@ const Index = () => {
                         </Text>
                       </ToggleGroupItem>
                       <ToggleGroupItem
-                        value="nearly"
+                        value="ใกล้กำหนด"
                         aria-label="Toggle old"
                         className="w-full"
                       >
@@ -254,7 +254,7 @@ const Index = () => {
                         </Text>
                       </ToggleGroupItem>
                       <ToggleGroupItem
-                        value="waiting"
+                        value="รอชำระ"
                         aria-label="Toggle old"
                         className="w-full"
                       >
@@ -364,7 +364,7 @@ const Index = () => {
                   }}
                 />
 
-                {filteredData.length > loandata.limit && (
+                {loans.length > loandata.limit && (
                   <View className="bg-[#A35D2B]/10 justify-between flex flex-row rounded-2xl py-3 items-center px-5 mb-3">
                     <Text className={cn(PARAGRAPH_BOLD, "")}>
                       ลูกหนี้เต็มสำหรับแพ็คเกจคุณ
