@@ -65,36 +65,34 @@ const Index = () => {
 
   // Handle Confirm Button (ตกลง) for "filter" mode
   const handleConfirm = () => {
+    // Step 1: Clear previous tags from the store
     clearTags();
-    // Add selected tagValue to the store
-    if (Array.isArray(tagValue) && tagValue.length > 0) {
-      tagValue.forEach((tag) => addTag(tag));
-    }
 
-    // Add selected statusValue to the store
-    if (Array.isArray(statusValue) && statusValue.length > 0) {
-      statusValue.forEach((status) => addTag(status));
+    // Step 2: Add new tags to the store
+    tagValue.forEach((tag) => addTag(tag));
+    statusValue.forEach((status) => addTag(status));
 
-      console.log(tags);
-    }
+    // Step 3: Access the latest tags in the store immediately using get()
+    const latestTags = useFilterStore.getState().tags;
 
-    // If toggleValue is "filter", apply tag and status filtering
+    // Filter loans using the updated store tags
     if (toggleValue === "filter") {
       const filtered = loans
         .slice(0, loandata.limit) // Apply the limit first
         .filter((loan) => {
           const matchesTag =
-            tags.length === 0 ||
-            (loan.tags?.some((tag) => tags.includes(tag)) &&
-              tags.length === 0) ||
-            loan.tags?.some((status) => tags.includes(status));
+            latestTags.length === 0 ||
+            loan.tags?.some((tag) => latestTags.includes(tag));
 
-          return matchesTag; // We can add status filtering as well if needed
+          return matchesTag;
         });
+
       setVisibleLoans(filtered);
+
+      console.log("Updated tags:", latestTags);
     }
 
-    // Close the drawer
+    // Step 4: Close the drawer
     setDrawerOpen(false);
   };
 
