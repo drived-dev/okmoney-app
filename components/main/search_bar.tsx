@@ -7,7 +7,7 @@ import { PARAGRAPH } from "~/constants/Typography";
 import { Icon } from "../icon";
 import { X } from "lucide-react-native"; // Import X icon
 import SeachbarOnly from "./seachbar-only";
-import useTagStore from "~/store/use-tag-store"; // Import your tag store
+import useFilterStore from "~/store/use-filter-store";
 
 export const Searchbar = ({
   toggleView,
@@ -22,7 +22,7 @@ export const Searchbar = ({
   };
 
   // Get tags and removeTag function from useTagStore
-  const { tags, removeTag } = useTagStore();
+  const { tags, removeTag } = useFilterStore();
 
   return (
     <View className="flex flex-col gap-3">

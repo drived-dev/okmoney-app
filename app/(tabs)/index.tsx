@@ -14,7 +14,7 @@ import { IconButton } from "~/components/icon-button";
 import { Plus } from "lucide-react-native";
 import { GridComponent } from "~/components/main/grid-card";
 import useLoanStore from "~/store/use-loan-store";
-import useTagStore from "~/store/use-tag-store";
+import useFilterStore from "~/store/use-filter-store";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/icon";
 import { Drawer } from "react-native-drawer-layout";
@@ -37,7 +37,7 @@ const Index = () => {
 
   const scrollViewRef = useRef(null); // ScrollView reference
   const { loans } = useLoanStore(); // Retrieve loans from useLoanStore
-  const { tags, addTag, clearTags } = useTagStore(); // Retrieve selected tags from useTagStore
+  const { tags, addTag, clearTags } = useFilterStore(); // Retrieve selected tags from useTagStore
 
   const loandata = {
     nickname: "บิ้ง",
