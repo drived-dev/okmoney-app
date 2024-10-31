@@ -1,11 +1,13 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import { Button } from "../ui/button"; // Assuming you have a Button component
+import { Button } from "../ui/button";
 import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH } from "~/constants/Typography";
 import { Icon } from "../icon";
+import { X } from "lucide-react-native"; // Import X icon
 import SeachbarOnly from "./seachbar-only";
+import useTagStore from "~/store/use-tag-store"; // Import your tag store
 
 export const Searchbar = ({
   toggleView,
@@ -14,17 +16,13 @@ export const Searchbar = ({
   value,
   toggleValue,
   onToggleChange,
-}: {
-  toggleView: () => void;
-  isGridView: boolean;
-  onSearch: (query: string) => void;
-  value: string;
-  toggleValue: string;
-  onToggleChange: (value: string) => void;
 }) => {
-  const handleSearchChange = (query: string) => {
+  const handleSearchChange = (query) => {
     onSearch(query);
   };
+
+  // Get tags and removeTag function from useTagStore
+  const { tags, removeTag } = useTagStore();
 
   return (
     <View className="flex flex-col gap-3">
@@ -84,6 +82,30 @@ export const Searchbar = ({
           />
         </Button>
       </View>
+
+      {/* Display tags if toggleValue is "filter" */}
+      {toggleValue === "filter" && (
+        <View className="flex flex-row flex-wrap gap-2">
+          {tags.length > 0 ? (
+            tags.map((tag, index) => (
+              <View
+                key={index}
+                className="px-2 py-1 bg-gray-200 rounded-md flex flex-row items-center"
+              >
+                <Text className={cn(PARAGRAPH, "text-foreground mr-2")}>
+                  {tag}
+                </Text>
+                {/* Cross icon to remove the tag */}
+                <TouchableOpacity onPress={() => removeTag(tag)}>
+                  <X size={16} color="#333" />
+                </TouchableOpacity>
+              </View>
+            ))
+          ) : (
+            <Text>No tags available</Text> // Optional placeholder when no tags
+          )}
+        </View>
+      )}
     </View>
   );
 };

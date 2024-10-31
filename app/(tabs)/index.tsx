@@ -74,9 +74,9 @@ const Index = () => {
     // Add selected statusValue to the store
     if (Array.isArray(statusValue) && statusValue.length > 0) {
       statusValue.forEach((status) => addTag(status));
-    }
 
-    console.log(tags);
+      console.log(tags);
+    }
 
     // If toggleValue is "filter", apply tag and status filtering
     if (toggleValue === "filter") {
@@ -365,6 +365,13 @@ const Index = () => {
                 ) : (
                   <Text>No Loans Available</Text>
                 )}
+              </View>
+              <View>
+                <Button onPress={() => console.log(tagValue)}>
+                  <Text className={cn(PARAGRAPH, "text-background")}>
+                    Debug
+                  </Text>
+                </Button>
               </View>
             </View>
           </ScrollView>
