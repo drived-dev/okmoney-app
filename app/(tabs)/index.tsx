@@ -233,9 +233,9 @@ const Index = () => {
               <View className="mt-1">
                 {loans.length > 0 ? (
                   isGridView ? (
-                    <GridComponent data={visibleData} />
+                    <GridComponent data={filteredData} />
                   ) : (
-                    visibleData.map((loan) => (
+                    filteredData.map((loan) => (
                       <LoanCard
                         key={loan.id}
                         loan={loan}
@@ -252,7 +252,7 @@ const Index = () => {
               <View className="flex flex-col justify-center items-center">
                 <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mt-3 px-4">
                   <Text className={cn(PARAGRAPH, "text-green-800")}>
-                    จำนวนลูกหนี้ {demodata.length} / {loandata.limit}
+                    จำนวนลูกหนี้ {loans.length} / {loandata.limit}
                   </Text>
                 </View>
               </View>
