@@ -35,7 +35,7 @@ interface HistorylistProps {
 }
 
 interface HistoryPageProps {
-  name: string;
+  name?: string;
   nickname?: string;
   data: HistoryItem[];
 }
@@ -80,20 +80,23 @@ const HistoryPage: React.FC<HistoryPageProps> = ({ name, nickname, data }) => {
         <View className={cn(CONTAINER, "mt-4")}>
           <View className="flex flex-col gap-1">
             <Text className={cn(TITLE, "")}>ประวัติการชำระ</Text>
-            <View className="flex flex-row gap-2 items-center">
-              <Text className={cn(TITLE, "")}>ของ</Text>
-              <View className="border-[#D9D9D9] border-2 w-auto h-auto rounded-2xl px-2 pt-1">
-                {nickname ? (
-                  <Text>
-                    <Text className={cn(TITLE, "font-bold")}>{nickname} </Text>
-                    <Text className={cn(PARAGRAPH, "")}>{name}</Text>
-                  </Text>
-                ) : (
-                  // If only name, use TITLE style for name
-                  <Text className={cn(TITLE, "font-bold")}>{name}</Text>
-                )}
+            {name && (
+              <View className="flex flex-row items-center space-x-2 gap-2">
+                <Text className={cn(TITLE, "")}>ของ</Text>
+                <View className="border border-gray-300 rounded-2xl px-2 py-1">
+                  {nickname ? (
+                    <Text>
+                      <Text className={cn(TITLE, "font-bold")}>
+                        {nickname}{" "}
+                      </Text>
+                      <Text className={cn(PARAGRAPH, "")}>{name}</Text>
+                    </Text>
+                  ) : (
+                    <Text className={cn(TITLE, "font-bold")}>{name}</Text>
+                  )}
+                </View>
               </View>
-            </View>
+            )}
           </View>
 
           {Object.keys(groupedData).map((dateLabel) => (
