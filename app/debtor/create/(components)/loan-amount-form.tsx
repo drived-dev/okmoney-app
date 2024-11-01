@@ -48,16 +48,22 @@ export const LoanAmountForm = ({ navigation }: NavigationProps) => {
         Number(loanAmount) +
         loanAmount * (interestRate / 100)
       ).toFixed(2);
-      const repaymentAmount = (remainingAmount - amountPaidNan).toFixed(2);
-      const repaymentPerInstallment = (repaymentAmount / installments).toFixed(
+      const repaymentAmount = (Number(remainingAmount) - amountPaidNan).toFixed(
         2
       );
+      const repaymentPerInstallment = (
+        Number(repaymentAmount) / installments
+      ).toFixed(2);
 
-      setTotalRepayment(remainingAmount > 0 ? remainingAmount : 0);
-      setRepaymentPerInstallment(
-        remainingAmount > 0 ? repaymentPerInstallment : 0
+      setTotalRepayment(
+        Number(remainingAmount) > 0 ? Number(remainingAmount) : 0
       );
-      setRepaymentAmount(repaymentAmount > 0 ? repaymentAmount : 0);
+      setRepaymentPerInstallment(
+        Number(remainingAmount) > 0 ? Number(repaymentPerInstallment) : 0
+      );
+      setRepaymentAmount(
+        Number(repaymentAmount) > 0 ? Number(repaymentAmount) : 0
+      );
     });
 
     return () => subscription.unsubscribe();
@@ -112,6 +118,7 @@ export const LoanAmountForm = ({ navigation }: NavigationProps) => {
           <View className={cn(GRID_ROW)}>
             <Card className={cn(GRID_COL_SPAN[2], "gap-2 p-4")}>
               {getValues("loanCategory") === "oldLoan" && (
+                // @ts-ignore
                 <>
                   <View className="flex-row justify-between items-center">
                     <FormLabel nativeID="totalRepayment">
