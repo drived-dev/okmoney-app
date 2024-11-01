@@ -1,5 +1,5 @@
 import { SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native";
-import React, { Children, useState } from "react";
+import React, { Children, useEffect, useState } from "react";
 import {
   useForm,
   SubmitHandler,
