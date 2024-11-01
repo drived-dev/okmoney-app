@@ -1,11 +1,7 @@
-import { StatusBar, StyleSheet, Text, View, ScrollView } from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { CONTAINER } from "~/constants/Styles";
-import { cn } from "~/lib/utils";
-import { PARAGRAPH, TITLE } from "~/constants/Typography";
-import { Historylist } from "~/components/history/history-list";
-import moment from "moment";
+import { View } from "react-native";
+import HistoryPage from "~/components/history/history-page";
+import { SafeAreaView } from "react-native";
 
 // Define TypeScript interface for the data and props
 interface HistoryItem {
@@ -17,16 +13,6 @@ interface HistoryItem {
   value: string | number;
   date: string; // in YYYY-MM-DD format
   time: string; // in HH:mm format
-}
-
-// Interface for the Historylist props
-interface HistorylistProps {
-  url: string;
-  nickname?: string;
-  name: string;
-  variant: "cash" | "create" | "payment";
-  slip?: string;
-  value: string | number;
 }
 
 // Generate demo data with date and time
@@ -133,78 +119,8 @@ const demoData: HistoryItem[] = [
   },
 ];
 
-// Helper function to group and sort data by date and time
-const groupDataByDate = (data: HistoryItem[]) => {
-  const today = moment();
-  const yesterday = moment().subtract(1, "days");
-
-  const groupedData = data.reduce((groups, item) => {
-    const itemDate = moment(item.date);
-    let label = itemDate.format("DD MMM YY"); // Default to formatted date
-
-    if (itemDate.isSame(today, "day")) {
-      label = "วันนี้"; // Today
-    } else if (itemDate.isSame(yesterday, "day")) {
-      label = "เมื่อวาน"; // Yesterday
-    }
-
-    // If group exists, push to it, otherwise create a new group
-    if (!groups[label]) {
-      groups[label] = [];
-    }
-    groups[label].push(item);
-
-    return groups;
-  }, {} as { [key: string]: HistoryItem[] });
-
-  // Sort the groups by time (00:00 at the top and 23:59 at the bottom)
-  Object.keys(groupedData).forEach((key) => {
-    groupedData[key] = groupedData[key].sort((a, b) =>
-      moment(a.time, "HH:mm").diff(moment(b.time, "HH:mm"))
-    );
-  });
-
-  return groupedData;
+const History = () => {
+  return <HistoryPage name="สมชาย" nickname="ธาม" data={demoData} />;
 };
 
-const HistoryPage = () => {
-  // Group data by date and sort by time
-  const groupedData = groupDataByDate(demoData);
-
-  return (
-    <SafeAreaView>
-      {/* ScrollView to allow scrolling */}
-      <ScrollView>
-        <View className={cn(CONTAINER, "mt-4")}>
-          <Text className={cn(TITLE, "")}>ประวัติการชำระ</Text>
-
-          {/* Render each date group */}
-          {Object.keys(groupedData).map((dateLabel) => (
-            <View key={dateLabel}>
-              {/* Date Group Header */}
-              <Text className={cn(PARAGRAPH, "")}>{dateLabel}</Text>
-
-              {/* Line Separator Under Date */}
-              <View className={cn("h-[1px] bg-gray-300 my-2")} />
-
-              {/* Render each Historylist entry for this date group */}
-              {groupedData[dateLabel].map((item, index) => (
-                <Historylist
-                  key={index}
-                  url={item.url}
-                  nickname={item.nickname}
-                  name={item.name}
-                  variant={item.variant}
-                  slip={item.slip}
-                  value={item.value}
-                />
-              ))}
-            </View>
-          ))}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
-export default HistoryPage;
+export default History;
