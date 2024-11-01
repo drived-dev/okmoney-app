@@ -48,7 +48,7 @@ export const LoanAmountForm = ({ navigation }: NavigationProps) => {
         Number(loanAmount) +
         loanAmount * (interestRate / 100)
       ).toFixed(2);
-      const repaymentAmount = remainingAmount - amountPaidNan;
+      const repaymentAmount = (remainingAmount - amountPaidNan).toFixed(2);
       const repaymentPerInstallment = (repaymentAmount / installments).toFixed(
         2
       );
@@ -108,19 +108,61 @@ export const LoanAmountForm = ({ navigation }: NavigationProps) => {
               />
             </View>
           </View>
+
           <View className={cn(GRID_ROW)}>
-            <Card
-              className={cn(
-                GRID_COL_SPAN[2],
-                "flex-row justify-between items-center p-4"
+            <Card className={cn(GRID_COL_SPAN[2], "gap-2 p-4")}>
+              {getValues("loanCategory") === "oldLoan" && (
+                <>
+                  <View className="flex-row justify-between items-center">
+                    <FormLabel nativeID="totalRepayment">
+                      ยอดหนี้ที่ต้องชำระ
+                    </FormLabel>
+                    <View className="flex flex-row gap-2 items-end">
+                      <Text className={cn(PARAGRAPH_BOLD)}>
+                        {totalRepayment}
+                      </Text>
+                      <Text className={cn(PARAGRAPH)}>บาท</Text>
+                    </View>
+                  </View>
+
+                  <View className={cn(GRID_ROW)}>
+                    <View className={cn(GRID_COL_SPAN[1])}>
+                      <Controller
+                        control={control}
+                        name="amountPaid"
+                        render={({ field: { onChange, onBlur, value } }) => (
+                          <FormItem className="flex flex-row justify-between items-center">
+                            <FormLabel nativeID="amountPaid">
+                              ยอดที่ชำระแล้ว
+                            </FormLabel>
+                            <Input
+                              keyboardType="numeric"
+                              onBlur={onBlur}
+                              onChangeText={onChange}
+                              value={value}
+                              className="min-w-[100px] text-right"
+                            />
+                          </FormItem>
+                        )}
+                      />
+                    </View>
+                  </View>
+                  <FormMessage
+                    errorMessage={errors.amountPaid?.message}
+                    className="w-[80%]"
+                  />
+                  <View className="w-full h-[1px] bg-gray-200"></View>
+                </>
               )}
-            >
-              <FormLabel nativeID="totalRepayment">
-                ยอดหนี้ที่ต้องชำระ
-              </FormLabel>
-              <View className="flex flex-row gap-2 items-end">
-                <Text className={cn(PARAGRAPH_BOLD)}>{totalRepayment}</Text>
-                <Text className={cn(PARAGRAPH)}>บาท</Text>
+              <View className="flex-row justify-between items-center">
+                <FormLabel nativeID="totalRepayment">
+                  ยอดคงเหลือที่ต้องชำระ
+                </FormLabel>
+
+                <View className="flex flex-row gap-2 items-end">
+                  <Text className={cn(PARAGRAPH_BOLD)}>{repaymentAmount}</Text>
+                  <Text className={cn(PARAGRAPH)}>บาท</Text>
+                </View>
               </View>
             </Card>
           </View>
@@ -144,56 +186,9 @@ export const LoanAmountForm = ({ navigation }: NavigationProps) => {
               />
             </View>
           </View>
-          {
-            // conditionally rendering paid amount when loanCategory is "oldLoan"
-            getValues("loanCategory") === "oldLoan" && (
-              <>
-                <View className={cn(GRID_ROW)}>
-                  <View className={cn(GRID_COL_SPAN[1])}>
-                    <Controller
-                      control={control}
-                      name="amountPaid"
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <FormItem>
-                          <FormLabel nativeID="amountPaid">
-                            ยอดที่ชำระแล้ว
-                          </FormLabel>
-                          <Input
-                            keyboardType="numeric"
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                          />
-                          <FormMessage
-                            errorMessage={errors.amountPaid?.message}
-                          />
-                        </FormItem>
-                      )}
-                    />
-                  </View>
-                </View>
-              </>
-            )
-          }
 
           <View className={cn(GRID_ROW)}>
             <Card className={cn(GRID_COL_SPAN[2], "flex flex-col gap-2 p-4")}>
-              {getValues("loanCategory") === "oldLoan" && (
-                <>
-                  <View className="flex-row justify-between items-center">
-                    <FormLabel nativeID="totalRepayment">
-                      ยอดคงเหลือที่ต้องชำระ
-                    </FormLabel>
-                    <View className="flex flex-row gap-2 items-end">
-                      <Text className={cn(PARAGRAPH_BOLD)}>
-                        {repaymentAmount}
-                      </Text>
-                      <Text className={cn(PARAGRAPH)}>บาท</Text>
-                    </View>
-                  </View>
-                  <View className="w-full h-[1px] bg-gray-200"></View>
-                </>
-              )}
               <View className="flex-row justify-between items-center">
                 <FormLabel nativeID="totalRepayment">
                   ยอดที่ต้องชำระแต่ละงวด
