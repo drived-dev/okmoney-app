@@ -83,7 +83,7 @@ const HistoryPage: React.FC<HistoryPageProps> = ({ name, nickname, data }) => {
             {name && (
               <View className="flex flex-row items-center space-x-2 gap-2">
                 <Text className={cn(TITLE, "")}>ของ</Text>
-                <View className="border border-gray-300 rounded-2xl px-2 py-1">
+                <View className="border border-gray-300 rounded-2xl px-2 pt-1">
                   {nickname ? (
                     <Text>
                       <Text className={cn(TITLE, "font-bold")}>
