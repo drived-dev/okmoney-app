@@ -1,10 +1,13 @@
-import { WifiOff } from "lucide-react-native";
+import { ArrowLeft, MoveLeft, SkipBack, WifiOff } from "lucide-react-native";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import useNetInfo from "~/lib/useNetInfo";
 import { cn } from "~/lib/utils";
 import colors from "tailwindcss/colors";
 import { PARAGRAPH, TITLE } from "~/constants/Typography";
+import { Button } from "./ui/button";
+import { router } from "expo-router";
+import { IconButton } from "./icon-button";
 // Higher-order component that conditionally renders the wrapped component based on connectivity
 const OnlineOnly = (WrappedComponent: React.ComponentType) => {
   const OnlineOnlyComponent: React.FC = (props) => {
@@ -17,6 +20,11 @@ const OnlineOnly = (WrappedComponent: React.ComponentType) => {
           <Text className={cn(TITLE, "text-gray-400")}>
             no internet connection
           </Text>
+          <IconButton
+            icon={<ArrowLeft />}
+            onPress={() => router.back()}
+            text="go back"
+          ></IconButton>
         </View>
       );
     }
