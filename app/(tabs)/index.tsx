@@ -76,6 +76,10 @@ const Index = () => {
   const user = useUserStore();
   const { tags, addTag, clearTags, removeTag } = useFilterStore();
 
+  function goToCreateDebtorCSV() {
+    router.push("/debtor/create-csv");
+  }
+
   const openDrawerAndClearTags = () => {
     setDrawerOpen(true);
   };
@@ -343,7 +347,11 @@ const Index = () => {
                 <View className="flex flex-row gap-2">
                   {/* #TODO: check user role */}
                   {user.rolePackage !== "" && (
-                    <Button variant={"outline_white"} size={"premium"}>
+                    <Button
+                      variant={"outline_white"}
+                      size={"premium"}
+                      onPress={goToCreateDebtorCSV}
+                    >
                       <View className="flex flex-row gap-2">
                         <Icon name="Users" color="white" size={24} />
                         <Icon name="Plus" color="white" size={24} />

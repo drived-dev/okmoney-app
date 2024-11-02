@@ -35,7 +35,7 @@ const useUserStore = create<UserState>((set) => ({
   lastName: "",
   storeName: "",
   phoneNumber: "",
-  rolePackage: "",
+  rolePackage: "premium",
   tags: [],
   email: "",
   createdAt: "",
