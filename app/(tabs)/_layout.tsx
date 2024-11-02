@@ -1,5 +1,5 @@
 // import Colors from "~/constants/Colors";
-import { Tabs } from "expo-router";
+import { router, Tabs } from "expo-router";
 import React from "react";
 import { PieChart, User, File } from "lucide-react-native";
 import colors from "tailwindcss/colors";
@@ -7,6 +7,7 @@ import { useColorScheme } from "~/lib/useColorScheme";
 import { Platform } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { useTheme } from "@react-navigation/native";
+import useUserStore from "~/store/use-user-store";
 
 interface Route {
   name: string;
@@ -51,6 +52,14 @@ const Layout = () => {
       },
     }),
   };
+
+  // go to auth if user is not login
+  const user = useUserStore();
+  const isUserLogin = user.id != "";
+  if (!isUserLogin) {
+    router.push("/(auth)");
+    return null;
+  }
 
   return (
     <Tabs
