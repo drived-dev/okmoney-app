@@ -67,7 +67,7 @@ export const Searchbar = ({
             </ToggleGroupItem>
             <ToggleGroupItem value="filter" aria-label="Toggle filter">
               <View className="flex flex-row gap-1 items-center">
-                <Icon name="Filter" size={16} />
+                <Icon name="Filter" size={20} />
                 <Text
                   className={cn(
                     PARAGRAPH,
@@ -84,8 +84,8 @@ export const Searchbar = ({
         {/* Grid/List View Toggle Button */}
         <Button variant="ghost" size="icon" onPress={toggleView}>
           <Icon
-            name={isGridView ? "List" : "LayoutGrid"}
-            size={16}
+            name={isGridView ? "Rows3" : "LayoutGrid"}
+            size={20}
             color="#71717a"
           />
         </Button>

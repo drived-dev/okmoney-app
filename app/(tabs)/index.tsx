@@ -406,7 +406,11 @@ const Index = () => {
                 <View className="mt-1">
                   {loans.length > 0 ? (
                     isGridView ? (
-                      <GridComponent data={filteredData} />
+                      <GridComponent
+                        loans={filteredData}
+                        onMemo={handlePresentMemo}
+                        onGuarantor={handlePresentGuarantor}
+                      />
                     ) : (
                       filteredData.map((loan) => (
                         <LoanCard

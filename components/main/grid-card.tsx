@@ -7,6 +7,9 @@ import { Button } from "../ui/button";
 import { cn } from "~/lib/utils";
 import { CONTAINER } from "~/constants/Styles";
 import { LABEL, PARAGRAPH, TITLE } from "~/constants/Typography";
+import { LoanCardMenu } from "./loan-card-menu";
+import useEditingLoanStore from "~/store/use-editing-loan-store";
+import { DebtorName } from "../debtor-name";
 
 interface CircularProgressProps {
   size: number; // The size of the circle
@@ -86,64 +89,68 @@ const CircularProgress: React.FC<CircularProgressProps> = ({
 };
 
 interface GridComponentProps {
-  data: Loan[];
+  loans: Loan[];
+  onMemo: () => void;
+  onGuarantor: () => void;
 }
 
-export const GridComponent: React.FC<GridComponentProps> = ({ data }) => {
+export const GridComponent: React.FC<GridComponentProps> = ({
+  loans,
+  onMemo,
+  onGuarantor,
+}) => {
+  const { setId } = useEditingLoanStore();
   return (
-    <View
-      className={cn(CONTAINER, "flex flex-row flex-wrap justify-between mt-5")}
-      style={{
-        paddingHorizontal: 10,
-      }}
-    >
-      {data.map((item, index) => (
-        <View
-          key={item.id}
-          className="bg-white p-1 rounded-lg shadow-sm mb-4 border border-gray-200"
-          style={{
-            width: "48%",
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 1 },
-            shadowOpacity: 0.2,
-            shadowRadius: 1.41,
-            elevation: 2,
-            marginBottom: 15,
-            marginRight: index % 2 === 0 ? 10 : 0,
-          }}
-        >
-          <View className="relative justify-center items-center">
-            <View className="absolute top-0 right-0">
-              <Button variant={"link"} size={"icon"}>
-                <Icon name="Ellipsis" size={18} color="#A1A1AA" />
-              </Button>
+    <View className={cn("flex flex-row flex-wrap justify-between ")}>
+      {loans.map((loan, index) => {
+        function openGuarantorSheet() {
+          setId(loan.id);
+          onGuarantor();
+        }
+        return (
+          <View
+            key={loan.id}
+            className="bg-white p-1 rounded-2xl shadow-sm mb-4 border border-gray-200"
+            style={{
+              width: "48%",
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.2,
+              shadowRadius: 1.41,
+              elevation: 2,
+              marginBottom: 15,
+              marginRight: index % 2 === 0 ? 10 : 0,
+            }}
+          >
+            <View className="relative justify-center items-center">
+              <View className="absolute top-0 right-0">
+                <LoanCardMenu openGuarantorSheet={openGuarantorSheet} />
+              </View>
+              <View className="mt-3">
+                {/* Circular Progress Bar with Profile Image Inside */}
+                <CircularProgress
+                  size={80}
+                  strokeWidth={12}
+                  progress={Math.round((loan.outstanding / loan.total) * 100)}
+                  maxProgress={100}
+                  imageUri={loan.profileImage}
+                />
+              </View>
             </View>
-            <View className="mt-3">
-              {/* Circular Progress Bar with Profile Image Inside */}
-              <CircularProgress
-                size={80}
-                strokeWidth={12}
-                progress={Math.round((item.outstanding / item.total) * 100)}
-                maxProgress={100}
-                imageUri={item.profileImage}
-              />
-            </View>
-          </View>
 
-          {/* Text content */}
-          <View className="items-center justify-center">
-            <Text className={cn(PARAGRAPH, "text-sm text-gray-500")}>
-              เลขสัญญา {item.id}
-            </Text>
-            <Text className={cn(TITLE, "text-lg font-bold text-gray-900 mt-1")}>
-              {item.nickname}
-            </Text>
-            <Text className={cn(LABEL, "text-sm text-gray-600")}>
-              {item.name}
-            </Text>
+            {/* Text content */}
+            <View className="items-center justify-center">
+              <Text className={cn(PARAGRAPH, "text-sm text-gray-500")}>
+                เลขสัญญา {loan.id}
+              </Text>
+              <DebtorName
+                name={loan.name}
+                nickname={loan.nickname}
+              ></DebtorName>
+            </View>
           </View>
-        </View>
-      ))}
+        );
+      })}
     </View>
   );
 };
