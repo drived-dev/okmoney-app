@@ -1,6 +1,12 @@
 import { Link, router, useNavigation } from "expo-router";
 import React, { useCallback, useRef, useState, useEffect } from "react";
-import { StyleSheet, View, ScrollView, Animated } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Animated,
+  TouchableOpacity,
+} from "react-native";
 import { Text } from "~/components/ui/text";
 import { PARAGRAPH, PARAGRAPH_BOLD, LABEL } from "~/constants/Typography";
 import { cn } from "~/lib/utils";
@@ -38,6 +44,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "~/components/ui/input";
 import MemoSheet from "~/components/main/memo-sheet";
 import GuarantorSheet from "~/components/main/guarantor-sheet";
+import { Drawer } from "react-native-drawer-layout";
 
 const amountMemoSchema = z.object({
   amount: z.string().max(100).optional(),
@@ -51,7 +58,7 @@ const Index = () => {
   } = useForm<z.infer<typeof amountMemoSchema>>({
     resolver: zodResolver(amountMemoSchema),
   });
-
+  const navigation = useNavigation();
   const [tagValue, settagValue] = React.useState<string[]>([]); // Store selected tags
   const [statusValue, setstatusValue] = React.useState<string[]>([]); // Store selected statuses
   const [isGridView, setIsGridView] = useState(false); // Toggle between GridView and ListView
