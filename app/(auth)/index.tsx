@@ -14,7 +14,7 @@ const index = () => {
   return (
     <View className="h-full">
       <SafeAreaView>
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
         <View className="justify-center items-center mt-40">
           <View className="flex flex-col gap-8 items-center justify-center">
             <Image

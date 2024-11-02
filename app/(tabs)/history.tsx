@@ -2,6 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import HistoryPage from "~/components/history/history-page";
 import { SafeAreaView } from "react-native";
+import OnlineOnly from "~/components/online-only";
 
 // Define TypeScript interface for the data and props
 interface HistoryItem {
@@ -123,4 +124,4 @@ const History = () => {
   return <HistoryPage name="สมชาย" nickname="ธาม" data={demoData} />;
 };
 
-export default History;
+export default OnlineOnly(History);

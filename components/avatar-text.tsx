@@ -8,12 +8,15 @@ interface AvatarText extends ViewProps {
   url?: string;
   title?: string;
   children?: JSX.Element;
+  className?: string;
+  textClassName?: string;
 }
 export const AvatarText = ({
   url,
   title,
   children,
   className,
+  textClassName,
   ...props
 }: AvatarText) => {
   return (
@@ -25,7 +28,7 @@ export const AvatarText = ({
         </AvatarFallback>
       </Avatar>
       <View className="flex flex-col gap-1">
-        <Text className={cn(PARAGRAPH, "")}>{title}</Text>
+        <Text className={cn(PARAGRAPH, textClassName)}>{title}</Text>
         {children}
       </View>
     </View>

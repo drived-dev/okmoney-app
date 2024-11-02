@@ -32,6 +32,7 @@ export const LoanCard = ({
 }: {
   loan: Loan;
   onMemo: () => void;
+  onGuarantor: () => void;
 }) => {
   const { setId } = useEditingLoanStore();
   // Calculate the progress based on outstanding vs total
@@ -52,7 +53,12 @@ export const LoanCard = ({
   return (
     // background deptor
     <TouchableOpacity>
-      <View className="bg-card p-3 my-1 rounded-3xl border border-border space-y-3 ">
+      <View
+        className={cn(
+          "bg-card p-3 my-1 rounded-3xl border border-border space-y-3",
+          loan.status == "ครบชำระ" && "bg-muted"
+        )}
+      >
         {/* Profile Image and Loan Info */}
         <View className="flex flex-col gap-2">
           <View className="justify-between flex flex-row">
@@ -94,7 +100,12 @@ export const LoanCard = ({
             </View>
           </View>
           {/* Outstanding Amount and Progress Bar with Total Amount on the Right */}
-          <View className="flex-row gap-2 content-center justify-center items-center">
+
+          <View
+            className={cn(
+              "flex-row gap-2 content-center justify-center items-center"
+            )}
+          >
             {/* Progress Bar */}
             <ProgressText
               textStart={`${loan.outstanding} บาท`}
@@ -113,6 +124,7 @@ export const LoanCard = ({
           {loan.status !== "ครบชำระ" ? (
             <>
               {/* Remind Button with Icon */}
+              {/* TODO: notfication reminder */}
               <IconButton
                 className="flex-1"
                 variant="outline"
@@ -127,14 +139,7 @@ export const LoanCard = ({
                 text="บันทึกรายการ"
               />
             </>
-          ) : (
-            <IconButton
-              className="flex-1"
-              variant="outline"
-              icon={<Icon name="Send" size={20} />}
-              text="เปิดรายการใหม่"
-            />
-          )}
+          ) : null}
         </View>
       </View>
     </TouchableOpacity>

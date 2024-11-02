@@ -21,6 +21,7 @@ import { Drawer } from "expo-router/drawer";
 import { CustomDrawer } from "~/components/custom-drawer";
 import OfflineNotice from "~/components/offline-notice";
 import { toastConfig } from "~/components/toast-config";
+import useUserStore from "~/store/use-user-store";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -92,8 +93,9 @@ export default function RootLayout() {
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
       <Drawer
         drawerContent={() => <CustomDrawer />}
-        initialRouteName="(tabs)"
+        initialRouteName={"(tabs)"}
         screenOptions={{
+          drawerType: "front",
           headerShown: false,
         }}
       >

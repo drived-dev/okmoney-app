@@ -45,6 +45,8 @@ import { Input } from "~/components/ui/input";
 import MemoSheet from "~/components/main/memo-sheet";
 import GuarantorSheet from "~/components/main/guarantor-sheet";
 import { Drawer } from "react-native-drawer-layout";
+import useUserStore from "~/store/use-user-store";
+import { Loan } from "~/types/Loan";
 
 const amountMemoSchema = z.object({
   amount: z.string().max(100).optional(),
@@ -67,19 +69,16 @@ const Index = () => {
   const [isGradientVisible, setGradientVisible] = useState(true); // Gradient control
   const [isSearchbarSticky, setSearchbarSticky] = useState(false); // Sticky search bar control
   const [isDrawerOpen, setDrawerOpen] = useState(false); // Drawer state
-  const [visibleLoans, setVisibleLoans] = useState([]); // Visible loans after filtering
+  const [visibleLoans, setVisibleLoans] = useState<Loan[]>([]); // Visible loans after filtering
 
   const scrollViewRef = useRef(null); // ScrollView reference
   const { loans } = useLoanStore(); // Retrieve loans from useLoanStore
+  const user = useUserStore();
   const { tags, addTag, clearTags, removeTag } = useFilterStore();
 
-  const loandata = {
-    nickname: "บิ้ง",
-    status: 1,
-    profileImage:
-      "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    limit: 4, // Limit for loan display
-  };
+  function goToCreateDebtorCSV() {
+    router.push("/debtor/create-csv");
+  }
 
   const openDrawerAndClearTags = () => {
     setDrawerOpen(true);
@@ -91,21 +90,25 @@ const Index = () => {
   //   }
   // }, [toggleValue]);
 
-  // First, limit loans to the number of `loandata.limit` and update visible loans
+  // First, limit loans to the number of `user.limit` and update visible loans
   useEffect(() => {
     if (toggleValue === "filter") {
-      const filtered = loans.slice(0, loandata.limit).filter((loan) => {
-        const matchesTag =
-          tags.length === 0 || loan.tags?.some((tag) => tags.includes(tag));
-        return matchesTag;
-      });
+      const filtered = loans
+        .slice(0, user.debtorSlotAvailable)
+        .filter((loan) => {
+          const matchesTag =
+            tags.length === 0 || loan.tags?.some((tag) => tags.includes(tag));
+          return matchesTag;
+        });
 
       setVisibleLoans(filtered);
     } else if (toggleValue === "all" || toggleValue === "old") {
-      const filtered = loans.slice(0, loandata.limit).filter((loan) => {
-        if (toggleValue === "all") return true;
-        if (toggleValue === "old") return loan.tags?.includes("old");
-      });
+      const filtered = loans
+        .slice(0, user.debtorSlotAvailable)
+        .filter((loan) => {
+          if (toggleValue === "all") return true;
+          if (toggleValue === "old") return loan.tags?.includes("old");
+        });
       setVisibleLoans(filtered);
     }
   }, [toggleValue, loans, tags]); // Add `tags` dependency here
@@ -130,7 +133,7 @@ const Index = () => {
   );
 
   // Handle scrolling for gradient and sticky search bar
-  const handleScroll = (event) => {
+  const handleScroll = (event: any) => {
     const scrollPosition = event.nativeEvent.contentOffset.y;
     if (scrollPosition > 55) {
       setGradientVisible(false);
@@ -328,16 +331,27 @@ const Index = () => {
                 <TouchableOpacity onPress={() => navigation.openDrawer()}>
                   <AvatarText
                     url="https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
-                    title="test"
+                    title="สวัสดี"
+                    textClassName="text-gray-200"
                   >
-                    <Text className={cn(PARAGRAPH, "text-primary")}>
-                      {loandata.nickname}
+                    <Text
+                      className={cn(
+                        PARAGRAPH_BOLD,
+                        "text-lg translate-y-[-6px] text-white"
+                      )}
+                    >
+                      {user.firstName}
                     </Text>
                   </AvatarText>
                 </TouchableOpacity>
                 <View className="flex flex-row gap-2">
-                  {loandata.status !== 0 && (
-                    <Button variant={"outline_white"} size={"premium"}>
+                  {/* #TODO: check user role */}
+                  {user.rolePackage !== "" && (
+                    <Button
+                      variant={"outline_white"}
+                      size={"premium"}
+                      onPress={goToCreateDebtorCSV}
+                    >
                       <View className="flex flex-row gap-2">
                         <Icon name="Users" color="white" size={24} />
                         <Icon name="Plus" color="white" size={24} />
@@ -375,7 +389,7 @@ const Index = () => {
                   }}
                 />
 
-                {loans.length > loandata.limit && (
+                {loans.length > user.limit && (
                   <View className="bg-[#A35D2B]/10 justify-between flex flex-row rounded-2xl py-3 items-center px-5 mb-3">
                     <Text className={cn(PARAGRAPH_BOLD, "")}>
                       ลูกหนี้เต็มสำหรับแพ็คเกจคุณ
@@ -392,7 +406,11 @@ const Index = () => {
                 <View className="mt-1">
                   {loans.length > 0 ? (
                     isGridView ? (
-                      <GridComponent data={filteredData} />
+                      <GridComponent
+                        loans={filteredData}
+                        onMemo={handlePresentMemo}
+                        onGuarantor={handlePresentGuarantor}
+                      />
                     ) : (
                       filteredData.map((loan) => (
                         <LoanCard
@@ -411,7 +429,7 @@ const Index = () => {
                 <View className="flex flex-col justify-center items-center">
                   <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mt-3 px-4">
                     <Text className={cn(PARAGRAPH, "text-green-800")}>
-                      จำนวนลูกหนี้ {loans.length} / {loandata.limit}
+                      จำนวนลูกหนี้ {loans.length} / {user.debtorSlotAvailable}
                     </Text>
                   </View>
                 </View>

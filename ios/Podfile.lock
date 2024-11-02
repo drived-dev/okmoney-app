@@ -12,6 +12,8 @@ PODS:
     - ExpoModulesCore
   - ExpoAsset (10.0.10):
     - ExpoModulesCore
+  - ExpoDocumentPicker (12.0.2):
+    - ExpoModulesCore
   - ExpoFileSystem (17.0.1):
     - ExpoModulesCore
   - ExpoFont (12.0.10):
@@ -20,6 +22,13 @@ PODS:
     - ExpoModulesCore
   - ExpoImagePicker (15.0.7):
     - ExpoModulesCore
+  - ExpoImage (1.13.0):
+    - ExpoModulesCore
+    - libavif/libdav1d
+    - SDWebImage (~> 5.19.1)
+    - SDWebImageAVIFCoder (~> 0.11.0)
+    - SDWebImageSVGCoder (~> 1.7.0)
+    - SDWebImageWebPCoder (~> 0.14.6)
   - ExpoKeepAwake (13.0.2):
     - ExpoModulesCore
   - ExpoLinearGradient (13.0.2):
@@ -47,6 +56,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - ExpoSharing (12.0.1):
+    - ExpoModulesCore
   - ExpoSystemUI (3.0.7):
     - ExpoModulesCore
   - EXSplashScreen (0.27.5):
@@ -77,6 +88,23 @@ PODS:
   - hermes-engine (0.74.3):
     - hermes-engine/Pre-built (= 0.74.3)
   - hermes-engine/Pre-built (0.74.3)
+  - libavif/core (0.11.1)
+  - libavif/libdav1d (0.11.1):
+    - libavif/core
+    - libdav1d (>= 0.6.0)
+  - libdav1d (1.2.0)
+  - libwebp (1.3.2):
+    - libwebp/demux (= 1.3.2)
+    - libwebp/mux (= 1.3.2)
+    - libwebp/sharpyuv (= 1.3.2)
+    - libwebp/webp (= 1.3.2)
+  - libwebp/demux (1.3.2):
+    - libwebp/webp
+  - libwebp/mux (1.3.2):
+    - libwebp/demux
+  - libwebp/sharpyuv (1.3.2)
+  - libwebp/webp (1.3.2):
+    - libwebp/sharpyuv
   - RCT-Folly (2024.01.01.00):
     - boost
     - DoubleConversion
@@ -1308,6 +1336,17 @@ PODS:
     - Yoga
   - RNSVG (15.2.0):
     - React-Core
+  - SDWebImage (5.19.7):
+    - SDWebImage/Core (= 5.19.7)
+  - SDWebImage/Core (5.19.7)
+  - SDWebImageAVIFCoder (0.11.0):
+    - libavif/core (>= 0.11.0)
+    - SDWebImage (~> 5.10)
+  - SDWebImageSVGCoder (1.7.0):
+    - SDWebImage/Core (~> 5.6)
+  - SDWebImageWebPCoder (0.14.6):
+    - libwebp (~> 1.0)
+    - SDWebImage/Core (~> 5.17)
   - SocketRocket (0.7.0)
   - Yoga (0.0.0)
 
@@ -1319,13 +1358,16 @@ DEPENDENCIES:
   - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
   - Expo (from `../node_modules/expo`)
   - ExpoAsset (from `../node_modules/expo-asset/ios`)
+  - ExpoDocumentPicker (from `../node_modules/expo-document-picker/ios`)
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
   - ExpoFont (from `../node_modules/expo-font/ios`)
   - ExpoHead (from `../node_modules/expo-router/ios`)
+  - ExpoImage (from `../node_modules/expo-image/ios`)
   - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoLinearGradient (from `../node_modules/expo-linear-gradient/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
+  - ExpoSharing (from `../node_modules/expo-sharing/ios`)
   - ExpoSystemUI (from `../node_modules/expo-system-ui/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
@@ -1393,6 +1435,13 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - libavif
+    - libdav1d
+    - libwebp
+    - SDWebImage
+    - SDWebImageAVIFCoder
+    - SDWebImageSVGCoder
+    - SDWebImageWebPCoder
     - SocketRocket
 
 EXTERNAL SOURCES:
@@ -1410,6 +1459,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo"
   ExpoAsset:
     :path: "../node_modules/expo-asset/ios"
+  ExpoDocumentPicker:
+    :path: "../node_modules/expo-document-picker/ios"
   ExpoFileSystem:
     :path: "../node_modules/expo-file-system/ios"
   ExpoFont:
@@ -1418,12 +1469,16 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-router/ios"
   ExpoImagePicker:
     :path: "../node_modules/expo-image-picker/ios"
+  ExpoImage:
+    :path: "../node_modules/expo-image/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
   ExpoLinearGradient:
     :path: "../node_modules/expo-linear-gradient/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core"
+  ExpoSharing:
+    :path: "../node_modules/expo-sharing/ios"
   ExpoSystemUI:
     :path: "../node_modules/expo-system-ui/ios"
   EXSplashScreen:
@@ -1558,19 +1613,25 @@ SPEC CHECKSUMS:
   EXImageLoader: ab589d67d6c5f2c33572afea9917304418566334
   Expo: 33132a667698a3259a4e6c0af1b4936388e5fa33
   ExpoAsset: 323700f291684f110fb55f0d4022a3362ea9f875
+  ExpoDocumentPicker: a82eaccc62ecb62662d5a6ca7a8ef40b71daa521
   ExpoFileSystem: 80bfe850b1f9922c16905822ecbf97acd711dc51
   ExpoFont: 00756e6c796d8f7ee8d211e29c8b619e75cbf238
   ExpoHead: fcb28a68ed4ba28f177394d2dfb8a0a8824cd103
   ExpoImagePicker: 12a420923383ae38dccb069847218f27a3b87816
+  ExpoImage: 42162e3d264ce07a62766d6bd26bd299fe4c6faa
   ExpoKeepAwake: 3b8815d9dd1d419ee474df004021c69fdd316d08
   ExpoLinearGradient: 8cec4a09426d8934c433e83cb36262d72c667fce
   ExpoModulesCore: f30a203ff1863bab3dd9f4421e7fc1564797f18a
+  ExpoSharing: 8db05dd85081219f75989a3db2c92fe5e9741033
   ExpoSystemUI: d4f065a016cae6721b324eb659cdee4d4cf0cb26
   EXSplashScreen: fbf0ec78e9cee911df188bf17b4fe51d15a84b87
   FBLazyVector: 7e977dd099937dc5458851233141583abba49ff2
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
   glog: fdfdfe5479092de0c4bdbebedd9056951f092c4f
   hermes-engine: 1f547997900dd0752dc0cc0ae6dd16173c49e09b
+  libavif: 84bbb62fb232c3018d6f1bab79beea87e35de7b7
+  libdav1d: 23581a4d8ec811ff171ed5e2e05cd27bad64c39f
+  libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
   RCT-Folly: 02617c592a293bd6d418e0a88ff4ee1f88329b47
   RCTDeprecation: 4c7eeb42be0b2e95195563c49be08d0b839d22b4
   RCTRequired: d530a0f489699c8500e944fde963102c42dcd0c2
@@ -1626,6 +1687,10 @@ SPEC CHECKSUMS:
   RNReanimated: 35f9ac9c3ac42d0497ebd1cce5c39d7687a8493e
   RNScreens: b32a9ff15bea7fcdbe5dff6477bc503f792b1208
   RNSVG: 43b64ed39c14ce830d840903774154ca0c1f27ec
+  SDWebImage: 8a6b7b160b4d710e2a22b6900e25301075c34cb3
+  SDWebImageAVIFCoder: 00310d246aab3232ce77f1d8f0076f8c4b021d90
+  SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
+  SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: 04f1db30bb810187397fa4c37dd1868a27af229c
 

@@ -26,6 +26,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormMessage, FormItem, FormLabel } from "~/components/form";
+import OnlineOnly from "~/components/online-only";
 
 const formSchema = z.object({
   img: z.string().nonempty({ message: "ต้องเลือกโปรไฟล์รูปภาพ" }), // Image is required
@@ -209,4 +210,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default OnlineOnly(Index);
