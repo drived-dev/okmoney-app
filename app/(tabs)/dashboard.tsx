@@ -6,6 +6,7 @@ import {
   BottomSheetView,
   BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
+import OnlineOnly from "~/components/online-only";
 
 const App = () => {
   // ref
@@ -56,4 +57,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default OnlineOnly(App);

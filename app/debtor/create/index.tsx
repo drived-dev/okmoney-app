@@ -38,6 +38,7 @@ import {
   MemoFormSchema,
 } from "~/lib/validation/loan-create";
 import CloseButton from "~/components/close-button";
+import OnlineOnly from "~/components/online-only";
 
 export const defaultValues = [
   {
@@ -120,4 +121,4 @@ const create = () => {
   );
 };
 
-export default create;
+export default OnlineOnly(create);

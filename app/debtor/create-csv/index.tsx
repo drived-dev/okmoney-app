@@ -37,6 +37,7 @@ import { readString } from "react-native-csv";
 import { useRouter } from "expo-router";
 import { useStore } from "zustand";
 import { useLoanBufferStore } from "~/store/use-loan-buffer-store";
+import OnlineOnly from "~/components/online-only";
 
 interface InputData {
   data: string[][];

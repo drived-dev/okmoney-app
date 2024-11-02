@@ -5,6 +5,7 @@ import { Slot } from "expo-router";
 import { CONTAINER } from "~/constants/Styles";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH, TITLE } from "~/constants/Typography";
+import OnlineOnly from "~/components/online-only";
 const Layout = () => {
   return (
     <SafeAreaView>
@@ -24,4 +25,4 @@ const Layout = () => {
 
 const styles = StyleSheet.create({});
 
-export default Layout;
+export default OnlineOnly(Layout);
