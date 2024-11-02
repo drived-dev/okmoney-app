@@ -32,6 +32,12 @@ import { MemoForm } from "./(components)/memo-form";
 import { Button } from "~/components/ui/button";
 import { LucideX } from "lucide-react-native";
 import { router } from "expo-router";
+import {
+  InfoFormSchema,
+  LoanAmountFormSchema,
+  MemoFormSchema,
+} from "~/lib/validation/loan-create";
+import CloseButton from "~/components/close-button";
 
 export const defaultValues = [
   {
@@ -55,57 +61,11 @@ interface Form {
 export const forms: Form[] = [
   {
     screen: InfoForm,
-    schema: z.object({
-      nickname: z
-        .string()
-        .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
-        .max(10),
-      name: z
-        .string()
-        .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
-        .max(20)
-        .optional(),
-      lastname: z
-        .string()
-        .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
-        .max(20)
-        .optional(),
-      phone: z
-        .string()
-        .regex(/^\+?[1-9]\d{1,14}$/, {
-          message: "Invalid phone number format",
-        })
-        .optional(),
-    }),
+    schema: InfoFormSchema,
   },
   {
     screen: LoanDetailForm,
-    schema: z
-      .object({
-        loanId: z
-          .string()
-          .min(1, { message: "ชื่อต้องมากกว่า 1 ตัวอักษร" })
-          .max(10),
-        dueDate: z.date().default(new Date()),
-        loanType: z.enum(["fixed", "adjustable"]),
-        paymentType: z.enum(["monthly", "daily", "custom"]),
-        firstPaymentDate: z.date(),
-        loanTermType: z.string().optional(),
-        loanCategory: z.enum(["newLoan", "oldLoan"]),
-      })
-      .refine(
-        // raise error when paymentType custom is selected
-        (input) => {
-          if (
-            input.paymentType === "custom" &&
-            (input.loanTermType === "" || input.loanTermType === undefined)
-          ) {
-            return false;
-          }
-          return true;
-        },
-        { message: "จำเป็นต้องใส่ข้อมูลประเภท", path: ["loanTermType"] }
-      ),
+    schema: LoanAmountFormSchema,
   },
   {
     screen: LoanAmountForm,
@@ -134,10 +94,7 @@ export const forms: Form[] = [
   },
   {
     screen: MemoForm,
-    schema: z.object({
-      additionalNote: z.string().max(100).optional(),
-      tags: z.array(z.string()).optional(),
-    }),
+    schema: MemoFormSchema,
   },
 ];
 
@@ -152,16 +109,7 @@ const create = () => {
 
   return (
     <>
-      <Button
-        size="icon-lg"
-        variant="ghost"
-        className="ml-4 mt-6 mb-10"
-        onPress={() => {
-          router.back();
-        }}
-      >
-        <LucideX color="black" size={24} />
-      </Button>
+      <CloseButton className="ml-4 mt-6 mb-10" />
       <StepForm
         onSubmit={onSubmit}
         forms={formScreens}
