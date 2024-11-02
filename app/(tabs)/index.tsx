@@ -1,6 +1,12 @@
 import { Link, router, useNavigation } from "expo-router";
 import React, { useCallback, useRef, useState, useEffect } from "react";
-import { StyleSheet, View, ScrollView, Animated } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Animated,
+  TouchableOpacity,
+} from "react-native";
 import { Text } from "~/components/ui/text";
 import { PARAGRAPH, PARAGRAPH_BOLD, LABEL } from "~/constants/Typography";
 import { cn } from "~/lib/utils";
@@ -17,7 +23,6 @@ import useLoanStore from "~/store/use-loan-store";
 import useFilterStore from "~/store/use-filter-store";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/icon";
-import { Drawer } from "react-native-drawer-layout";
 import {
   ToggleGroup,
   ToggleGroupIcon,
@@ -39,6 +44,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "~/components/ui/input";
 import MemoSheet from "~/components/main/memo-sheet";
 import GuarantorSheet from "~/components/main/guarantor-sheet";
+import { Drawer } from "react-native-drawer-layout";
 
 const amountMemoSchema = z.object({
   amount: z.string().max(100).optional(),
@@ -52,7 +58,7 @@ const Index = () => {
   } = useForm<z.infer<typeof amountMemoSchema>>({
     resolver: zodResolver(amountMemoSchema),
   });
-
+  const navigation = useNavigation();
   const [tagValue, settagValue] = React.useState<string[]>([]); // Store selected tags
   const [statusValue, setstatusValue] = React.useState<string[]>([]); // Store selected statuses
   const [isGridView, setIsGridView] = useState(false); // Toggle between GridView and ListView
@@ -319,11 +325,16 @@ const Index = () => {
               contentContainerStyle={{ paddingBottom: 150 }}
             >
               <View className={cn(CONTAINER, "justify-between flex flex-row")}>
-                <AvatarText url={loandata.profileImage} title="test">
-                  <Text className={cn(PARAGRAPH, "text-primary")}>
-                    {loandata.nickname}
-                  </Text>
-                </AvatarText>
+                <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                  <AvatarText
+                    url="https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
+                    title="test"
+                  >
+                    <Text className={cn(PARAGRAPH, "text-primary")}>
+                      {loandata.nickname}
+                    </Text>
+                  </AvatarText>
+                </TouchableOpacity>
                 <View className="flex flex-row gap-2">
                   {loandata.status !== 0 && (
                     <Button variant={"outline_white"} size={"premium"}>
