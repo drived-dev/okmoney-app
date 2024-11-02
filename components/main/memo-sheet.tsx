@@ -74,8 +74,8 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
     Toast.show({
       type: "success",
       position: "bottom",
-      text1: `${id}`,
-      text2: "This is some something 👋",
+      text1: `บันทึกสำเร็จ`,
+      text2: "บันทึกจำนวนเงิน 200 บาท",
     });
   }
 
