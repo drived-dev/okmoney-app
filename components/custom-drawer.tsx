@@ -28,12 +28,12 @@ export const CustomDrawer = () => {
               textEnd="20 ครั้ง"
               percentage={35}
             />
-            <Image
-              source={{
-                uri: "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-              }}
-              className="w-full h-40 object-cover rounded-2xl"
-            ></Image>
+            <TouchableOpacity onPress={() => router.push("/package")}>
+              <Image
+                source={require("assets/images/promo.png")}
+                className="w-full h-40 object-cover rounded-2xl"
+              ></Image>
+            </TouchableOpacity>
             <View className="flex flex-col ">
               <View className="flex flex-col gap-2">
                 <IconButtonDrawer
