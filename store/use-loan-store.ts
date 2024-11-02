@@ -14,7 +14,7 @@ const demodata: Loan[] = [
     dueDate: "30/5",
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    tags: ["old", "friend"], // Manually assigned tags
+    tags: ["old", "เพื่อน"],
   },
   {
     id: "02",
@@ -26,7 +26,7 @@ const demodata: Loan[] = [
     dueDate: "30/5",
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    tags: ["urgent"], // Manually assigned tags
+    tags: ["urgent", "ใกล้กำหนด"], // Manually assigned tags
   },
   {
     id: "03",
@@ -50,7 +50,7 @@ const demodata: Loan[] = [
     dueDate: "30/5",
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    tags: ["friend", "important"], // Manually assigned tags
+    tags: ["เพื่อน", "important"], // Manually assigned tags
   },
   {
     id: "05",
@@ -62,7 +62,7 @@ const demodata: Loan[] = [
     dueDate: "30/5",
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    tags: ["old", "urgent", "important"], // Manually assigned tags
+    tags: ["old", "urgent", "important", "nearly"], // Manually assigned tags
   },
 ];
 
