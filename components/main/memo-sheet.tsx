@@ -72,10 +72,10 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
     console.log(id);
     // TODO: change info text
     Toast.show({
-      type: "success",
+      type: "info",
       position: "bottom",
-      text1: `${id}`,
-      text2: "This is some something 👋",
+      text1: `บันทึกสำเร็จ`,
+      text2: "บันทึกจำนวนเงิน 200 บาท",
     });
   }
 
