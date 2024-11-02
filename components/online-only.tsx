@@ -13,6 +13,16 @@ const OnlineOnly = (WrappedComponent: React.ComponentType) => {
   const OnlineOnlyComponent: React.FC = (props) => {
     const isConnected = useNetInfo();
 
+    const handleBack = () => {
+      if (router.canGoBack()) {
+        // If there's a previous page, go back
+        router.back();
+      } else {
+        // Otherwise, navigate to a fallback route (e.g., "Home")
+        router.navigate("/");
+      }
+    };
+
     if (isConnected) {
       return (
         <View className="flex flex-col gap-4 items-center justify-center py-2 flex-1">
@@ -22,7 +32,7 @@ const OnlineOnly = (WrappedComponent: React.ComponentType) => {
           </Text>
           <IconButton
             icon={<ArrowLeft />}
-            onPress={() => router.back()}
+            onPress={handleBack}
             text="go back"
           ></IconButton>
         </View>
