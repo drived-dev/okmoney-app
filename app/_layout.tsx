@@ -19,6 +19,7 @@ import { useFonts } from "expo-font";
 import Toast from "react-native-toast-message";
 import { Drawer } from "expo-router/drawer";
 import { CustomDrawer } from "~/components/custom-drawer";
+import OfflineNotice from "~/components/offline-notice";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -102,6 +103,7 @@ export default function RootLayout() {
           }}
         />
       </Drawer>
+      <OfflineNotice />
       <Toast />
       <PortalHost />
     </ThemeProvider>
