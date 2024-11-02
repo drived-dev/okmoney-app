@@ -23,7 +23,7 @@ const OnlineOnly = (WrappedComponent: React.ComponentType) => {
       }
     };
 
-    if (isConnected) {
+    if (!isConnected) {
       return (
         <View className="flex flex-col gap-4 items-center justify-center py-2 flex-1">
           <WifiOff color={colors.gray[500]} size={64} />

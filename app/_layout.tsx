@@ -95,6 +95,7 @@ export default function RootLayout() {
         drawerContent={() => <CustomDrawer />}
         initialRouteName={"(tabs)"}
         screenOptions={{
+          drawerType: "front",
           headerShown: false,
         }}
       >

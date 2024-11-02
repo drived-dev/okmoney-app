@@ -13,6 +13,7 @@ interface UserState {
   updatedAt: string;
   lastLogin: string;
   smsAvailable: number;
+  smsUsed: number;
   debtorSlotAvailable: number;
   socialProvider: string | null;
   profileImage: string | null;
@@ -30,7 +31,7 @@ interface UserState {
 
 const useUserStore = create<UserState>((set) => ({
   // Initial state
-  id: "",
+  id: "2",
   firstName: "mel",
   lastName: "",
   storeName: "",
@@ -41,7 +42,8 @@ const useUserStore = create<UserState>((set) => ({
   createdAt: "",
   updatedAt: "",
   lastLogin: "",
-  smsAvailable: 0,
+  smsUsed: 0,
+  smsAvailable: 20,
   debtorSlotAvailable: 10,
   socialProvider: null,
   profileImage: null,
