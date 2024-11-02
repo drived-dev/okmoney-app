@@ -88,9 +88,7 @@ const index = () => {
                 <Text className={cn(PARAGRAPH, " text-gray-500")}>
                   การเข้าสู่ระบบแสดงว่าคุณยอมรับ
                 </Text>
-                <TouchableOpacity
-                  onPress={() => router.push("/term-and-service")}
-                >
+                <TouchableOpacity>
                   <Text className={cn(PARAGRAPH, " text-gray-500 underline")}>
                     นโยบายความเป็นส่วนตัว
                   </Text>

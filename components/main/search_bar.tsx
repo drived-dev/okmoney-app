@@ -1,48 +1,42 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
 import React from "react";
-import { Button } from "../ui/button";
-import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
-import { cn } from "~/lib/utils";
+import { Button } from "../ui/button"; // Assuming you have a Button component
+import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group"; // Assuming you're using a ToggleGroup
+import { cn } from "~/lib/utils"; // Utility function for classnames
 import { PARAGRAPH } from "~/constants/Typography";
-import { Icon } from "../icon";
-import { X, User, Star, Home } from "lucide-react-native"; // Import X icon and other icons
-import SeachbarOnly from "./seachbar-only";
-import useFilterStore from "~/store/use-filter-store";
-
-// Icon mapping based on tag names
-const tagIcons = {
-  friend: <User size={12} color="#333" />,
-  family: <Home size={12} color="#333" />,
-  favorite: <Star size={12} color="#333" />,
-  // Add more tags and icons as needed
-};
+import { Icon } from "../icon"; // Assuming you have an Icon component
+import SeachbarOnly from "./seachbar-only"; // Assuming you have a separate search input component
 
 export const Searchbar = ({
   toggleView,
   isGridView,
   onSearch,
-  value,
-  toggleValue,
-  onToggleChange,
+  value, // Synchronized search query
+  toggleValue, // Synchronized toggle filter
+  onToggleChange, // Handler for toggle filter changes
+}: {
+  toggleView: () => void;
+  isGridView: boolean;
+  onSearch: (query: string) => void;
+  value: string; // Value for the search input field
+  toggleValue: string; // The current filter value
+  onToggleChange: (value: string) => void; // Function to change the filter
 }) => {
-  const handleSearchChange = (query) => {
-    onSearch(query);
+  const handleSearchChange = (query: string) => {
+    onSearch(query); // Call the parent handler to update the search query
   };
-
-  // Get tags and removeTag function from useTagStore
-  const { tags, removeTag } = useFilterStore();
 
   return (
     <View className="flex flex-col gap-3">
-      {/* Searchbar input */}
+      {/* SearchbarOnly component for the search input */}
       <SeachbarOnly value={value} onChangeText={handleSearchChange} />
 
       {/* Filter and Toggle controls */}
       <View className="flex flex-row justify-between items-center">
         <View className="flex flex-row gap-3">
           <ToggleGroup
-            value={toggleValue}
-            onValueChange={onToggleChange} // Calls onToggleChange when toggles are changed
+            value={toggleValue} // Sync toggle state with the parent
+            onValueChange={onToggleChange} // Handle filter change
             type="single"
           >
             <ToggleGroupItem value="all" aria-label="Toggle all">
@@ -90,31 +84,6 @@ export const Searchbar = ({
           />
         </Button>
       </View>
-
-      {/* Display tags if toggleValue is "filter" */}
-      {toggleValue === "filter" && (
-        <View className="flex flex-row flex-wrap gap-2 items-center">
-          {tags.length > 0 &&
-            tags.map((tag, index) => (
-              <View
-                key={index}
-                className="px-2 py-1 bg-gray-200 rounded-md flex flex-row items-center p-4"
-              >
-                {/* Display the icon before the text, using the tagIcons mapping */}
-                {tagIcons[tag] && <View className="mr-2">{tagIcons[tag]}</View>}
-                <Text className={cn(PARAGRAPH, "text-foreground mr-2 mt-1")}>
-                  {tag}
-                </Text>
-                {/* Cross icon to remove the tag */}
-                <TouchableOpacity onPress={() => removeTag(tag)}>
-                  <View className="bg-gray-500 rounded-2xl p-1">
-                    <X size={12} color="white" />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            ))}
-        </View>
-      )}
     </View>
   );
 };

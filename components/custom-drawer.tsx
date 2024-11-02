@@ -14,12 +14,13 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { IconButton } from "./icon-button";
 import { Mail, MessageCircle, Phone, User } from "lucide-react-native";
 import { IconButtonDrawer } from "./icon-button-drawer";
+import { runOnJS } from "react-native-reanimated";
 
 export const CustomDrawer = () => {
   return (
     <View className="h-full pb-10">
       <SafeAreaView className="">
-        <View className={cn(CONTAINER, "mx-2")}>
+        <View className={cn(CONTAINER, "")}>
           <View className={cn(GRID, "")}>
             <AvatarText url="https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"></AvatarText>
             <Text className={cn(PARAGRAPH, "")}>sms ที่ใช้ไปแล้ว</Text>
@@ -28,12 +29,12 @@ export const CustomDrawer = () => {
               textEnd="20 ครั้ง"
               percentage={35}
             />
-            <Image
-              source={{
-                uri: "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-              }}
-              className="w-full h-40 object-cover rounded-2xl"
-            ></Image>
+            <TouchableOpacity onPress={() => router.push("/package")}>
+              <Image
+                source={require("assets/images/promo.png")}
+                className="w-full h-40 object-cover rounded-2xl"
+              ></Image>
+            </TouchableOpacity>
             <View className="flex flex-col ">
               <View className="flex flex-col gap-2">
                 <IconButtonDrawer

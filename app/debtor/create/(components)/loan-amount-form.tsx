@@ -23,51 +23,17 @@ import {
 } from "~/components/step-form";
 import { cn } from "~/lib/utils";
 import { GRID, GRID_COL_SPAN, GRID_ROW } from "~/constants/Styles";
-import { PARAGRAPH, PARAGRAPH_BOLD, TITLE } from "~/constants/Typography";
+import { PARAGRAPH, TITLE } from "~/constants/Typography";
 import PhoneInput from "~/components/phone-input";
 import { Card, CardContent } from "~/components/ui/card";
 import { Switch } from "~/components/ui/switch";
-import { useEffect, useState } from "react";
 
 export const LoanAmountForm = ({ navigation }: NavigationProps) => {
   const {
     control,
     getValues,
-    watch,
     formState: { errors },
   } = useFormContext();
-  const [totalRepayment, setTotalRepayment] = useState(0);
-  const [repaymentPerInstallment, setRepaymentPerInstallment] = useState(0);
-  const [repaymentAmount, setRepaymentAmount] = useState(0);
-  useEffect(() => {
-    const subscription = watch((values) => {
-      const { loanAmount, installments, amountPaid, interestRate } = values;
-      const amountPaidNan = amountPaid ? Number(amountPaid) : 0;
-
-      const remainingAmount = (
-        Number(loanAmount) +
-        loanAmount * (interestRate / 100)
-      ).toFixed(2);
-      const repaymentAmount = (Number(remainingAmount) - amountPaidNan).toFixed(
-        2
-      );
-      const repaymentPerInstallment = (
-        Number(repaymentAmount) / installments
-      ).toFixed(2);
-
-      setTotalRepayment(
-        Number(remainingAmount) > 0 ? Number(remainingAmount) : 0
-      );
-      setRepaymentPerInstallment(
-        Number(remainingAmount) > 0 ? Number(repaymentPerInstallment) : 0
-      );
-      setRepaymentAmount(
-        Number(repaymentAmount) > 0 ? Number(repaymentAmount) : 0
-      );
-    });
-
-    return () => subscription.unsubscribe();
-  }, [watch("interestRate")]);
 
   return (
     <StepFormScreen navigation={navigation}>
@@ -114,66 +80,29 @@ export const LoanAmountForm = ({ navigation }: NavigationProps) => {
               />
             </View>
           </View>
-
           <View className={cn(GRID_ROW)}>
-            <Card className={cn(GRID_COL_SPAN[2], "gap-2 p-4")}>
-              {getValues("loanCategory") === "oldLoan" && (
-                // @ts-ignore
-                <>
-                  <View className="flex-row justify-between items-center">
+            <View className={cn(GRID_COL_SPAN[1])}>
+              <Controller
+                control={control}
+                name="totalRepayment"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <FormItem>
                     <FormLabel nativeID="totalRepayment">
                       ยอดหนี้ที่ต้องชำระ
                     </FormLabel>
-                    <View className="flex flex-row gap-2 items-end">
-                      <Text className={cn(PARAGRAPH_BOLD)}>
-                        {totalRepayment}
-                      </Text>
-                      <Text className={cn(PARAGRAPH)}>บาท</Text>
-                    </View>
-                  </View>
-
-                  <View className={cn(GRID_ROW)}>
-                    <View className={cn(GRID_COL_SPAN[1])}>
-                      <Controller
-                        control={control}
-                        name="amountPaid"
-                        render={({ field: { onChange, onBlur, value } }) => (
-                          <FormItem className="flex flex-row justify-between items-center">
-                            <FormLabel nativeID="amountPaid">
-                              ยอดที่ชำระแล้ว
-                            </FormLabel>
-                            <Input
-                              keyboardType="numeric"
-                              onBlur={onBlur}
-                              onChangeText={onChange}
-                              value={value}
-                              className="min-w-[100px] text-right"
-                            />
-                          </FormItem>
-                        )}
-                      />
-                    </View>
-                  </View>
-                  <FormMessage
-                    errorMessage={errors.amountPaid?.message}
-                    className="w-[80%]"
-                  />
-                  <View className="w-full h-[1px] bg-gray-200"></View>
-                </>
-              )}
-              <View className="flex-row justify-between items-center">
-                <FormLabel nativeID="totalRepayment">
-                  ยอดคงเหลือที่ต้องชำระ
-                </FormLabel>
-
-                <View className="flex flex-row gap-2 items-end">
-                  <Text className={cn(PARAGRAPH_BOLD)}>{repaymentAmount}</Text>
-                  <Text className={cn(PARAGRAPH)}>บาท</Text>
-                </View>
-              </View>
-            </Card>
-          </View>
-          <View className={cn(GRID_ROW)}>
+                    <Input
+                      keyboardType="numeric"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                    <FormMessage
+                      errorMessage={errors.totalRepayment?.message}
+                    />
+                  </FormItem>
+                )}
+              />
+            </View>
             <View className={cn(GRID_COL_SPAN[1])}>
               <Controller
                 control={control}
@@ -193,22 +122,100 @@ export const LoanAmountForm = ({ navigation }: NavigationProps) => {
               />
             </View>
           </View>
-
-          <View className={cn(GRID_ROW)}>
-            <Card className={cn(GRID_COL_SPAN[2], "flex flex-col gap-2 p-4")}>
-              <View className="flex-row justify-between items-center">
-                <FormLabel nativeID="totalRepayment">
-                  ยอดที่ต้องชำระแต่ละงวด
-                </FormLabel>
-                <View className="flex flex-row gap-2 items-end">
-                  <Text className={cn(PARAGRAPH_BOLD)}>
-                    {repaymentPerInstallment}
-                  </Text>
-                  <Text className={cn(PARAGRAPH)}>บาท</Text>
+          {
+            // conditionally rendering paid amount when loanCategory is "oldLoan"
+            getValues("loanCategory") === "oldLoan" && (
+              <>
+                <View className={cn(GRID_ROW)}>
+                  <View className={cn(GRID_COL_SPAN[1])}>
+                    <Controller
+                      control={control}
+                      name="amountPaid"
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <FormItem>
+                          <FormLabel nativeID="amountPaid">
+                            ยอดที่ชำระแล้ว
+                          </FormLabel>
+                          <Input
+                            keyboardType="numeric"
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                          />
+                          <FormMessage
+                            errorMessage={errors.amountPaid?.message}
+                          />
+                        </FormItem>
+                      )}
+                    />
+                  </View>
+                  <View className={cn(GRID_COL_SPAN[1])}>
+                    <Controller
+                      control={control}
+                      name="installmentsPaid"
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <FormItem>
+                          <FormLabel nativeID="installmentsPaid">
+                            จำนวนงวดที่ชำระแล้ว
+                          </FormLabel>
+                          <Input
+                            keyboardType="numeric"
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                          />
+                          <FormMessage
+                            errorMessage={errors.installmentsPaid?.message}
+                          />
+                        </FormItem>
+                      )}
+                    />
+                  </View>
                 </View>
-              </View>
-            </Card>
-          </View>
+                <Controller
+                  control={control}
+                  name="repaymentPerInstallment"
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <FormItem>
+                      <FormLabel nativeID="repaymentPerInstallment">
+                        ยอดคงเหลือที่ต้องชำระ
+                      </FormLabel>
+                      <Input
+                        keyboardType="numeric"
+                        onBlur={onBlur}
+                        onChangeText={onChange}
+                        value={value}
+                      />
+                      <FormMessage
+                        errorMessage={errors.repaymentPerInstallment?.message}
+                      />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )
+          }
+
+          <Controller
+            control={control}
+            name="repaymentPerInstallment"
+            render={({ field: { onChange, onBlur, value } }) => (
+              <FormItem>
+                <FormLabel nativeID="repaymentPerInstallment">
+                  ยอดคงเหลือที่ต้องชำระ
+                </FormLabel>
+                <Input
+                  keyboardType="numeric"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+                <FormMessage
+                  errorMessage={errors.repaymentPerInstallment?.message}
+                />
+              </FormItem>
+            )}
+          />
         </View>
         <Controller
           control={control}
