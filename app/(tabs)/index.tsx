@@ -42,7 +42,7 @@ const Index = () => {
     status: 1,
     profileImage:
       "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    limit: 4,
+    limit: 3,
   };
 
   const demodata = loans; // Assuming loans come from the store
