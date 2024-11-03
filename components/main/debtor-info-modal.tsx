@@ -75,41 +75,39 @@ const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
   return (
     <BottomSheetModal ref={bottomSheetModalRef} style={styles.shadow}>
       <BottomSheetView style={styles.contentContainer}>
-        <ScrollView>
-          <View className="flex flex-col gap-4">
-            <DebtorHeader
-              profileImage={profileImage}
-              id={id}
-              nickname={nickname}
-              name={name}
-              status={status}
-              statusColorbg={statusColorsbg[status] || "bg-blue-500"}
-              statusColortxt={statusColorstxt[status] || "text-textb"}
-              phoneNumber={phoneNumber}
-              isSwitchOn={isSwitchOn}
-              handleCallPress={handleCallPress}
-              toggleSwitch={toggleSwitch}
-            />
-            <LoanDetails
-              amount={5000}
-              interestRate={10}
-              totalDebt={5500}
-              paymentPerInstallment={550}
-              installmentCount={10}
-              remainingDebt={2200}
-              currentInstallment={4}
-              totalInstallments={10}
-              loanDate="12/04/24"
-              paymentType="รายเดือน"
-            />
-            <AdditionalInfo
-              address="248 หมู่ที่ 2 ถนน ถนน ซุปเปอร์ไฮเวย์ เชียงใหม่-ลำปาง ตำบล ปงยางคก อำเภอห้างฉัตร ลำปาง 52190"
-              debtorType="ลูกหนี้เก่า"
-              tag={["เพื่อน", "ครอบครัว", "ประยุทณ์"]} // Pass tags as an array of strings
-              notes="ชอบกินไก่มาก"
-            />
-          </View>
-        </ScrollView>
+        <View className="flex flex-col gap-4">
+          <DebtorHeader
+            profileImage={profileImage}
+            id={id}
+            nickname={nickname}
+            name={name}
+            status={status}
+            statusColorbg={statusColorsbg[status] || "bg-blue-500"}
+            statusColortxt={statusColorstxt[status] || "text-textb"}
+            phoneNumber={phoneNumber}
+            isSwitchOn={isSwitchOn}
+            handleCallPress={handleCallPress}
+            toggleSwitch={toggleSwitch}
+          />
+          <LoanDetails
+            amount={5000}
+            interestRate={10}
+            totalDebt={5500}
+            paymentPerInstallment={550}
+            installmentCount={10}
+            remainingDebt={2200}
+            currentInstallment={4}
+            totalInstallments={10}
+            loanDate="12/04/24"
+            paymentType="รายเดือน"
+          />
+          <AdditionalInfo
+            address="248 หมู่ที่ 2 ถนน ถนน ซุปเปอร์ไฮเวย์ เชียงใหม่-ลำปาง ตำบล ปงยางคก อำเภอห้างฉัตร ลำปาง 52190"
+            debtorType="ลูกหนี้เก่า"
+            tag={["เพื่อน", "ครอบครัว", "ประยุทณ์"]} // Pass tags as an array of strings
+            notes="ชอบกินไก่มาก"
+          />
+        </View>
       </BottomSheetView>
     </BottomSheetModal>
   );
