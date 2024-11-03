@@ -40,7 +40,14 @@ const index = () => {
                   เข้าร่วมผ่านเบอร์
                 </Text>
                 <PhoneInput value={phoneNumber} onChangeText={setPhoneNumber} />
-                <Button onPress={() => router.push("/(tabs)/")}>
+                <Button
+                  onPress={() =>
+                    router.push({
+                      pathname: "/phone-login",
+                      params: { phoneNumber },
+                    })
+                  }
+                >
                   <Text className={cn(PARAGRAPH_BOLD, "text-background")}>
                     ต่อไป
                   </Text>
