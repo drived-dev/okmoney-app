@@ -13,6 +13,7 @@ import {
   Switch,
   TouchableOpacity,
   Linking,
+  ScrollView,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
@@ -36,6 +37,10 @@ import { AvatarText } from "../avatar-text";
 import Toast from "react-native-toast-message";
 import useEditingLoanStore from "~/store/use-editing-loan-store";
 import { LABEL } from "~/constants/Typography";
+import { GRID, GRID_COL_SPAN, GRID_ROW } from "~/constants/Styles";
+import LoanDetails from "./loan-detail";
+import DebtorHeader from "./debtor-header";
+import AdditionalInfo from "./debtor-footer";
 
 const statusColorsbg: Record<string, string> = {
   ค้างชำระ: "bg-red-500", // Overdue
@@ -55,84 +60,56 @@ const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
   const { id, profileImage, name, nickname, status, removeId } =
     useEditingLoanStore();
 
-  const statusColorbg = statusColorsbg[status] || "bg-blue-500";
-  const statusColortxt = statusColorstxt[status] || "text-textb";
-
   // Add a state for the toggle switch
   const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const phoneNumber = "063-539-5419";
 
+  // Toggle Switch Handler
   const toggleSwitch = () => setIsSwitchOn((previousState) => !previousState);
 
-  // Function to initiate phone call
+  // Function to initiate a phone call
   const handleCallPress = () => {
-    Linking.openURL("tel:0635395419");
+    Linking.openURL(`tel:${phoneNumber}`);
   };
 
   return (
     <BottomSheetModal ref={bottomSheetModalRef} style={styles.shadow}>
       <BottomSheetView style={styles.contentContainer}>
-        <View className="flex flex-col gap-2">
-          <View className="justify-between flex flex-row">
-            <View className="flex-row items-center space-x-4">
-              {/* Profile Image */}
-              <Image
-                source={{ uri: profileImage }}
-                className="w-12 h-12 rounded-full"
-              />
-              {/* Loan Info */}
-              <View>
-                <Text className={cn(LABEL, "text-muted-foreground pl-2")}>
-                  เลขสัญญา {id}
-                </Text>
-                {/* Name: Bold nickname, gray full name */}
-                <Text className={cn(PARAGRAPH, "pl-2 text-foreground ")}>
-                  {nickname + "  "}
-                  <Text className="text-muted-foreground font-ibm text-sm">
-                    {name}
-                  </Text>
-                </Text>
-              </View>
-            </View>
-            {/* Loan Status */}
-            <View className="flex-row flex gap-2">
-              <View
-                className={`px-3 py-2 rounded-2xl self-start ${statusColorbg}`}
-              >
-                <Text
-                  className={cn(
-                    LABEL,
-                    `font-ibm-semibold text-destructive-foreground ${statusColortxt}`
-                  )}
-                >
-                  {status}
-                </Text>
-              </View>
-            </View>
+        <ScrollView>
+          <View className="flex flex-col gap-4">
+            <DebtorHeader
+              profileImage={profileImage}
+              id={id}
+              nickname={nickname}
+              name={name}
+              status={status}
+              statusColorbg={statusColorsbg[status] || "bg-blue-500"}
+              statusColortxt={statusColorstxt[status] || "text-textb"}
+              phoneNumber={phoneNumber}
+              isSwitchOn={isSwitchOn}
+              handleCallPress={handleCallPress}
+              toggleSwitch={toggleSwitch}
+            />
+            <LoanDetails
+              amount={5000}
+              interestRate={10}
+              totalDebt={5500}
+              paymentPerInstallment={550}
+              installmentCount={10}
+              remainingDebt={2200}
+              currentInstallment={4}
+              totalInstallments={10}
+              loanDate="12/04/24"
+              paymentType="รายเดือน"
+            />
+            <AdditionalInfo
+              address="248 หมู่ที่ 2 ถนน ถนน ซุปเปอร์ไฮเวย์ เชียงใหม่-ลำปาง ตำบล ปงยางคก อำเภอห้างฉัตร ลำปาง 52190"
+              debtorType="ลูกหนี้เก่า"
+              tag={["เพื่อน", "ครอบครัว", "ประยุทณ์"]} // Pass tags as an array of strings
+              notes="ชอบกินไก่มาก"
+            />
           </View>
-          <View className="flex flex-col gap-2">
-            <TouchableOpacity
-              onPress={handleCallPress}
-              className="bg-[#F58737] px-4 py-3 rounded-3xl flex flex-row justify-between items-center"
-            >
-              <Phone color={"white"} size={16} />
-              <Text className={cn(PARAGRAPH_BOLD, "text-background")}>
-                063-539-5419
-              </Text>
-            </TouchableOpacity>
-            <View className="bg-[#E7F7F6] px-4 py-3 rounded-3xl flex flex-row justify-between items-center">
-              <Text className={cn(PARAGRAPH, "text-foreground")}>
-                ทวงหนี้อัตโนมัติ
-              </Text>
-              {/* Toggle Switch */}
-              <Switch
-                trackColor={{ false: "#767577", true: "#F58737" }}
-                thumbColor={isSwitchOn ? "#F5F5F5" : "#F5F5F5"}
-                onValueChange={toggleSwitch}
-                value={isSwitchOn}
-              />
-            </View>
-          </View>
-        </View>
+        </ScrollView>
       </BottomSheetView>
     </BottomSheetModal>
   );
@@ -151,7 +128,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    minHeight: 680,
+    minHeight: 600,
     gap: 16,
     padding: 20,
     width: "100%",
