@@ -44,6 +44,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "~/components/ui/input";
 import MemoSheet from "~/components/main/memo-sheet";
 import GuarantorSheet from "~/components/main/guarantor-sheet";
+import DebtorModal from "~/components/main/debtor-info-modal";
 import { Drawer } from "react-native-drawer-layout";
 import useUserStore from "~/store/use-user-store";
 import { Loan } from "~/types/Loan";
@@ -150,6 +151,7 @@ const Index = () => {
   };
   const memoSheetRef = useRef<BottomSheetModal>(null);
   const guarantorSheetRef = useRef<BottomSheetModal>(null);
+  const debtorInfoModalRef = useRef<BottomSheetModal>(null);
 
   const handlePresentMemo = useCallback(() => {
     memoSheetRef.current?.present();
@@ -157,6 +159,10 @@ const Index = () => {
 
   const handlePresentGuarantor = useCallback(() => {
     guarantorSheetRef.current?.present();
+  }, []);
+
+  const handlePresentDebtorInfo = useCallback(() => {
+    debtorInfoModalRef.current?.present();
   }, []);
 
   return (
@@ -418,6 +424,7 @@ const Index = () => {
                           loan={loan}
                           onMemo={handlePresentMemo}
                           onGuarantor={handlePresentGuarantor}
+                          onInfo={handlePresentDebtorInfo}
                         />
                       ))
                     )
@@ -466,6 +473,7 @@ const Index = () => {
           </SafeAreaView>
           <MemoSheet ref={memoSheetRef} />
           <GuarantorSheet ref={guarantorSheetRef} />
+          <DebtorModal ref={debtorInfoModalRef} />
         </View>
       </Drawer>
     </BottomSheetModalProvider>

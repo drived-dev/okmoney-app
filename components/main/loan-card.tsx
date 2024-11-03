@@ -29,12 +29,15 @@ export const LoanCard = ({
   loan,
   onMemo,
   onGuarantor,
+  onInfo,
 }: {
   loan: Loan;
   onMemo: () => void;
   onGuarantor: () => void;
+  onInfo: () => void;
 }) => {
-  const { setId } = useEditingLoanStore();
+  const { setId, setName, setNickname, setProfileImage, setStatus } =
+    useEditingLoanStore();
   // Calculate the progress based on outstanding vs total
   const progress = loan.outstanding / loan.total;
   const statusColorbg = statusColorsbg[loan.status] || "bg-blue-500";
@@ -50,9 +53,18 @@ export const LoanCard = ({
     onGuarantor();
   }
 
+  function openDebtorModal() {
+    setId(loan.id);
+    setName(loan.name);
+    setNickname(loan.nickname);
+    setProfileImage(loan.profileImage);
+    setStatus(loan.status);
+    onInfo();
+  }
+
   return (
     // background deptor
-    <TouchableOpacity>
+    <TouchableOpacity onPress={openDebtorModal}>
       <View
         className={cn(
           "bg-card p-3 my-1 rounded-3xl border border-border space-y-3",
