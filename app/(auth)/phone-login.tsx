@@ -1,7 +1,7 @@
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import { router, useLocalSearchParams, useRouter } from "expo-router";
-import { OtpInput } from "react-native-otp-entry";
+import { OtpInput, OtpInputRef } from "react-native-otp-entry";
 import { CONTAINER } from "~/constants/Styles";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH, PARAGRAPH_BOLD, TITLE } from "~/constants/Typography";
@@ -18,7 +18,7 @@ const PhoneLogin = () => {
   const { phoneNumber } = useLocalSearchParams();
   const [otp, setOtp] = useState("");
   const [timeDelayLeft, setTimeDelayLeft] = useState(10);
-  const otpInputRef = useRef<typeof OtpInput>(null);
+  const otpInputRef = useRef<OtpInputRef>(null);
   function handleVerifyOtp() {
     // TODO: verify otp
 
