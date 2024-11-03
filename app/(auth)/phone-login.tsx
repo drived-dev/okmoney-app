@@ -1,6 +1,6 @@
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams, useRouter } from "expo-router";
 import { OtpInput } from "react-native-otp-entry";
 import { CONTAINER } from "~/constants/Styles";
 import { cn } from "~/lib/utils";
@@ -13,6 +13,7 @@ import NextButtonGroup from "../../components/ui/next-button-group";
 import Toast from "react-native-toast-message";
 
 const PhoneLogin = () => {
+  const router = useRouter();
   const otpLength = 4;
   const { phoneNumber } = useLocalSearchParams();
   const [otp, setOtp] = useState("");
@@ -23,7 +24,7 @@ const PhoneLogin = () => {
 
     const isOtpValid = true;
     if (isOtpValid) {
-      router.push("/profile");
+      router.navigate("/profile");
     } else {
       resetOtp();
       Toast.show({

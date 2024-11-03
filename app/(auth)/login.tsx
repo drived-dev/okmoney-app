@@ -39,7 +39,7 @@ const index = () => {
   const [phoneNumber, setPhoneNumber] = React.useState("");
 
   function onSubmit(data: z.infer<typeof phoneSchema>) {
-    router.push({
+    router.navigate({
       pathname: "/phone-login",
       params: { phoneNumber: data.phoneNumber },
     });
@@ -122,7 +122,7 @@ const index = () => {
                   การเข้าสู่ระบบแสดงว่าคุณยอมรับ
                 </Text>
                 <TouchableOpacity
-                  onPress={() => router.push("/term-and-service")}
+                  onPress={() => router.navigate("/term-and-service")}
                 >
                   <Text className={cn(PARAGRAPH, " text-gray-500 underline")}>
                     นโยบายความเป็นส่วนตัว

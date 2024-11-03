@@ -39,7 +39,7 @@ const index = () => {
 
   const handleNextPage = () => {
     if (isBottomReached) {
-      router.push("/(tabs)"); // Replace with your next page route
+      router.navigate("/(tabs)"); // Replace with your next page route
     }
   };
 

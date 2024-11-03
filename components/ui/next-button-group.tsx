@@ -19,7 +19,13 @@ const NextButtonGroup = ({
 }: NextButtonGroupProps) => {
   return (
     <View className={cn("flex flex-row gap-2 justify-between", className)}>
-      <Button onPress={router.back} variant="ghost" size={"icon-lg"}>
+      <Button
+        onPress={() => {
+          router.back();
+        }}
+        variant="ghost"
+        size={"icon-lg"}
+      >
         <ArrowLeft color="black" />
       </Button>
 
