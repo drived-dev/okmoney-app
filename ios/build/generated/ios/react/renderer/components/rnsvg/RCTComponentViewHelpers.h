@@ -29,6 +29,34 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@protocol RCTRNSVGFeBlendViewProtocol <NSObject>
+
+@end
+
+@protocol RCTRNSVGFeColorMatrixViewProtocol <NSObject>
+
+@end
+
+@protocol RCTRNSVGFeFloodViewProtocol <NSObject>
+
+@end
+
+@protocol RCTRNSVGFeGaussianBlurViewProtocol <NSObject>
+
+@end
+
+@protocol RCTRNSVGFeMergeViewProtocol <NSObject>
+
+@end
+
+@protocol RCTRNSVGFeOffsetViewProtocol <NSObject>
+
+@end
+
+@protocol RCTRNSVGFilterViewProtocol <NSObject>
+
+@end
+
 @protocol RCTRNSVGForeignObjectViewProtocol <NSObject>
 
 @end

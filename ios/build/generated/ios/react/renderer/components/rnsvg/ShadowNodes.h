@@ -73,6 +73,83 @@ using RNSVGEllipseShadowNode = ConcreteViewShadowNode<
     RNSVGEllipseEventEmitter,
     RNSVGEllipseState>;
 
+JSI_EXPORT extern const char RNSVGFeBlendComponentName[];
+
+/*
+ * `ShadowNode` for <RNSVGFeBlend> component.
+ */
+using RNSVGFeBlendShadowNode = ConcreteViewShadowNode<
+    RNSVGFeBlendComponentName,
+    RNSVGFeBlendProps,
+    RNSVGFeBlendEventEmitter,
+    RNSVGFeBlendState>;
+
+JSI_EXPORT extern const char RNSVGFeColorMatrixComponentName[];
+
+/*
+ * `ShadowNode` for <RNSVGFeColorMatrix> component.
+ */
+using RNSVGFeColorMatrixShadowNode = ConcreteViewShadowNode<
+    RNSVGFeColorMatrixComponentName,
+    RNSVGFeColorMatrixProps,
+    RNSVGFeColorMatrixEventEmitter,
+    RNSVGFeColorMatrixState>;
+
+JSI_EXPORT extern const char RNSVGFeFloodComponentName[];
+
+/*
+ * `ShadowNode` for <RNSVGFeFlood> component.
+ */
+using RNSVGFeFloodShadowNode = ConcreteViewShadowNode<
+    RNSVGFeFloodComponentName,
+    RNSVGFeFloodProps,
+    RNSVGFeFloodEventEmitter,
+    RNSVGFeFloodState>;
+
+JSI_EXPORT extern const char RNSVGFeGaussianBlurComponentName[];
+
+/*
+ * `ShadowNode` for <RNSVGFeGaussianBlur> component.
+ */
+using RNSVGFeGaussianBlurShadowNode = ConcreteViewShadowNode<
+    RNSVGFeGaussianBlurComponentName,
+    RNSVGFeGaussianBlurProps,
+    RNSVGFeGaussianBlurEventEmitter,
+    RNSVGFeGaussianBlurState>;
+
+JSI_EXPORT extern const char RNSVGFeMergeComponentName[];
+
+/*
+ * `ShadowNode` for <RNSVGFeMerge> component.
+ */
+using RNSVGFeMergeShadowNode = ConcreteViewShadowNode<
+    RNSVGFeMergeComponentName,
+    RNSVGFeMergeProps,
+    RNSVGFeMergeEventEmitter,
+    RNSVGFeMergeState>;
+
+JSI_EXPORT extern const char RNSVGFeOffsetComponentName[];
+
+/*
+ * `ShadowNode` for <RNSVGFeOffset> component.
+ */
+using RNSVGFeOffsetShadowNode = ConcreteViewShadowNode<
+    RNSVGFeOffsetComponentName,
+    RNSVGFeOffsetProps,
+    RNSVGFeOffsetEventEmitter,
+    RNSVGFeOffsetState>;
+
+JSI_EXPORT extern const char RNSVGFilterComponentName[];
+
+/*
+ * `ShadowNode` for <RNSVGFilter> component.
+ */
+using RNSVGFilterShadowNode = ConcreteViewShadowNode<
+    RNSVGFilterComponentName,
+    RNSVGFilterProps,
+    RNSVGFilterEventEmitter,
+    RNSVGFilterState>;
+
 JSI_EXPORT extern const char RNSVGForeignObjectComponentName[];
 
 /*
