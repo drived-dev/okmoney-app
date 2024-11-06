@@ -38,6 +38,7 @@
     "convert-csv-to-json": "^2.49.0",
     "expo": "^51.0.32",
     "expo-asset": "~10.0.10",
+    "expo-auth-session": "~5.5.2",
     "expo-document-picker": "~12.0.2",
     "expo-file-system": "~17.0.1",
     "expo-font": "~12.0.10",
@@ -81,7 +82,8 @@
     "tailwindcss-animate": "^1.0.7",
     "victory-native": "^37.3.1",
     "zod": "^3.23.8",
-    "zustand": "^4.4.7"
+    "zustand": "^4.4.7",
+    "expo-crypto": "~13.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

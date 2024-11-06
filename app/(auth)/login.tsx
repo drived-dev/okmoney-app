@@ -106,6 +106,7 @@ const index = () => {
                     variant="green"
                     size={"xl"}
                     textClassName="flex-1"
+                    onPress={() => router.navigate("/google")}
                   ></IconButton>
                 </View>
 
