@@ -35,6 +35,17 @@ const routes: Route[] = [
 
 const Layout = () => {
   const { isDarkColorScheme } = useColorScheme();
+  const user = useUserStore();
+
+  React.useEffect(() => {
+    if (!user.id) {
+      router.navigate("/(auth)");
+    }
+  }, [user.id]);
+
+  if (!user.id) {
+    return null;
+  }
 
   const softShadow = {
     ...Platform.select({
@@ -52,14 +63,6 @@ const Layout = () => {
       },
     }),
   };
-
-  // go to auth if user is not login
-  const user = useUserStore();
-  const isUserLogin = user.id != "";
-  if (!isUserLogin) {
-    router.push("/(auth)");
-    return null;
-  }
 
   return (
     <Tabs

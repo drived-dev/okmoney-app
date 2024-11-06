@@ -27,6 +27,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormMessage, FormItem, FormLabel } from "~/components/form";
 import OnlineOnly from "~/components/online-only";
+import NextButtonGroup from "../../components/ui/next-button-group";
 
 const formSchema = z.object({
   img: z.string().nonempty({ message: "ต้องเลือกโปรไฟล์รูปภาพ" }), // Image is required
@@ -189,22 +190,7 @@ const Index = () => {
           </View>
         </View>
 
-        <View className="flex flex-row justify-between items-center">
-          <IconButton
-            icon={<ArrowLeft />}
-            size={"icon-lg"}
-            className="items-center justify-center"
-            variant="ghost"
-            onPress={() => router.back()}
-          />
-          <IconButton
-            icon={<ArrowRight />}
-            text="ต่อไป"
-            iconPosition="right"
-            size={"lg"}
-            onPress={handleSubmit(onSubmit)} // Submit form and concatenate phone number
-          />
-        </View>
+        <NextButtonGroup onNext={handleSubmit(onSubmit)} />
       </View>
     </SafeAreaView>
   );
