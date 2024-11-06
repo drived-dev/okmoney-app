@@ -1,17 +1,27 @@
 import "~/global.css";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Theme, ThemeProvider } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  Theme,
+  ThemeProvider,
+} from "@react-navigation/native";
 import { SplashScreen, Stack, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import { Platform, TouchableOpacity } from "react-native";
+import { Button, Platform, TouchableOpacity } from "react-native";
 import { NAV_THEME } from "~/constants/Colors";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { PortalHost } from "@rn-primitives/portal";
 import { ThemeToggle } from "~/components/ThemeToggle";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";
 import { useFonts } from "expo-font";
+import Toast from "react-native-toast-message";
+import { Drawer } from "expo-router/drawer";
+import { CustomDrawer } from "~/components/custom-drawer";
+import OfflineNotice from "~/components/offline-notice";
+import { toastConfig } from "~/components/toast-config";
+import useUserStore from "~/store/use-user-store";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -78,22 +88,28 @@ export default function RootLayout() {
   }
 
   return (
+    // <NavigationContainer independent={true}>
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-      <Stack
-        initialRouteName="(tabs)"
+      <Drawer
+        drawerContent={() => <CustomDrawer />}
+        initialRouteName={"(tabs)"}
         screenOptions={{
+          drawerType: "front",
           headerShown: false,
         }}
       >
-        <Stack.Screen
+        <Drawer.Screen
           name="(tabs)"
           options={{
             headerShown: false,
           }}
         />
-      </Stack>
+      </Drawer>
+      <OfflineNotice />
+      <Toast config={toastConfig} />
       <PortalHost />
     </ThemeProvider>
+    // </NavigationContainer>
   );
 }
