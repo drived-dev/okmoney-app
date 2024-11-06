@@ -31,7 +31,7 @@ interface UserState {
 
 const useUserStore = create<UserState>((set) => ({
   // Initial state
-  id: "",
+  id: "123",
   firstName: "mel",
   lastName: "",
   storeName: "",
