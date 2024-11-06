@@ -109,7 +109,10 @@ const index = () => {
                   ></IconButton>
                 </View>
 
-                <Button variant={"link"}>
+                <Button
+                  variant={"link"}
+                  onPress={() => router.navigate("/(tabs)")}
+                >
                   <Text className={cn(PARAGRAPH, "text-foreground underline")}>
                     ลืมรหัสผ่าน?
                   </Text>
