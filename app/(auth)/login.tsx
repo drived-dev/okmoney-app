@@ -87,6 +87,7 @@ const index = () => {
               <View className="felx flex-col gap-4">
                 <View className="felx flex-col gap-2">
                   <IconButton
+                    onPress={() => router.navigate("/(profile)/line")}
                     icon={require("assets/images/line.png")}
                     text="เข้าร่วมผ่าน Line"
                     variant="green"
@@ -94,6 +95,7 @@ const index = () => {
                     textClassName="flex-1"
                   ></IconButton>
                   <IconButton
+                    onPress={() => router.navigate("/(profile)/facebook")}
                     icon={require("assets/images/facebook.png")}
                     text="เข้าร่วมผ่าน Facebook"
                     variant="green"
@@ -101,6 +103,7 @@ const index = () => {
                     textClassName="flex-1"
                   ></IconButton>
                   <IconButton
+                    onPress={() => router.navigate("/(profile)/google")}
                     icon={require("assets/images/google.png")}
                     text="เข้าร่วมผ่าน Google"
                     variant="green"
@@ -122,7 +125,9 @@ const index = () => {
                   การเข้าสู่ระบบแสดงว่าคุณยอมรับ
                 </Text>
                 <TouchableOpacity
-                  onPress={() => router.navigate("/term-and-service")}
+                  onPress={() =>
+                    router.navigate("/term-and-service/login-term")
+                  }
                 >
                   <Text className={cn(PARAGRAPH, " text-gray-500 underline")}>
                     นโยบายความเป็นส่วนตัว

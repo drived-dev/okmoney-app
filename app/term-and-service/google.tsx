@@ -21,7 +21,7 @@ const demodata: Term = {
   update: "21 กพ. 65",
 };
 
-const index = () => {
+const GoogleTerm = () => {
   const [isBottomReached, setIsBottomReached] = useState(false);
   const router = useRouter(); // Using Expo Router for navigation
 
@@ -39,7 +39,7 @@ const index = () => {
 
   const handleNextPage = () => {
     if (isBottomReached) {
-      router.navigate("/(link-social)/phone"); // Replace with your next page route
+      router.navigate("/(link-social)/google"); // Replace with your next page route
     }
   };
 
@@ -104,4 +104,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default GoogleTerm;
