@@ -76,10 +76,10 @@ export default function GoogleAuth() {
 
   return (
     <View>
-      <SafeAreaView className=" h-full bg-green-200">
-        <View className={cn(CONTAINER, "mt-20")}>
-          <View className="flex flex-col gap-20">
-            <View className="flex flex-col gap-2">
+      <SafeAreaView className=" bg-green-200">
+        <View className={cn(CONTAINER, "flex-col  flex h-full")}>
+          <View className="flex flex-col flex-1 gap-20">
+            <View className="flex flex-col gap-2 mt-20">
               <View className="justify-center w-full flex flex-row">
                 <Text className={cn(TITLE, "text-foreground")}>
                   ติดตามข่าวสาร Ok money ผ่าน
@@ -99,16 +99,16 @@ export default function GoogleAuth() {
                 source={require("assets/images/PlaceholderSquare.png")}
               ></Image>
             </View>
-            <View className="mt-auto  justify-center items-center">
-              <IconButton
-                icon={require("assets/images/google.png")}
-                text="Sign in with Google"
-                variant="green"
-                size={"xl"}
-                textClassName="flex-1"
-                onPress={signInWithGoogle}
-              />
-            </View>
+          </View>
+          <View className="mt-auto justify-center items-center">
+            <IconButton
+              icon={require("assets/images/google.png")}
+              text="Sign in with Google"
+              variant="green"
+              size={"xl"}
+              textClassName="flex-1"
+              onPress={signInWithGoogle}
+            />
           </View>
         </View>
       </SafeAreaView>
