@@ -74,9 +74,11 @@ export default function GoogleAuth() {
     } catch (error) {}
   };
 
+  const sim_api_verify = {};
+
   return (
     <View>
-      <SafeAreaView className=" bg-green-200">
+      <SafeAreaView>
         <View className={cn(CONTAINER, "flex-col  flex h-full")}>
           <View className="flex flex-col flex-1 gap-20">
             <View className="flex flex-col gap-2 mt-20">
@@ -89,15 +91,8 @@ export default function GoogleAuth() {
                 <Text className={cn(TITLE, "text-foreground")}>LINE OA</Text>
               </View>
             </View>
-            <View className="flex flex-row -gap-4 justify-center bg-red-50 py-8">
-              <Image
-                className="mt-8"
-                source={require("assets/images/line_oa.png")}
-              ></Image>
-              <IconButton icon={<Link />} size={"icon"} variant="ghost" />
-              <Image
-                source={require("assets/images/PlaceholderSquare.png")}
-              ></Image>
+            <View className="flex flex-row -gap-4 justify-center py-8">
+              <Image source={require("assets/images/line_oa.png")}></Image>
             </View>
           </View>
           <View className="mt-auto justify-center items-center">
