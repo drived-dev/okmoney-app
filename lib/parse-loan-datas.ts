@@ -11,7 +11,13 @@ export function parseLoansDatas(loanDatas: any) {
     dueDate: loanData.loan.dueDate,
     profileImage: "e",
     totalLoanTerm: loanData.loan.totalLoanTerm,
-    tags: loanData.loan.tags
+    tags: loanData.loan.tags,
+    firstName: loanData.debtor.firstName,
+    lastName: loanData.debtor.lastName,
+    phoneNumber: loanData.debtor.phoneNumber,
+    healthu: loanData.debtor.healthu,
+    memoNote: loanData.debtor.memoNote,
+    paypapay: loanData.debtor.paypapay,
   }));
   return buffer;
 }

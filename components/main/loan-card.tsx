@@ -57,10 +57,6 @@ export const LoanCard = ({
 
   function openDebtorModal() {
     setId(loan.id);
-    setName(loan.name);
-    setNickname(loan.nickname);
-    setProfileImage(loan.profileImage);
-    setStatus(loan.status);
     onInfo();
   }
 

@@ -41,6 +41,7 @@ import { GRID, GRID_COL_SPAN, GRID_ROW } from "~/constants/Styles";
 import LoanDetails from "./loan-detail";
 import DebtorHeader from "./debtor-header";
 import AdditionalInfo from "./debtor-footer";
+import useLoanStore from "~/store/use-loan-store";
 
 const statusColorsbg: Record<string, string> = {
   ค้างชำระ: "bg-red-500", // Overdue
@@ -57,9 +58,8 @@ const statusColorstxt: Record<string, string> = {
 };
 
 const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
-  const { id, profileImage, name, nickname, status, removeId } =
-    useEditingLoanStore();
-
+  const { id } = useEditingLoanStore();
+  const loan = useLoanStore.getState().getLoanById(id);
   // Add a state for the toggle switch
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const phoneNumber = "063-539-5419";
@@ -77,29 +77,30 @@ const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
       <BottomSheetView style={styles.contentContainer}>
         <View className="flex flex-col gap-4">
           <DebtorHeader
-            profileImage={profileImage}
+            profileImage={loan?.profileImage || ""}
             id={id}
-            nickname={nickname}
-            name={name}
-            status={status}
-            statusColorbg={statusColorsbg[status] || "bg-blue-500"}
-            statusColortxt={statusColorstxt[status] || "text-textb"}
+            nickname={loan?.nickname || ""}
+            name={loan?.name || ""}
+            status={loan?.status || ""}
+            statusColorbg={statusColorsbg[loan?.status || ""] || "bg-blue-500"}
+            statusColortxt={statusColorstxt[loan?.status || ""] || "text-textb"}
             phoneNumber={phoneNumber}
             isSwitchOn={isSwitchOn}
             handleCallPress={handleCallPress}
             toggleSwitch={toggleSwitch}
           />
+
           <LoanDetails
-            amount={5000}
-            interestRate={10}
-            totalDebt={5500}
-            paymentPerInstallment={550}
-            installmentCount={10}
-            remainingDebt={2200}
-            currentInstallment={4}
-            totalInstallments={10}
-            loanDate="12/04/24"
-            paymentType="รายเดือน"
+            amount={loan?.principal || 0}
+            interestRate={loan?.interestRate || 0}
+            totalDebt={loan?.total || 0}
+            paymentPerInstallment={loan?.paymentPerInstallment || 0}
+            installmentCount={loan?.installmentCount || 0}
+            remainingDebt={loan?.remainingBalance || 0}
+            currentInstallment={loan?.currentInstallment || 0}
+            totalInstallments={loan?.installmentCount || 0}
+            loanDate={loan?.loanDate || ""}
+            paymentType={loan?.paymentType || ""}
           />
           <AdditionalInfo
             address="248 หมู่ที่ 2 ถนน ถนน ซุปเปอร์ไฮเวย์ เชียงใหม่-ลำปาง ตำบล ปงยางคก อำเภอห้างฉัตร ลำปาง 52190"
