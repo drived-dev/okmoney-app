@@ -3,70 +3,90 @@ import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 import { IconButton } from "~/components/icon-button";
 import { View } from "react-native";
+import { useRouter } from "expo-router";
+import useUserStore from "~/store/use-user-store";
+
+WebBrowser.maybeCompleteAuthSession();
 
 export default function GoogleAuth() {
-  // Your backend URL that initiates the Google OAuth flow
-  const BACKEND_AUTH_URL =
-    "https://okmoney-bk.vercel.app/api/auth/google/login";
+  const router = useRouter();
+  const BACKEND_AUTH_URL = "http://localhost:3000/api/auth/google/login";
+
+  // useEffect(() => {
+  //   // Set up deep link listener
+  //   const subscription = Linking.addEventListener("url", handleRedirect);
+  //   return () => {
+  //     subscription.remove();
+  //   };
+  // }, []);
 
   useEffect(() => {
-    // Set up deep link listener
-    const subscription = Linking.addEventListener("url", handleRedirect);
+    // Handle initial URL if app was opened from a link
+    // Linking.getInitialURL().then((url) => {
+    //   console.log("[Debug] Initial URL:", url);
+    //   console.log("url", url);
+    //   if (url) {
+    //     handleRedirect({ url });
+    //   }
+    // });
 
-    return () => {
-      subscription.remove();
-    };
+    // Listen for any incoming links when app is open
+    const subscription = Linking.addEventListener("url", (event) => {
+      console.log("[Debug] Incoming URL:", event.url);
+      handleRedirect({ url: event.url });
+    });
+
+    return () => subscription.remove();
   }, []);
 
   const handleRedirect = async (event: { url: string }) => {
-    // Parse the URL to get any query parameters or tokens
-    const data = Linking.parse(event.url);
+    const { setUser } = useUserStore.getState();
+    try {
+      // Parse the full URL
+      const parsedUrl = Linking.parse(event.url);
+      const { queryParams } = parsedUrl;
 
-    // Access query parameters from the redirect URL
-    const { queryParams } = data;
-    const { token, userId, error } = queryParams || {};
+      const { token, refreshToken } = queryParams || {};
 
-    if (error) {
-      console.error("Authentication error:", error);
-      return;
-    }
-
-    if (token && userId) {
-      // Handle successful authentication
-      console.log("Received auth data:", { token, userId });
-      // Store tokens, update auth state, etc.
+      if (token && refreshToken) {
+        setUser({
+          accessToken: token,
+          refreshToken: refreshToken,
+        });
+        router.push("/(tabs)");
+      } else {
+        console.error("[Debug] No tokens in URL:", event.url);
+      }
+    } catch (error) {
+      console.error("[Debug] Redirect Error:", error);
     }
   };
 
   const signInWithGoogle = async () => {
     try {
-      // Add state parameter to help verify the redirect
-      const state = Math.random().toString(36).substring(7);
-      // Create and encode a redirect URI that the OAuth provider will call back to
-      // Linking.createURL generates a deep link URL for the app (e.g. exp://192.168.1.1:19000/auth/callback)
-      // encodeURIComponent ensures the URL is properly encoded for use as a query parameter
-      const redirectUri = encodeURIComponent(
-        Linking.createURL("auth/callback")
-      );
+      // Create and log the redirect URI
+      const redirectUri = Linking.createURL("auth/google");
 
-      console.log("redirectUri", redirectUri);
-
-      // Add any additional parameters you want your backend to return
-      const authUrl = `${BACKEND_AUTH_URL}?redirect_uri=${redirectUri}&state=${state}`;
+      // Log the full auth URL being opened
+      const authUrl = `${BACKEND_AUTH_URL}?redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}`;
 
       const result = await WebBrowser.openAuthSessionAsync(
         authUrl,
-        Linking.createURL("auth/callback")
+        redirectUri,
+        {
+          showInRecents: true,
+          preferEphemeral: true,
+          dismissButtonStyle: "done",
+        }
       );
 
+      // Handle the WebBrowser result
       if (result.type === "success") {
-        // The authentication flow completed, but actual auth data
-        // will be handled by the handleRedirect function
-        console.log("Auth flow completed");
+        await handleRedirect({ url: result.url });
       }
-    } catch (error) {
-      console.error("Error during authentication:", error);
-    }
+    } catch (error) {}
   };
 
   return (
