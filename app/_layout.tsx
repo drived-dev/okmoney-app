@@ -22,6 +22,7 @@ import { CustomDrawer } from "~/components/custom-drawer";
 import OfflineNotice from "~/components/offline-notice";
 import { toastConfig } from "~/components/toast-config";
 import useUserStore from "~/store/use-user-store";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -87,29 +88,43 @@ export default function RootLayout() {
     return null;
   }
 
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 1000 * 60 * 5, // Data is considered fresh for 5 minutes
+        gcTime: 1000 * 60 * 30, // Unused data is garbage collected after 30 minutes
+        retry: 2, // Number of times to retry failed queries
+        refetchOnWindowFocus: false, // Disable automatic refetch on window focus
+      },
+    },
+  });
+
   return (
     // <NavigationContainer independent={true}>
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-      <Drawer
-        drawerContent={() => <CustomDrawer />}
-        initialRouteName={"(tabs)"}
-        screenOptions={{
-          drawerType: "front",
-          headerShown: false,
-        }}
-      >
-        <Drawer.Screen
-          name="(tabs)"
-          options={{
+      <QueryClientProvider client={queryClient}>
+        <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
+        <Drawer
+          drawerContent={() => <CustomDrawer />}
+          initialRouteName={"(tabs)"}
+          screenOptions={{
+            drawerType: "front",
             headerShown: false,
           }}
-        />
-      </Drawer>
-      <OfflineNotice />
-      <Toast config={toastConfig} />
-      <PortalHost />
+        >
+          <Drawer.Screen
+            name="(tabs)"
+            options={{
+              headerShown: false,
+            }}
+          />
+        </Drawer>
+        <OfflineNotice />
+        <Toast config={toastConfig} />
+        <PortalHost />
+      </QueryClientProvider>
     </ThemeProvider>
+
     // </NavigationContainer>
   );
 }

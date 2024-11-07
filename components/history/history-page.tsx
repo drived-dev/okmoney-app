@@ -13,34 +13,17 @@ import { cn } from "~/lib/utils";
 import { PARAGRAPH, TITLE } from "~/constants/Typography";
 import { Historylist } from "~/components/history/history-list";
 import moment from "moment";
-
-interface HistoryItem {
-  url: string;
-  nickname?: string;
-  name: string;
-  variant: "cash" | "create" | "payment";
-  slip?: string;
-  value: string | number;
-  date: string;
-  time: string;
-}
-
-interface HistorylistProps {
-  url: string;
-  nickname?: string;
-  name: string;
-  variant: "cash" | "create" | "payment";
-  slip?: string;
-  value: string | number;
-}
+import { getPaymentHistory } from "~/api/payment/get-history-all";
+import { useQuery } from "@tanstack/react-query";
+import { PaymentHistory, PaymentType } from "~/types/payment-history";
 
 interface HistoryPageProps {
   name?: string;
   nickname?: string;
-  data: HistoryItem[];
+  data: PaymentHistory[];
 }
 
-const groupDataByDate = (data: HistoryItem[]) => {
+const groupDataByDate = (data: PaymentHistory[]) => {
   const today = moment();
   const yesterday = moment().subtract(1, "days");
 
@@ -60,11 +43,11 @@ const groupDataByDate = (data: HistoryItem[]) => {
     groups[label].push(item);
 
     return groups;
-  }, {} as { [key: string]: HistoryItem[] });
+  }, {} as { [key: string]: PaymentHistory[] });
 
   Object.keys(groupedData).forEach((key) => {
     groupedData[key] = groupedData[key].sort((a, b) =>
-      moment(a.time, "HH:mm").diff(moment(b.time, "HH:mm"))
+      moment(a.updatedAt, "HH:mm").diff(moment(b.updatedAt, "HH:mm"))
     );
   });
 
@@ -107,12 +90,13 @@ const HistoryPage: React.FC<HistoryPageProps> = ({ name, nickname, data }) => {
               {groupedData[dateLabel].map((item, index) => (
                 <Historylist
                   key={index}
-                  url={item.url}
-                  nickname={item.nickname}
-                  name={item.name}
-                  variant={item.variant}
-                  slip={item.slip}
-                  value={item.value}
+                  url={item.imageUrl}
+                  // TODO: Change creditorId to name
+                  // nickname={item.creditorId}
+                  name={item.creditorId}
+                  variant={PaymentType[item.paymentType]}
+                  slip={item.imageUrl}
+                  value={item.amount}
                 />
               ))}
             </View>

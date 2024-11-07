@@ -13,7 +13,7 @@ interface HistorylistProps {
   url?: string;
   nickname?: string;
   name: string;
-  variant: "cash" | "create" | "payment";
+  variant: string;
   value: string | number;
   slip?: string;
 }
@@ -39,11 +39,11 @@ export const Historylist: React.FC<HistorylistProps> = ({
 
   const getVariantDetails = () => {
     switch (variant) {
-      case "cash":
+      case "CASH":
         return { text: "เงินสด", icon: "HandCoins" };
-      case "create":
+      case "EXISTING":
         return { text: "สร้างลูกหนี้ใหม่", icon: null };
-      case "payment":
+      case "TRANSFER":
         return { text: "เงินโอน", icon: "ArrowLeftRight" };
       default:
         return { text: "", icon: null };
@@ -95,7 +95,7 @@ export const Historylist: React.FC<HistorylistProps> = ({
           </View>
         </View>
 
-        {variant === "payment" && slip && (
+        {variant === "TRANSFER" && slip && (
           <View className="flex flex-row justify-between ml-4 gap-2">
             <Icon name="CornerDownRight" />
             <IconButton

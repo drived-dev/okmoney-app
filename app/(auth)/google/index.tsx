@@ -2,37 +2,22 @@ import { useEffect } from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 import { IconButton } from "~/components/icon-button";
-import { View } from "react-native";
+import { Button, View } from "react-native";
 import { useRouter } from "expo-router";
 import useUserStore from "~/store/use-user-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default function GoogleAuth() {
   const router = useRouter();
+  const { setUser, accessToken, refreshToken } = useUserStore();
+
   const BACKEND_AUTH_URL = "http://localhost:3000/api/auth/google/login";
 
-  // useEffect(() => {
-  //   // Set up deep link listener
-  //   const subscription = Linking.addEventListener("url", handleRedirect);
-  //   return () => {
-  //     subscription.remove();
-  //   };
-  // }, []);
-
   useEffect(() => {
-    // Handle initial URL if app was opened from a link
-    // Linking.getInitialURL().then((url) => {
-    //   console.log("[Debug] Initial URL:", url);
-    //   console.log("url", url);
-    //   if (url) {
-    //     handleRedirect({ url });
-    //   }
-    // });
-
     // Listen for any incoming links when app is open
     const subscription = Linking.addEventListener("url", (event) => {
-      console.log("[Debug] Incoming URL:", event.url);
       handleRedirect({ url: event.url });
     });
 
@@ -40,9 +25,7 @@ export default function GoogleAuth() {
   }, []);
 
   const handleRedirect = async (event: { url: string }) => {
-    const { setUser } = useUserStore.getState();
     try {
-      // Parse the full URL
       const parsedUrl = Linking.parse(event.url);
       const { queryParams } = parsedUrl;
 
@@ -50,9 +33,11 @@ export default function GoogleAuth() {
 
       if (token && refreshToken) {
         setUser({
-          accessToken: token,
-          refreshToken: refreshToken,
+          accessToken: accessToken as string,
+          refreshToken: refreshToken as string,
         });
+        AsyncStorage.setItem("token", token as string);
+        AsyncStorage.setItem("refreshToken", refreshToken as string);
         router.push("/(tabs)");
       } else {
         console.error("[Debug] No tokens in URL:", event.url);
@@ -74,12 +59,7 @@ export default function GoogleAuth() {
 
       const result = await WebBrowser.openAuthSessionAsync(
         authUrl,
-        redirectUri,
-        {
-          showInRecents: true,
-          preferEphemeral: true,
-          dismissButtonStyle: "done",
-        }
+        redirectUri
       );
 
       // Handle the WebBrowser result
