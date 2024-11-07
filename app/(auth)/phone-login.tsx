@@ -24,7 +24,7 @@ const PhoneLogin = () => {
 
     const isOtpValid = true;
     if (isOtpValid) {
-      router.navigate("/profile");
+      router.navigate({ pathname: "/profile", params: { social: "phone" } });
     } else {
       resetOtp();
       Toast.show({

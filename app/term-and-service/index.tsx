@@ -13,7 +13,7 @@ import {
 } from "~/components/ui/card";
 import { ArrowLeft, ArrowRight } from "lucide-react-native";
 import { IconButton } from "~/components/icon-button";
-import { useRouter } from "expo-router"; // Assuming you're using Expo Router
+import { useRouter, useLocalSearchParams } from "expo-router"; // Import useLocalSearchParams for params
 
 const demodata: Term = {
   description:
@@ -21,16 +21,16 @@ const demodata: Term = {
   update: "21 กพ. 65",
 };
 
-const index = () => {
+const Index = () => {
   const [isBottomReached, setIsBottomReached] = useState(false);
-  const router = useRouter(); // Using Expo Router for navigation
+  const router = useRouter();
+  const { social } = useLocalSearchParams(); // Get 'social' parameter
 
   const handleScroll = ({ nativeEvent }) => {
     const { layoutMeasurement, contentOffset, contentSize } = nativeEvent;
     const isScrolledToBottom =
       layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
 
-    // Once scrolled to bottom, allow navigation
     if (isScrolledToBottom && !isBottomReached) {
       LayoutAnimation.easeInEaseOut();
       setIsBottomReached(true);
@@ -38,8 +38,19 @@ const index = () => {
   };
 
   const handleNextPage = () => {
-    if (isBottomReached) {
-      router.navigate("/(tabs)"); // Replace with your next page route
+    if (!isBottomReached) return;
+
+    // Conditional navigation based on the 'social' parameter
+    if (social === "google") {
+      router.navigate("/(auth)/google");
+    } else if (social === "line") {
+      router.navigate("(auth/line)");
+    } else if (social === "facebook") {
+      router.navigate("(auth/facebook)");
+    } else if (social === "phone") {
+      router.navigate("(auth/phone)");
+    } else {
+      router.navigate("/(auth)/login"); // Default navigation if no 'social' param is provided
     }
   };
 
@@ -104,4 +115,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

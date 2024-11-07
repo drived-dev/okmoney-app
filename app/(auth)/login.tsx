@@ -92,22 +92,41 @@ const index = () => {
                     variant="green"
                     size={"xl"}
                     textClassName="flex-1"
-                  ></IconButton>
+                    onPress={() =>
+                      router.navigate({
+                        pathname: "/profile",
+                        params: { social: "line" },
+                      })
+                    }
+                  />
+
                   <IconButton
                     icon={require("assets/images/facebook.png")}
                     text="เข้าร่วมผ่าน Facebook"
                     variant="green"
                     size={"xl"}
                     textClassName="flex-1"
-                  ></IconButton>
+                    onPress={() =>
+                      router.navigate({
+                        pathname: "/profile",
+                        params: { social: "facebook" },
+                      })
+                    }
+                  />
+
                   <IconButton
                     icon={require("assets/images/google.png")}
                     text="เข้าร่วมผ่าน Google"
                     variant="green"
                     size={"xl"}
                     textClassName="flex-1"
-                    onPress={() => router.navigate("/google")}
-                  ></IconButton>
+                    onPress={() =>
+                      router.navigate({
+                        pathname: "/profile",
+                        params: { social: "google" },
+                      })
+                    }
+                  />
                 </View>
 
                 <Button
