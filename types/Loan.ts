@@ -1,29 +1,34 @@
-// TODO: loan schema from backend
-export interface Loan {
+import { Debtor } from "./debtor";
+
+export interface Loan extends Debtor {
   id: string;
-  nickname: string;
-  name: string;
-  status: LoanStatus;
-  outstanding: number;
-  total: number;
-  dueDate: string;
-  profileImage: string;
-  totalLoanTerm: number;
-  tags?: string[];
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  healthu: string;
-  memoNote: string;
-  loanNumber: string;
+  loanNumber?: string;
   principal: number;
+  loanStatus: LoanStatus;
   remainingBalance: number;
-  loanTermType: number;
+  totalBalance: number;
+  totalLoanTerm: number;
+  loanTermType: LoanTermType;
   loanTermInterval: number;
-  interestType: number;
+  interestType: InterestType;
   interestRate: number;
+  dueDate: number;
+  tags: string[];
+  debtorId: string;
   creditorId: string;
-  paidAmount: number;
+  guarantorId?: string;
+}
+
+
+export enum LoanTermType {
+  MONTHLY = 0,
+  WEEKLY = 1,
+  DAILY = 2,
+}
+
+export enum InterestType {
+  FIXED = 0,
+  VARIABLE = 1,
 }
 
 export enum LoanStatus {
