@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 import { IconButton } from "~/components/icon-button";
@@ -11,14 +11,28 @@ import { cn } from "~/lib/utils";
 import { Text } from "~/components/ui/text";
 import { PARAGRAPH, TITLE } from "~/constants/Typography";
 import { Link, Link2 } from "lucide-react-native";
+import {
+  Feedback,
+  FeedbackDescription,
+  FeedbackTitle,
+} from "~/components/ui/feedback";
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default function GoogleAuth() {
   const router = useRouter();
   const { setUser, accessToken, refreshToken } = useUserStore();
+  const [showFeedback, setShowFeedback] = useState(false); // State to control Feedback visibility
 
   const BACKEND_AUTH_URL = "http://localhost:3000/api/auth/google/login";
+
+  const handleButtonClick = () => {
+    setShowFeedback(true); // Set to true to display Feedback
+    setTimeout(() => {
+      setShowFeedback(false); // Hide Feedback after 2 seconds
+      router.push("/(tabs)"); // Navigate to "(tabs)" after hiding feedback
+    }, 2000); // Hide Feedback after 2 seconds for demo
+  };
 
   useEffect(() => {
     // Listen for any incoming links when app is open
@@ -74,39 +88,46 @@ export default function GoogleAuth() {
     } catch (error) {}
   };
 
-  const sim_api_verify = {};
-
   return (
     <View>
-      <SafeAreaView>
-        <View className={cn(CONTAINER, "flex-col  flex h-full")}>
-          <View className="flex flex-col flex-1 gap-20">
-            <View className="flex flex-col gap-2 mt-20">
-              <View className="justify-center w-full flex flex-row">
-                <Text className={cn(TITLE, "text-foreground")}>
-                  ติดตามข่าวสาร Ok money ผ่าน
-                </Text>
+      {showFeedback ? (
+        <Feedback isSuccess={true}>
+          <FeedbackTitle>ตั้งค่าเรียบร้อย!</FeedbackTitle>
+          <FeedbackDescription>
+            ร้านค้าของคุณพร้อมใช้งานแล้ว
+          </FeedbackDescription>
+        </Feedback>
+      ) : (
+        <SafeAreaView>
+          <View className={cn(CONTAINER, "flex-col flex h-full")}>
+            <View className="flex flex-col flex-1 gap-20">
+              <View className="flex flex-col gap-2 mt-20">
+                <View className="justify-center w-full flex flex-row">
+                  <Text className={cn(TITLE, "text-foreground")}>
+                    ติดตามข่าวสาร Ok money ผ่าน
+                  </Text>
+                </View>
+                <View className="justify-center w-full flex flex-row">
+                  <Text className={cn(TITLE, "text-foreground")}>LINE OA</Text>
+                </View>
               </View>
-              <View className="justify-center w-full flex flex-row">
-                <Text className={cn(TITLE, "text-foreground")}>LINE OA</Text>
+              <View className="flex flex-row -gap-4 justify-center py-8">
+                <Image source={require("assets/images/line_oa.png")} />
               </View>
             </View>
-            <View className="flex flex-row -gap-4 justify-center py-8">
-              <Image source={require("assets/images/line_oa.png")}></Image>
+            <View className="mt-auto justify-center items-center">
+              <IconButton
+                icon={require("assets/images/google.png")}
+                text="Sign in with Google (Demo)"
+                variant="green"
+                size={"xl"}
+                textClassName="flex-1"
+                onPress={handleButtonClick} // Trigger feedback on click
+              />
             </View>
           </View>
-          <View className="mt-auto justify-center items-center">
-            <IconButton
-              icon={require("assets/images/google.png")}
-              text="Sign in with Google"
-              variant="green"
-              size={"xl"}
-              textClassName="flex-1"
-              onPress={signInWithGoogle}
-            />
-          </View>
-        </View>
-      </SafeAreaView>
+        </SafeAreaView>
+      )}
     </View>
   );
 }
