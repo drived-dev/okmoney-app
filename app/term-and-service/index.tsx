@@ -1,5 +1,5 @@
 import { View, SafeAreaView, ScrollView, LayoutAnimation } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { cn } from "~/lib/utils";
 import { CONTAINER } from "~/constants/Styles";
 import { Text } from "~/components/ui/text";
@@ -13,7 +13,7 @@ import {
   Feedback,
   FeedbackDescription,
   FeedbackTitle,
-} from "~/components/ui/feedback"; // Import Feedback components
+} from "~/components/ui/feedback";
 
 const demodata: Term = {
   description:
@@ -26,6 +26,11 @@ const Index = () => {
   const [showFeedback, setShowFeedback] = useState(false); // State to control Feedback visibility
   const router = useRouter();
   const { social } = useLocalSearchParams(); // Get 'social' parameter
+
+  useEffect(() => {
+    // Ensure isBottomReached is reset to false on component mount
+    setIsBottomReached(false);
+  }, []);
 
   const handleScroll = ({ nativeEvent }) => {
     const { layoutMeasurement, contentOffset, contentSize } = nativeEvent;
