@@ -1,84 +1,26 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { zustandStorage } from "./storage";
-import { Loan } from "~/types/Loan";
+import { Loan, LoanStatus } from "~/types/Loan";
 
-const demodata: Loan[] = [
-  {
-    id: "01",
-    nickname: "บิบิ",
-    name: "ธน สมพง",
-    status: "รอชำระ",
-    outstanding: 400,
-    total: 500,
-    dueDate: "30/5",
-    profileImage:
-      "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    tags: ["old", "เพื่อน"],
-  },
-  {
-    id: "02",
-    nickname: "แบงค์",
-    name: "ธนาการ",
-    status: "ใกล้กำหนด",
-    outstanding: 100,
-    total: 500,
-    dueDate: "30/5",
-    profileImage:
-      "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    tags: ["urgent", "ใกล้กำหนด"], // Manually assigned tags
-  },
-  {
-    id: "03",
-    nickname: "บิน",
-    name: "ธุดง",
-    status: "ครบชำระ",
-    outstanding: 200,
-    total: 500,
-    dueDate: "30/5",
-    profileImage:
-      "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    tags: ["old"], // Manually assigned tags
-  },
-  {
-    id: "04",
-    nickname: "โบ๊ท",
-    name: "ทองสิระ",
-    status: "ค้างชำระ",
-    outstanding: 300,
-    total: 500,
-    dueDate: "30/5",
-    profileImage:
-      "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    tags: ["เพื่อน", "important"], // Manually assigned tags
-  },
-  {
-    id: "05",
-    nickname: "โบ๊ท",
-    name: "ทองสิระ",
-    status: "ค้างชำระ",
-    outstanding: 300,
-    total: 500,
-    dueDate: "30/5",
-    profileImage:
-      "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg",
-    tags: ["old", "urgent", "important", "nearly"], // Manually assigned tags
-  },
-];
 
 interface LoanStore {
   loans: Loan[];
+  setLoans: (loans: Loan[]) => void;
   addLoan: (loan: Loan) => void;
   removeLoan: (loan: Loan) => void;
+  getLoanById: (id: string) => Loan | undefined;
 }
 
 const useLoanStore = create(
   persist<LoanStore>(
     (set, get) => ({
-      loans: demodata,
+      loans: [],
+      setLoans: (loans) => set({ loans }),
       addLoan: (loan) => set((state) => ({ loans: [...state.loans, loan] })),
       removeLoan: (loan) =>
         set((state) => ({ loans: state.loans.filter((t) => t !== loan) })),
+      getLoanById: (id) => get().loans.find((loan) => loan.id === id),
     }),
     {
       name: "loan-storage", // name of the item in the storage (must be unique)

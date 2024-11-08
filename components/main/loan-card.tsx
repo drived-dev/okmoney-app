@@ -10,6 +10,8 @@ import { IconButton } from "~/components/icon-button";
 import colors from "tailwindcss/colors";
 import { LoanCardMenu } from "./loan-card-menu";
 import useEditingLoanStore from "~/store/use-editing-loan-store";
+import { timestampToDate } from "~/lib/timestamp-to-date";
+import { formatMoney } from "~/lib/parse-money";
 
 const statusColorsbg: Record<string, string> = {
   ค้างชำระ: "bg-red-500", // Overdue
@@ -55,10 +57,6 @@ export const LoanCard = ({
 
   function openDebtorModal() {
     setId(loan.id);
-    setName(loan.name);
-    setNickname(loan.nickname);
-    setProfileImage(loan.profileImage);
-    setStatus(loan.status);
     onInfo();
   }
 
@@ -75,7 +73,10 @@ export const LoanCard = ({
         <View className="flex flex-col gap-2">
           <View className="justify-between flex flex-row">
             <View className="flex-row items-center space-x-4">
-              {/* Profile Image */}
+              {/* 
+              Profile Image 
+              TODO: change to placeholder
+              */}
               <Image
                 source={{ uri: loan.profileImage }}
                 className="w-12 h-12 rounded-full"
@@ -120,14 +121,14 @@ export const LoanCard = ({
           >
             {/* Progress Bar */}
             <ProgressText
-              textStart={`${loan.outstanding} บาท`}
-              textEnd={`${loan.total} บาท`}
+              textStart={formatMoney(loan.outstanding)}
+              textEnd={formatMoney(loan.total)}
               percentage={Math.round((loan.outstanding / loan.total) * 100)}
               className="flex-1"
             />
             {/* Due Date */}
             <Text className={cn(TITLE, "text-muted-foreground text-sm mt-1")}>
-              ชำระทุก {loan.dueDate}
+              ชำระทุก {timestampToDate(loan.dueDate)}
             </Text>
           </View>
         </View>

@@ -11,7 +11,7 @@ import PhoneInput from "~/components/phone-input"; // Your PhoneInput component
 import { Icon } from "~/components/icon";
 import { IconButton } from "~/components/icon-button";
 import { ArrowLeft, ArrowRight } from "lucide-react-native";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import {
   Tooltip,
   TooltipContent,
@@ -37,6 +37,7 @@ const formSchema = z.object({
 
 const Index = () => {
   const router = useRouter();
+  const { social } = useLocalSearchParams(); // Retrieve the social parameter
   const insets = useSafeAreaInsets();
   const [image, setImage] = useState<string | null>(null);
   const [countryCode, setCountryCode] = useState("66"); // Keep track of country code
@@ -89,9 +90,10 @@ const Index = () => {
 
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = (values) => {
     const fullPhoneNumber = `+${countryCode} ${values.phone}`; // Concatenate country code with the phone number
-    alert(`Name: ${values.name}`);
-    alert(`Image URI: ${values.img}`);
-    alert(`Phone with country code: ${fullPhoneNumber}`); // This includes the country code
+    router.navigate({
+      pathname: "/term-and-service",
+      params: { social }, // Forward only the social parameter
+    });
   };
 
   return (

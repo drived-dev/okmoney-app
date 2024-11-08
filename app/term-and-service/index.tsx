@@ -1,19 +1,19 @@
 import { View, SafeAreaView, ScrollView, LayoutAnimation } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { cn } from "~/lib/utils";
 import { CONTAINER } from "~/constants/Styles";
 import { Text } from "~/components/ui/text";
 import { PARAGRAPH, TITLE } from "~/constants/Typography";
 import { Term } from "~/types/term";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-} from "~/components/ui/card";
+import { Card, CardDescription, CardFooter } from "~/components/ui/card";
 import { ArrowLeft, ArrowRight } from "lucide-react-native";
 import { IconButton } from "~/components/icon-button";
-import { useRouter } from "expo-router"; // Assuming you're using Expo Router
+import { useRouter, useLocalSearchParams } from "expo-router";
+import {
+  Feedback,
+  FeedbackDescription,
+  FeedbackTitle,
+} from "~/components/ui/feedback";
 
 const demodata: Term = {
   description:
@@ -21,16 +21,22 @@ const demodata: Term = {
   update: "21 กพ. 65",
 };
 
-const index = () => {
+const Index = () => {
   const [isBottomReached, setIsBottomReached] = useState(false);
-  const router = useRouter(); // Using Expo Router for navigation
+  const [showFeedback, setShowFeedback] = useState(false); // State to control Feedback visibility
+  const router = useRouter();
+  const { social } = useLocalSearchParams(); // Get 'social' parameter
+
+  useEffect(() => {
+    // Ensure isBottomReached is reset to false on component mount
+    setIsBottomReached(false);
+  }, []);
 
   const handleScroll = ({ nativeEvent }) => {
     const { layoutMeasurement, contentOffset, contentSize } = nativeEvent;
     const isScrolledToBottom =
       layoutMeasurement.height + contentOffset.y >= contentSize.height - 20;
 
-    // Once scrolled to bottom, allow navigation
     if (isScrolledToBottom && !isBottomReached) {
       LayoutAnimation.easeInEaseOut();
       setIsBottomReached(true);
@@ -38,70 +44,92 @@ const index = () => {
   };
 
   const handleNextPage = () => {
-    if (isBottomReached) {
-      router.navigate("/(tabs)"); // Replace with your next page route
+    if (!isBottomReached) return;
+
+    if (social === "google") {
+      router.navigate("/(auth)/google");
+    } else if (social === "line") {
+      router.navigate("/(auth)/line");
+    } else if (social === "facebook") {
+      router.navigate("/(auth)/facebook");
+    } else if (social === "phone") {
+      // Show feedback and navigate to "(tabs)" after delay for "phone"
+      setShowFeedback(true); // Show Feedback
+      setTimeout(() => {
+        setShowFeedback(false); // Hide Feedback
+        router.push("/(tabs)"); // Navigate to "(tabs)"
+      }, 2000); // Delay for demo purposes
+    } else {
+      router.navigate("/(auth)/login");
     }
   };
 
   return (
     <View className="h-full">
-      <SafeAreaView>
-        <ScrollView
-          onScroll={handleScroll}
-          scrollEventThrottle={16} // Controls scroll event frequency
-        >
-          <View className={cn(CONTAINER, "px-8")}>
-            <View className="flex flex-col gap-4">
-              <View className="flex flex-col gap-1">
-                <Text className={cn(TITLE, "")}>
-                  กรุณาพิจรณา{"\n"}นโยบายความเป็นส่วนตัว
-                </Text>
-                <Text className={cn(PARAGRAPH, "text-[#949494]")}>
-                  อัปเดตล่าสุด: {demodata.update}
-                </Text>
+      {showFeedback ? (
+        <Feedback isSuccess={true}>
+          <FeedbackTitle>ตั้งค่าเรียบร้อย!</FeedbackTitle>
+          <FeedbackDescription>
+            ร้านค้าของคุณพร้อมใช้งานแล้ว
+          </FeedbackDescription>
+        </Feedback>
+      ) : (
+        <>
+          <SafeAreaView>
+            <ScrollView onScroll={handleScroll} scrollEventThrottle={16}>
+              <View className={cn(CONTAINER, "px-8")}>
+                <View className="flex flex-col gap-4">
+                  <View className="flex flex-col gap-1">
+                    <Text className={cn(TITLE, "")}>
+                      กรุณาพิจรณา{"\n"}นโยบายความเป็นส่วนตัว
+                    </Text>
+                    <Text className={cn(PARAGRAPH, "text-[#949494]")}>
+                      อัปเดตล่าสุด: {demodata.update}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text className={cn(PARAGRAPH, "")}>
+                      {demodata.description}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </ScrollView>
+          </SafeAreaView>
+
+          {/* Card at the bottom */}
+          <View className="mt-auto justify-center items-center pb-10">
+            <Card className="w-full max-w-sm">
+              <View className="px-4 pt-4 pb-2">
+                <CardDescription className={cn(PARAGRAPH, "text-foreground")}>
+                  จากการกด “ยินยอม” เเปลว่าคุณได้ยอมรับเงื้อนไขการใช้งานของ Ok
+                  Money
+                </CardDescription>
               </View>
 
-              <View>
-                <Text className={cn(PARAGRAPH, "")}>
-                  {demodata.description}
-                </Text>
-              </View>
-            </View>
+              <CardFooter className="justify-between">
+                <IconButton
+                  icon={<ArrowLeft />}
+                  variant="green"
+                  size={"icon-lg"}
+                  className="items-center"
+                />
+
+                <IconButton
+                  icon={<ArrowRight />}
+                  text="ยอมรับ"
+                  variant={isBottomReached ? "default" : "outline"}
+                  className="items-center"
+                  iconPosition="right"
+                  onPress={handleNextPage}
+                />
+              </CardFooter>
+            </Card>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-
-      {/* Card is always visible */}
-      <View className="mt-auto justify-center items-center pb-10">
-        <Card className="w-full max-w-sm">
-          <View className="px-4 pt-4 pb-2">
-            <CardDescription className={cn(PARAGRAPH, "text-foreground")}>
-              จากการกด “ยินยอม” เเปลว่าคุณได้ยอมรับเงื้อนไขการใช้งานของ Ok Money
-            </CardDescription>
-          </View>
-
-          <CardFooter className="justify-between">
-            <IconButton
-              icon={<ArrowLeft />}
-              variant="green"
-              size={"icon-lg"}
-              className="items-center"
-            />
-
-            <IconButton
-              icon={<ArrowRight />}
-              text="ยอมรับ"
-              // The button starts green and only changes to "default" after reaching the bottom
-              variant={isBottomReached ? "default" : "outline"}
-              className="items-center"
-              iconPosition="right"
-              onPress={handleNextPage}
-            />
-          </CardFooter>
-        </Card>
-      </View>
+        </>
+      )}
     </View>
   );
 };
 
-export default index;
+export default Index;

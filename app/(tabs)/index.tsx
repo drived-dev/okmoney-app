@@ -19,7 +19,7 @@ import { AvatarText } from "~/components/avatar-text";
 import { IconButton } from "~/components/icon-button";
 import { NotebookPen, Plus } from "lucide-react-native";
 import { GridComponent } from "~/components/main/grid-card";
-import useLoanStore from "~/store/use-loan-store";
+import useLoanStore, { parseLoans } from "~/store/use-loan-store";
 import useFilterStore from "~/store/use-filter-store";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/icon";
@@ -48,6 +48,11 @@ import DebtorModal from "~/components/main/debtor-info-modal";
 import { Drawer } from "react-native-drawer-layout";
 import useUserStore from "~/store/use-user-store";
 import { Loan } from "~/types/Loan";
+import { useQuery } from "@tanstack/react-query";
+import { PaymentHistory } from "~/types/payment-history";
+import { getLoanAll } from "~/api/loans/get-loan-all";
+import { parseLoansDatas } from "~/lib/parse-loan-datas";
+import Toast from "react-native-toast-message";
 
 const amountMemoSchema = z.object({
   amount: z.string().max(100).optional(),
@@ -55,12 +60,33 @@ const amountMemoSchema = z.object({
 });
 
 const Index = () => {
+  const { loans, addLoan, setLoans } = useLoanStore(); // Retrieve loans from useLoanStore
+
+  useEffect(() => {
+    const loadInitialLoans = async () => {
+      try {
+        Toast.show({
+          text1: "กำลังโหลดข้อมูลลูกหนี้",
+          type: "info",
+        });
+        const loans = await getLoanAll();
+        const buffer = parseLoansDatas(loans);
+        setLoans(buffer);
+      } catch (error) {
+        console.error("Failed to load initial loans:", error);
+      }
+    };
+
+    loadInitialLoans();
+  }, []); // Empty dependency array ensures this only runs once when component mounts
+
   const {
     control,
     formState: { errors },
   } = useForm<z.infer<typeof amountMemoSchema>>({
     resolver: zodResolver(amountMemoSchema),
   });
+
   const navigation = useNavigation();
   const [tagValue, settagValue] = React.useState<string[]>([]); // Store selected tags
   const [statusValue, setstatusValue] = React.useState<string[]>([]); // Store selected statuses
@@ -71,9 +97,7 @@ const Index = () => {
   const [isSearchbarSticky, setSearchbarSticky] = useState(false); // Sticky search bar control
   const [isDrawerOpen, setDrawerOpen] = useState(false); // Drawer state
   const [visibleLoans, setVisibleLoans] = useState<Loan[]>([]); // Visible loans after filtering
-
   const scrollViewRef = useRef(null); // ScrollView reference
-  const { loans } = useLoanStore(); // Retrieve loans from useLoanStore
   const user = useUserStore();
   const { tags, addTag, clearTags, removeTag } = useFilterStore();
 

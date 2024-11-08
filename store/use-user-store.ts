@@ -20,6 +20,8 @@ interface UserState {
   googleId: string | null;
   facebookId: string | null;
   lineId: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
 
   // Methods to update state
   setUser: (user: Partial<UserState>) => void;
@@ -50,6 +52,8 @@ const useUserStore = create<UserState>((set) => ({
   googleId: null,
   facebookId: null,
   lineId: null,
+  accessToken: null,
+  refreshToken: null,
 
   // Set user data
   setUser: (user) => set((state) => ({ ...state, ...user })),
@@ -81,6 +85,8 @@ const useUserStore = create<UserState>((set) => ({
       googleId: null,
       facebookId: null,
       lineId: null,
+      accessToken: null,
+      refreshToken: null,
     }),
 }));
 
