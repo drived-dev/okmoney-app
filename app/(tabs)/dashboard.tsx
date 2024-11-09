@@ -15,7 +15,7 @@ import { getDashboardLastYear } from "~/api/dashboard/get-dashboard-lastYear";
 
 const App: React.FC = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const [value, setValue] = React.useState<string>("years"); // Set default value to "years"
+  const [value, setValue] = React.useState<string>("years");
 
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
@@ -27,20 +27,26 @@ const App: React.FC = () => {
     }
   };
 
-  const {
-    data: dashboard = []
-  } = useQuery({
+  // Safe default values for dashboard data
+  const { data: dashboard = {} } = useQuery({
     queryKey: ["dashboard"],
-    queryFn: () => getDashboardAll(),
+    queryFn: getDashboardAll,
   });
-  const series = [dashboard.totalLoan, dashboard.accuredIncome, dashboard.totalEarned, dashboard.profit]
-  const {
-    data: dashboardLastYear = []
-  } = useQuery({
+  
+  const series = [
+    dashboard.totalLoan ?? 0, 
+    dashboard.accuredIncome ?? 0, 
+    dashboard.totalEarned ?? 0, 
+    dashboard.profit ?? 0
+  ];
+
+  // Safe handling of dashboardLastYear data
+  const { data: dashboardLastYear = {} } = useQuery({
     queryKey: ["dashboardLastYear"],
-    queryFn: () => getDashboardLastYear(),
+    queryFn: getDashboardLastYear,
   });
-  const totalLoanLastYear = dashboardLastYear.data[1].principal
+  
+  const totalLoanLastYear = dashboardLastYear.data?.[1]?.principal ?? 0;
 
   return (
     <View>
@@ -59,9 +65,9 @@ const App: React.FC = () => {
 
             <DashboardCard
               userName="ธาม"
-              totalMoney={dashboard.totalLoan}
+              totalMoney={dashboard.totalLoan ?? 0}
               changeAmount={dashboard.totalLoan - totalLoanLastYear}
-              changePercentage={totalLoanLastYear==0 ? "∞": dashboard.totalLoan/totalLoanLastYear*100}
+              changePercentage={totalLoanLastYear === 0 ? "∞" : (dashboard.totalLoan / totalLoanLastYear) * 100}
               isPositive={true}
               widthAndHeight={100}
               series={series}
@@ -90,7 +96,6 @@ const App: React.FC = () => {
                 </ToggleGroup>
                 <Text></Text>
               </View>
-              {/* Pass the toggle value as a prop */}
               <BarPairWithLine toggleValue={value} />
             </View>
           </View>

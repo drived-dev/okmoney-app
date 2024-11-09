@@ -12,7 +12,7 @@ interface DashboardCardProps {
   userName: string;
   totalMoney: string;
   changeAmount: number;
-  changePercentage: number;
+  changePercentage: string;
   isPositive: boolean;
   widthAndHeight: number;
   series: number[];
@@ -69,7 +69,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       >
         <PieChart
           widthAndHeight={widthAndHeight}
-          series={series}
+          series={series.reduce((a, b) => a + b, 0) == 0 ? [1, 0, 0, 0] : series}
           sliceColor={sliceColor}
         />
         <View className={cn("flex-1", direction === "row" ? "ml-4" : "mt-4")}>
