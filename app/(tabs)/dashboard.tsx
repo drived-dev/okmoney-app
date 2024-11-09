@@ -11,7 +11,7 @@ import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 import BarPairWithLine from "~/components/dashboard/barplot";
 import { useQuery } from "@tanstack/react-query";
 import { getDashboardAll } from "~/api/dashboard/get-dashboard-all";
-import { getDashboardLastYear } from "~/api/dashboard/get-dashboard-lastYear";
+import { getDashboardYear } from "~/api/dashboard/get-dashboard-lastYear";
 
 const App: React.FC = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -43,7 +43,7 @@ const App: React.FC = () => {
   // Safe handling of dashboardLastYear data
   const { data: dashboardLastYear = {} } = useQuery({
     queryKey: ["dashboardLastYear"],
-    queryFn: getDashboardLastYear,
+    queryFn: getDashboardYear,
   });
   
   const totalLoanLastYear = dashboardLastYear.data?.[1]?.principal ?? 0;

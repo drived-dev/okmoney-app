@@ -1,6 +1,6 @@
 import api from '~/lib/axios';
 
-export async function getDashboardLastYear() {
+export async function getDashboardYear() {
   try {
     const response = await api.get('/dashboard/loan/year');
     return response.data;
