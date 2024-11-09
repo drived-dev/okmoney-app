@@ -91,22 +91,22 @@ const create = () => {
     // TODO: implement createLoan and fix bug
     createLoan({
       debtor: {
-        firstName: "",
-        lastName: "",
-        phoneNumber: "",
+        firstName: "dsds",
+        lastName: "sdsd",
+        phoneNumber: "+66812345678",
       },
       loan: {
         principal: 1,
-        loanStatus: "PENDING",
+        loanStatus: 0,
         remainingBalance: 1,
         totalBalance: 1,
         totalLoanTerm: 1,
-        loanTermType: "MONTHLY",
+        loanTermType: 0,
         loanTermInterval: 1,
-        interestType: "FIXED",
+        interestType: 0,
         interestRate: 1,
-        dueDate: "",
-        tags: [null],
+        dueDate: new Date(),
+        tags: [],
       },
     });
   }
