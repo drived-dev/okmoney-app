@@ -9,6 +9,9 @@ import { Text } from "~/components/ui/text";
 import { PARAGRAPH, TITLE } from "~/constants/Typography";
 import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 import BarPairWithLine from "~/components/dashboard/barplot";
+import { useQuery } from "@tanstack/react-query";
+import { getDashboardAll } from "~/api/dashboard/get-dashboard-all";
+import { getDashboardLastYear } from "~/api/dashboard/get-dashboard-lastYear";
 
 const App: React.FC = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -23,6 +26,21 @@ const App: React.FC = () => {
       setValue(newValue);
     }
   };
+
+  const {
+    data: dashboard = []
+  } = useQuery({
+    queryKey: ["dashboard"],
+    queryFn: () => getDashboardAll(),
+  });
+  const series = [dashboard.totalLoan, dashboard.accuredIncome, dashboard.totalEarned, dashboard.profit]
+  const {
+    data: dashboardLastYear = []
+  } = useQuery({
+    queryKey: ["dashboardLastYear"],
+    queryFn: () => getDashboardLastYear(),
+  });
+  const totalLoanLastYear = dashboardLastYear.data[1].principal
 
   return (
     <View>
@@ -41,12 +59,12 @@ const App: React.FC = () => {
 
             <DashboardCard
               userName="ธาม"
-              totalMoney="820,300.23"
-              changeAmount={123231}
-              changePercentage={14.53}
+              totalMoney={dashboard.totalLoan}
+              changeAmount={dashboard.totalLoan - totalLoanLastYear}
+              changePercentage={totalLoanLastYear==0 ? "∞": dashboard.totalLoan/totalLoanLastYear*100}
               isPositive={true}
               widthAndHeight={100}
-              series={[10, 20, 30, 40]}
+              series={series}
               sliceColor={["#fbd203", "#ffb300", "#ff9100", "#ff6c00"]}
               categories={[
                 "ยอดปล่อยทั้งหมด",

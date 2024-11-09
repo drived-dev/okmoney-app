@@ -33,10 +33,13 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
   categories,
   direction = "row", // Default value is "row"
 }) => {
-  const total = series.reduce((sum, value) => sum + value, 0);
-  const seriesWithPercentage = series.map(
-    (value) => ((value / total) * 100).toFixed(2) + "%"
-  );
+  // const total = series.reduce((sum, value) => sum + value, 0);
+  // const seriesWithPercentage = series.map(
+  //   (value) => ((value / total) * 100).toFixed(2) + "%"
+  // );
+  const seriesm = series.map(
+      (value) => (value / 1000) + "K"
+    );
 
   return (
     <View className="border border-gray-300 rounded-lg p-4 flex flex-col gap-2">
@@ -86,7 +89,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
                 className={cn(PARAGRAPH, "")}
                 style={{ marginLeft: "auto" }}
               >
-                {seriesWithPercentage[index]}
+                {seriesm[index]}
               </Text>
             </View>
           ))}
