@@ -28,18 +28,19 @@ import { AvatarText } from "../avatar-text";
 import Toast from "react-native-toast-message";
 import useEditingLoanStore from "~/store/use-editing-loan-store";
 import PhoneInput from "../phone-input";
+import { addGuarantorToLoan } from "~/api/guarantor/add-guarantor-to-loan";
 const guarantorSchema = z.object({
-  name: z
+  firstName: z
     .string()
     .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
     .max(20)
     .optional(),
-  lastname: z
+  lastName: z
     .string()
     .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
     .max(20)
     .optional(),
-  phone: z
+  phoneNumber: z
     .string()
     .regex(/^\+?[1-9]\d{1,14}$/, {
       message: "Invalid phone number format",
@@ -53,13 +54,16 @@ const GuarantorSheet = forwardRef((propTypes, bottomSheetModalRef) => {
   const {
     control,
     setValue,
+    handleSubmit,
     formState: { errors },
   } = useForm<z.infer<typeof guarantorSchema>>({
     resolver: zodResolver(guarantorSchema),
   });
 
-  function onSubmit() {
+  function onSubmit(data) {
+    console.log(data);
     console.log(id);
+    const respond = addGuarantorToLoan(data);
     // setValue to reset all
     // TODO: change info text
     Toast.show({
@@ -77,56 +81,56 @@ const GuarantorSheet = forwardRef((propTypes, bottomSheetModalRef) => {
         <Text className={cn(TITLE)}>ข้อมูลผู้ค้ำประกัน</Text>
         <Controller
           control={control}
-          name="name"
+          name="firstName"
           render={({ field: { onChange, onBlur, value } }) => (
             <FormItem>
-              <FormLabel nativeID="name">ชื่อ</FormLabel>
+              <FormLabel nativeID="firstName">ชื่อ</FormLabel>
               <Input
                 placeholder=""
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
               />
-              <FormMessage errorMessage={errors.name?.message} />
+              <FormMessage errorMessage={errors.firstName?.message} />
             </FormItem>
           )}
         />
         <Controller
           control={control}
-          name="lastname"
+          name="lastName"
           render={({ field: { onChange, onBlur, value } }) => (
             <FormItem>
-              <FormLabel nativeID="lastname">นามสกุล</FormLabel>
+              <FormLabel nativeID="lastName">นามสกุล</FormLabel>
               <Input
                 placeholder=""
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
               />
-              <FormMessage errorMessage={errors.lastname?.message} />
+              <FormMessage errorMessage={errors.lastName?.message} />
             </FormItem>
           )}
         />
 
         <Controller
           control={control}
-          name="phone"
+          name="phoneNumber"
           render={({ field: { onChange, onBlur, value } }) => (
             <FormItem>
-              <FormLabel nativeID="phone">เบอร์โทร</FormLabel>
+              <FormLabel nativeID="phoneNumber">เบอร์โทร</FormLabel>
 
               <PhoneInput
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
               />
-              <FormMessage errorMessage={errors.phone?.message} />
+              <FormMessage errorMessage={errors.phoneNumber?.message} />
             </FormItem>
           )}
         />
 
         <IconButton
-          onPress={onSubmit}
+          onPress={handleSubmit(onSubmit)}
           className="mt-auto"
           icon={<NotebookPen />}
           text="บันทึกรายการ"

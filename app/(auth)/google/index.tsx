@@ -71,6 +71,7 @@ export default function GoogleAuth() {
     try {
       // Create and log the redirect URI
       const redirectUri = Linking.createURL("auth/google");
+      console.log(redirectUri);
 
       // Log the full auth URL being opened
       const authUrl = `${BACKEND_AUTH_URL}?redirect_uri=${encodeURIComponent(
