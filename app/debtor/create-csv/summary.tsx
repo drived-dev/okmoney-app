@@ -24,6 +24,7 @@ import {
 } from "~/lib/validation/loan-create";
 import { Form } from "react-hook-form";
 import ErrorDropdown from "./(components)/error-dropdown";
+import { createDebtorCSV } from "~/api/mass-debtor/create-debtor-csv";
 
 export interface Error {
   [key: string]: string[];
@@ -51,6 +52,34 @@ const Summary = () => {
   function onSubmit() {
     // TODO: integrate with backend
     console.log(validLoans);
+
+    const parsedLoans = validLoans.map((values) => ({
+      debtor: {
+        firstName: values.name,
+        lastName: values.lastname,
+        phoneNumber: values.phone,
+        memoNote: values.additionalNote,
+      },
+      loan: {
+        loanNumber: "LN-2024-1001",
+        principal: Number(values.loanAmount),
+        loanStatus: 0,
+        remainingBalance:
+          Number(values.loanAmount) - Number(values.amountPaid || 0),
+        totalBalance: Number(values.loanAmount),
+        totalLoanTerm: Number(values.installments),
+        loanTermType: 1,
+        loanTermInterval: 1,
+        interestType: 0,
+        interestRate: parseFloat(values.interestRate),
+        dueDate: values.dueDate,
+        tags: values.tags,
+        // firstPaymentDate: values.firstPaymentDate,
+        creditorId: "H7szNgGT5uJuTVPqa3XM",
+      },
+    }));
+
+    createDebtorCSV({ debtors: parsedLoans });
   }
 
   function validateLoans(loanBuffers: Loan[]) {

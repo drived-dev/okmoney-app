@@ -1,7 +1,4 @@
-Username;Identifier;First name;Last name
-booker12;9012;Rachel;Booker
-grey07;2070;;Grey
-johnson81;4081;Craig;Johnson
-jenkins46;9346;Mary;Jenkins
-smith79;5079;Jamie;Smith
-
+Debtor ID,First Name,Last Name,Phone Number,Memo Note,Loan ID,Loan Number,Principal,Loan Status,Remaining Balance,Total Balance,Total Loan Term,Loan Term Type,Loan Term Interval,Interest Type,Interest Rate,Due Date,Tags,Payment ID,Amount Paid,Payment Type,Payment Image URL
+NvdL5esGInjymRFxfxDK,Johnny,sdaf,+6691213412,HAHALOLL,105ktn6Uourq1dU0Bnrt,LN-2024-1001,50000,1,30000,50000,12,0,1,0,5,1317826080000,"business, short-term",eBNZbSnv3qi6tLPCCStQ,100,0,Not empty
+RYfcnkq5zqU1A0hWlrm8,Jimmy,joey,+6691213412,HAHALOLL,RqP8CQ8FUOgwIkGHMwVV,LN-2024-1001,50000,1,30000,50000,12,0,1,0,5,1317826080000,"business, short-term",3p8SFIqwy6U0FXLcScOh,100,0,Not empty
+9zRlWAZFUe7cd3eXkoYe,Mcky,barbie,+6691213412,HAHALOLL,4Ig9rJ7PkPvV5mB9cstn,LN-2024-1001,50000,1,30000,50000,12,0,1,0,5,1317826080000,"business, short-term",,,,

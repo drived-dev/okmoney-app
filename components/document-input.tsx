@@ -31,6 +31,7 @@ const DocumentInput = ({ documentType, onSubmit }: DocumentInputProps) => {
       const content = await FileSystem.readAsStringAsync(asset.uri, {
         encoding: FileSystem.EncodingType.UTF8,
       });
+      console.log(content);
       onSubmit(content);
     } catch (error) {
       //TODO: error handle
