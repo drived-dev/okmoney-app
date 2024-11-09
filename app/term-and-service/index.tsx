@@ -53,12 +53,11 @@ const Index = () => {
     } else if (social === "facebook") {
       router.navigate("/(auth)/facebook");
     } else if (social === "phone") {
-      // Show feedback and navigate to "(tabs)" after delay for "phone"
-      setShowFeedback(true); // Show Feedback
+      setShowFeedback(true);
       setTimeout(() => {
-        setShowFeedback(false); // Hide Feedback
-        router.push("/(tabs)"); // Navigate to "(tabs)"
-      }, 2000); // Delay for demo purposes
+        setShowFeedback(false);
+        router.push("/(tabs)");
+      }, 2000);
     } else {
       router.navigate("/(auth)/login");
     }
