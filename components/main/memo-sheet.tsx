@@ -97,13 +97,15 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
     }
 
     const response = await addMemo(formData);
-    if (response.status === 200) {
+    console.log(response);
+    if (response.status === 201) {
       Toast.show({
-        type: "info",
+        type: "success",
         position: "bottom",
         text1: `บันทึกสำเร็จ`,
         text2: `บันทึกจำนวนเงิน ${data.amount} บาท`,
       });
+      bottomSheetModalRef.current?.close();
     } else {
       Toast.show({
         type: "error",
