@@ -11,7 +11,8 @@ import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 import BarPairWithLine from "~/components/dashboard/barplot";
 import { useQuery } from "@tanstack/react-query";
 import { getDashboardAll } from "~/api/dashboard/get-dashboard-all";
-import { getDashboardYear } from "~/api/dashboard/get-dashboard-lastYear";
+import { getDashboardYear } from "~/api/dashboard/get-dashboard-year";
+import { getDashboardMonth } from "~/api/dashboard/get-dashboard-month";
 
 const App: React.FC = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -27,7 +28,6 @@ const App: React.FC = () => {
     }
   };
 
-  // Safe default values for dashboard data
   const { data: dashboard = {} } = useQuery({
     queryKey: ["dashboard"],
     queryFn: getDashboardAll,
@@ -40,13 +40,43 @@ const App: React.FC = () => {
     dashboard.profit ?? 0
   ];
 
-  // Safe handling of dashboardLastYear data
   const { data: dashboardLastYear = {} } = useQuery({
     queryKey: ["dashboardLastYear"],
     queryFn: getDashboardYear,
   });
   
   const totalLoanLastYear = dashboardLastYear.data?.[1]?.principal ?? 0;
+
+  const { data: dashboardLastMonth = {} } = useQuery({
+    queryKey: ["dashboardLastMonth"],
+    queryFn: getDashboardMonth,
+  });
+
+  const seriesYear = [
+    dashboardLastYear.data?.[9]?.earned ?? 0,
+    dashboardLastYear.data?.[8]?.principal ?? 0,
+    dashboardLastYear.data?.[7]?.earned ?? 0,
+    dashboardLastYear.data?.[6]?.principal ?? 0,
+    dashboardLastYear.data?.[5]?.earned ?? 0,
+    dashboardLastYear.data?.[4]?.principal ?? 0,
+    dashboardLastYear.data?.[3]?.earned ?? 0,
+    dashboardLastYear.data?.[2]?.principal ?? 0,
+    dashboardLastYear.data?.[1]?.earned ?? 0,
+    dashboardLastYear.data?.[0]?.principal ?? 0,
+  ]
+  const year = Date.parse(dashboardLastYear.data?.[0]?.time) ?? Date.now()
+
+  const seriesMonth = [
+    dashboardLastMonth.data?.[7]?.earned ?? 0,
+    dashboardLastMonth.data?.[6]?.principal ?? 0,
+    dashboardLastMonth.data?.[5]?.earned ?? 0,
+    dashboardLastMonth.data?.[4]?.principal ?? 0,
+    dashboardLastMonth.data?.[3]?.earned ?? 0,
+    dashboardLastMonth.data?.[2]?.principal ?? 0,
+    dashboardLastMonth.data?.[1]?.earned ?? 0,
+    dashboardLastMonth.data?.[0]?.principal ?? 0,
+  ]
+  const month = Date.parse(dashboardLastYear.data?.[0]?.time) ?? Date.now()
 
   return (
     <View>
@@ -96,7 +126,7 @@ const App: React.FC = () => {
                 </ToggleGroup>
                 <Text></Text>
               </View>
-              <BarPairWithLine toggleValue={value} />
+              <BarPairWithLine toggleValue={value} seriesYear={seriesYear} seriesMonth={seriesMonth} year={year} month={month}/>
             </View>
           </View>
         </ScrollView>

@@ -38,7 +38,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
   //   (value) => ((value / total) * 100).toFixed(2) + "%"
   // );
   const seriesm = series.map(
-      (value) => (value / 1000) + "K"
+      (value) => (value / 1000).toFixed(1) + "K"
     );
 
   return (
