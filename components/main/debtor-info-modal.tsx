@@ -78,12 +78,18 @@ const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
         <View className="flex flex-col gap-4">
           <DebtorHeader
             profileImage={loan?.profileImage || ""}
-            id={id}
+            loanNumber={loan?.loanNumber || ""}
+            id={loan?.id || ""}
             nickname={loan?.nickname || ""}
-            name={loan?.name || ""}
-            status={loan?.status || ""}
-            statusColorbg={statusColorsbg[loan?.status || ""] || "bg-blue-500"}
-            statusColortxt={statusColorstxt[loan?.status || ""] || "text-textb"}
+            name={`${loan?.firstName || ""} ${loan?.lastName || ""}`}
+            // TODO: fix this
+            status={loan?.loanStatus || ""}
+            statusColorbg={
+              statusColorsbg[loan?.loanStatus || ""] || "bg-blue-500"
+            }
+            statusColortxt={
+              statusColorstxt[loan?.loanStatus || ""] || "text-textb"
+            }
             phoneNumber={phoneNumber}
             isSwitchOn={isSwitchOn}
             handleCallPress={handleCallPress}
@@ -104,9 +110,9 @@ const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
           />
           <AdditionalInfo
             address="248 หมู่ที่ 2 ถนน ถนน ซุปเปอร์ไฮเวย์ เชียงใหม่-ลำปาง ตำบล ปงยางคก อำเภอห้างฉัตร ลำปาง 52190"
-            debtorType="ลูกหนี้เก่า"
-            tag={["เพื่อน", "ครอบครัว", "ประยุทณ์"]} // Pass tags as an array of strings
-            notes="ชอบกินไก่มาก"
+            debtorType={loan?.loanStatus}
+            tag={loan?.tags || []} // Pass tags as an array of strings
+            notes={loan?.notes || ""}
           />
         </View>
       </BottomSheetView>

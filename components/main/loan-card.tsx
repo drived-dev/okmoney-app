@@ -83,14 +83,16 @@ export const LoanCard = ({
               />
               {/* Loan Info */}
               <View>
-                <Text className={cn(LABEL, "text-muted-foreground pl-2")}>
-                  เลขสัญญา {loan.id}
-                </Text>
+                {loan.loanNumber && (
+                  <Text className={cn(LABEL, "text-muted-foreground pl-2")}>
+                    เลขสัญญา {loan.loanNumber}
+                  </Text>
+                )}
                 {/* Name: Bold nickname, gray full name */}
                 <Text className={cn(PARAGRAPH, "pl-2 text-foreground ")}>
                   {loan.nickname + "  "}
                   <Text className="text-muted-foreground font-ibm text-sm">
-                    {loan.name}
+                    {loan.firstName + " " + loan.lastName}
                   </Text>
                 </Text>
               </View>

@@ -7,6 +7,7 @@ import { LABEL, PARAGRAPH, PARAGRAPH_BOLD } from "~/constants/Typography";
 interface DebtorHeaderProps {
   profileImage: string;
   id: string;
+  loanNumber: string;
   nickname: string;
   name: string;
   status: string;
@@ -21,6 +22,7 @@ interface DebtorHeaderProps {
 const DebtorHeader: React.FC<DebtorHeaderProps> = ({
   profileImage,
   id,
+  loanNumber,
   nickname,
   name,
   status,
@@ -42,9 +44,11 @@ const DebtorHeader: React.FC<DebtorHeaderProps> = ({
           />
           {/* Loan Info */}
           <View>
-            <Text className={cn(LABEL, "text-muted-foreground pl-2")}>
-              เลขสัญญา {id}
-            </Text>
+            {loanNumber && (
+              <Text className={cn(LABEL, "text-muted-foreground pl-2")}>
+                เลขสัญญา {loanNumber}
+              </Text>
+            )}
             {/* Name: Bold nickname, gray full name */}
             <Text className={cn(PARAGRAPH, "pl-2 text-foreground ")}>
               {nickname + "  "}
