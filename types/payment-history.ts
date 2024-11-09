@@ -9,6 +9,7 @@ export type PaymentHistory = {
   imageUrl?: string;
   createdAt?: number;
   updatedAt?: number;
+  // TODO: Add debtor image
 };
 
 export enum PaymentType {

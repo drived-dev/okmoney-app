@@ -95,7 +95,7 @@ export const Historylist: React.FC<HistorylistProps> = ({
           </View>
         </View>
 
-        {variant === "TRANSFER" && slip && (
+        {slip && (
           <View className="flex flex-row justify-between ml-4 gap-2">
             <Icon name="CornerDownRight" />
             <IconButton
@@ -152,7 +152,7 @@ export const Historylist: React.FC<HistorylistProps> = ({
             </TouchableOpacity>
 
             <Image
-              source={{ uri: slip }}
+              // source={{ uri: slip }}
               style={{
                 width: "100%",
                 height: "100%",

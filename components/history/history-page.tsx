@@ -28,7 +28,7 @@ const groupDataByDate = (data: PaymentHistory[]) => {
   const yesterday = moment().subtract(1, "days");
 
   const groupedData = data.reduce((groups, item) => {
-    const itemDate = moment(item.date);
+    const itemDate = moment(item.updatedAt);
     let label = itemDate.format("DD MMM YY");
 
     if (itemDate.isSame(today, "day")) {
@@ -92,7 +92,7 @@ const HistoryPage: React.FC<HistoryPageProps> = ({ name, nickname, data }) => {
                   key={index}
                   url={item.imageUrl}
                   // TODO: Change creditorId to name
-                  // nickname={item.creditorId}
+                  nickname={item.creditorId}
                   name={item.creditorId}
                   variant={PaymentType[item.paymentType]}
                   slip={item.imageUrl}
