@@ -5,7 +5,7 @@ export function parseLoansDatas(loanDatas: any) {
   const buffer = loanDatas.map((loanData: Loan) => ({
     id: loanData.loan.id,
     loanNumber: loanData.loan.loanNumber,
-    nickname: loanData.debtor.firstName,
+    nickname: loanData.debtor.nickname,
     firstName: loanData.debtor.firstName,
     lastName: loanData.debtor.lastName,
     status: LoanStatus[loanData.loan.loanStatus],
@@ -16,6 +16,7 @@ export function parseLoansDatas(loanDatas: any) {
     tags: loanData.loan.tags,
     notes: loanData.debtor.memoNote,
     principal: loanData.loan.principal,
+    debtorId: loanData.loan.debtorId,
     interestRate: loanData.loan.interestRate,
     paymentPerInstallment: loanData.loan.totalBalance / loanData.loan.totalLoanTerm,
     installmentCount: loanData.loan.totalLoanTerm,

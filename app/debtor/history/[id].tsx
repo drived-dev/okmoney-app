@@ -14,15 +14,16 @@ import CloseButton from "~/components/close-button";
 import { router } from "expo-router";
 const History = () => {
   const { id } = useLocalSearchParams();
-
+  const debtorId = id as string;
+  alert(id);
   // TODO: fix api endpoint to id then return debtor name
   const {
     data: paymentHistory = [] as PaymentHistory[],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["paymentHistory", id],
-    queryFn: () => getPaymentHistoryByDebtorId(id as string),
+    queryKey: ["paymentHistory", debtorId],
+    queryFn: () => getPaymentHistoryByDebtorId(debtorId),
   });
 
   if (error) {
@@ -32,6 +33,8 @@ const History = () => {
   if (isLoading) {
     return <Text>Loading...</Text>;
   }
+
+  console.log(paymentHistory);
 
   return (
     <SafeAreaView>

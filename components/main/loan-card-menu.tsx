@@ -27,7 +27,7 @@ export const LoanCardMenu = ({ openGuarantorSheet, debtorId }) => {
   const menuLinks = [
     { name: "ดูข้อมูลเพิ่มเติม", onPress: "/" },
     {
-      name: "ดูประวัติ",
+      name: `ดูประวัติ ${debtorId}`,
       onPress: () => router.push(`/debtor/history/${debtorId}`),
     },
     {

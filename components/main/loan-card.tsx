@@ -113,7 +113,7 @@ export const LoanCard = ({
               </View>
               <LoanCardMenu
                 openGuarantorSheet={openGuarantorSheet}
-                debtorId={loan.id}
+                debtorId={loan.debtorId}
               />
             </View>
           </View>
