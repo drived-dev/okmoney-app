@@ -52,7 +52,8 @@ export const LoanAmountFormSchema =
     amountPaid: z.coerce
       .number()
       .positive()
-      .min(0, { message: "ยอดที่ชำระแล้วต้องมากกว่าหรือเท่ากับ 0" }),
+      .default(0)
+      .optional(),
   autoPaymentToggle: z.boolean().optional(),
 });
 

@@ -41,10 +41,12 @@ import {
 import CloseButton from "~/components/close-button";
 import OnlineOnly from "~/components/online-only";
 import { createLoan } from "~/api/loans/create-loan";
+import Toast from "react-native-toast-message";
 
 export const defaultValues = [
   {
     loanId: "001",
+    tags: [],
     dueDate: new Date(),
     loanType: "fixed",
     paymentType: "monthly",
@@ -84,31 +86,46 @@ const create = () => {
   const formSchemas = forms.map((form) => form.schema);
   const formScreens = forms.map((form) => form.screen);
 
-  function onSubmit(values: z.infer<(typeof formSchemas)[0]>) {
-    alert(values);
-    console.log(values);
-
-    // TODO: implement createLoan and fix bug
-    createLoan({
+  async function onSubmit(values: z.infer<(typeof formSchemas)[0]>) {
+    // TODO: need help make some optional
+    const response = await createLoan({
       debtor: {
-        firstName: "dsds",
-        lastName: "sdsd",
-        phoneNumber: "+66812345678",
+        firstName: values.name,
+        lastName: values.lastname,
+        phoneNumber: values.phone,
+        memoNote: values.additionalNote,
       },
       loan: {
-        principal: 1,
+        loanNumber: "LN-2024-1001",
+        principal: Number(values.loanAmount),
         loanStatus: 0,
-        remainingBalance: 1,
-        totalBalance: 1,
-        totalLoanTerm: 1,
-        loanTermType: 0,
+        remainingBalance:
+          Number(values.loanAmount) - Number(values.amountPaid || 0),
+        totalBalance: Number(values.loanAmount),
+        totalLoanTerm: Number(values.installments),
+        loanTermType: 1,
         loanTermInterval: 1,
         interestType: 0,
-        interestRate: 1,
-        dueDate: new Date(),
-        tags: [],
+        interestRate: parseFloat(values.interestRate),
+        dueDate: values.dueDate,
+        tags: values.tags,
+        // firstPaymentDate: values.firstPaymentDate,
+        creditorId: "H7szNgGT5uJuTVPqa3XM",
       },
     });
+
+    if (response.status === 201) {
+      Toast.show({
+        text1: "Loan created successfully",
+        type: "success",
+      });
+      router.back();
+    } else {
+      Toast.show({
+        text1: "Failed to create loan",
+        type: "error",
+      });
+    }
   }
 
   return (
