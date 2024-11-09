@@ -3,14 +3,18 @@ PODS:
   - BVLinearGradient (2.8.3):
     - React-Core
   - DoubleConversion (1.1.6)
+  - EXApplication (5.9.1):
+    - ExpoModulesCore
   - EXConstants (16.0.2):
     - ExpoModulesCore
   - EXImageLoader (4.7.0):
     - ExpoModulesCore
     - React-Core
-  - Expo (51.0.32):
+  - Expo (51.0.38):
     - ExpoModulesCore
   - ExpoAsset (10.0.10):
+    - ExpoModulesCore
+  - ExpoCrypto (13.0.2):
     - ExpoModulesCore
   - ExpoDocumentPicker (12.0.2):
     - ExpoModulesCore
@@ -33,7 +37,7 @@ PODS:
     - ExpoModulesCore
   - ExpoLinearGradient (13.0.2):
     - ExpoModulesCore
-  - ExpoModulesCore (1.12.24):
+  - ExpoModulesCore (1.12.26):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -60,7 +64,9 @@ PODS:
     - ExpoModulesCore
   - ExpoSystemUI (3.0.7):
     - ExpoModulesCore
-  - EXSplashScreen (0.27.5):
+  - ExpoWebBrowser (13.0.3):
+    - ExpoModulesCore
+  - EXSplashScreen (0.27.6):
     - DoubleConversion
     - ExpoModulesCore
     - glog
@@ -105,6 +111,29 @@ PODS:
   - libwebp/sharpyuv (1.3.2)
   - libwebp/webp (1.3.2):
     - libwebp/sharpyuv
+  - lottie-ios (4.5.0)
+  - lottie-react-native (7.1.0):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - lottie-ios (= 4.5.0)
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Codegen
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RCT-Folly (2024.01.01.00):
     - boost
     - DoubleConversion
@@ -1037,7 +1066,7 @@ PODS:
     - React
   - react-native-netinfo (11.3.1):
     - React-Core
-  - react-native-safe-area-context (4.10.5):
+  - react-native-safe-area-context (4.14.0):
     - React-Core
   - React-nativeconfig (0.74.3)
   - React-NativeModulesApple (0.74.3):
@@ -1358,10 +1387,12 @@ DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - EXApplication (from `../node_modules/expo-application/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
   - Expo (from `../node_modules/expo`)
   - ExpoAsset (from `../node_modules/expo-asset/ios`)
+  - ExpoCrypto (from `../node_modules/expo-crypto/ios`)
   - ExpoDocumentPicker (from `../node_modules/expo-document-picker/ios`)
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
   - ExpoFont (from `../node_modules/expo-font/ios`)
@@ -1373,11 +1404,13 @@ DEPENDENCIES:
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoSharing (from `../node_modules/expo-sharing/ios`)
   - ExpoSystemUI (from `../node_modules/expo-system-ui/ios`)
+  - ExpoWebBrowser (from `../node_modules/expo-web-browser/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
+  - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTDeprecation (from `../node_modules/react-native/ReactApple/Libraries/RCTFoundation/RCTDeprecation`)
@@ -1444,6 +1477,7 @@ SPEC REPOS:
     - libavif
     - libdav1d
     - libwebp
+    - lottie-ios
     - SDWebImage
     - SDWebImageAVIFCoder
     - SDWebImageSVGCoder
@@ -1457,6 +1491,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  EXApplication:
+    :path: "../node_modules/expo-application/ios"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
   EXImageLoader:
@@ -1465,6 +1501,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo"
   ExpoAsset:
     :path: "../node_modules/expo-asset/ios"
+  ExpoCrypto:
+    :path: "../node_modules/expo-crypto/ios"
   ExpoDocumentPicker:
     :path: "../node_modules/expo-document-picker/ios"
   ExpoFileSystem:
@@ -1487,6 +1525,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-sharing/ios"
   ExpoSystemUI:
     :path: "../node_modules/expo-system-ui/ios"
+  ExpoWebBrowser:
+    :path: "../node_modules/expo-web-browser/ios"
   EXSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
   FBLazyVector:
@@ -1498,6 +1538,8 @@ EXTERNAL SOURCES:
   hermes-engine:
     :podspec: "../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec"
     :tag: hermes-2024-06-28-RNv0.74.3-7bda0c267e76d11b68a585f84cfdd65000babf85
+  lottie-react-native:
+    :path: "../node_modules/lottie-react-native"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTDeprecation:
@@ -1619,10 +1661,12 @@ SPEC CHECKSUMS:
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   DoubleConversion: 76ab83afb40bddeeee456813d9c04f67f78771b5
+  EXApplication: c08200c34daca7af7fd76ac4b9d606077410e8ad
   EXConstants: 409690fbfd5afea964e5e9d6c4eb2c2b59222c59
   EXImageLoader: ab589d67d6c5f2c33572afea9917304418566334
-  Expo: 33132a667698a3259a4e6c0af1b4936388e5fa33
+  Expo: 9b6666ef2fedcfc89c5b9be2aa1ce12b81f9e7f5
   ExpoAsset: 323700f291684f110fb55f0d4022a3362ea9f875
+  ExpoCrypto: 156078f266bf28f80ecf5e2a9c3a0d6ffce07a1c
   ExpoDocumentPicker: a82eaccc62ecb62662d5a6ca7a8ef40b71daa521
   ExpoFileSystem: 80bfe850b1f9922c16905822ecbf97acd711dc51
   ExpoFont: 00756e6c796d8f7ee8d211e29c8b619e75cbf238
@@ -1631,10 +1675,11 @@ SPEC CHECKSUMS:
   ExpoImagePicker: 12a420923383ae38dccb069847218f27a3b87816
   ExpoKeepAwake: 3b8815d9dd1d419ee474df004021c69fdd316d08
   ExpoLinearGradient: 8cec4a09426d8934c433e83cb36262d72c667fce
-  ExpoModulesCore: f30a203ff1863bab3dd9f4421e7fc1564797f18a
+  ExpoModulesCore: 831ece8311a489418746925820bbffdda587d6f4
   ExpoSharing: 8db05dd85081219f75989a3db2c92fe5e9741033
   ExpoSystemUI: d4f065a016cae6721b324eb659cdee4d4cf0cb26
-  EXSplashScreen: fbf0ec78e9cee911df188bf17b4fe51d15a84b87
+  ExpoWebBrowser: 7595ccac6938eb65b076385fd23d035db9ecdc8e
+  EXSplashScreen: 17a656c08a0095be15b620c52e61dfdb665863d2
   FBLazyVector: 7e977dd099937dc5458851233141583abba49ff2
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
   glog: fdfdfe5479092de0c4bdbebedd9056951f092c4f
@@ -1642,6 +1687,8 @@ SPEC CHECKSUMS:
   libavif: 84bbb62fb232c3018d6f1bab79beea87e35de7b7
   libdav1d: 23581a4d8ec811ff171ed5e2e05cd27bad64c39f
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
+  lottie-ios: a881093fab623c467d3bce374367755c272bdd59
+  lottie-react-native: 810dfddcceec23b045b78d2b963d6460035cb8ea
   RCT-Folly: 02617c592a293bd6d418e0a88ff4ee1f88329b47
   RCTDeprecation: 4c7eeb42be0b2e95195563c49be08d0b839d22b4
   RCTRequired: d530a0f489699c8500e944fde963102c42dcd0c2
@@ -1668,7 +1715,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 9f68550e7c6839d01411ac8896aea5c868eff63a
   react-native-context-menu-view: 30915369a9b5887904c571b616653acf3f1c8edb
   react-native-netinfo: bdb108d340cdb41875c9ced535977cac6d2ff321
-  react-native-safe-area-context: a240ad4b683349e48b1d51fed1611138d1bdad97
+  react-native-safe-area-context: 4532f1a0c5d34a46b9324ccaaedcb5582a302b7d
   React-nativeconfig: fa5de9d8f4dbd5917358f8ad3ad1e08762f01dcb
   React-NativeModulesApple: 585d1b78e0597de364d259cb56007052d0bda5e5
   React-perflogger: 7bb9ba49435ff66b666e7966ee10082508a203e8
@@ -1704,7 +1751,7 @@ SPEC CHECKSUMS:
   SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
-  Yoga: 04f1db30bb810187397fa4c37dd1868a27af229c
+  Yoga: 88480008ccacea6301ff7bf58726e27a72931c8d
 
 PODFILE CHECKSUM: bf9ffd903f5b30f3bebdc4b3155ffb86046ea212
 

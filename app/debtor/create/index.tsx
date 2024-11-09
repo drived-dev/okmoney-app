@@ -35,10 +35,12 @@ import { router } from "expo-router";
 import {
   InfoFormSchema,
   LoanAmountFormSchema,
+  LoanDetailFormSchema,
   MemoFormSchema,
 } from "~/lib/validation/loan-create";
 import CloseButton from "~/components/close-button";
 import OnlineOnly from "~/components/online-only";
+import { createLoan } from "~/api/loans/create-loan";
 
 export const defaultValues = [
   {
@@ -66,37 +68,16 @@ export const forms: Form[] = [
   },
   {
     screen: LoanDetailForm,
-    schema: LoanAmountFormSchema,
+    schema: LoanDetailFormSchema,
   },
   {
     screen: LoanAmountForm,
-    schema: z.object({
-      loanAmount: z.coerce
-        .number()
-        .positive()
-        .min(0, { message: "จำนวนเงินกู้ต้องมากกว่าหรือเท่ากับ 0" }),
-      interestRate: z.coerce
-        .number()
-        .positive()
-        .min(0)
-        .max(100, { message: "อัตราดอกเบี้ยต้องอยู่ระหว่าง 0 ถึง 100" }),
-      installments: z.coerce
-        .number()
-        .positive()
-        .int()
-        .min(1, { message: "จำนวนงวดต้องมากกว่าหรือเท่ากับ 1" }),
-      amountPaid: z.coerce
-        .number()
-        .positive()
-        .min(0, { message: "ยอดที่ชำระแล้วต้องมากกว่าหรือเท่ากับ 0" }),
-
-      autoPaymentToggle: z.boolean().optional(),
-    }),
+    schema: LoanAmountFormSchema,
   },
-  {
-    screen: MemoForm,
-    schema: MemoFormSchema,
-  },
+  // {
+  //   screen: MemoForm,
+  //   schema: MemoFormSchema,
+  // },
 ];
 
 const create = () => {
@@ -106,6 +87,27 @@ const create = () => {
   function onSubmit(values: z.infer<(typeof formSchemas)[0]>) {
     alert(values);
     console.log(values);
+
+    createLoan({
+      debtor: {
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+      },
+      loan: {
+        principal: 1,
+        loanStatus: "PENDING",
+        remainingBalance: 1,
+        totalBalance: 1,
+        totalLoanTerm: 1,
+        loanTermType: "MONTHLY",
+        loanTermInterval: 1,
+        interestType: "FIXED",
+        interestRate: 1,
+        dueDate: "",
+        tags: [null],
+      },
+    });
   }
 
   return (

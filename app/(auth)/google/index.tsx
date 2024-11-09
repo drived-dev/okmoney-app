@@ -27,6 +27,7 @@ export default function GoogleAuth() {
   const BACKEND_AUTH_URL = "http://localhost:3000/api/auth/google/login";
 
   const handleButtonClick = () => {
+    signInWithGoogle();
     setShowFeedback(true); // Set to true to display Feedback
     setTimeout(() => {
       setShowFeedback(false); // Hide Feedback after 2 seconds
@@ -88,46 +89,44 @@ export default function GoogleAuth() {
     } catch (error) {}
   };
 
+  if (showFeedback) {
+    return (
+      <Feedback isSuccess={true}>
+        <FeedbackTitle>ตั้งค่าเรียบร้อย!</FeedbackTitle>
+        <FeedbackDescription>ร้านค้าของคุณพร้อมใช้งานแล้ว</FeedbackDescription>
+      </Feedback>
+    );
+  }
+
   return (
-    <View>
-      {showFeedback ? (
-        <Feedback isSuccess={true}>
-          <FeedbackTitle>ตั้งค่าเรียบร้อย!</FeedbackTitle>
-          <FeedbackDescription>
-            ร้านค้าของคุณพร้อมใช้งานแล้ว
-          </FeedbackDescription>
-        </Feedback>
-      ) : (
-        <SafeAreaView>
-          <View className={cn(CONTAINER, "flex-col flex h-full")}>
-            <View className="flex flex-col flex-1 gap-20">
-              <View className="flex flex-col gap-2 mt-20">
-                <View className="justify-center w-full flex flex-row">
-                  <Text className={cn(TITLE, "text-foreground")}>
-                    ติดตามข่าวสาร Ok money ผ่าน
-                  </Text>
-                </View>
-                <View className="justify-center w-full flex flex-row">
-                  <Text className={cn(TITLE, "text-foreground")}>LINE OA</Text>
-                </View>
-              </View>
-              <View className="flex flex-row -gap-4 justify-center py-8">
-                <Image source={require("assets/images/line_oa.png")} />
-              </View>
+    <SafeAreaView>
+      <View className={cn(CONTAINER, "flex-col flex h-full")}>
+        <View className="flex flex-col flex-1 gap-20">
+          <View className="flex flex-col gap-2 mt-20">
+            <View className="justify-center w-full flex flex-row">
+              <Text className={cn(TITLE, "text-foreground")}>
+                ติดตามข่าวสาร Ok money ผ่าน
+              </Text>
             </View>
-            <View className="mt-auto justify-center items-center">
-              <IconButton
-                icon={require("assets/images/google.png")}
-                text="Sign in with Google (Demo)"
-                variant="green"
-                size={"xl"}
-                textClassName="flex-1"
-                onPress={handleButtonClick} // Trigger feedback on click
-              />
+            <View className="justify-center w-full flex flex-row">
+              <Text className={cn(TITLE, "text-foreground")}>LINE OA</Text>
             </View>
           </View>
-        </SafeAreaView>
-      )}
-    </View>
+          <View className="flex flex-row -gap-4 justify-center py-8">
+            <Image source={require("assets/images/line_oa.png")} />
+          </View>
+        </View>
+        <View className="mt-auto justify-center items-center">
+          <IconButton
+            icon={require("assets/images/google.png")}
+            text="Sign in with Google (Demo)"
+            variant="green"
+            size={"xl"}
+            textClassName="flex-1"
+            onPress={handleButtonClick} // Trigger feedback on click
+          />
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
