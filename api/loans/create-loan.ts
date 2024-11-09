@@ -6,6 +6,7 @@ export async function createLoan(data: any) {
     return response.data;
   } catch (error) {
     console.error("Error fetching debtors:", error);
+    console.error(error.response.data);
     throw error;
   }
 }

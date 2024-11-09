@@ -88,6 +88,7 @@ const create = () => {
     alert(values);
     console.log(values);
 
+    // TODO: implement createLoan and fix bug
     createLoan({
       debtor: {
         firstName: "",

@@ -35,7 +35,6 @@ const amountMemoSchema = z.object({
 
 const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
   const { id, removeId } = useEditingLoanStore();
-  const formData = new FormData();
   const {
     control,
     handleSubmit,
@@ -55,40 +54,49 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      aspect: [1, 1],
+      quality: 0.2,
+      base64: true,
     });
 
     if (!result.canceled) {
       const imageUri = result.assets[0].uri;
+      const filename = `${Date.now()}.jpg`;
+      const type = "image/jpeg";
 
-      // Extract the filename from the URI
-      const filename = imageUri.split("/").pop(); // Get the last part of the path
+      const file = {
+        uri: imageUri,
+        name: filename,
+        type: type,
+      };
 
-      setImage(imageUri); // You can still use the full URI if needed for the image display
-      onChange(filename || ""); // Update the form's img field with just the filename
+      setImage(imageUri);
+      onChange(filename);
+      return file;
     }
   };
 
   async function onSubmit(data: z.infer<typeof amountMemoSchema>) {
-    //TODO: fix bug
-    formData.append("data[loanId]", "3eZBgBpqTQ0rj45VttAC");
-    formData.append("data[creditorId]", "WDrdqXCNOr9YHRmo8uDy");
-    formData.append("data[debtorId]", "UYEl94EYuO5AYO9XcUMy");
-    formData.append("data[amount]", data.amount.toString());
-    formData.append("data[paymentType]", "EXISTING");
+    //TODO: dynamic id
+    const formJson = {
+      loanId: "3eZBgBpqTQ0rj45VttAC",
+      creditorId: "WDrdqXCNOr9YHRmo8uDy",
+      debtorId: "UYEl94EYuO5AYO9XcUMy",
+      amount: data.amount.toString(),
+      paymentType: 0,
+    };
 
-    // if (image) {
-    //   formData.append("image", {
-    //     uri: image,
-    //     type: "image/jpeg",
-    //     name: image.split("/").pop() || "photo.jpg",
-    //   } as any);
-    // }
+    let formData = new FormData();
+    formData.append("data", JSON.stringify(formJson));
+    if (image) {
+      formData.append("file", {
+        uri: image,
+        name: `${Date.now()}.jpg`,
+        type: "image/jpeg",
+      } as any);
+    }
 
     const response = await addMemo(formData);
-    console.log(response);
-
     if (response.status === 200) {
       Toast.show({
         type: "info",

@@ -20,18 +20,19 @@ import colors from "tailwindcss/colors";
 import { PARAGRAPH } from "~/constants/Typography";
 import { cn } from "~/lib/utils";
 import { Trash } from "lucide-react-native";
+import { router } from "expo-router";
 
 const deleteLoanRoute = "/";
-export const LoanCardMenu = ({ openGuarantorSheet }) => {
+export const LoanCardMenu = ({ openGuarantorSheet, debtorId }) => {
   const menuLinks = [
     { name: "ดูข้อมูลเพิ่มเติม", onPress: "/" },
     {
       name: "ดูประวัติ",
-      onPress: "/",
+      onPress: () => router.push(`/debtor/history/${debtorId}`),
     },
     {
       name: "แก้ไขข้อมูล",
-      onPress: "/",
+      onPress: () => router.push(`/debtor/edit/${debtorId}`),
     },
     {
       name: "ข้อมูลผู้ค้ำประกัน",
