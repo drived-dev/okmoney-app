@@ -20,17 +20,16 @@ export const InfoFormSchema = z.object({
     .regex(/^\+?[1-9]\d{1,14}$/, {
       message: "Invalid phone number format",
     })
-    .optional(),
 });
 
 export const LoanDetailFormSchema = z.object({
   loanId: z.string().min(1, { message: "ชื่อต้องมากกว่า 1 ตัวอักษร" }).max(10),
   dueDate: z.date().default(new Date()),
-  loanType: z.enum(["fixed", "adjustable"]),
-  paymentType: z.enum(["monthly", "daily", "custom"]),
+  loanType: z.enum(["FIXED", "VARIABLE"]),
+  paymentType: z.enum(["MONTHLY", "WEEKLY", "DAILY"]),
   firstPaymentDate: z.date(),
   loanTermType: z.string().optional(),
-  loanCategory: z.enum(["newLoan", "oldLoan"]),
+  loanCategory: z.enum(["NEW_LOAN", "OLD_LOAN"]),
 });
 
 export const LoanAmountFormSchema =

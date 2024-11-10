@@ -42,17 +42,18 @@ import CloseButton from "~/components/close-button";
 import OnlineOnly from "~/components/online-only";
 import { createLoan } from "~/api/loans/create-loan";
 import Toast from "react-native-toast-message";
+import { LoanStatus } from "~/types/Loan";
 
 export const defaultValues = [
   {
     loanId: "001",
     tags: [],
     dueDate: new Date(),
-    loanType: "fixed",
-    paymentType: "monthly",
+    loanType: "FIXED",
+    paymentType: "MONTHLY",
     firstPaymentDate: new Date(),
     loanTermType: undefined,
-    loanCategory: "newLoan",
+    loanCategory: "NEW_LOAN",
   },
 ];
 
@@ -90,25 +91,27 @@ const create = () => {
     // TODO: need help make some optional
     const response = await createLoan({
       debtor: {
+        nickname: values.nickname,
         firstName: values.name,
         lastName: values.lastname,
         phoneNumber: values.phone,
         memoNote: values.additionalNote,
       },
       loan: {
-        loanNumber: "LN-2024-1001",
+        loanNumber: values.loanId,
         principal: Number(values.loanAmount),
-        loanStatus: 0,
+        loanStatus: LoanStatus.UNDERDUE,
         remainingBalance:
           Number(values.loanAmount) - Number(values.amountPaid || 0),
         totalBalance: Number(values.loanAmount),
         totalLoanTerm: Number(values.installments),
-        loanTermType: 1,
+        loanTermType: values.paymentType,
         loanTermInterval: 1,
-        interestType: 0,
+        interestType: values.loanType,
         interestRate: parseFloat(values.interestRate),
         dueDate: values.dueDate,
         tags: values.tags,
+        // TODO: need to get creditorId from local storage
         // firstPaymentDate: values.firstPaymentDate,
         creditorId: "H7szNgGT5uJuTVPqa3XM",
       },

@@ -19,20 +19,20 @@ export interface Loan extends Debtor {
   guarantorId?: string;
 }
 
-export enum LoanTermType {
-  MONTHLY = 0,
-  WEEKLY = 1,
-  DAILY = 2,
+export enum LoanStatus {
+  OVERDUE = 'OVERDUE', // ค้างชำระ
+  UNDERDUE = 'UNDERDUE', // ใกล้กำหนดชำระ
+  DUE = 'DUE', // รอชำระ
+  CLOSED = 'CLOSED',
 }
 
 export enum InterestType {
-  FIXED = 0,
-  VARIABLE = 1,
+  FIXED = 'FIXED',
+  VARIABLE = 'VARIABLE',
 }
 
-export enum LoanStatus {
-  ค้างชำระ = 0,
-  ใกล้กำหนด = 1,
-  รอชำระ = 2,
-  ครบชำระ = 3,
+export enum LoanTermType {
+  MONTHLY = 'MONTHLY',
+  WEEKLY = 'WEEKLY',
+  DAILY = 'DAILY',
 }
