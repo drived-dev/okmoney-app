@@ -83,10 +83,11 @@ const HistoryPage: React.FC<HistoryPageProps> = ({ name, nickname, data }) => {
                 <Historylist
                   key={index}
                   url={item.imageUrl}
-                  // TODO: Change creditorId to name
-                  nickname={item.creditorId}
-                  name={item.creditorId}
-                  variant={PaymentType[item.paymentType]}
+                  nickname={item.debtorNickname}
+                  name={`${item.debtorFirstName || ""} ${
+                    item.debtorLastName || ""
+                  }`}
+                  variant={item.paymentType}
                   slip={item.imageUrl}
                   value={item.amount}
                 />
