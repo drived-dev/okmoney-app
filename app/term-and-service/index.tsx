@@ -46,22 +46,11 @@ const Index = () => {
   const handleNextPage = () => {
     if (!isBottomReached) return;
 
-    if (social === "google") {
-      router.navigate("/(auth)/google");
-    } else if (social === "line") {
-      router.navigate("/(auth)/line");
-    } else if (social === "facebook") {
-      router.navigate("/(auth)/facebook");
-    } else if (social === "phone") {
-      // Show feedback and navigate to "(tabs)" after delay for "phone"
-      setShowFeedback(true); // Show Feedback
-      setTimeout(() => {
-        setShowFeedback(false); // Hide Feedback
-        router.push("/(tabs)"); // Navigate to "(tabs)"
-      }, 2000); // Delay for demo purposes
-    } else {
-      router.navigate("/(auth)/login");
-    }
+    setShowFeedback(true); // Show Feedback
+    setTimeout(() => {
+      setShowFeedback(false); // Hide Feedback
+      router.push("/(tabs)"); // Navigate to "(tabs)"
+    }, 2000); // Delay for demo purposes
   };
 
   return (

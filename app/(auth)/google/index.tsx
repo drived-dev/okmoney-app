@@ -10,29 +10,17 @@ import { CONTAINER } from "~/constants/Styles";
 import { cn } from "~/lib/utils";
 import { Text } from "~/components/ui/text";
 import { PARAGRAPH, TITLE } from "~/constants/Typography";
-import { Link, Link2 } from "lucide-react-native";
-import {
-  Feedback,
-  FeedbackDescription,
-  FeedbackTitle,
-} from "~/components/ui/feedback";
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default function GoogleAuth() {
   const router = useRouter();
   const { setUser, accessToken, refreshToken } = useUserStore();
-  const [showFeedback, setShowFeedback] = useState(false); // State to control Feedback visibility
 
   const BACKEND_AUTH_URL = "http://localhost:3000/api/auth/google/login";
 
   const handleButtonClick = () => {
     signInWithGoogle();
-    setShowFeedback(true); // Set to true to display Feedback
-    setTimeout(() => {
-      setShowFeedback(false); // Hide Feedback after 2 seconds
-      router.push("/(tabs)"); // Navigate to "(tabs)" after hiding feedback
-    }, 2000); // Hide Feedback after 2 seconds for demo
   };
 
   useEffect(() => {
@@ -56,9 +44,9 @@ export default function GoogleAuth() {
           accessToken: accessToken as string,
           refreshToken: refreshToken as string,
         });
-        AsyncStorage.setItem("token", token as string);
-        AsyncStorage.setItem("refreshToken", refreshToken as string);
-        router.push("/(tabs)");
+        await AsyncStorage.setItem("token", token as string);
+        await AsyncStorage.setItem("refreshToken", refreshToken as string);
+        router.push("/profile"); // Navigate to Profiles page after authentication
       } else {
         console.error("[Debug] No tokens in URL:", event.url);
       }
@@ -87,17 +75,10 @@ export default function GoogleAuth() {
       if (result.type === "success") {
         await handleRedirect({ url: result.url });
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("[Debug] Sign in Error:", error);
+    }
   };
-
-  if (showFeedback) {
-    return (
-      <Feedback isSuccess={true}>
-        <FeedbackTitle>ตั้งค่าเรียบร้อย!</FeedbackTitle>
-        <FeedbackDescription>ร้านค้าของคุณพร้อมใช้งานแล้ว</FeedbackDescription>
-      </Feedback>
-    );
-  }
 
   return (
     <SafeAreaView>
@@ -124,7 +105,7 @@ export default function GoogleAuth() {
             variant="green"
             size={"xl"}
             textClassName="flex-1"
-            onPress={handleButtonClick} // Trigger feedback on click
+            onPress={handleButtonClick} // Directly navigate to profiles on success
           />
         </View>
       </View>

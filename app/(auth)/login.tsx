@@ -92,12 +92,7 @@ const index = () => {
                     variant="green"
                     size={"xl"}
                     textClassName="flex-1"
-                    onPress={() =>
-                      router.navigate({
-                        pathname: "/profile",
-                        params: { social: "line" },
-                      })
-                    }
+                    onPress={() => router.navigate("/(auth)/line")}
                   />
 
                   <IconButton
@@ -106,12 +101,7 @@ const index = () => {
                     variant="green"
                     size={"xl"}
                     textClassName="flex-1"
-                    onPress={() =>
-                      router.navigate({
-                        pathname: "/profile",
-                        params: { social: "facebook" },
-                      })
-                    }
+                    onPress={() => router.navigate("/(auth)/facebook")}
                   />
 
                   <IconButton
@@ -120,12 +110,7 @@ const index = () => {
                     variant="green"
                     size={"xl"}
                     textClassName="flex-1"
-                    onPress={() =>
-                      router.navigate({
-                        pathname: "/profile",
-                        params: { social: "google" },
-                      })
-                    }
+                    onPress={() => router.navigate("/(auth)/google")}
                   />
                 </View>
 
