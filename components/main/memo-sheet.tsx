@@ -28,13 +28,16 @@ import { AvatarText } from "../avatar-text";
 import Toast from "react-native-toast-message";
 import { addMemo } from "~/api/payment/add-memo";
 import useEditingLoanStore from "~/store/use-editing-loan-store";
+import useLoanStore from "~/store/use-loan-store";
 const amountMemoSchema = z.object({
   amount: z.coerce.number(),
   img: z.string().optional(), // Image is optional
 });
 
 const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
-  const { id, removeId } = useEditingLoanStore();
+  const { id } = useEditingLoanStore();
+  const loan = useLoanStore().getLoanById(id);
+
   const {
     control,
     handleSubmit,
@@ -79,11 +82,11 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
   async function onSubmit(data: z.infer<typeof amountMemoSchema>) {
     //TODO: dynamic id
     const formJson = {
-      loanId: "3eZBgBpqTQ0rj45VttAC",
+      loanId: id,
       creditorId: "WDrdqXCNOr9YHRmo8uDy",
-      debtorId: "UYEl94EYuO5AYO9XcUMy",
-      amount: data.amount.toString(),
-      paymentType: 0,
+      debtorId: loan?.debtorId,
+      amount: Number(data.amount),
+      paymentType: image ? "TRANSFER" : "CASH",
     };
 
     let formData = new FormData();

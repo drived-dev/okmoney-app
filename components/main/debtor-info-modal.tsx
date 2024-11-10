@@ -43,20 +43,6 @@ import DebtorHeader from "./debtor-header";
 import AdditionalInfo from "./debtor-footer";
 import useLoanStore from "~/store/use-loan-store";
 
-const statusColorsbg: Record<string, string> = {
-  ค้างชำระ: "bg-red-500", // Overdue
-  ครบชำระ: "bg-gray-200", // Paid
-  รอชำระ: "bg-blue-500", // Pending
-  ใกล้กำหนด: "bg-yellow-500", // Canceled
-};
-
-const statusColorstxt: Record<string, string> = {
-  ค้างชำระ: "text-destructive-foreground", // Overdue
-  ครบชำระ: "text-gray-600", // Paid
-  รอชำระ: "text-destructive-foreground", // Pending
-  ใกล้กำหนด: "text-destructive-foreground", // Canceled
-};
-
 const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
   const { id } = useEditingLoanStore();
   const loan = useLoanStore.getState().getLoanById(id);
@@ -78,12 +64,12 @@ const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
         <View className="flex flex-col gap-4">
           <DebtorHeader
             profileImage={loan?.profileImage || ""}
-            id={id}
+            loanNumber={loan?.loanNumber || ""}
+            id={loan?.id || ""}
             nickname={loan?.nickname || ""}
-            name={loan?.name || ""}
+            name={`${loan?.firstName || ""} ${loan?.lastName || ""}`}
+            // TODO: fix this
             status={loan?.status || ""}
-            statusColorbg={statusColorsbg[loan?.status || ""] || "bg-blue-500"}
-            statusColortxt={statusColorstxt[loan?.status || ""] || "text-textb"}
             phoneNumber={phoneNumber}
             isSwitchOn={isSwitchOn}
             handleCallPress={handleCallPress}
@@ -104,9 +90,9 @@ const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
           />
           <AdditionalInfo
             address="248 หมู่ที่ 2 ถนน ถนน ซุปเปอร์ไฮเวย์ เชียงใหม่-ลำปาง ตำบล ปงยางคก อำเภอห้างฉัตร ลำปาง 52190"
-            debtorType="ลูกหนี้เก่า"
-            tag={["เพื่อน", "ครอบครัว", "ประยุทณ์"]} // Pass tags as an array of strings
-            notes="ชอบกินไก่มาก"
+            debtorType={loan?.loanStatus}
+            tag={loan?.tags || []} // Pass tags as an array of strings
+            notes={loan?.notes || ""}
           />
         </View>
       </BottomSheetView>

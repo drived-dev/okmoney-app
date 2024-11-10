@@ -45,8 +45,7 @@ const ProgressText = ({
   gradientColors = ["rgba(255, 132, 38, 0.8)", "rgba(232, 93, 13, 0.8)"],
   ...props
 }: ProgressTextProps) => {
-  if (percentage < 0 || percentage > 100)
-    throw new Error("percentage must be an interger between 0-100");
+  if (percentage < 0 || percentage > 100) percentage = 0;
 
   const [width, setWidth] = React.useState(0);
 

@@ -97,9 +97,7 @@ export const InfoForm = ({ navigation }: NavigationProps) => {
           name="phone"
           render={({ field: { onChange, onBlur, value } }) => (
             <FormItem>
-              <FormLabel nativeID="phone" optional>
-                เบอร์โทร
-              </FormLabel>
+              <FormLabel nativeID="phone">เบอร์โทร</FormLabel>
               <PhoneInput
                 onBlur={onBlur}
                 onChangeText={onChange}

@@ -2,7 +2,7 @@ import api from '~/lib/axios';
 
 export async function getPaymentHistory() {
   try {
-    const response = await api.get('/payment/history');
+    const response = await api.get("/payment/history");
     return response.data;
   } catch (error) {
     console.error('Error fetching payment history:', error);
@@ -10,6 +10,7 @@ export async function getPaymentHistory() {
   }
 }
 
+// TODO: fix bug
 export async function getPaymentHistoryByDebtorId(debtorId: string) {
   try {
     const response = await api.get(`/payment/history/debtor/${debtorId}`);

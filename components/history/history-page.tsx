@@ -28,7 +28,7 @@ const groupDataByDate = (data: PaymentHistory[]) => {
   const yesterday = moment().subtract(1, "days");
 
   const groupedData = data.reduce((groups, item) => {
-    const itemDate = moment(item.date);
+    const itemDate = moment(item.updatedAt);
     let label = itemDate.format("DD MMM YY");
 
     if (itemDate.isSame(today, "day")) {
@@ -63,23 +63,15 @@ const HistoryPage: React.FC<HistoryPageProps> = ({ name, nickname, data }) => {
         <View className={cn(CONTAINER, "mt-4")}>
           <View className="flex flex-col gap-1">
             <Text className={cn(TITLE, "")}>ประวัติการชำระ</Text>
-            {name && (
-              <View className="flex flex-row items-center space-x-2 gap-2">
-                <Text className={cn(TITLE, "")}>ของ</Text>
-                <View className="border border-gray-300 rounded-2xl px-2 pt-1">
-                  {nickname ? (
-                    <Text>
-                      <Text className={cn(TITLE, "font-bold")}>
-                        {nickname}{" "}
-                      </Text>
-                      <Text className={cn(PARAGRAPH, "")}>{name}</Text>
-                    </Text>
-                  ) : (
-                    <Text className={cn(TITLE, "font-bold")}>{name}</Text>
-                  )}
-                </View>
+            <View className="flex flex-row items-center space-x-2 gap-2">
+              <Text className={cn(TITLE, "")}>ของ</Text>
+              <View className="border border-gray-300 rounded-2xl px-2 pt-1 flex-row items-center gap-1">
+                <Text className={cn(TITLE, "font-bold")}>{nickname} </Text>
+                {name?.length && name?.length > 2 && (
+                  <Text className={cn(PARAGRAPH)}>{name}</Text>
+                )}
               </View>
-            )}
+            </View>
           </View>
 
           {Object.keys(groupedData).map((dateLabel) => (
@@ -91,10 +83,11 @@ const HistoryPage: React.FC<HistoryPageProps> = ({ name, nickname, data }) => {
                 <Historylist
                   key={index}
                   url={item.imageUrl}
-                  // TODO: Change creditorId to name
-                  // nickname={item.creditorId}
-                  name={item.creditorId}
-                  variant={PaymentType[item.paymentType]}
+                  nickname={item.debtorNickname}
+                  name={`${item.debtorFirstName || ""} ${
+                    item.debtorLastName || ""
+                  }`}
+                  variant={item.paymentType}
                   slip={item.imageUrl}
                   value={item.amount}
                 />

@@ -1,14 +1,12 @@
 import api from "~/lib/axios";
 
-export async function addGuarantorToLoan(data: any) {
+export async function addGuarantorToLoan(loanId: string, data: any) {
   try {
-    const response = await api.post(
-      "/guarantor/loan/4Ig9rJ7PkPvV5mB9cstn",
-      data
-    );
-    return response.data;
+    const response = await api.post(`/guarantor/loan/${loanId}`, data);
+    return { status: response.status, response: response.data };
   } catch (error) {
     console.error("Error fetching debtors:", error);
-    throw error;
+    console.log(error.response.data);
+    throw { status: 500, response: error };
   }
 }

@@ -20,37 +20,37 @@ import { CalendarInput } from "~/components/calendar-input";
 
 const paymentTypeChoices: SelectInputChoices[] = [
   {
-    value: "monthly",
+    value: "MONTHLY",
     alias: "รายเดือน",
   },
   {
-    value: "daily",
+    value: "DAILY",
     alias: "รายวัน",
   },
   {
-    value: "custom",
+    value: "WEEKLY",
     alias: "กำหนดเอง",
   },
 ];
 
 const loanTypeChoices: SelectInputChoices[] = [
   {
-    value: "fixed",
+    value: "FIXED",
     alias: "ดอกเบี้ยคงที่",
   },
   {
-    value: "adjustable",
+    value: "VARIABLE",
     alias: "ดอกเบี้ยที่กำหนดเอง",
   },
 ];
 
 const loanCategoryChoices: SelectInputChoices[] = [
   {
-    value: "newLoan",
+    value: "NEW_LOAN",
     alias: "สัญญาใหม่",
   },
   {
-    value: "oldLoan",
+    value: "OLD_LOAN",
     alias: "สัญญาเก่า",
   },
 ];

@@ -12,17 +12,19 @@ import { PaymentHistory } from "~/types/payment-history";
 import { useLocalSearchParams } from "expo-router";
 import CloseButton from "~/components/close-button";
 import { router } from "expo-router";
+import useLoanStore from "~/store/use-loan-store";
 const History = () => {
   const { id } = useLocalSearchParams();
-
+  const debtorId = id as string;
+  const loan = useLoanStore().getLoanByDebtorId(debtorId);
   // TODO: fix api endpoint to id then return debtor name
   const {
     data: paymentHistory = [] as PaymentHistory[],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["paymentHistory", id],
-    queryFn: () => getPaymentHistoryByDebtorId(id as string),
+    queryKey: ["paymentHistory", debtorId],
+    queryFn: () => getPaymentHistoryByDebtorId(debtorId),
   });
 
   if (error) {
@@ -36,7 +38,11 @@ const History = () => {
   return (
     <SafeAreaView>
       <CloseButton className="mb-4" />
-      <HistoryPage name="สมชาย" nickname="ธาม" data={paymentHistory} />
+      <HistoryPage
+        name={`${loan?.firstName || ""} ${loan?.lastName || ""}`}
+        nickname={loan?.nickname}
+        data={paymentHistory}
+      />
     </SafeAreaView>
   );
 };
