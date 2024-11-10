@@ -79,11 +79,11 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
   async function onSubmit(data: z.infer<typeof amountMemoSchema>) {
     //TODO: dynamic id
     const formJson = {
-      loanId: "3eZBgBpqTQ0rj45VttAC",
+      loanId: id,
       creditorId: "WDrdqXCNOr9YHRmo8uDy",
       debtorId: "UYEl94EYuO5AYO9XcUMy",
-      amount: data.amount.toString(),
-      paymentType: 0,
+      amount: Number(data.amount),
+      paymentType: image ? "TRANSFER" : "CASH",
     };
 
     let formData = new FormData();
