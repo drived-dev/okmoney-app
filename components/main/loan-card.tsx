@@ -109,7 +109,10 @@ export const LoanCard = ({
                   {loan.status}
                 </Text>
               </View>
-              <LoanCardMenu openGuarantorSheet={openGuarantorSheet} />
+              <LoanCardMenu
+                openGuarantorSheet={openGuarantorSheet}
+                debtorId={loan.id}
+              />
             </View>
           </View>
           {/* Outstanding Amount and Progress Bar with Total Amount on the Right */}

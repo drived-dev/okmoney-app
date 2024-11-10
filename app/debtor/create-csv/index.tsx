@@ -59,29 +59,44 @@ const index = () => {
   const router = useRouter();
   const setLoanBuffers = useLoanBufferStore((state) => state.setLoanBuffers);
 
-  function onSubmit(fileContent: string) {
-    const json: InputData = readString(fileContent) as InputData;
-    const data = json.data;
-
-    const filteredData = data.filter((row) => row.length > 1);
-
-    // Extract headers (first row, index 0 after filtering)
-    const headers = filteredData[0].map((header) => header.trim());
-
-    // Map each subsequent row to an object using the headers as keys
-    const mappedData = filteredData.slice(1).map((row) => {
-      let obj: MappedData = {};
-      headers.forEach((header, index) => {
-        obj[header] = row[index];
-      });
-
-      return obj;
+  function onSubmit(fileContent: string): any[] {
+    // Parse CSV content
+    const json = readString(fileContent, {
+      header: true,
+      skipEmptyLines: true,
     });
+    console.log("Parsed JSON:", json); // Log parsed JSON for verification
 
-    setLoanBuffers(mappedData);
+    const structuredData = json.data.map((row) => ({
+      // Infoform
+      nickname: row["Nickname"],
+      name: row["First Name"],
+      lastname: row["Last Name"],
+      phone: row["Phone Number"],
+      additionalNote: row["Memo Note"],
 
+      // LoanDetail
+      loanId: row["Loan Number"],
+      loanAmount: row["Loan Amount"],
+      amountPaid: row["Amount Paid"],
+      interestRate: parseFloat(row["Interest Rate"]),
+      installments: row["Installments"],
+      dueDate: row["Due Date"] ? new Date(row["Due Date"]) : null, // Convert to Date type
+      tags: row["Tags"] ? row["Tags"].split(",") : [],
+      loanType: row["Loan Type"],
+      paymentType: row["Payment Type"],
+      firstPaymentDate: new Date(row["First Payment Date"]),
+      loanCategory: row["Loan Category"],
+    }));
+
+    console.log("Structured Data:", structuredData); // Log structured data for verification
+
+    setLoanBuffers(structuredData);
     router.push("/debtor/create-csv/summary");
+
+    return structuredData;
   }
+
   return (
     <>
       <View className={cn(GRID_ROW)}>

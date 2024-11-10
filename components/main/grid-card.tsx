@@ -124,7 +124,10 @@ export const GridComponent: React.FC<GridComponentProps> = ({
           >
             <View className="relative justify-center items-center">
               <View className="absolute top-0 right-0">
-                <LoanCardMenu openGuarantorSheet={openGuarantorSheet} />
+                <LoanCardMenu
+                  openGuarantorSheet={openGuarantorSheet}
+                  debtorId={loan.id}
+                />
               </View>
               <View className="mt-3">
                 {/* Circular Progress Bar with Profile Image Inside */}

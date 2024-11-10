@@ -19,7 +19,6 @@ export interface Loan extends Debtor {
   guarantorId?: string;
 }
 
-
 export enum LoanTermType {
   MONTHLY = 0,
   WEEKLY = 1,

@@ -43,10 +43,6 @@ export const LoanAmountFormSchema = z.object({
     .positive()
     .min(0)
     .max(100, { message: "อัตราดอกเบี้ยต้องอยู่ระหว่าง 0 ถึง 100" }),
-  totalRepayment: z.coerce
-    .number()
-    .positive()
-    .min(0, { message: "ยอดหนี้ที่ต้องชำระต้องมากกว่าหรือเท่ากับ 0" }),
   installments: z.coerce
     .number()
     .positive()
@@ -56,20 +52,7 @@ export const LoanAmountFormSchema = z.object({
     .number()
     .positive()
     .min(0, { message: "ยอดที่ชำระแล้วต้องมากกว่าหรือเท่ากับ 0" }),
-  installmentsPaid: z.coerce
-    .number()
-    .positive()
-    .int()
-    .min(0, { message: "จำนวนงวดที่ชำระแล้วต้องมากกว่าหรือเท่ากับ 0" }),
-  remainingAmount: z.coerce
-    .number()
-    .positive()
-    .min(0, { message: "ยอดคงเหลือที่ต้องชำระต้องมากกว่าหรือเท่ากับ 0" }),
-  repaymentPerInstallment: z.coerce
-    .number()
-    .positive()
-    .min(0, { message: "ยอดที่ต้องชำระแต่ละงวดต้องมากกว่าหรือเท่ากับ 0" }),
-  autoPaymentToggle: z.boolean(),
+  autoPaymentToggle: z.boolean().optional(),
 });
 
 export const MemoFormSchema = z.object({
