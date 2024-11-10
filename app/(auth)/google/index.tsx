@@ -10,6 +10,7 @@ import { CONTAINER } from "~/constants/Styles";
 import { cn } from "~/lib/utils";
 import { Text } from "~/components/ui/text";
 import { PARAGRAPH, TITLE } from "~/constants/Typography";
+import { getUser } from "~/api/auth/get-user";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -40,9 +41,20 @@ export default function GoogleAuth() {
       const { token, refreshToken, userId } = queryParams || {};
 
       if (token && refreshToken) {
-        setUser({
-          id: userId as string,
-        });
+        const response = await getUser(userId as string);
+        console.log(response.data);
+
+        const userData = response.data;
+        // If user already exists, set the user data
+        if (userData.storeName !== null) {
+          setUser(userData);
+          return router.push("/(tabs)");
+        } else {
+          setUser({
+            id: userId as string,
+          });
+        }
+
         await AsyncStorage.setItem("token", token as string);
         await AsyncStorage.setItem("refreshToken", refreshToken as string);
         router.push("/profile"); // Navigate to Profiles page after authentication
