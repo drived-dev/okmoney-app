@@ -28,6 +28,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormMessage, FormItem, FormLabel } from "~/components/form";
 import OnlineOnly from "~/components/online-only";
 import NextButtonGroup from "../../components/ui/next-button-group";
+import useUserStore from "~/store/use-user-store";
 
 const formSchema = z.object({
   img: z.string().nonempty({ message: "ต้องเลือกโปรไฟล์รูปภาพ" }), // Image is required
@@ -84,7 +85,12 @@ const Index = () => {
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = (values) => {
-    const fullPhoneNumber = `+${countryCode} ${values.phone}`;
+    const setUser = useUserStore.getState().setUser;
+    setUser({
+      profileImage: values.img,
+      storeName: values.name,
+      phoneNumber: values.phone,
+    });
     router.navigate("/term-and-service"); // Navigate to Terms screen without params
   };
 
