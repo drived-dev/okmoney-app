@@ -37,7 +37,6 @@ const formSchema = z.object({
 
 const Index = () => {
   const router = useRouter();
-  const { social } = useLocalSearchParams(); // Retrieve the social parameter
   const insets = useSafeAreaInsets();
   const [image, setImage] = useState<string | null>(null);
   const [countryCode, setCountryCode] = useState("66"); // Keep track of country code
@@ -66,12 +65,8 @@ const Index = () => {
 
     if (!result.canceled) {
       const imageUri = result.assets[0].uri;
-
-      // Extract the filename from the URI
-      const filename = imageUri.split("/").pop(); // Get the last part of the path
-
-      setImage(imageUri); // You can still use the full URI if needed for the image display
-      onChange(filename || ""); // Update the form's img field with just the filename
+      setImage(imageUri); // Set the image URI for display
+      onChange(imageUri.split("/").pop() || ""); // Update form's img field with filename
     }
   };
 
@@ -89,11 +84,8 @@ const Index = () => {
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = (values) => {
-    const fullPhoneNumber = `+${countryCode} ${values.phone}`; // Concatenate country code with the phone number
-    router.navigate({
-      pathname: "/term-and-service",
-      params: { social }, // Forward only the social parameter
-    });
+    const fullPhoneNumber = `+${countryCode} ${values.phone}`;
+    router.navigate("/term-and-service"); // Navigate to Terms screen without params
   };
 
   return (
@@ -122,10 +114,7 @@ const Index = () => {
                     >
                       <Text className={cn(PARAGRAPH, "")}>เปลี่ยนโปรไฟล์</Text>
                     </Button>
-
-                    <FormMessage
-                      errorMessage={errors.img?.message}
-                    ></FormMessage>
+                    <FormMessage errorMessage={errors.img?.message} />
                   </FormItem>
                 )}
               />
@@ -145,15 +134,12 @@ const Index = () => {
                         onChangeText={onChange}
                         value={value}
                       />
-                      <FormMessage
-                        errorMessage={errors.name?.message}
-                      ></FormMessage>
+                      <FormMessage errorMessage={errors.name?.message} />
                     </FormItem>
                   )}
                 />
               </View>
 
-              {/* Add the phone number input field */}
               <View className="flex flex-col gap-2">
                 <View className={cn(GRID_ROW, "items-center")}>
                   <Text className={cn(PARAGRAPH, "items-center")}>
@@ -162,7 +148,7 @@ const Index = () => {
                   <Tooltip delayDuration={150}>
                     <TooltipTrigger asChild>
                       <TouchableOpacity>
-                        <Icon name="Info" size={16}></Icon>
+                        <Icon name="Info" size={16} />
                       </TouchableOpacity>
                     </TooltipTrigger>
                     <TooltipContent>
@@ -172,7 +158,6 @@ const Index = () => {
                     </TooltipContent>
                   </Tooltip>
                 </View>
-                {/* Use the PhoneInput inside the Controller */}
                 <Controller
                   control={control}
                   name="phone"
