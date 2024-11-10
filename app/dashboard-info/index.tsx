@@ -8,6 +8,9 @@ import { IconButton } from "~/components/icon-button";
 import { ArrowLeft } from "lucide-react-native";
 import { router } from "expo-router";
 import DashboardCardRing from "~/components/dashboard/piechart-ring";
+import { getDashboardAll } from "~/api/dashboard/get-dashboard-all";
+import { useQuery } from "@tanstack/react-query";
+import { getDashboardDebtors } from "~/api/dashboard/get-dashboard-debtors";
 
 const handleBack = () => {
   if (router.canGoBack()) {
@@ -20,7 +23,7 @@ const handleBack = () => {
 };
 
 const widthAndHeight = 200;
-const series = [1000, 200, 3000, 400];
+//const series = [1000, 200, 3000, 400];
 const sliceColor = ["#fbd203", "#ffb300", "#ff9100", "#ff6c00"];
 const categories = [
   "ยอดปล่อยทั้งหมด",
@@ -30,7 +33,7 @@ const categories = [
 ];
 
 const widthAndHeight2 = 200;
-const series2 = [62, 51, 11];
+//const series2 = [62, 51, 11];
 const sliceColor2 = ["#fbd203", "#ffb300", "#ff9100"];
 const categories2 = [
   "จำนวนลูกหนี้ทั้งหมด",
@@ -39,6 +42,22 @@ const categories2 = [
 ];
 
 const index = () => {
+  const {
+    data: dashboard = []
+  } = useQuery({
+    queryKey: ["dashboard"],
+    queryFn: () => getDashboardAll(),
+  });
+  const series = [dashboard.totalLoan, dashboard.accuredIncome, dashboard.totalEarned, dashboard.profit]
+
+  const {
+    data: dashboardDebtors = []
+  } = useQuery({
+    queryKey: ["dashboardDebtors"],
+    queryFn: () => getDashboardDebtors(),
+  });
+  const series2 = [dashboardDebtors.totalDebtors, dashboardDebtors.currentDebtors, dashboardDebtors.clearedDebtors]
+
   return (
     <View>
       <SafeAreaView className="h-full">

@@ -10,28 +10,17 @@ import { CONTAINER } from "~/constants/Styles";
 import { cn } from "~/lib/utils";
 import { Text } from "~/components/ui/text";
 import { PARAGRAPH, TITLE } from "~/constants/Typography";
-import { Link, Link2 } from "lucide-react-native";
-import {
-  Feedback,
-  FeedbackDescription,
-  FeedbackTitle,
-} from "~/components/ui/feedback";
 
 WebBrowser.maybeCompleteAuthSession();
 
-export default function FacebookAuth() {
+export default function GoogleAuth() {
   const router = useRouter();
   const { setUser, accessToken, refreshToken } = useUserStore();
-  const [showFeedback, setShowFeedback] = useState(false); // State to control Feedback visibility
 
   const BACKEND_AUTH_URL = "http://localhost:3000/api/auth/google/login";
 
   const handleButtonClick = () => {
-    setShowFeedback(true); // Set to true to display Feedback
-    setTimeout(() => {
-      setShowFeedback(false); // Hide Feedback after 2 seconds
-      router.push("/(tabs)"); // Navigate to "(tabs)" after hiding feedback
-    }, 2000); // Hide Feedback after 2 seconds for demo
+    signInWithGoogle();
   };
 
   useEffect(() => {
@@ -55,9 +44,9 @@ export default function FacebookAuth() {
           accessToken: accessToken as string,
           refreshToken: refreshToken as string,
         });
-        AsyncStorage.setItem("token", token as string);
-        AsyncStorage.setItem("refreshToken", refreshToken as string);
-        router.push("/(tabs)");
+        await AsyncStorage.setItem("token", token as string);
+        await AsyncStorage.setItem("refreshToken", refreshToken as string);
+        router.push("/profile"); // Navigate to Profiles page after authentication
       } else {
         console.error("[Debug] No tokens in URL:", event.url);
       }
@@ -70,6 +59,7 @@ export default function FacebookAuth() {
     try {
       // Create and log the redirect URI
       const redirectUri = Linking.createURL("auth/google");
+      console.log(redirectUri);
 
       // Log the full auth URL being opened
       const authUrl = `${BACKEND_AUTH_URL}?redirect_uri=${encodeURIComponent(
@@ -85,49 +75,40 @@ export default function FacebookAuth() {
       if (result.type === "success") {
         await handleRedirect({ url: result.url });
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("[Debug] Sign in Error:", error);
+    }
   };
 
   return (
-    <View>
-      {showFeedback ? (
-        <Feedback isSuccess={true}>
-          <FeedbackTitle>ตั้งค่าเรียบร้อย!</FeedbackTitle>
-          <FeedbackDescription>
-            ร้านค้าของคุณพร้อมใช้งานแล้ว
-          </FeedbackDescription>
-        </Feedback>
-      ) : (
-        <SafeAreaView>
-          <View className={cn(CONTAINER, "flex-col flex h-full")}>
-            <View className="flex flex-col flex-1 gap-20">
-              <View className="flex flex-col gap-2 mt-20">
-                <View className="justify-center w-full flex flex-row">
-                  <Text className={cn(TITLE, "text-foreground")}>
-                    ติดตามข่าวสาร Ok money ผ่าน
-                  </Text>
-                </View>
-                <View className="justify-center w-full flex flex-row">
-                  <Text className={cn(TITLE, "text-foreground")}>LINE OA</Text>
-                </View>
-              </View>
-              <View className="flex flex-row -gap-4 justify-center py-8">
-                <Image source={require("assets/images/line_oa.png")} />
-              </View>
+    <SafeAreaView>
+      <View className={cn(CONTAINER, "flex-col flex h-full")}>
+        <View className="flex flex-col flex-1 gap-20">
+          <View className="flex flex-col gap-2 mt-20">
+            <View className="justify-center w-full flex flex-row">
+              <Text className={cn(TITLE, "text-foreground")}>
+                ติดตามข่าวสาร Ok money ผ่าน
+              </Text>
             </View>
-            <View className="mt-auto justify-center items-center">
-              <IconButton
-                icon={require("assets/images/google.png")}
-                text="Sign in with Google (Demo)"
-                variant="green"
-                size={"xl"}
-                textClassName="flex-1"
-                onPress={handleButtonClick} // Trigger feedback on click
-              />
+            <View className="justify-center w-full flex flex-row">
+              <Text className={cn(TITLE, "text-foreground")}>LINE OA</Text>
             </View>
           </View>
-        </SafeAreaView>
-      )}
-    </View>
+          <View className="flex flex-row -gap-4 justify-center py-8">
+            <Image source={require("assets/images/line_oa.png")} />
+          </View>
+        </View>
+        <View className="mt-auto justify-center items-center">
+          <IconButton
+            icon={require("assets/images/google.png")}
+            text="Sign in with Google (Demo)"
+            variant="green"
+            size={"xl"}
+            textClassName="flex-1"
+            onPress={handleButtonClick} // Directly navigate to profiles on success
+          />
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }

@@ -1,67 +1,138 @@
-import { StyleSheet, Text, View, Platform } from "react-native";
-import React from "react";
 import { IconButton } from "~/components/icon-button";
 import { FolderUpIcon } from "lucide-react-native";
 import * as FileSystem from "expo-file-system";
 import { shareAsync } from "expo-sharing";
-import { useAssets } from "expo-asset";
+import { Platform } from "react-native";
+import Papa from "papaparse";
 
-//TODO: change to proper template
-const template = `
-Username;Identifier;First name;Last name
-booker12;9012;Rachel;Booker
-grey07;2070;;Grey
-johnson81;4081;Craig;Johnson
-jenkins46;9346;Mary;Jenkins
-smith79;5079;Jamie;Smith
-`;
+// Define the headers and 3 rows of dummy data based on structuredData format
+const headers = [
+  "Nickname",
+  "First Name",
+  "Last Name",
+  "Phone Number",
+  "Memo Note",
+  ///
+  "Loan Number",
+  "Loan Amount",
+  "Amount Paid",
+  "Interest Rate",
+  "Installments",
+  "Due Date",
+  "Tags",
+  "Loan Type",
+  "Payment Type",
+  "First Payment Date",
+  "Loan Category",
+];
 
-const TemplateDownload = () => {
-  async function saveFile(uri: string, filename: string, mimetype: string) {
-    if (Platform.OS === "android") {
-      const permissions =
-        await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+const dummyData = [
+  {
+    Nickname: "Johnny123",
+    "First Name": "Johnny",
+    "Last Name": "Doe",
+    "Phone Number": "+6691213412",
+    "Memo Note": "Sample note",
+    "Loan Number": "LN-2024-10",
+    "Loan Amount": 50000,
+    "Amount Paid": 1000,
+    "Interest Rate": 5.0,
+    Installments: 12,
+    "Due Date": "2024-12-01",
+    Tags: "business, short-term",
+    "Loan Type": "fixed",
+    "Payment Type": "monthly",
+    "First Payment Date": "2024-01-01",
+    "Loan Category": "oldLoan",
+  },
+  {
+    Nickname: "Jimmy007",
+    "First Name": "Jimmy",
+    "Last Name": "Smith",
+    "Phone Number": "+6691213413",
+    "Memo Note": "Second note",
+    "Loan Number": "LN-2024-12",
+    "Loan Amount": 60000,
+    "Amount Paid": 1500,
+    "Interest Rate": 4.5,
+    Installments: 10,
+    "Due Date": "2025-02-01",
+    Tags: "fixed, long-term",
+    "Loan Type": "fixed",
+    "Payment Type": "monthly",
+    "First Payment Date": "2024-02-01",
+    "Loan Category": "newLoan",
+  },
+  {
+    Nickname: "MickyB",
+    "First Name": "Mcky",
+    "Last Name": "Barbie",
+    "Phone Number": "+6691213414",
+    "Memo Note": "Third note",
+    "Loan Number": "LN-2024-13",
+    "Loan Amount": 70000,
+    "Amount Paid": 2000,
+    "Interest Rate": 3.5,
+    Installments: 15,
+    "Due Date": "2024-10-01",
+    Tags: "fixed, short-term",
+    "Loan Type": "adjustable",
+    "Payment Type": "monthly",
+    "First Payment Date": "2024-03-01",
+    "Loan Category": "oldLoan",
+  },
+];
 
-      if (permissions.granted) {
-        const base64 = await FileSystem.readAsStringAsync(uri, {
-          encoding: FileSystem.EncodingType.Base64,
-        });
+// Function to create and save the CSV file
+const downloadCSVTemplate = async () => {
+  // Convert JSON to CSV format
+  const csvContent = Papa.unparse({
+    fields: headers,
+    data: dummyData,
+  });
 
-        await FileSystem.StorageAccessFramework.createFileAsync(
-          permissions.directoryUri,
-          filename,
-          mimetype
-        )
-          .then(async (uri) => {
-            await FileSystem.writeAsStringAsync(uri, base64, {
-              encoding: FileSystem.EncodingType.Base64,
-            });
-          })
-          .catch((e) => console.log(e));
-      } else {
-        shareAsync(uri);
-      }
+  // Define filename and file URI
+  const filename = "template.csv";
+  const fileUri = FileSystem.documentDirectory + filename;
+
+  // Write the CSV file to local storage
+  await FileSystem.writeAsStringAsync(fileUri, csvContent, {
+    encoding: FileSystem.EncodingType.UTF8,
+  });
+
+  // Save or share the file based on platform
+  if (Platform.OS === "android") {
+    const permissions =
+      await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+    if (permissions.granted) {
+      await FileSystem.StorageAccessFramework.createFileAsync(
+        permissions.directoryUri,
+        filename,
+        "text/csv"
+      )
+        .then(async (uri) => {
+          await FileSystem.writeAsStringAsync(uri, csvContent, {
+            encoding: FileSystem.EncodingType.UTF8,
+          });
+        })
+        .catch((e) => console.error("Error writing file", e));
     } else {
-      shareAsync(uri);
+      shareAsync(fileUri);
     }
+  } else {
+    shareAsync(fileUri);
   }
+};
 
-  async function download() {
-    const filename = "template.csv";
-    const fileUri = FileSystem.documentDirectory + filename;
-
-    await FileSystem.writeAsStringAsync(fileUri, template, {
-      encoding: FileSystem.EncodingType.UTF8,
-    });
-
-    saveFile(fileUri, filename, "text/csv");
-  }
-
+// Component to render the download button
+const TemplateDownloadButton = () => {
   return (
-    <IconButton icon={<FolderUpIcon />} text="ดาวโหลด" onPress={download} />
+    <IconButton
+      icon={<FolderUpIcon />}
+      text="Download CSV Template"
+      onPress={downloadCSVTemplate}
+    />
   );
 };
 
-export default TemplateDownload;
-
-const styles = StyleSheet.create({});
+export default TemplateDownloadButton;
