@@ -43,20 +43,6 @@ import DebtorHeader from "./debtor-header";
 import AdditionalInfo from "./debtor-footer";
 import useLoanStore from "~/store/use-loan-store";
 
-const statusColorsbg: Record<string, string> = {
-  ค้างชำระ: "bg-red-500", // Overdue
-  ครบชำระ: "bg-gray-200", // Paid
-  รอชำระ: "bg-blue-500", // Pending
-  ใกล้กำหนด: "bg-yellow-500", // Canceled
-};
-
-const statusColorstxt: Record<string, string> = {
-  ค้างชำระ: "text-destructive-foreground", // Overdue
-  ครบชำระ: "text-gray-600", // Paid
-  รอชำระ: "text-destructive-foreground", // Pending
-  ใกล้กำหนด: "text-destructive-foreground", // Canceled
-};
-
 const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
   const { id } = useEditingLoanStore();
   const loan = useLoanStore.getState().getLoanById(id);
@@ -83,13 +69,7 @@ const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
             nickname={loan?.nickname || ""}
             name={`${loan?.firstName || ""} ${loan?.lastName || ""}`}
             // TODO: fix this
-            status={loan?.loanStatus || ""}
-            statusColorbg={
-              statusColorsbg[loan?.loanStatus || ""] || "bg-blue-500"
-            }
-            statusColortxt={
-              statusColorstxt[loan?.loanStatus || ""] || "text-textb"
-            }
+            status={loan?.status || ""}
             phoneNumber={phoneNumber}
             isSwitchOn={isSwitchOn}
             handleCallPress={handleCallPress}

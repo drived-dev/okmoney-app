@@ -12,10 +12,11 @@ import { PaymentHistory } from "~/types/payment-history";
 import { useLocalSearchParams } from "expo-router";
 import CloseButton from "~/components/close-button";
 import { router } from "expo-router";
+import useLoanStore from "~/store/use-loan-store";
 const History = () => {
   const { id } = useLocalSearchParams();
   const debtorId = id as string;
-  alert(id);
+  const loan = useLoanStore().getLoanByDebtorId(debtorId);
   // TODO: fix api endpoint to id then return debtor name
   const {
     data: paymentHistory = [] as PaymentHistory[],
@@ -34,12 +35,14 @@ const History = () => {
     return <Text>Loading...</Text>;
   }
 
-  console.log(paymentHistory);
-
   return (
     <SafeAreaView>
       <CloseButton className="mb-4" />
-      <HistoryPage name="สมชาย" nickname="ธาม" data={paymentHistory} />
+      <HistoryPage
+        name={`${loan?.firstName || ""} ${loan?.lastName || ""}`}
+        nickname={loan?.nickname}
+        data={paymentHistory}
+      />
     </SafeAreaView>
   );
 };

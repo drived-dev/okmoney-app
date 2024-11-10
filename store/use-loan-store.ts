@@ -10,6 +10,7 @@ interface LoanStore {
   addLoan: (loan: Loan) => void;
   removeLoan: (loan: Loan) => void;
   getLoanById: (id: string) => Loan | undefined;
+  getLoanByDebtorId: (debtorId: string) => Loan | undefined;
 }
 
 const useLoanStore = create(
@@ -21,6 +22,8 @@ const useLoanStore = create(
       removeLoan: (loan) =>
         set((state) => ({ loans: state.loans.filter((t) => t !== loan) })),
       getLoanById: (id) => get().loans.find((loan) => loan.id === id),
+      getLoanByDebtorId: (debtorId) =>
+        get().loans.find((loan) => loan.debtorId === debtorId),
     }),
     {
       name: "loan-storage", // name of the item in the storage (must be unique)

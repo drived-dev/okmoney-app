@@ -100,7 +100,7 @@ const create = () => {
       loan: {
         loanNumber: values.loanId,
         principal: Number(values.loanAmount),
-        loanStatus: LoanStatus.UNDERDUE,
+        loanStatus: LoanStatus.DUE,
         remainingBalance:
           Number(values.loanAmount) - Number(values.amountPaid || 0),
         totalBalance: Number(values.loanAmount),

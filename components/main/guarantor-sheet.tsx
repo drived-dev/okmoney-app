@@ -49,29 +49,40 @@ const guarantorSchema = z.object({
 });
 
 const GuarantorSheet = forwardRef((propTypes, bottomSheetModalRef) => {
-  const { id, removeId } = useEditingLoanStore();
+  const { id } = useEditingLoanStore();
 
   const {
     control,
     setValue,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<z.infer<typeof guarantorSchema>>({
     resolver: zodResolver(guarantorSchema),
   });
 
-  function onSubmit(data) {
-    console.log(data);
-    console.log(id);
-    const respond = addGuarantorToLoan(data);
-    // setValue to reset all
-    // TODO: change info text
-    Toast.show({
-      type: "success",
-      position: "bottom",
-      text1: `${id}`,
-      text2: "This is some something 👋",
-    });
+  async function onSubmit(data: z.infer<typeof guarantorSchema>) {
+    const { response, status } = await addGuarantorToLoan(id, data);
+
+    if (status === 201) {
+      // setValue to reset all
+      // TODO: change info text
+      Toast.show({
+        type: "success",
+        position: "bottom",
+        text1: `เพิ่มผู้ค้ำประกันสำเร็จ`,
+      });
+    } else {
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "เกิดข้อผิดพลาด​​",
+        text2: "โปรดลองใหม่อีกครั้ง",
+      });
+    }
+
+    reset();
+    bottomSheetModalRef.current?.close();
   }
 
   // renders

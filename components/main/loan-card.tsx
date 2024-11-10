@@ -12,20 +12,7 @@ import { LoanCardMenu } from "./loan-card-menu";
 import useEditingLoanStore from "~/store/use-editing-loan-store";
 import { timestampToDate } from "~/lib/timestamp-to-date";
 import { formatMoney } from "~/lib/parse-money";
-
-const statusColorsbg: Record<string, string> = {
-  ค้างชำระ: "bg-red-500", // Overdue
-  ครบชำระ: "bg-gray-200", // Paid
-  รอชำระ: "bg-blue-500", // Pending
-  ใกล้กำหนด: "bg-yellow-500", // Canceled
-};
-
-const statusColorstxt: Record<string, string> = {
-  ค้างชำระ: "text-destructive-foreground", // Overdue
-  ครบชำระ: "text-gray-600", // Paid
-  รอชำระ: "text-destructive-foreground", // Pending
-  ใกล้กำหนด: "text-destructive-foreground", // Canceled
-};
+import Status from "../status";
 
 export const LoanCard = ({
   loan,
@@ -38,12 +25,9 @@ export const LoanCard = ({
   onGuarantor: () => void;
   onInfo: () => void;
 }) => {
-  const { setId, setName, setNickname, setProfileImage, setStatus } =
-    useEditingLoanStore();
+  const { setId } = useEditingLoanStore();
   // Calculate the progress based on outstanding vs total
   const progress = loan.outstanding / loan.total;
-  const statusColorbg = statusColorsbg[loan.status] || "bg-blue-500";
-  const statusColortxt = statusColorstxt[loan.status] || "text-textb";
 
   function openMemoSheet() {
     setId(loan.id);
@@ -91,26 +75,19 @@ export const LoanCard = ({
                 {/* Name: Bold nickname, gray full name */}
                 <Text className={cn(PARAGRAPH, "pl-2 text-foreground ")}>
                   {loan.nickname + "  "}
-                  <Text className="text-muted-foreground font-ibm text-sm">
-                    {loan.firstName + " " + loan.lastName}
-                  </Text>
+
+                  {loan.firstName && loan.lastName && (
+                    <Text className="text-muted-foreground font-ibm text-sm">
+                      {loan.firstName + " " + loan.lastName}
+                    </Text>
+                  )}
                 </Text>
               </View>
             </View>
             {/* Loan Status */}
             <View className="flex-row flex gap-2">
-              <View
-                className={`px-3 py-2 rounded-2xl self-start ${statusColorbg}`}
-              >
-                <Text
-                  className={cn(
-                    LABEL,
-                    `font-ibm-semibold text-destructive-foreground ${statusColortxt}`
-                  )}
-                >
-                  {loan.status}
-                </Text>
-              </View>
+              {/* TODO: dont forget status */}
+              <Status status={loan.status} />
               <LoanCardMenu
                 openGuarantorSheet={openGuarantorSheet}
                 debtorId={loan.debtorId}

@@ -13,7 +13,7 @@ export interface Loan extends Debtor {
   interestType: InterestType;
   interestRate: number;
   dueDate: number;
-  tags: string[];
+  tags: string[];x
   debtorId: string;
   creditorId: string;
   guarantorId?: string;

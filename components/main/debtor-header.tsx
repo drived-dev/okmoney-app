@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity, Switch } from "react-native";
 import { Phone } from "lucide-react-native";
 import { cn } from "~/lib/utils";
 import { LABEL, PARAGRAPH, PARAGRAPH_BOLD } from "~/constants/Typography";
+import Status from "../status";
 
 interface DebtorHeaderProps {
   profileImage: string;
@@ -26,8 +27,6 @@ const DebtorHeader: React.FC<DebtorHeaderProps> = ({
   nickname,
   name,
   status,
-  statusColorbg,
-  statusColortxt,
   phoneNumber,
   isSwitchOn,
   handleCallPress,
@@ -59,18 +58,7 @@ const DebtorHeader: React.FC<DebtorHeaderProps> = ({
           </View>
         </View>
         {/* Loan Status */}
-        <View className="flex-row flex gap-2">
-          <View className={`px-3 py-2 rounded-2xl self-start ${statusColorbg}`}>
-            <Text
-              className={cn(
-                LABEL,
-                `font-ibm-semibold text-destructive-foreground ${statusColortxt}`
-              )}
-            >
-              {status}
-            </Text>
-          </View>
-        </View>
+        <Status status={status} />
       </View>
       <View className="flex flex-col gap-2">
         <TouchableOpacity
