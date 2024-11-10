@@ -33,12 +33,12 @@ interface UserState {
 
 const useUserStore = create<UserState>((set) => ({
   // Initial state
-  id: "123",
-  firstName: "mel",
+  id: "",
+  firstName: "",
   lastName: "",
   storeName: "",
   phoneNumber: "",
-  rolePackage: "premium",
+  rolePackage: "FREE",
   tags: [],
   email: "",
   createdAt: "",
@@ -57,7 +57,6 @@ const useUserStore = create<UserState>((set) => ({
 
   // Set user data
   setUser: (user) => set((state) => ({ ...state, ...user })),
-
   // Tag management
   addTag: (tag) => set((state) => ({ tags: [...state.tags, tag] })),
   removeTag: (tag) =>

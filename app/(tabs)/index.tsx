@@ -370,7 +370,7 @@ const Index = () => {
                         "text-lg translate-y-[-6px] text-white"
                       )}
                     >
-                      {user.firstName}
+                      {user.id}
                     </Text>
                   </AvatarText>
                 </TouchableOpacity>

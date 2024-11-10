@@ -37,12 +37,11 @@ export default function GoogleAuth() {
       const parsedUrl = Linking.parse(event.url);
       const { queryParams } = parsedUrl;
 
-      const { token, refreshToken } = queryParams || {};
+      const { token, refreshToken, userId } = queryParams || {};
 
       if (token && refreshToken) {
         setUser({
-          accessToken: accessToken as string,
-          refreshToken: refreshToken as string,
+          id: userId as string,
         });
         await AsyncStorage.setItem("token", token as string);
         await AsyncStorage.setItem("refreshToken", refreshToken as string);

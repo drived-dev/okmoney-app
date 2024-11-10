@@ -28,13 +28,13 @@ const Feedback = ({
 
   const navigateToScreen = (redirectUrl: Href<string | object>) => {
     router.dismissAll();
-    router.replace(redirectUrl);
+    router.push(redirectUrl as Href<string | object>);
   };
 
   React.useState(() => {
     if (redirect) {
       setTimeout(() => {
-        navigateToScreen(redirectUrl);
+        navigateToScreen(redirectUrl as Href<string | object>);
       }, redirectTimer);
     }
   });

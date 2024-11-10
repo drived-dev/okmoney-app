@@ -14,6 +14,9 @@ import {
   FeedbackDescription,
   FeedbackTitle,
 } from "~/components/ui/feedback";
+import useUserStore from "~/store/use-user-store";
+import { createUser } from "~/api/auth/create-user";
+import { patchUser } from "~/api/auth/patch-user";
 
 const demodata: Term = {
   description:
@@ -26,6 +29,9 @@ const Index = () => {
   const [showFeedback, setShowFeedback] = useState(false); // State to control Feedback visibility
   const router = useRouter();
   const { social } = useLocalSearchParams(); // Get 'social' parameter
+  const user = useUserStore.getState();
+  const setUser = useUserStore.getState().setUser;
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     // Ensure isBottomReached is reset to false on component mount
@@ -43,20 +49,32 @@ const Index = () => {
     }
   };
 
-  const handleNextPage = () => {
+  const handleNextPage = async () => {
     if (!isBottomReached) return;
 
-    setShowFeedback(true); // Show Feedback
-    setTimeout(() => {
-      setShowFeedback(false); // Hide Feedback
-      router.push("/(tabs)"); // Navigate to "(tabs)"
-    }, 2000); // Delay for demo purposes
+    const response = await patchUser({
+      storeName: user.storeName,
+      phoneNumber: user.phoneNumber,
+      profileImage: user.profileImage,
+      package: "FREE",
+    });
+    if (response.status === 201) {
+      setUser(response.data);
+    } else {
+      setIsError(true);
+    }
+    setShowFeedback(true);
   };
 
   return (
     <View className="h-full">
       {showFeedback ? (
-        <Feedback isSuccess={true}>
+        <Feedback
+          isSuccess={!isError}
+          redirect
+          redirectUrl="/(tabs)"
+          redirectTimer={2000}
+        >
           <FeedbackTitle>ตั้งค่าเรียบร้อย!</FeedbackTitle>
           <FeedbackDescription>
             ร้านค้าของคุณพร้อมใช้งานแล้ว
