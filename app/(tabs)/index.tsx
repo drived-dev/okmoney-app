@@ -53,6 +53,7 @@ import { PaymentHistory } from "~/types/payment-history";
 import { getLoanAll } from "~/api/loans/get-loan-all";
 import { parseLoansDatas } from "~/lib/parse-loan-datas";
 import Toast from "react-native-toast-message";
+import FilterDrawerContent from "~/components/filter-drawer-content";
 
 const amountMemoSchema = z.object({
   amount: z.string().max(100).optional(),
@@ -88,8 +89,8 @@ const Index = () => {
   });
 
   const navigation = useNavigation();
-  const [tagValue, settagValue] = React.useState<string[]>([]); // Store selected tags
-  const [statusValue, setstatusValue] = React.useState<string[]>([]); // Store selected statuses
+  const [tagValue, setTagValue] = React.useState<string[]>([]); // Store selected tags
+  const [statusValue, setStatusValue] = React.useState<string[]>([]); // Store selected statuses
   const [isGridView, setIsGridView] = useState(false); // Toggle between GridView and ListView
   const [searchQuery, setSearchQuery] = useState(""); // Search state
   const [toggleValue, setToggleValue] = useState("all"); // Filter toggle
@@ -132,7 +133,7 @@ const Index = () => {
         .slice(0, user.debtorSlotAvailable)
         .filter((loan) => {
           if (toggleValue === "all") return true;
-          if (toggleValue === "old") return loan.tags?.includes("old");
+          if (toggleValue === "old") return loan.loanStatus === "CLOSED";
         });
       setVisibleLoans(filtered);
     }
@@ -145,8 +146,8 @@ const Index = () => {
     statusValue.forEach((status) => addTag(status));
 
     setDrawerOpen(false);
-    settagValue([]);
-    setstatusValue([]);
+    setTagValue([]);
+    setStatusValue([]);
   };
 
   // Additional search query filtering
@@ -197,144 +198,14 @@ const Index = () => {
         onClose={() => setDrawerOpen(false)}
         drawerPosition="right"
         renderDrawerContent={() => (
-          <View className={cn(CONTAINER, "bg-background h-full")}>
-            <SafeAreaView>
-              <View className="flex flex-col gap-4">
-                <Text className={cn(PARAGRAPH, "")}>ค้นหาด้วยฟิวเตอร์</Text>
-                <View className="h-px bg-gray-400" />
-                <View>
-                  <View className="flex flex-col gap-2">
-                    <View className="flex flex-row gap-1 items-center">
-                      <Icon name="Tag" size={16} />
-                      <Text className={cn(LABEL, "")}>แท็ก</Text>
-                    </View>
-                    <View>
-                      <ToggleGroup
-                        value={tagValue}
-                        onValueChange={(value) =>
-                          settagValue(value ? [value] : [])
-                        }
-                        type="single"
-                        className="flex flex-col gap-2"
-                      >
-                        <ToggleGroupItem
-                          value="เพื่อน"
-                          aria-label="Toggle all"
-                          className="w-full"
-                        >
-                          <Text
-                            className={cn(
-                              PARAGRAPH,
-                              "pt-2 font-ibm text-base leading-6 text-foreground"
-                            )}
-                          >
-                            เพื่อน
-                          </Text>
-                        </ToggleGroupItem>
-                        <ToggleGroupItem
-                          value="ครอบครัว"
-                          aria-label="Toggle old"
-                          className="w-full"
-                        >
-                          <Text
-                            className={cn(
-                              PARAGRAPH,
-                              "pt-2 font-ibm text-base leading-6 text-foreground"
-                            )}
-                          >
-                            ครอบครัว
-                          </Text>
-                        </ToggleGroupItem>
-                      </ToggleGroup>
-                    </View>
-                  </View>
-                </View>
-                <View className="h-px bg-gray-400" />
-                <View className="flex flex-col gap-2">
-                  <View className="flex flex-row gap-1 items-center">
-                    <Icon name="CircleCheckBig" size={16} />
-                    <Text className={cn(LABEL, "")}>สถานะ</Text>
-                  </View>
-                  <View>
-                    <ToggleGroup
-                      value={statusValue}
-                      onValueChange={(value) =>
-                        setstatusValue(value ? [value] : [])
-                      }
-                      type="single"
-                      className="flex flex-col gap-2"
-                    >
-                      <ToggleGroupItem
-                        value="ค้างชำระ"
-                        aria-label="Toggle all"
-                        className="w-full"
-                      >
-                        <Text
-                          className={cn(
-                            PARAGRAPH,
-                            "pt-2 font-ibm text-base leading-6 text-foreground"
-                          )}
-                        >
-                          ค้างชำระ
-                        </Text>
-                      </ToggleGroupItem>
-                      <ToggleGroupItem
-                        value="ใกล้กำหนด"
-                        aria-label="Toggle old"
-                        className="w-full"
-                      >
-                        <Text
-                          className={cn(
-                            PARAGRAPH,
-                            "pt-2 font-ibm text-base leading-6 text-foreground"
-                          )}
-                        >
-                          ใกล้กำหนด
-                        </Text>
-                      </ToggleGroupItem>
-                      <ToggleGroupItem
-                        value="รอชำระ"
-                        aria-label="Toggle old"
-                        className="w-full"
-                      >
-                        <Text
-                          className={cn(
-                            PARAGRAPH,
-                            "pt-2 font-ibm text-base leading-6 text-foreground"
-                          )}
-                        >
-                          รอชำระ
-                        </Text>
-                      </ToggleGroupItem>
-                    </ToggleGroup>
-                  </View>
-                </View>
-              </View>
-            </SafeAreaView>
-
-            <View className={cn(CONTAINER, "mt-auto px-4 w-full")}>
-              <View className="flex flex-row gap-2 ">
-                <Button
-                  variant="outline"
-                  size={"xl"}
-                  onPress={() => setDrawerOpen(false)}
-                >
-                  <Text className={cn(PARAGRAPH_BOLD, "items-center")}>
-                    ยกเลิก
-                  </Text>
-                </Button>
-                <Button
-                  variant="destructive"
-                  size={"xl"}
-                  onPress={handleConfirm}
-                >
-                  <Text className={cn(PARAGRAPH_BOLD, "items-center")}>
-                    ตกลง
-                  </Text>
-                </Button>
-              </View>
-            </View>
-          </View>
+          <FilterDrawerContent
+            setDrawerOpen={setDrawerOpen}
+            tagValue={tagValue}
+            setTagValue={setTagValue}
+            statusValue={statusValue}
+            setStatusValue={setStatusValue}
+            handleConfirm={handleConfirm}
+          />
         )}
       >
         <View className="flex-1">
@@ -453,17 +324,31 @@ const Index = () => {
                       ))
                     )
                   ) : (
-                    <Text></Text>
+                    <View className="items-center justify-center gap-4 py-40">
+                      <Button
+                        size="icon-lg"
+                        variant="outline"
+                        className="w-20 h-20 border-dashed border-gray-300 border-2"
+                        onPress={() => router.push("/debtor/create")}
+                      >
+                        <Plus width={30} height={30} color="gray" />
+                      </Button>
+                      <Text className={cn(PARAGRAPH_BOLD, " text-gray-500")}>
+                        เพิ่มลูกหนี้คนแรกเลย!
+                      </Text>
+                    </View>
                   )}
                 </View>
 
-                <View className="flex flex-col justify-center items-center">
-                  <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mt-3 px-4">
-                    <Text className={cn(PARAGRAPH, "text-green-800")}>
-                      จำนวนลูกหนี้ {loans.length} / {user.debtorSlotAvailable}
-                    </Text>
+                {loans.length > 0 && (
+                  <View className="flex flex-col justify-center items-center">
+                    <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mt-3 px-4">
+                      <Text className={cn(PARAGRAPH, "text-green-800")}>
+                        จำนวนลูกหนี้ {loans.length} / {user.debtorSlotAvailable}
+                      </Text>
+                    </View>
                   </View>
-                </View>
+                )}
               </View>
             </ScrollView>
 
