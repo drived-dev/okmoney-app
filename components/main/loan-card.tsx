@@ -91,6 +91,7 @@ export const LoanCard = ({
               <LoanCardMenu
                 openGuarantorSheet={openGuarantorSheet}
                 debtorId={loan.debtorId}
+                loanId={loan.id}
               />
             </View>
           </View>

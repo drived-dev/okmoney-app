@@ -21,9 +21,50 @@ import { PARAGRAPH } from "~/constants/Typography";
 import { cn } from "~/lib/utils";
 import { Trash } from "lucide-react-native";
 import { router } from "expo-router";
+import useLoanStore from "~/store/use-loan-store";
+import { deleteLoan } from "~/api/loans/delete-loan";
+import { Alert } from "react-native";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 
-const deleteLoanRoute = "/";
-export const LoanCardMenu = ({ openGuarantorSheet, debtorId }) => {
+export const LoanCardMenu = ({
+  openGuarantorSheet,
+  debtorId,
+  loanId,
+}: {
+  openGuarantorSheet: () => void;
+  debtorId: string;
+  loanId: string;
+}) => {
+  const removeLoan = useLoanStore((state) => state.removeLoan);
+
+  async function deleteLoanAlert() {
+    Alert.alert("ลบลูกหนี้", "การลบลูกหนี้ไม่สามารถย้อนกลับได้", [
+      { text: "ยกเลิก", style: "cancel" },
+      {
+        text: "ยืนยัน",
+        style: "destructive",
+        onPress: handleDeleteLoan,
+      },
+    ]);
+  }
+
+  async function handleDeleteLoan() {
+    const response = await deleteLoan(debtorId);
+    if (response.status === 200) {
+      removeLoan(loanId);
+
+      Toast.show({
+        text1: "ลบลูกหนี้สำเร็จ",
+        type: "success",
+      });
+    } else {
+      Toast.show({
+        text1: "ลบลูกหนี้ไม่สำเร็จ",
+        type: "error",
+      });
+    }
+  }
+
   const menuLinks = [
     { name: "ดูข้อมูลเพิ่มเติม", onPress: "/" },
     {
@@ -60,7 +101,10 @@ export const LoanCardMenu = ({ openGuarantorSheet, debtorId }) => {
         ))}
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="flex flex-row justify-between items-center">
+        <DropdownMenuItem
+          className="flex flex-row justify-between items-center"
+          onPress={deleteLoanAlert}
+        >
           <Text className={cn(PARAGRAPH, "text-destructive")}>ลบลูกหนี้</Text>
           <Trash size={20} color={colors.red[400]}></Trash>
         </DropdownMenuItem>

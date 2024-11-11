@@ -29,6 +29,8 @@ import { FormMessage, FormItem, FormLabel } from "~/components/form";
 import OnlineOnly from "~/components/online-only";
 import NextButtonGroup from "../../components/ui/next-button-group";
 import useUserStore from "~/store/use-user-store";
+import { patchUser } from "~/api/auth/patch-user";
+import Toast from "react-native-toast-message";
 
 const formSchema = z.object({
   img: z.string().nonempty({ message: "ต้องเลือกโปรไฟล์รูปภาพ" }), // Image is required
@@ -37,19 +39,23 @@ const formSchema = z.object({
 });
 
 const Index = () => {
+  const { intent } = useLocalSearchParams();
   const router = useRouter();
-  const insets = useSafeAreaInsets();
   const [image, setImage] = useState<string | null>(null);
-  const [countryCode, setCountryCode] = useState("66"); // Keep track of country code
 
-  const contentInsets = {
-    top: insets.top,
-    bottom: insets.bottom,
-    left: 12,
-    right: 12,
-  };
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      img: "",
+      phone: "",
+    },
+  });
 
-  // Modified pickImage function
   const pickImage = async (onChange: (value: string) => void) => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
@@ -71,27 +77,35 @@ const Index = () => {
     }
   };
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      img: "",
-      phone: "",
-    },
-  });
-
-  const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = (values) => {
+  const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (
+    values
+  ) => {
     const setUser = useUserStore.getState().setUser;
     setUser({
       profileImage: values.img,
       storeName: values.name,
       phoneNumber: values.phone,
     });
-    router.navigate("/term-and-service"); // Navigate to Terms screen without params
+
+    if (intent === "create") {
+      router.navigate("/term-and-service"); // Navigate to Terms screen without params
+    } else if (intent === "edit") {
+      const response = await patchUser(values);
+
+      if (response.status === 200) {
+        Toast.show({
+          text1: "อัพเดตข้อมูลผู้ใช้สำเร็จ",
+          type: "success",
+        });
+
+        router.back();
+      } else {
+        Toast.show({
+          text1: "อัพเดตข้อมูลไม่สำเร็จ",
+          type: "error",
+        });
+      }
+    }
   };
 
   return (
@@ -183,7 +197,10 @@ const Index = () => {
           </View>
         </View>
 
-        <NextButtonGroup onNext={handleSubmit(onSubmit)} />
+        <NextButtonGroup
+          onNext={handleSubmit(onSubmit)}
+          disabled={isSubmitting}
+        />
       </View>
     </SafeAreaView>
   );

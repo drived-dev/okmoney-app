@@ -21,6 +21,7 @@ const IconButtonColor = {
   secondary: colors.orange,
   green: colors.black,
   gradient: colors.white,
+  destructive: colors.white,
 };
 
 export const IconButtonDrawer = ({

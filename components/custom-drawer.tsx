@@ -12,9 +12,11 @@ import { PARAGRAPH, PARAGRAPH_BOLD } from "~/constants/Typography";
 import { Icon } from "./icon";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { IconButton } from "./icon-button";
-import { Mail, MessageCircle, Phone, User } from "lucide-react-native";
+import { LogOut, Mail, MessageCircle, Phone, User } from "lucide-react-native";
 import { IconButtonDrawer } from "./icon-button-drawer";
 import useUserStore from "~/store/use-user-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { userLogout } from "~/lib/auth/user-logout";
 
 export const CustomDrawer = () => {
   const user = useUserStore();
@@ -54,7 +56,7 @@ export const CustomDrawer = () => {
                   text="เเก้ไขข้อมูลของคุณ"
                   textClassName="w-56"
                   size={"xl"}
-                  onPress={() => router.push("/profile")}
+                  onPress={() => router.push("/profile/edit")}
                 />
 
                 {/* <IconButtonDrawer
@@ -84,6 +86,14 @@ export const CustomDrawer = () => {
             icon={<MessageCircle />}
             text="ให้ feedback"
             textClassName="w-56"
+            size={"xl"}
+          />
+          <IconButtonDrawer
+            variant="destructive"
+            icon={<LogOut />}
+            onPress={() => router.push("/(auth)/logout")}
+            text="ออกจากระบบ"
+            textClassName="w-56 text-red-500"
             size={"xl"}
           />
         </View>
