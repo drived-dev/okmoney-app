@@ -42,7 +42,9 @@ import CloseButton from "~/components/close-button";
 import OnlineOnly from "~/components/online-only";
 import { createLoan } from "~/api/loans/create-loan";
 import Toast from "react-native-toast-message";
-import { LoanStatus } from "~/types/Loan";
+import { Loan, LoanStatus } from "~/types/Loan";
+import useLoanStore from "~/store/use-loan-store";
+import { parseLoanData } from "~/lib/parse-loan-datas";
 
 export const defaultValues = [
   {
@@ -86,10 +88,10 @@ export const forms: Form[] = [
 const create = () => {
   const formSchemas = forms.map((form) => form.schema);
   const formScreens = forms.map((form) => form.screen);
+  const addLoan = useLoanStore((state) => state.addLoan);
 
   async function onSubmit(values: z.infer<(typeof formSchemas)[0]>) {
-    // TODO: need help make some optional
-    const response = await createLoan({
+    const loanData = {
       debtor: {
         nickname: values.nickname,
         firstName: values.name,
@@ -115,13 +117,15 @@ const create = () => {
         // firstPaymentDate: values.firstPaymentDate,
         creditorId: "H7szNgGT5uJuTVPqa3XM",
       },
-    });
+    };
+    const response = await createLoan(loanData);
 
     if (response.status === 201) {
       Toast.show({
         text1: "Loan created successfully",
         type: "success",
       });
+      addLoan(parseLoanData(loanData));
       router.back();
     } else {
       Toast.show({

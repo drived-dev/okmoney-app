@@ -1,8 +1,7 @@
 import { Loan, LoanStatus } from "~/types/Loan";
 
-export function parseLoansDatas(loanDatas: any) {
-  console.log(loanDatas);
-  const buffer = loanDatas.map((loanData: Loan) => ({
+export function parseLoanData(loanData: any): Loan {
+  return {
     id: loanData.loan.id,
     loanNumber: loanData.loan.loanNumber,
     nickname: loanData.debtor.nickname,
@@ -24,9 +23,9 @@ export function parseLoansDatas(loanDatas: any) {
     currentInstallment: Math.ceil((loanData.loan.totalBalance - loanData.loan.remainingBalance) / (loanData.loan.totalBalance / loanData.loan.totalLoanTerm)),
     loanDate: new Date(loanData.loan.dueDate).toLocaleDateString(),
     paymentType: loanData.loan.loanTermType === 0 ? "รายเดือน" : loanData.loan.loanTermType === 1 ? "รายสัปดาห์" : "รายวัน"
-  }));
-
-  console.log("buffer");
-  console.log(buffer);
+  }
+}
+export function parseLoansDatas(loanDatas: any) {
+  const buffer = loanDatas.map((loanData: any) => parseLoanData(loanData));
   return buffer;
 }
