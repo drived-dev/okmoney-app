@@ -54,7 +54,7 @@ export const CustomDrawer = () => {
                   text="เเก้ไขข้อมูลของคุณ"
                   textClassName="w-56"
                   size={"xl"}
-                  onPress={() => router.push("/profile")}
+                  onPress={() => router.push("/profile/edit")}
                 />
 
                 {/* <IconButtonDrawer
