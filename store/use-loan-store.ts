@@ -8,7 +8,7 @@ interface LoanStore {
   loans: Loan[];
   setLoans: (loans: Loan[]) => void;
   addLoan: (loan: Loan) => void;
-  removeLoan: (loan: Loan) => void;
+  removeLoan: (id: string) => void;
   getLoanById: (id: string) => Loan | undefined;
   getLoanByDebtorId: (debtorId: string) => Loan | undefined;
 }
@@ -19,8 +19,8 @@ const useLoanStore = create(
       loans: [],
       setLoans: (loans) => set({ loans }),
       addLoan: (loan) => set((state) => ({ loans: [...state.loans, loan] })),
-      removeLoan: (loan) =>
-        set((state) => ({ loans: state.loans.filter((t) => t !== loan) })),
+      removeLoan: (id: string) =>
+        set((state) => ({ loans: state.loans.filter((t) => t.id !== id) })),
       getLoanById: (id) => get().loans.find((loan) => loan.id === id),
       getLoanByDebtorId: (debtorId) =>
         get().loans.find((loan) => loan.debtorId === debtorId),
