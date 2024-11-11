@@ -39,7 +39,7 @@ const useUserStore = create<UserState>((set) => ({
   storeName: "",
   phoneNumber: "",
   rolePackage: "FREE",
-  tags: [],
+  tags: ["เพื่อน", "ครอบครัว"],
   email: "",
   createdAt: "",
   updatedAt: "",
