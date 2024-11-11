@@ -133,7 +133,7 @@ const Index = () => {
         .slice(0, user.debtorSlotAvailable)
         .filter((loan) => {
           if (toggleValue === "all") return true;
-          if (toggleValue === "old") return loan.tags?.includes("old");
+          if (toggleValue === "old") return loan.loanStatus === "CLOSED";
         });
       setVisibleLoans(filtered);
     }

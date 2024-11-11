@@ -16,7 +16,7 @@ import moment from "moment";
 import { getPaymentHistory } from "~/api/payment/get-history-all";
 import { useQuery } from "@tanstack/react-query";
 import { PaymentHistory, PaymentType } from "~/types/payment-history";
-
+import WorkFromHome from "~/assets/images/work-from-home.jsx";
 interface HistoryPageProps {
   name?: string;
   nickname?: string;
@@ -59,43 +59,53 @@ const HistoryPage: React.FC<HistoryPageProps> = ({ name, nickname, data }) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <View className={cn(CONTAINER, "mt-4")}>
-          <View className="flex flex-col gap-1">
-            <Text className={cn(TITLE, "")}>ประวัติการชำระ</Text>
+      <View className={cn(CONTAINER, "mt-4")}>
+        <View className="flex flex-col gap-1 ">
+          <Text className={cn(TITLE, "")}>ประวัติการชำระ</Text>
+          {name?.length && name?.length > 2 && (
             <View className="flex flex-row items-center space-x-2 gap-2">
               <Text className={cn(TITLE, "")}>ของ</Text>
               <View className="border border-gray-300 rounded-2xl px-2 pt-1 flex-row items-center gap-1">
                 <Text className={cn(TITLE, "font-bold")}>{nickname} </Text>
-                {name?.length && name?.length > 2 && (
-                  <Text className={cn(PARAGRAPH)}>{name}</Text>
-                )}
+                <Text className={cn(PARAGRAPH)}>{name}</Text>
               </View>
             </View>
-          </View>
-
-          {Object.keys(groupedData).map((dateLabel) => (
-            <View key={dateLabel}>
-              <Text className={cn(PARAGRAPH, "")}>{dateLabel}</Text>
-              <View className={cn("h-[1px] bg-gray-300 my-2")} />
-
-              {groupedData[dateLabel].map((item, index) => (
-                <Historylist
-                  key={index}
-                  url={item.imageUrl}
-                  nickname={item.debtorNickname}
-                  name={`${item.debtorFirstName || ""} ${
-                    item.debtorLastName || ""
-                  }`}
-                  variant={item.paymentType}
-                  slip={item.imageUrl}
-                  value={item.amount}
-                />
-              ))}
-            </View>
-          ))}
+          )}
         </View>
-      </ScrollView>
+        <ScrollView>
+          {Object.keys(groupedData).length === 0 ? (
+            <View className="py-40 items-center justify-center">
+              <View>
+                <WorkFromHome width={300} height={300} />
+              </View>
+              <Text className={cn(PARAGRAPH, "text-gray-500 ")}>
+                ยังไม่มีประวัติการชำระ
+              </Text>
+            </View>
+          ) : (
+            Object.keys(groupedData).map((dateLabel) => (
+              <View key={dateLabel}>
+                <Text className={cn(PARAGRAPH, "")}>{dateLabel}</Text>
+                <View className={cn("h-[1px] bg-gray-300 my-2")} />
+
+                {groupedData[dateLabel].map((item, index) => (
+                  <Historylist
+                    key={index}
+                    url={item.imageUrl}
+                    nickname={item.debtorNickname}
+                    name={`${item.debtorFirstName || ""} ${
+                      item.debtorLastName || ""
+                    }`}
+                    variant={item.paymentType}
+                    slip={item.imageUrl}
+                    value={item.amount}
+                  />
+                ))}
+              </View>
+            ))
+          )}
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
