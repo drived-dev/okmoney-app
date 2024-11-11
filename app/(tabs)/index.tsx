@@ -324,17 +324,31 @@ const Index = () => {
                       ))
                     )
                   ) : (
-                    <Text></Text>
+                    <View className="items-center justify-center gap-4 py-40">
+                      <Button
+                        size="icon-lg"
+                        variant="outline"
+                        className="w-20 h-20 border-dashed border-gray-300 border-2"
+                        onPress={() => router.push("/debtor/create")}
+                      >
+                        <Plus width={30} height={30} color="gray" />
+                      </Button>
+                      <Text className={cn(PARAGRAPH_BOLD, " text-gray-500")}>
+                        เพิ่มลูกหนี้คนแรกเลย!
+                      </Text>
+                    </View>
                   )}
                 </View>
 
-                <View className="flex flex-col justify-center items-center">
-                  <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mt-3 px-4">
-                    <Text className={cn(PARAGRAPH, "text-green-800")}>
-                      จำนวนลูกหนี้ {loans.length} / {user.debtorSlotAvailable}
-                    </Text>
+                {loans.length > 0 && (
+                  <View className="flex flex-col justify-center items-center">
+                    <View className="items-center justify-center rounded-3xl bg-green-100 py-4 mt-3 px-4">
+                      <Text className={cn(PARAGRAPH, "text-green-800")}>
+                        จำนวนลูกหนี้ {loans.length} / {user.debtorSlotAvailable}
+                      </Text>
+                    </View>
                   </View>
-                </View>
+                )}
               </View>
             </ScrollView>
 
