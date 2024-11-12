@@ -231,7 +231,7 @@ const Index = () => {
               <View className={cn(CONTAINER, "justify-between flex flex-row")}>
                 <TouchableOpacity onPress={() => navigation.openDrawer()}>
                   <AvatarText
-                    url="https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
+                    url={user.profileImage as string}
                     title="สวัสดี"
                     textClassName="text-gray-200"
                   >
@@ -241,7 +241,7 @@ const Index = () => {
                         "text-lg translate-y-[-6px] text-white"
                       )}
                     >
-                      {user.id}
+                      {user.storeName}
                     </Text>
                   </AvatarText>
                 </TouchableOpacity>

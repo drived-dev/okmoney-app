@@ -1,5 +1,5 @@
 // import Colors from "~/constants/Colors";
-import { router, Tabs } from "expo-router";
+import { Redirect, router, Tabs } from "expo-router";
 import React from "react";
 import { PieChart, User, File } from "lucide-react-native";
 import colors from "tailwindcss/colors";
@@ -8,6 +8,7 @@ import { Platform } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { useTheme } from "@react-navigation/native";
 import useUserStore from "~/store/use-user-store";
+import LoginScreen from "../(auth)/login";
 
 interface Route {
   name: string;
@@ -37,16 +38,6 @@ const Layout = () => {
   const { isDarkColorScheme } = useColorScheme();
   const user = useUserStore();
 
-  React.useEffect(() => {
-    if (!user.id) {
-      router.navigate("/(auth)");
-    }
-  }, [user.id]);
-
-  if (!user.id) {
-    return null;
-  }
-
   const softShadow = {
     ...Platform.select({
       ios: {
@@ -63,6 +54,10 @@ const Layout = () => {
       },
     }),
   };
+
+  if (user.id === "") {
+    return <LoginScreen />;
+  }
 
   return (
     <Tabs
