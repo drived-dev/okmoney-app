@@ -125,7 +125,9 @@ const create = () => {
         text1: "Loan created successfully",
         type: "success",
       });
-      addLoan(parseLoanData(loanData));
+      console.log("response");
+      console.log(response);
+      addLoan(parseLoanData(response.data));
       router.back();
     } else {
       Toast.show({
