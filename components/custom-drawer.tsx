@@ -26,14 +26,11 @@ export const CustomDrawer = () => {
         <View className={cn(CONTAINER, "mx-2")}>
           <View className={cn(GRID, "")}>
             {/* TODO: user image */}
-            <AvatarText
-              url="https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
-              title="สวัสดี"
-            >
+            <AvatarText url={user.profileImage as string} title="สวัสดี">
               <Text
                 className={cn(PARAGRAPH_BOLD, "text-lg translate-y-[-6px]")}
               >
-                {user.firstName}
+                {user.storeName}
               </Text>
             </AvatarText>
             <Text className={cn(PARAGRAPH, "")}>sms ที่ใช้ไปแล้ว</Text>
@@ -91,7 +88,7 @@ export const CustomDrawer = () => {
           <IconButtonDrawer
             variant="destructive"
             icon={<LogOut />}
-            onPress={() => router.push("/(auth)/logout")}
+            onPress={() => router.push("/(auth)")}
             text="ออกจากระบบ"
             textClassName="w-56 text-red-500"
             size={"xl"}

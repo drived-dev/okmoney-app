@@ -80,17 +80,20 @@ const Index = () => {
   const onSubmit: SubmitHandler<z.infer<typeof formSchema>> = async (
     values
   ) => {
-    const setUser = useUserStore.getState().setUser;
-    setUser({
+    const parsedValues = {
       profileImage: values.img,
       storeName: values.name,
       phoneNumber: values.phone,
-    });
+    };
 
+    const setUser = useUserStore.getState().setUser;
+    setUser(parsedValues);
+
+    // TODO: set image state
     if (intent === "create") {
       router.navigate("/term-and-service"); // Navigate to Terms screen without params
     } else if (intent === "edit") {
-      const response = await patchUser(values);
+      const response = await patchUser(parsedValues);
 
       if (response.status === 200) {
         Toast.show({

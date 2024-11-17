@@ -27,7 +27,7 @@ const phoneSchema = z.object({
   phoneNumber: z.string().min(10),
 });
 
-const index = () => {
+const LoginScreen = () => {
   const router = useRouter();
   const {
     control,
@@ -149,4 +149,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default LoginScreen;

@@ -23,6 +23,8 @@ import OfflineNotice from "~/components/offline-notice";
 import { toastConfig } from "~/components/toast-config";
 import useUserStore from "~/store/use-user-store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import App from "./app";
+import LoginScreen from "./(auth)/login";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -106,7 +108,6 @@ export default function RootLayout() {
         <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
         <Drawer
           drawerContent={() => <CustomDrawer />}
-          initialRouteName={"(tabs)"}
           screenOptions={{
             drawerType: "front",
             headerShown: false,
