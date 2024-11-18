@@ -44,6 +44,7 @@ export const LoanCard = ({
     onInfo();
   }
 
+  const paidAmount = loan.principal - loan.remainingBalance;
   return (
     // background deptor
     <TouchableOpacity onPress={openDebtorModal}>
@@ -104,11 +105,9 @@ export const LoanCard = ({
           >
             {/* Progress Bar */}
             <ProgressText
-              textStart={formatMoney(loan.remainingBalance)}
+              textStart={formatMoney(paidAmount)}
               textEnd={formatMoney(loan.total)}
-              percentage={Math.round(
-                (loan.remainingBalance / loan.total) * 100
-              )}
+              percentage={Math.round((paidAmount / loan.principal) * 100)}
               className="flex-1"
             />
             {/* Due Date */}

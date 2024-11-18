@@ -113,9 +113,6 @@ const create = () => {
         interestRate: parseFloat(values.interestRate),
         dueDate: values.dueDate,
         tags: values.tags,
-        // TODO: need to get creditorId from local storage
-        // firstPaymentDate: values.firstPaymentDate,
-        creditorId: "H7szNgGT5uJuTVPqa3XM",
       },
     };
     const response = await createLoan(loanData);
