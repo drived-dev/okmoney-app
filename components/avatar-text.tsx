@@ -10,12 +10,14 @@ interface AvatarText extends ViewProps {
   children?: JSX.Element;
   className?: string;
   textClassName?: string;
+  placeholder?: string;
 }
 export const AvatarText = ({
   url,
   title,
   children,
   className,
+  placeholder = "OK",
   textClassName,
   ...props
 }: AvatarText) => {
@@ -24,10 +26,12 @@ export const AvatarText = ({
       <Avatar alt="Zach Nugent's Avatar" className="w-12 h-12">
         <AvatarImage source={{ uri: url }} />
         <AvatarFallback>
-          <Text>ZN</Text>
+          <Text className={cn(PARAGRAPH, "text-foreground")}>
+            {placeholder.slice(0, 2)}
+          </Text>
         </AvatarFallback>
       </Avatar>
-      <View className="flex flex-col gap-1">
+      <View className="flex flex-col">
         <Text className={cn(PARAGRAPH, textClassName)}>{title}</Text>
         {children}
       </View>

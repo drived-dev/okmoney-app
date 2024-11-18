@@ -4,6 +4,7 @@ import { Phone } from "lucide-react-native";
 import { cn } from "~/lib/utils";
 import { LABEL, PARAGRAPH, PARAGRAPH_BOLD } from "~/constants/Typography";
 import Status from "../status";
+import { AvatarText } from "../avatar-text";
 
 interface DebtorHeaderProps {
   profileImage: string;
@@ -37,25 +38,22 @@ const DebtorHeader: React.FC<DebtorHeaderProps> = ({
       <View className="justify-between flex flex-row">
         <View className="flex-row items-center space-x-4">
           {/* Profile Image */}
-          <Image
-            source={{ uri: profileImage }}
-            className="w-12 h-12 rounded-full"
-          />
-          {/* Loan Info */}
-          <View>
-            {loanNumber && (
-              <Text className={cn(LABEL, "text-muted-foreground pl-2")}>
-                เลขสัญญา {loanNumber}
-              </Text>
-            )}
-            {/* Name: Bold nickname, gray full name */}
-            <Text className={cn(PARAGRAPH, "pl-2 text-foreground ")}>
+          <AvatarText
+            title={`เลขสัญญา ${loanNumber}`}
+            textClassName={cn(LABEL, "text-muted-foreground")}
+            placeholder={nickname?.toString().slice(0, 2)}
+            url={profileImage}
+          >
+            <Text className={cn(PARAGRAPH, " text-foreground")}>
               {nickname + "  "}
-              <Text className="text-muted-foreground font-ibm text-sm">
-                {name}
-              </Text>
+
+              {name && (
+                <Text className="text-muted-foreground font-ibm text-sm">
+                  {name}
+                </Text>
+              )}
             </Text>
-          </View>
+          </AvatarText>
         </View>
         {/* Loan Status */}
         <Status status={status} />

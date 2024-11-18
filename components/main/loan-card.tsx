@@ -13,6 +13,7 @@ import useEditingLoanStore from "~/store/use-editing-loan-store";
 import { timestampToDate } from "~/lib/timestamp-to-date";
 import { formatMoney } from "~/lib/parse-money";
 import Status from "../status";
+import { AvatarText } from "../avatar-text";
 
 export const LoanCard = ({
   loan,
@@ -62,19 +63,14 @@ export const LoanCard = ({
               Profile Image 
               TODO: change to placeholder
               */}
-              <Image
-                source={{ uri: loan.profileImage }}
-                className="w-12 h-12 rounded-full"
-              />
-              {/* Loan Info */}
-              <View>
-                {loan.loanNumber && (
-                  <Text className={cn(LABEL, "text-muted-foreground pl-2")}>
-                    เลขสัญญา {loan.loanNumber}
-                  </Text>
-                )}
-                {/* Name: Bold nickname, gray full name */}
-                <Text className={cn(PARAGRAPH, "pl-2 text-foreground ")}>
+
+              <AvatarText
+                title={`เลขสัญญา ${loan.loanNumber}`}
+                textClassName={cn(LABEL, "text-muted-foreground")}
+                placeholder={loan.nickname?.toString().slice(0, 2)}
+                url={loan.profileImage}
+              >
+                <Text className={cn(PARAGRAPH, "text-foreground")}>
                   {loan.nickname + "  "}
 
                   {loan.firstName && loan.lastName && (
@@ -83,7 +79,8 @@ export const LoanCard = ({
                     </Text>
                   )}
                 </Text>
-              </View>
+              </AvatarText>
+              {/* Loan Info */}
             </View>
             {/* Loan Status */}
             <View className="flex-row flex gap-2">
