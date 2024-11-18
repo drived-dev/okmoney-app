@@ -28,10 +28,12 @@ import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 export const LoanCardMenu = ({
   openGuarantorSheet,
+  openInfoSheet,
   debtorId,
   loanId,
 }: {
   openGuarantorSheet: () => void;
+  openInfoSheet: () => void;
   debtorId: string;
   loanId: string;
 }) => {
@@ -66,7 +68,6 @@ export const LoanCardMenu = ({
   }
 
   const menuLinks = [
-    { name: "ดูข้อมูลเพิ่มเติม", onPress: "/" },
     {
       name: `ดูประวัติ`,
       onPress: () => router.push(`/debtor/history/${debtorId}`),

@@ -90,6 +90,7 @@ export const LoanCard = ({
               {/* TODO: dont forget status */}
               <Status status={loan.status} />
               <LoanCardMenu
+                openInfoSheet={openDebtorModal}
                 openGuarantorSheet={openGuarantorSheet}
                 debtorId={loan.debtorId}
                 loanId={loan.id}
