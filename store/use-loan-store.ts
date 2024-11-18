@@ -11,6 +11,7 @@ interface LoanStore {
   removeLoan: (id: string) => void;
   getLoanById: (id: string) => Loan | undefined;
   getLoanByDebtorId: (debtorId: string) => Loan | undefined;
+  updateLoan: (loan: Loan) => void;
 }
 
 const useLoanStore = create(
@@ -24,6 +25,14 @@ const useLoanStore = create(
       getLoanById: (id) => get().loans.find((loan) => loan.id === id),
       getLoanByDebtorId: (debtorId) =>
         get().loans.find((loan) => loan.debtorId === debtorId),
+      updateLoan: (loan) =>
+        set((state) => {
+          console.log("loadnet");
+          console.log(loan);
+          return {
+            loans: state.loans.map((t) => (t.id === loan.id ? loan : t)),
+          };
+        }),
     }),
     {
       name: "loan-storage", // name of the item in the storage (must be unique)

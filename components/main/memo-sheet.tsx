@@ -38,6 +38,7 @@ const amountMemoSchema = z.object({
 const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
   const { id } = useEditingLoanStore();
   const loan = useLoanStore().getLoanById(id);
+  const updateLoan = useLoanStore().updateLoan;
 
   const {
     control,
@@ -106,6 +107,11 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
 
     const response = await addMemo(formData);
     if (response.status === 201) {
+      // update remaining balance (outstanding) on frontend
+      updateLoan({
+        ...loan,
+        remainingBalance: Number(loan?.remainingBalance) - Number(data.amount),
+      });
       Toast.show({
         type: "success",
         position: "bottom",

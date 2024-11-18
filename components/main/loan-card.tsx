@@ -27,7 +27,7 @@ export const LoanCard = ({
 }) => {
   const { setId } = useEditingLoanStore();
   // Calculate the progress based on outstanding vs total
-  const progress = loan.outstanding / loan.total;
+  const progress = loan.remainingBalance / loan.total;
 
   function openMemoSheet() {
     setId(loan.id);
@@ -104,9 +104,11 @@ export const LoanCard = ({
           >
             {/* Progress Bar */}
             <ProgressText
-              textStart={formatMoney(loan.outstanding)}
+              textStart={formatMoney(loan.remainingBalance)}
               textEnd={formatMoney(loan.total)}
-              percentage={Math.round((loan.outstanding / loan.total) * 100)}
+              percentage={Math.round(
+                (loan.remainingBalance / loan.total) * 100
+              )}
               className="flex-1"
             />
             {/* Due Date */}
