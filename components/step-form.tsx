@@ -2,7 +2,10 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { TITLE } from "~/constants/Typography";
 import { cn } from "~/lib/utils";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -19,7 +22,7 @@ const Stack = createNativeStackNavigator();
 
 interface StepFormProps {
   forms: Array<React.FC<{ navigation: any }>>;
-  onSubmit: (values: any) => void;
+  onSubmit: (values: any) => Promise<boolean>;
   formSchemas: Array<z.AnyZodObject | z.ZodEffects<z.AnyZodObject>>;
   defaultValues?: any[];
 }
@@ -31,12 +34,22 @@ const StepForm = ({
   defaultValues = [],
 }: StepFormProps) => {
   const [currentStep, setCurrentStep] = React.useState(0);
+  const navigationRef = useNavigationContainerRef();
   const currentSchema = formSchemas[currentStep];
   const currentDefaultValue = defaultValues[currentStep] ?? null;
+
+  // Create a ref to store all form methods
+  const formMethodsRef = React.useRef<any[]>([]);
+
   const method = useForm<z.infer<typeof currentSchema>>({
     resolver: zodResolver(currentSchema),
     defaultValues: currentDefaultValue,
   });
+
+  // Store the current form method
+  React.useEffect(() => {
+    formMethodsRef.current[currentStep] = method;
+  }, [currentStep, method]);
 
   return (
     <FormProvider {...method}>
@@ -46,9 +59,22 @@ const StepForm = ({
           setCurrentStep,
           onSubmit,
           lastStep: formSchemas.length - 1,
+          resetNavigation: () =>
+            navigationRef.reset({
+              index: 0,
+              routes: [{ name: "Page-0" }],
+            }),
+          resetAllForms: () => {
+            // Reset all form instances
+            formMethodsRef.current.forEach((formMethod) => {
+              if (formMethod) {
+                formMethod.reset();
+              }
+            });
+          },
         }}
       >
-        <NavigationContainer independent={true}>
+        <NavigationContainer ref={navigationRef} independent={true}>
           <Stack.Navigator
             initialRouteName="Page-0"
             screenOptions={{
@@ -77,8 +103,9 @@ type StepContextType = {
   currentStep: number;
   lastStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
-  onSubmit: any;
-  // TODO: change submit type
+  onSubmit: (values: any) => Promise<boolean>;
+  resetNavigation: () => void;
+  resetAllForms: () => void;
 };
 
 const StepContext = React.createContext<StepContextType>({
@@ -87,7 +114,13 @@ const StepContext = React.createContext<StepContextType>({
   setCurrentStep: () => {
     console.error("You need to pass in this function to StepContext");
   },
-  onSubmit: () => {},
+  onSubmit: () => Promise.resolve(false),
+  resetNavigation: () => {
+    console.error("You need to pass in this function to StepContext");
+  },
+  resetAllForms: () => {
+    console.error("You need to pass in this function to StepContext");
+  },
 });
 
 const useStepContext = () => {
@@ -162,8 +195,15 @@ const StepperButtonGroup = ({
   validateInput,
   clearValidation,
 }: StepperButtonGroupType): JSX.Element => {
-  const { currentStep, setCurrentStep, onSubmit, lastStep } = useStepContext();
-  const { getValues } = useFormContext();
+  const {
+    currentStep,
+    setCurrentStep,
+    onSubmit,
+    lastStep,
+    resetNavigation,
+    resetAllForms,
+  } = useStepContext();
+  const { getValues, reset } = useFormContext();
 
   // don't show back button when on first step
   const isFirstStep = currentStep === 0;
@@ -184,7 +224,17 @@ const StepperButtonGroup = ({
       const isValid = await validateInput();
       if (!isValid) return;
 
-      onSubmit(getValues());
+      try {
+        const result = await onSubmit(getValues());
+
+        if (result) {
+          resetAllForms(); // Reset all form instances
+          resetNavigation();
+          setCurrentStep(0);
+        }
+      } catch (error) {
+        console.error("Error during form submission:", error);
+      }
     }
 
     const TextSubmitOrNext = isLastStep ? (

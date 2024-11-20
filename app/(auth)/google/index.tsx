@@ -82,7 +82,7 @@ export default function GoogleAuth() {
         {
           showInRecents: true,
           dismissButtonStyle: "cancel",
-          preferEphemeralSession: true,
+          // preferEphemeralSession: true,
         }
       );
 

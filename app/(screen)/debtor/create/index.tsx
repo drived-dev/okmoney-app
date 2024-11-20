@@ -45,6 +45,7 @@ import Toast from "react-native-toast-message";
 import { Loan, LoanStatus } from "~/types/Loan";
 import useLoanStore from "~/store/use-loan-store";
 import { parseLoanData } from "~/lib/parse-loan-datas";
+import { useLoanBufferStore } from "~/store/use-loan-buffer-store";
 
 export const defaultValues = [
   {
@@ -122,16 +123,16 @@ const create = () => {
         text1: "Loan created successfully",
         type: "success",
       });
-      console.log("response");
-      console.log(response);
       addLoan(parseLoanData(response.data));
       router.back();
+      return true;
     } else {
       Toast.show({
         text1: "Failed to create loan",
         type: "error",
       });
     }
+    return false;
   }
 
   return (

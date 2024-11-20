@@ -123,6 +123,9 @@ export default function RootLayout() {
             }}
           />
         </Stack>
+        <OfflineNotice />
+        <Toast config={toastConfig} />
+        <PortalHost />
       </QueryClientProvider>
     </ThemeProvider>
   );
