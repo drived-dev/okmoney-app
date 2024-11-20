@@ -45,6 +45,7 @@ export default function GoogleAuth() {
 
         const response = await getUser();
         const userData = response.data;
+        console.log(userData);
         // If user already exists, set the user data
         if (userData.storeName !== null && userData.storeName !== "") {
           setUser(userData);
@@ -81,7 +82,7 @@ export default function GoogleAuth() {
         {
           showInRecents: true,
           dismissButtonStyle: "cancel",
-          // preferEphemeralSession: true,
+          preferEphemeralSession: true,
         }
       );
 
