@@ -8,7 +8,7 @@ import { Platform } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { useTheme } from "@react-navigation/native";
 import useUserStore from "~/store/use-user-store";
-import LoginScreen from "../(auth)/login";
+import LoginScreen from "../../(auth)/login";
 
 interface Route {
   name: string;
@@ -54,10 +54,6 @@ const Layout = () => {
       },
     }),
   };
-
-  if (user.id === "") {
-    return <LoginScreen />;
-  }
 
   return (
     <Tabs

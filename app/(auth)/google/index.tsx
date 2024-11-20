@@ -48,7 +48,7 @@ export default function GoogleAuth() {
         // If user already exists, set the user data
         if (userData.storeName !== null && userData.storeName !== "") {
           setUser(userData);
-          return router.push("/(tabs)");
+          return router.push("/(screen)/(tabs)");
         } else {
           setUser({
             id: userId as string,

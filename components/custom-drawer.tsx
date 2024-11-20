@@ -91,6 +91,7 @@ export const CustomDrawer = () => {
               user.setUser({ id: "" });
               AsyncStorage.removeItem("token");
               AsyncStorage.removeItem("refreshToken");
+              router.push("/(screen)/(tabs)");
             }}
             text="ออกจากระบบ"
             textClassName="w-56 text-red-500"
