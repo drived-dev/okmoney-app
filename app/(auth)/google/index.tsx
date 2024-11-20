@@ -39,17 +39,14 @@ export default function GoogleAuth() {
       const { queryParams } = parsedUrl;
 
       const { token, refreshToken, userId } = queryParams || {};
-
-      console.log(userId, token, refreshToken);
       if (token && refreshToken) {
         await AsyncStorage.setItem("token", token as string);
         await AsyncStorage.setItem("refreshToken", refreshToken as string);
 
-        const response = await getUser(userId as string);
-
+        const response = await getUser();
         const userData = response.data;
         // If user already exists, set the user data
-        if (userData.storeName !== null) {
+        if (userData.storeName !== null && userData.storeName !== "") {
           setUser(userData);
           return router.push("/(tabs)");
         } else {
@@ -58,7 +55,7 @@ export default function GoogleAuth() {
           });
         }
 
-        router.push("/profile"); // Navigate to Profiles page after authentication
+        router.push("/profile/create"); // Navigate to Profiles page after authentication
       } else {
         console.error("[Debug] No tokens in URL:", event.url);
       }
@@ -80,7 +77,12 @@ export default function GoogleAuth() {
 
       const result = await WebBrowser.openAuthSessionAsync(
         authUrl,
-        redirectUri
+        redirectUri,
+        {
+          showInRecents: true,
+          dismissButtonStyle: "cancel",
+          // preferEphemeralSession: true,
+        }
       );
 
       // Handle the WebBrowser result

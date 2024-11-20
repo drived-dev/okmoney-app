@@ -1,5 +1,5 @@
 import { View, Text, Image } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { cn } from "~/lib/utils";
 import {
@@ -22,6 +22,8 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormMessage } from "~/components/form";
 import { Input } from "~/components/ui/input";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import useUserStore from "~/store/use-user-store";
 
 const phoneSchema = z.object({
   phoneNumber: z.string().min(10),
@@ -36,7 +38,6 @@ const LoginScreen = () => {
   } = useForm<z.infer<typeof phoneSchema>>({
     resolver: zodResolver(phoneSchema),
   });
-  const [phoneNumber, setPhoneNumber] = React.useState("");
 
   function onSubmit(data: z.infer<typeof phoneSchema>) {
     router.navigate({
@@ -45,7 +46,13 @@ const LoginScreen = () => {
     });
   }
 
-  // TODO: implement functionality
+  const user = useUserStore();
+  useEffect(() => {
+    user.setUser({ id: "" });
+    AsyncStorage.removeItem("token");
+    AsyncStorage.removeItem("refreshToken");
+  }, []);
+
   return (
     <View className="h-full">
       <SafeAreaView>
