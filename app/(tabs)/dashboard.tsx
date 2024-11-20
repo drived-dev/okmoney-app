@@ -32,19 +32,19 @@ const App: React.FC = () => {
     queryKey: ["dashboard"],
     queryFn: getDashboardAll,
   });
-  
+
   const series = [
-    dashboard.totalLoan ?? 0, 
-    dashboard.accuredIncome ?? 0, 
-    dashboard.totalEarned ?? 0, 
-    dashboard.profit ?? 0
+    dashboard.totalLoan ?? 0,
+    dashboard.accuredIncome ?? 0,
+    dashboard.totalEarned ?? 0,
+    dashboard.profit ?? 0,
   ];
 
   const { data: dashboardLastYear = {} } = useQuery({
     queryKey: ["dashboardLastYear"],
     queryFn: getDashboardYear,
   });
-  
+
   const totalLoanLastYear = dashboardLastYear.data?.[1]?.principal ?? 0;
 
   const { data: dashboardLastMonth = {} } = useQuery({
@@ -63,8 +63,8 @@ const App: React.FC = () => {
     dashboardLastYear.data?.[2]?.principal ?? 0,
     dashboardLastYear.data?.[1]?.earned ?? 0,
     dashboardLastYear.data?.[0]?.principal ?? 0,
-  ]
-  const year = Date.parse(dashboardLastYear.data?.[0]?.time) ?? Date.now()
+  ];
+  const year = Date.parse(dashboardLastYear.data?.[0]?.time) ?? Date.now();
 
   const seriesMonth = [
     dashboardLastMonth.data?.[7]?.earned ?? 0,
@@ -75,29 +75,35 @@ const App: React.FC = () => {
     dashboardLastMonth.data?.[2]?.principal ?? 0,
     dashboardLastMonth.data?.[1]?.earned ?? 0,
     dashboardLastMonth.data?.[0]?.principal ?? 0,
-  ]
-  const month = Date.parse(dashboardLastYear.data?.[0]?.time) ?? Date.now()
+  ];
+  const month = Date.parse(dashboardLastYear.data?.[0]?.time) ?? Date.now();
 
   return (
     <View>
       <SafeAreaView className="h-full">
-        <ScrollView>
-          <View className={cn(CONTAINER, "flex flex-col gap-4 mt-4")}>
-            <View>
-              <Text className={cn(TITLE, "")}>Dashboard</Text>
-            </View>
+        <ScrollView
+          stickyHeaderIndices={[0]}
+          className={cn(CONTAINER, "flex flex-col gap-4 mt-4")}
+        >
+          <View>
+            <Text className={cn(TITLE, "bg-background py-4")}>แดชบอร์ด</Text>
+          </View>
+          <View className="flex flex-col gap-2">
             <View>
               <Image
                 source={require("assets/images/promo.png")}
                 className="w-full object-cover rounded-2xl"
               />
             </View>
-
             <DashboardCard
               userName="ธาม"
               totalMoney={dashboard.totalLoan ?? 0}
               changeAmount={dashboard.totalLoan - totalLoanLastYear}
-              changePercentage={totalLoanLastYear === 0 ? "∞" : (dashboard.totalLoan / totalLoanLastYear) * 100}
+              changePercentage={
+                totalLoanLastYear === 0
+                  ? "∞"
+                  : (dashboard.totalLoan / totalLoanLastYear) * 100
+              }
               isPositive={true}
               widthAndHeight={100}
               series={series}
@@ -126,7 +132,13 @@ const App: React.FC = () => {
                 </ToggleGroup>
                 <Text></Text>
               </View>
-              <BarPairWithLine toggleValue={value} seriesYear={seriesYear} seriesMonth={seriesMonth} year={year} month={month}/>
+              <BarPairWithLine
+                toggleValue={value}
+                seriesYear={seriesYear}
+                seriesMonth={seriesMonth}
+                year={year}
+                month={month}
+              />
             </View>
           </View>
         </ScrollView>
