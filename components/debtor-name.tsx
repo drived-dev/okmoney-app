@@ -21,7 +21,7 @@ export const DebtorName = ({
   return (
     <View className={cn(className, "flex flex-row gap-2 items-center")}>
       <Text className={cn(PARAGRAPH, "")}>{names[0]}</Text>
-      <Text className={cn(LABEL, "text-gray-500")}>{names[1] || ""}</Text>
+      <Text className={cn(LABEL)}>{names[1] || ""}</Text>
     </View>
   );
 };

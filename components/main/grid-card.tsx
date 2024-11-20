@@ -10,6 +10,7 @@ import { LABEL, PARAGRAPH, TITLE } from "~/constants/Typography";
 import { LoanCardMenu } from "./loan-card-menu";
 import useEditingLoanStore from "~/store/use-editing-loan-store";
 import { DebtorName } from "../debtor-name";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 interface CircularProgressProps {
   size: number; // The size of the circle
@@ -75,14 +76,21 @@ const CircularProgress: React.FC<CircularProgressProps> = ({
 
       {/* Profile Image */}
       <View className="absolute justify-center items-center">
-        <Image
-          source={{ uri: imageUri }}
+        <Avatar
+          alt="user avatar"
           style={{
             width: size - strokeWidth * 2,
             height: size - strokeWidth * 2,
             borderRadius: (size - strokeWidth * 2) / 2,
           }}
-        />
+        >
+          <AvatarImage source={{ uri: imageUri }} />
+          <AvatarFallback>
+            <Text className={cn(PARAGRAPH, "text-foreground")}>
+              {imageUri?.slice(0, 2)}
+            </Text>
+          </AvatarFallback>
+        </Avatar>
       </View>
     </View>
   );
@@ -144,7 +152,7 @@ export const GridComponent: React.FC<GridComponentProps> = ({
             {/* Text content */}
             <View className="items-center justify-center">
               <Text className={cn(PARAGRAPH, "text-sm text-gray-500")}>
-                เลขสัญญา {loan.id}
+                เลขสัญญา {loan.loanNumber}
               </Text>
               <DebtorName
                 name={loan.name}
