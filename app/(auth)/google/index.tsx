@@ -40,9 +40,12 @@ export default function GoogleAuth() {
 
       const { token, refreshToken, userId } = queryParams || {};
 
+      console.log(userId, token, refreshToken);
       if (token && refreshToken) {
+        await AsyncStorage.setItem("token", token as string);
+        await AsyncStorage.setItem("refreshToken", refreshToken as string);
+
         const response = await getUser(userId as string);
-        console.log(response.data);
 
         const userData = response.data;
         // If user already exists, set the user data
@@ -55,8 +58,6 @@ export default function GoogleAuth() {
           });
         }
 
-        await AsyncStorage.setItem("token", token as string);
-        await AsyncStorage.setItem("refreshToken", refreshToken as string);
         router.push("/profile"); // Navigate to Profiles page after authentication
       } else {
         console.error("[Debug] No tokens in URL:", event.url);

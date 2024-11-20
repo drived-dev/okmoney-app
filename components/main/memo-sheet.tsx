@@ -1,6 +1,7 @@
 import React, {
   forwardRef,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -37,15 +38,22 @@ const amountMemoSchema = z.object({
 const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
   const { id } = useEditingLoanStore();
   const loan = useLoanStore().getLoanById(id);
+  const updateLoan = useLoanStore().updateLoan;
 
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<z.infer<typeof amountMemoSchema>>({
     resolver: zodResolver(amountMemoSchema),
   });
   const [image, setImage] = useState<string>();
+
+  // set default amount to paymentPerInstallment
+  useEffect(() => {
+    setValue("amount", loan?.paymentPerInstallment.toFixed(2) || 0);
+  }, [id]);
 
   const pickImage = async (onChange: (value: string) => void) => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -80,10 +88,8 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
   };
 
   async function onSubmit(data: z.infer<typeof amountMemoSchema>) {
-    //TODO: dynamic id
     const formJson = {
       loanId: id,
-      creditorId: "WDrdqXCNOr9YHRmo8uDy",
       debtorId: loan?.debtorId,
       amount: Number(data.amount),
       paymentType: image ? "TRANSFER" : "CASH",
@@ -100,8 +106,12 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
     }
 
     const response = await addMemo(formData);
-    console.log(response);
     if (response.status === 201) {
+      // update remaining balance (outstanding) on frontend
+      updateLoan({
+        ...loan,
+        remainingBalance: Number(loan?.remainingBalance) - Number(data.amount),
+      });
       Toast.show({
         type: "success",
         position: "bottom",
@@ -133,7 +143,7 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
                 placeholder=""
                 onBlur={onBlur}
                 onChangeText={onChange}
-                value={value}
+                value={value.toString()}
                 keyboardType="numeric"
               />
               <FormMessage errorMessage={errors.amount?.message} />

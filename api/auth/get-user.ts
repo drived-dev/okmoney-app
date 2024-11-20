@@ -1,8 +1,8 @@
 import api from "~/lib/axios";
 
-export const getUser = async (userId: string) => {
+export const getUser = async() => {
   try {
-    const response = await api.get(`/creditor/${userId}`);
+    const response = await api.get(`/creditor`);
     return { status: response.status, data: response.data };
   } catch (error) {
     console.error("Error creating user:", error);
