@@ -57,7 +57,8 @@ const Index = () => {
       phoneNumber: user.phoneNumber,
       profileImage: user.profileImage,
     });
-    if (response.status === 201) {
+
+    if (response.status === 200) {
       setUser(response.data);
     } else {
       setIsError(true);

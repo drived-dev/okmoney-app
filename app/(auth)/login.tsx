@@ -24,6 +24,7 @@ import { FormMessage } from "~/components/form";
 import { Input } from "~/components/ui/input";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useUserStore from "~/store/use-user-store";
+import SocialLoginButton from "./(components)/social-login-button";
 
 const phoneSchema = z.object({
   phoneNumber: z.string().min(10),
@@ -93,32 +94,22 @@ const LoginScreen = () => {
               </View>
               <View className="felx flex-col gap-4">
                 <View className="felx flex-col gap-2">
-                  <IconButton
+                  <SocialLoginButton
                     icon={require("assets/images/line.png")}
                     text="เข้าร่วมผ่าน Line"
-                    variant="green"
-                    size={"xl"}
-                    textClassName="flex-1"
-                    onPress={() => router.navigate("/(auth)/line")}
+                    type="line"
                   />
-
-                  <IconButton
-                    icon={require("assets/images/facebook.png")}
-                    text="เข้าร่วมผ่าน Facebook"
-                    variant="green"
-                    size={"xl"}
-                    textClassName="flex-1"
-                    onPress={() => router.navigate("/(auth)/facebook")}
-                  />
-
-                  <IconButton
+                  <SocialLoginButton
                     icon={require("assets/images/google.png")}
                     text="เข้าร่วมผ่าน Google"
-                    variant="green"
-                    size={"xl"}
-                    textClassName="flex-1"
-                    onPress={() => router.navigate("/(auth)/google")}
+                    type="google"
                   />
+                  {/* 
+                  <SocialLoginButton
+                    icon={require("assets/images/facebook.png")}
+                    text="เข้าร่วมผ่าน Facebook"
+                    type="facebook"
+                  /> */}
                 </View>
 
                 <Button
