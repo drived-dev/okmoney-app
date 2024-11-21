@@ -25,27 +25,10 @@ import { Input } from "~/components/ui/input";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useUserStore from "~/store/use-user-store";
 import SocialLoginButton from "./(components)/social-login-button";
-
-const phoneSchema = z.object({
-  phoneNumber: z.string().min(10),
-});
+import PhoneLoginForm from "./(components)/phone-login-form";
 
 const LoginScreen = () => {
   const router = useRouter();
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<z.infer<typeof phoneSchema>>({
-    resolver: zodResolver(phoneSchema),
-  });
-
-  function onSubmit(data: z.infer<typeof phoneSchema>) {
-    router.navigate({
-      pathname: "/phone-login",
-      params: { phoneNumber: data.phoneNumber },
-    });
-  }
 
   const user = useUserStore();
   useEffect(() => {
@@ -65,81 +48,60 @@ const LoginScreen = () => {
                 เลือกช่องทาง{"\n"}การสมัคร/เข้าสู่ระบบ
               </Text>
             </View>
-            <View />
-            <View className="flex flex-col gap-2">
-              <View className={cn(GRID)}>
-                <Text className={cn(TITLE, "text-foreground")}>
-                  เข้าร่วมผ่านเบอร์
-                </Text>
+            <PhoneLoginForm />
 
-                <Controller
-                  control={control}
-                  name="phoneNumber"
-                  render={({ field: { onChange, value } }) => (
-                    <PhoneInput value={value} onChangeText={onChange} />
-                  )}
+            <View className="flex flex-row items-center gap-2">
+              <View className="flex-1 h-px bg-gray-500"></View>
+              <Text className={cn(LABEL, "text-gray-500")}>หรือ</Text>
+              <View className="flex-1 h-px bg-gray-500"></View>
+            </View>
+            <View className="felx flex-col gap-4">
+              <View className="felx flex-col gap-2">
+                <SocialLoginButton
+                  icon={require("assets/images/line.png")}
+                  text="เข้าร่วมผ่าน Line"
+                  type="line"
                 />
-                <FormMessage errorMessage={errors.phoneNumber?.message} />
-
-                <Button onPress={handleSubmit(onSubmit)}>
-                  <Text className={cn(PARAGRAPH_BOLD, "text-background")}>
-                    ต่อไป {/* Remove error message from here */}
-                  </Text>
-                </Button>
-              </View>
-              <View className="flex flex-row items-center gap-2">
-                <View className="flex-1 h-px bg-gray-500"></View>
-                <Text className={cn(LABEL, "text-gray-500")}>หรือ</Text>
-                <View className="flex-1 h-px bg-gray-500"></View>
-              </View>
-              <View className="felx flex-col gap-4">
-                <View className="felx flex-col gap-2">
-                  <SocialLoginButton
-                    icon={require("assets/images/line.png")}
-                    text="เข้าร่วมผ่าน Line"
-                    type="line"
-                  />
-                  <SocialLoginButton
-                    icon={require("assets/images/google.png")}
-                    text="เข้าร่วมผ่าน Google"
-                    type="google"
-                  />
-                  {/* 
+                <SocialLoginButton
+                  icon={require("assets/images/google.png")}
+                  text="เข้าร่วมผ่าน Google"
+                  type="google"
+                />
+                {/* 
                   <SocialLoginButton
                     icon={require("assets/images/facebook.png")}
                     text="เข้าร่วมผ่าน Facebook"
                     type="facebook"
                   /> */}
-                </View>
-
-                <Button
-                  variant={"link"}
-                  onPress={() => router.navigate("/(tabs)")}
-                >
-                  <Text className={cn(PARAGRAPH, "text-foreground underline")}>
-                    ลืมรหัสผ่าน?
-                  </Text>
-                </Button>
               </View>
-            </View>
-            <View className="justify-center items-center flex flex-col mt-10">
-              <View className="flex flex-row">
-                <Text className={cn(PARAGRAPH, " text-gray-500")}>
-                  การเข้าสู่ระบบแสดงว่าคุณยอมรับ
+
+              <Button
+                variant={"link"}
+                onPress={() => router.navigate("/(tabs)")}
+              >
+                <Text className={cn(PARAGRAPH, "text-foreground underline")}>
+                  ลืมรหัสผ่าน?
                 </Text>
-                <TouchableOpacity
-                  onPress={() => router.navigate("/term-and-service")}
-                >
-                  <Text className={cn(PARAGRAPH, " text-gray-500 underline")}>
-                    นโยบายความเป็นส่วนตัว
-                  </Text>
-                </TouchableOpacity>
-              </View>
-
-              <Text className={cn(PARAGRAPH, " text-gray-500")}>
-                และข้อกำหนดการใช้งานของเรา
-              </Text>
+              </Button>
             </View>
+          </View>
+          <View className="justify-center items-center flex flex-col mt-10">
+            <View className="flex flex-row">
+              <Text className={cn(PARAGRAPH, " text-gray-500")}>
+                การเข้าสู่ระบบแสดงว่าคุณยอมรับ
+              </Text>
+              <TouchableOpacity
+                onPress={() => router.navigate("/term-and-service")}
+              >
+                <Text className={cn(PARAGRAPH, " text-gray-500 underline")}>
+                  นโยบายความเป็นส่วนตัว
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <Text className={cn(PARAGRAPH, " text-gray-500")}>
+              และข้อกำหนดการใช้งานของเรา
+            </Text>
           </View>
         </View>
       </SafeAreaView>

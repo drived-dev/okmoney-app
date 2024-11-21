@@ -52,12 +52,12 @@ export default function SocialLoginButton({
 
       const { token, refreshToken, userId } = queryParams || {};
       if (token && refreshToken) {
+        // set token and refresh token to async storage
         await AsyncStorage.setItem("token", token as string);
         await AsyncStorage.setItem("refreshToken", refreshToken as string);
 
         const response = await getUser();
         const userData = response.data;
-        console.log(userData);
         // If user already exists, set the user data
         if (userData.storeName !== null && userData.storeName !== "") {
           setUser(userData);
@@ -68,7 +68,7 @@ export default function SocialLoginButton({
           });
         }
 
-        router.push("/profile/create"); // Navigate to Profiles page after authentication
+        router.push("/(screen)/profile/create"); // Navigate to Profiles page after authentication
       } else {
         console.error("[Debug] No tokens in URL:", event.url);
       }

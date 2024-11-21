@@ -42,7 +42,7 @@ const Index = () => {
   const { intent } = useLocalSearchParams();
   const router = useRouter();
   const [image, setImage] = useState<string | null>(null);
-
+  const user = useUserStore.getState();
   const {
     control,
     handleSubmit,
@@ -50,9 +50,9 @@ const Index = () => {
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      img: "",
-      phone: "",
+      name: user.storeName || "",
+      img: user.profileImage || "",
+      phone: user.phoneNumber || "",
     },
   });
 
