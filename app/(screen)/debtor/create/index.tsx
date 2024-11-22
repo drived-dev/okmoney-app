@@ -46,6 +46,7 @@ import { Loan, LoanStatus } from "~/types/Loan";
 import useLoanStore from "~/store/use-loan-store";
 import { parseLoanData } from "~/lib/parse-loan-datas";
 import { useLoanBufferStore } from "~/store/use-loan-buffer-store";
+import LoadingScreen from "~/components/loading-screen";
 
 export const defaultValues = [
   {
@@ -90,8 +91,9 @@ const create = () => {
   const formSchemas = forms.map((form) => form.schema);
   const formScreens = forms.map((form) => form.screen);
   const addLoan = useLoanStore((state) => state.addLoan);
-
+  const [isLoading, setIsLoading] = useState(false);
   async function onSubmit(values: z.infer<(typeof formSchemas)[0]>) {
+    setIsLoading(true);
     const totalBalance =
       Number(values.loanAmount) +
       (Number(values.interestRate) / 100) * Number(values.loanAmount);
@@ -134,6 +136,7 @@ const create = () => {
         type: "error",
       });
     }
+    setIsLoading(false);
     return false;
   }
 
@@ -145,6 +148,7 @@ const create = () => {
         forms={formScreens}
         formSchemas={formSchemas}
         defaultValues={defaultValues}
+        disabled={isLoading}
       />
     </>
   );
