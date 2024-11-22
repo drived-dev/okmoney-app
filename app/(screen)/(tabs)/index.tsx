@@ -117,12 +117,6 @@ const Index = () => {
     setDrawerOpen(true);
   };
 
-  // useEffect(() => {
-  //   if (toggleValue !== "filter") {
-  //     clearTags();
-  //   }
-  // }, [toggleValue]);
-
   // First, limit loans to the number of `user.limit` and update visible loans
   useEffect(() => {
     if (toggleValue === "filter") {
@@ -233,55 +227,55 @@ const Index = () => {
             style={styles.gradientBackground}
           />
 
-          <SafeAreaView>
+          <SafeAreaView className="relative">
+            <View className={cn(CONTAINER, "justify-between flex flex-row")}>
+              <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                <AvatarText
+                  url={user.profileImage as string}
+                  title="สวัสดี"
+                  textClassName="text-gray-200"
+                >
+                  <Text
+                    className={cn(
+                      PARAGRAPH_BOLD,
+                      "text-lg translate-y-[-6px] text-white"
+                    )}
+                  >
+                    {user.storeName}
+                  </Text>
+                </AvatarText>
+              </TouchableOpacity>
+              <View className="flex flex-row gap-2">
+                {/* #TODO: check user role */}
+                {user.rolePackage !== "" && (
+                  <Button
+                    variant={"outline_white"}
+                    size={"premium"}
+                    onPress={goToCreateDebtorCSV}
+                  >
+                    <View className="flex flex-row gap-2">
+                      <Icon name="Users" color="white" size={24} />
+                      <Icon name="Plus" color="white" size={24} />
+                    </View>
+                  </Button>
+                )}
+                <IconButton
+                  onPress={() => router.push("/debtor/create")}
+                  className="bg-white"
+                  textColor="#E59551"
+                  icon={<Plus />}
+                  text="เพิ่มลูกหนี้"
+                  fontWeight="normal"
+                />
+              </View>
+            </View>
+
             <ScrollView
               ref={scrollViewRef}
               onScroll={handleScroll}
               scrollEventThrottle={16}
-              contentContainerStyle={{ paddingBottom: 150 }}
+              contentContainerStyle={{ paddingBottom: 20 }}
             >
-              <View className={cn(CONTAINER, "justify-between flex flex-row")}>
-                <TouchableOpacity onPress={() => navigation.openDrawer()}>
-                  <AvatarText
-                    url={user.profileImage as string}
-                    title="สวัสดี"
-                    textClassName="text-gray-200"
-                  >
-                    <Text
-                      className={cn(
-                        PARAGRAPH_BOLD,
-                        "text-lg translate-y-[-6px] text-white"
-                      )}
-                    >
-                      {user.storeName}
-                    </Text>
-                  </AvatarText>
-                </TouchableOpacity>
-                <View className="flex flex-row gap-2">
-                  {/* #TODO: check user role */}
-                  {user.rolePackage !== "" && (
-                    <Button
-                      variant={"outline_white"}
-                      size={"premium"}
-                      onPress={goToCreateDebtorCSV}
-                    >
-                      <View className="flex flex-row gap-2">
-                        <Icon name="Users" color="white" size={24} />
-                        <Icon name="Plus" color="white" size={24} />
-                      </View>
-                    </Button>
-                  )}
-                  <IconButton
-                    onPress={() => router.push("/debtor/create")}
-                    className="bg-white"
-                    textColor="#E59551"
-                    icon={<Plus />}
-                    text="เพิ่มลูกหนี้"
-                    fontWeight="normal"
-                  />
-                </View>
-              </View>
-
               <View
                 className={cn(
                   CONTAINER,
@@ -371,7 +365,7 @@ const Index = () => {
                   CONTAINER,
                   `${
                     isSearchbarSticky
-                      ? "absolute top-16 left-0 right-0 bg-background z-10"
+                      ? "absolute inset-x-0 top-[calc(env(safe-area-inset-top))] bg-background z-10"
                       : "relative"
                   }px-2 py-4`
                 )}
@@ -392,10 +386,10 @@ const Index = () => {
               </Animated.View>
             )}
           </SafeAreaView>
-          <MemoSheet ref={memoSheetRef} />
-          <GuarantorSheet ref={guarantorSheetRef} />
-          <DebtorModal ref={debtorInfoModalRef} />
         </View>
+        <MemoSheet ref={memoSheetRef} />
+        <GuarantorSheet ref={guarantorSheetRef} />
+        <DebtorModal ref={debtorInfoModalRef} />
       </Drawer>
     </BottomSheetModalProvider>
   );
@@ -411,6 +405,6 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     width: "100%",
-    height: 200,
+    height: 600,
   },
 });
