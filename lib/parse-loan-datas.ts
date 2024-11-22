@@ -19,9 +19,17 @@ export function parseLoanData(loanData: any): Loan {
     paymentPerInstallment: loanData.loan.totalBalance / loanData.loan.totalLoanTerm,
     installmentCount: loanData.loan.totalLoanTerm,
     remainingBalance: loanData.loan.remainingBalance,
-    currentInstallment: Math.ceil((loanData.loan.totalBalance - loanData.loan.remainingBalance) / (loanData.loan.totalBalance / loanData.loan.totalLoanTerm)),
+    currentInstallment: Number(
+      ((loanData.loan.totalBalance - loanData.loan.remainingBalance) /
+        (loanData.loan.totalBalance / loanData.loan.totalLoanTerm)).toFixed(1)
+    ),
     loanDate: new Date(loanData.loan.dueDate).toLocaleDateString(),
-    paymentType: loanData.loan.loanTermType === 0 ? "รายเดือน" : loanData.loan.loanTermType === 1 ? "รายสัปดาห์" : "รายวัน"
+    paymentType:
+      loanData.loan.loanTermType === 0
+        ? "รายเดือน"
+        : loanData.loan.loanTermType === 1
+        ? "รายสัปดาห์"
+        : "รายวัน",
   }
 }
 export function parseLoansDatas(loanDatas: any) {

@@ -92,6 +92,9 @@ const create = () => {
   const addLoan = useLoanStore((state) => state.addLoan);
 
   async function onSubmit(values: z.infer<(typeof formSchemas)[0]>) {
+    const totalBalance =
+      Number(values.loanAmount) +
+      (Number(values.interestRate) / 100) * Number(values.loanAmount);
     const loanData = {
       debtor: {
         nickname: values.nickname,
@@ -104,9 +107,8 @@ const create = () => {
         loanNumber: values.loanId,
         principal: Number(values.loanAmount),
         loanStatus: LoanStatus.DUE,
-        remainingBalance:
-          Number(values.loanAmount) - Number(values.amountPaid || 0),
-        totalBalance: Number(values.loanAmount),
+        remainingBalance: totalBalance - Number(values.amountPaid || 0),
+        totalBalance: totalBalance,
         totalLoanTerm: Number(values.installments),
         loanTermType: values.paymentType,
         loanTermInterval: 1,
