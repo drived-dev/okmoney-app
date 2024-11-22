@@ -60,6 +60,13 @@ const amountMemoSchema = z.object({
   // image: z.array(z.string()).optional(),
 });
 
+const statusAlias: Record<string, string> = {
+  OVERDUE: "ค้างชำระ",
+  CLOSED: "ครบชำระ",
+  DUE: "รอชำระ",
+  UNDERDUE: "ใกล้กำหนด",
+};
+
 const Index = () => {
   const { loans, addLoan, setLoans } = useLoanStore(); // Retrieve loans from useLoanStore
 
@@ -122,8 +129,13 @@ const Index = () => {
       const filtered = loans
         .slice(0, user.debtorSlotAvailable)
         .filter((loan) => {
+          const matchesStatus =
+            tags.length === 0 || tags.includes(statusAlias[loan.status]);
+          return matchesStatus;
+        })
+        .filter((loan) => {
           const matchesTag =
-            tags.length === 0 || loan.tags?.some((tag) => tags.includes(tag));
+            tags.length <= 1 || loan.tags?.some((tag) => tags.includes(tag));
           return matchesTag;
         });
 
