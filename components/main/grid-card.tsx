@@ -18,6 +18,7 @@ interface CircularProgressProps {
   progress: number; // The current progress value
   maxProgress: number; // The maximum value for progress (e.g., 100%)
   imageUri: string; // The URI for the image in the center
+  placeholder: string; // The placeholder text for the avatar
 }
 
 const CircularProgress: React.FC<CircularProgressProps> = ({
@@ -26,6 +27,7 @@ const CircularProgress: React.FC<CircularProgressProps> = ({
   progress,
   maxProgress,
   imageUri,
+  placeholder,
 }) => {
   const increasedSize = size + 20; // This increases the overall size of the progress bar (add more if you need more space)
   const radius = (increasedSize - strokeWidth) / 2;
@@ -87,7 +89,7 @@ const CircularProgress: React.FC<CircularProgressProps> = ({
           <AvatarImage source={{ uri: imageUri }} />
           <AvatarFallback>
             <Text className={cn(PARAGRAPH, "text-foreground")}>
-              {imageUri?.slice(0, 2)}
+              {placeholder}
             </Text>
           </AvatarFallback>
         </Avatar>
@@ -140,6 +142,7 @@ export const GridComponent: React.FC<GridComponentProps> = ({
               <View className="mt-3">
                 {/* Circular Progress Bar with Profile Image Inside */}
                 <CircularProgress
+                  placeholder={loan.nickname?.slice(0, 2)}
                   size={80}
                   strokeWidth={12}
                   progress={Math.round((loan.outstanding / loan.total) * 100)}
