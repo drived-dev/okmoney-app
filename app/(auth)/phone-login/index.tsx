@@ -15,6 +15,7 @@ import { sendOtp, verifyOtp } from "~/api/auth/phone-login";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getUser } from "~/api/auth/get-user";
 import useUserStore from "~/store/use-user-store";
+import LoadingScreen from "~/components/loading-screen";
 
 const PhoneLogin = () => {
   const router = useRouter();
@@ -24,7 +25,7 @@ const PhoneLogin = () => {
   const [timeDelayLeft, setTimeDelayLeft] = useState(10);
   const otpInputRef = useRef<OtpInputRef>(null);
   const { setUser, accessToken, refreshToken } = useUserStore();
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const interval = setInterval(() => {
       setTimeDelayLeft((prev) => prev - 1);
@@ -41,10 +42,7 @@ const PhoneLogin = () => {
   }, []);
 
   async function handleVerifyOtp(registedOtp: string) {
-    console.log("registedOtp", registedOtp);
-    console.log("otp", typeof registedOtp);
-    console.log("phoneNumber", phoneNumber);
-
+    setIsLoading(true);
     const response = await verifyOtp(phoneNumber, registedOtp);
     const data = response.data;
     if (response.status === 200) {
@@ -75,6 +73,7 @@ const PhoneLogin = () => {
         text2: "โปรดลองอีกครั้ง",
       });
     }
+    setIsLoading(false);
   }
 
   async function handleResendOtp() {
@@ -104,6 +103,10 @@ const PhoneLogin = () => {
       });
     }
   };
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <SafeAreaView>
