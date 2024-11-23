@@ -8,50 +8,31 @@ import {
   Platform,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { CONTAINER, GRID_ROW, GRID } from "~/constants/Styles";
-import { cn } from "~/lib/utils";
 import { X, Users, MessageSquare, PieChart, Check } from "lucide-react-native";
 import { Button } from "~/components/ui/button";
-import { black } from "tailwindcss/colors";
-import { router } from "expo-router";
-import { LABEL, PARAGRAPH, TITLE } from "~/constants/Typography";
 import * as RNIap from "react-native-iap";
+import { router } from "expo-router";
+import { cn } from "~/lib/utils";
+import { GRID } from "~/constants/Styles";
 
-// Define the in-app purchase product IDs for each platform
-const productIds = Platform.select({
-  ios: ["com.yourapp.productid.ios"], // Replace with your actual iOS product ID
-  android: ["com.yourapp.productid.android"], // Replace with your actual Android product ID
-});
+// Define subscription product IDs for each platform
+const subscriptionIds =
+  Platform.select({
+    ios: ["small_sub", "med_sub", "large_sub"], // iOS Product IDs
+    android: ["small_sub", "med_sub", "large_sub"], // Android Product IDs
+  }) || []; // Ensure fallback to an empty array
 
 // Initialize the in-app purchase connection
 const initializeIAPConnection = async () => {
   try {
-    await RNIap.initConnection();
-    console.log("IAP connection initialized");
+    const result = await RNIap.initConnection();
+    console.log("IAP connection initialized:", result);
   } catch (err) {
     console.error("Error initializing IAP connection:", err);
   }
 };
 
-// Define the interface for a feature
-interface Feature {
-  icon: React.ReactNode; // Icon as a React Node (could be any component)
-  label: string; // Label of the feature
-  detail?: string; // Optional detail text
-}
-
-// Define the props interface for ItemList
-interface ItemListProps {
-  packageName: string; // Package name
-  price: number; // Package price
-  features: Feature[]; // Array of features
-  recommended?: boolean; // Recommended flag
-  selected?: boolean; // Whether the item is selected
-  onPress: () => void; // Function to handle press
-}
-
-// ItemList Component with Props Interface
-const ItemList: React.FC<ItemListProps> = ({
+const ItemList = ({
   packageName,
   price,
   features,
@@ -63,8 +44,8 @@ const ItemList: React.FC<ItemListProps> = ({
 
   useEffect(() => {
     Animated.timing(scaleValue, {
-      toValue: selected ? 1.05 : 1, // More subtle scaling
-      duration: 300, // Smooth animation
+      toValue: selected ? 1.05 : 1,
+      duration: 300,
       useNativeDriver: true,
     }).start();
   }, [selected]);
@@ -72,12 +53,10 @@ const ItemList: React.FC<ItemListProps> = ({
   return (
     <Pressable onPress={onPress}>
       <Animated.View
-        style={{
-          transform: [{ scale: scaleValue }],
-        }}
-        className={cn(
-          "relative flex flex-row justify-between w-full bg-slate-300 px-4 py-4 rounded-2xl"
-        )}
+        style={{ transform: [{ scale: scaleValue }] }}
+        className={`relative flex flex-row justify-between w-full bg-gray-200 px-4 py-4 rounded-xl ${
+          selected ? "border-2 border-orange-500" : ""
+        }`}
       >
         {recommended && (
           <View className="absolute top-0 left-0 bg-red-500 rounded-full px-3 py-1 z-10 transform -translate-y-1/2 translate-x-2">
@@ -85,167 +64,148 @@ const ItemList: React.FC<ItemListProps> = ({
           </View>
         )}
 
-        {selected && (
-          <View className="absolute top-0 right-0 bg-green-500 rounded-full p-1 z-10 transform -translate-y-2 translate-x-2">
-            <Check color={"white"} size={16} />
-          </View>
-        )}
-
-        <View className={cn(GRID, "justify-between")}>
-          <Text className={cn(TITLE, "pt-2")}>{packageName}</Text>
-          <View className="flex flex-row">
-            <Text className={cn(TITLE, "")}>฿{price}</Text>
-            <Text className={cn(LABEL, "")}>/เดือน</Text>
-          </View>
+        <View className="flex-1">
+          <Text className="font-bold text-lg">{packageName}</Text>
+          <Text className="text-gray-500">฿{price} / month</Text>
         </View>
-        <View className="flex flex-col gap-2">
+
+        <View className="flex gap-2">
           {features.map((feature, index) => (
-            <View key={index} className={cn(GRID_ROW, "items-center")}>
+            <View key={index} className="flex flex-row items-center">
               {feature.icon}
-              <Text className={cn(LABEL, "")}>{feature.label}</Text>
-              {feature.detail && (
-                <Text className={cn(PARAGRAPH, "")}>{feature.detail}</Text>
-              )}
+              <Text className="ml-2">{feature.label}</Text>
             </View>
           ))}
         </View>
+
+        {selected && (
+          <View className="absolute top-0 right-0 bg-green-500 p-1 rounded-full transform translate-x-2 -translate-y-2">
+            <Check color="white" size={16} />
+          </View>
+        )}
       </Animated.View>
     </Pressable>
   );
 };
 
-const index: React.FC = () => {
-  const [selectedPackageDetails, setSelectedPackageDetails] = useState<{
-    packageName: string;
-    price: number;
-  } | null>(null);
+const Index = () => {
+  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [subscriptions, setSubscriptions] = useState([]);
 
-  // Data for packages
   const packages = [
     {
-      packageName: "เล็ก",
+      packageName: "Small Plan",
       price: 129,
       features: [
-        { icon: <Users color={"white"} />, label: "ลูกหนี้", detail: "30 คน" },
-        {
-          icon: <MessageSquare color={"white"} />,
-          label: "SMS",
-          detail: "60 ครั้ง",
-        },
-        { icon: <PieChart color={"white"} />, label: "แดชบอร์ด" },
+        { icon: <Users color="black" />, label: "30 Users" },
+        { icon: <MessageSquare color="black" />, label: "60 SMS" },
+        { icon: <PieChart color="black" />, label: "Basic Dashboard" },
       ],
-      recommended: false,
+      id: "small_sub",
     },
     {
-      packageName: "กลาง",
-      price: 129,
+      packageName: "Medium Plan",
+      price: 299,
       features: [
-        { icon: <Users color={"white"} />, label: "ลูกหนี้", detail: "30 คน" },
-        {
-          icon: <MessageSquare color={"white"} />,
-          label: "SMS",
-          detail: "60 ครั้ง",
-        },
-        { icon: <PieChart color={"white"} />, label: "แดชบอร์ด" },
+        { icon: <Users color="black" />, label: "100 Users" },
+        { icon: <MessageSquare color="black" />, label: "200 SMS" },
+        { icon: <PieChart color="black" />, label: "Advanced Dashboard" },
       ],
+      id: "med_sub",
       recommended: true,
     },
     {
-      packageName: "ใหญ่",
-      price: 129,
+      packageName: "Large Plan",
+      price: 499,
       features: [
-        { icon: <Users color={"white"} />, label: "ลูกหนี้", detail: "30 คน" },
-        {
-          icon: <MessageSquare color={"white"} />,
-          label: "SMS",
-          detail: "60 ครั้ง",
-        },
-        { icon: <PieChart color={"white"} />, label: "แดชบอร์ด" },
+        { icon: <Users color="black" />, label: "500 Users" },
+        { icon: <MessageSquare color="black" />, label: "Unlimited SMS" },
+        { icon: <PieChart color="black" />, label: "Premium Dashboard" },
       ],
-      recommended: false,
+      id: "large_sub",
     },
   ];
 
   useEffect(() => {
-    initializeIAPConnection(); // Initialize IAP on component mount
+    const fetchSubscriptions = async () => {
+      try {
+        const availableSubscriptions = await RNIap.getSubscriptions(
+          subscriptionIds
+        );
+        setSubscriptions(availableSubscriptions);
+        console.log("Available subscriptions:", availableSubscriptions);
+      } catch (err) {
+        console.error("Error fetching subscriptions:", err);
+      }
+    };
+
+    initializeIAPConnection();
+    fetchSubscriptions();
   }, []);
 
-  const handleSelectPackage = (pkg: { packageName: string; price: number }) => {
-    setSelectedPackageDetails(
-      pkg.packageName === selectedPackageDetails?.packageName ? null : pkg
-    );
+  const handleSelectPackage = (pkg) => {
+    setSelectedPackage(pkg.id === selectedPackage?.id ? null : pkg);
   };
 
-  // Handle in-app purchase
-  const handleButtonPress = async () => {
-    try {
-      if (!productIds || !selectedPackageDetails) {
-        console.error("Product ID or package details missing");
-        return;
-      }
+  const handleSubscription = async () => {
+    if (!selectedPackage) {
+      alert("Please select a subscription plan!");
+      return;
+    }
 
-      const products = await RNIap.getProducts(productIds);
-      if (products.length > 0) {
-        const purchase = await RNIap.requestPurchase(productIds[0]);
-        console.log("Purchase successful:", purchase.transactionId);
-        alert("Success");
-      }
+    try {
+      const productId = selectedPackage.id; // Get the product ID from the selected package
+      const purchase = await RNIap.requestSubscription(productId);
+      console.log("Subscription successful:", purchase);
+      alert("Subscription Successful!");
     } catch (err) {
-      console.error("Error with purchase:", err);
-      alert("Fail");
+      console.error("Error with subscription:", err);
+      alert("Subscription Failed!");
     }
   };
 
   return (
-    <View className="flex-1 justify-between">
-      <SafeAreaView>
-        <View className={cn(CONTAINER, "")}>
-          <Button
-            variant={"green"}
-            size={"icon-lg"}
-            onPress={() => router.back()}
-          >
-            <X color={black} />
-          </Button>
-
-          <View className="items-center justify-center px-2 flex flex-col gap-2">
-            <View>
-              <Text className={cn(TITLE, "")}>เลือกแพคเกจ</Text>
-            </View>
-            <View className={cn(GRID, "")}>
-              {packages.map((pkg, index) => (
-                <ItemList
-                  key={index}
-                  packageName={pkg.packageName}
-                  price={pkg.price}
-                  features={pkg.features}
-                  recommended={pkg.recommended}
-                  selected={
-                    selectedPackageDetails?.packageName === pkg.packageName
-                  }
-                  onPress={() => handleSelectPackage(pkg)}
-                />
-              ))}
-            </View>
-          </View>
-        </View>
-      </SafeAreaView>
-
-      {/* Bottom button */}
-      <View className="p-5 pb-10">
-        <TouchableOpacity
-          disabled={!selectedPackageDetails}
-          onPress={handleButtonPress}
-          className={cn(
-            "rounded-lg p-4 items-center",
-            selectedPackageDetails ? "bg-orange-500" : "bg-gray-300"
-          )}
+    <SafeAreaView className="flex-1 bg-white">
+      <View className="p-4">
+        <Button
+          variant={"ghost"}
+          size={"icon-lg"}
+          onPress={() => router.back()}
+          className="mb-4"
         >
-          <Text className={cn(PARAGRAPH, "text-background")}>สมัครเลย</Text>
+          <X color="black" />
+        </Button>
+
+        <Text className="text-xl font-bold mb-4">Choose Your Plan</Text>
+
+        <View className={cn(GRID, "")}>
+          {packages.map((pkg) => (
+            <ItemList
+              key={pkg.id}
+              packageName={pkg.packageName}
+              price={pkg.price}
+              features={pkg.features}
+              recommended={pkg.recommended}
+              selected={selectedPackage?.id === pkg.id}
+              onPress={() => handleSelectPackage(pkg)}
+            />
+          ))}
+        </View>
+      </View>
+
+      <View className="p-4 pb-10">
+        <TouchableOpacity
+          className={`${
+            selectedPackage ? "bg-orange-500" : "bg-gray-300"
+          } rounded-lg py-3`}
+          onPress={handleSubscription}
+          disabled={!selectedPackage}
+        >
+          <Text className="text-center text-white text-lg">Subscribe Now</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
-export default index;
+export default Index;
