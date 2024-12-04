@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Starter Base",
+    "name": "Ok-money",
     "slug": "starter-base",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "gotroger",
+    "scheme": "okmoney",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",

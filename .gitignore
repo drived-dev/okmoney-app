@@ -133,3 +133,6 @@ docs/pages/versions/*/react-native/*.diff
 
 expo-env.d.ts
 # @end expo-cli
+
+.env.*
+.env
