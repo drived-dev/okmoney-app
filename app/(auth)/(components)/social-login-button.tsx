@@ -34,7 +34,7 @@ export default function SocialLoginButton({
   const router = useRouter();
   const { setUser, accessToken, refreshToken } = useUserStore();
 
-  const BACKEND_AUTH_URL = `http://localhost:3000/api/auth/${type}/login`;
+  const BACKEND_AUTH_URL = `https://api.okmoneys.com/api/auth/${type}/login`;
 
   useEffect(() => {
     // Listen for any incoming links when app is open
