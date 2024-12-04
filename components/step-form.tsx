@@ -25,6 +25,7 @@ interface StepFormProps {
   onSubmit: (values: any) => Promise<boolean>;
   formSchemas: Array<z.AnyZodObject | z.ZodEffects<z.AnyZodObject>>;
   defaultValues?: any[];
+  disabled?: boolean;
 }
 
 const StepForm = ({
@@ -32,6 +33,7 @@ const StepForm = ({
   onSubmit,
   formSchemas,
   defaultValues = [],
+  disabled = false,
 }: StepFormProps) => {
   const [currentStep, setCurrentStep] = React.useState(0);
   const navigationRef = useNavigationContainerRef();
@@ -58,6 +60,7 @@ const StepForm = ({
           currentStep,
           setCurrentStep,
           onSubmit,
+          disabled,
           lastStep: formSchemas.length - 1,
           resetNavigation: () =>
             navigationRef.reset({
@@ -106,6 +109,7 @@ type StepContextType = {
   onSubmit: (values: any) => Promise<boolean>;
   resetNavigation: () => void;
   resetAllForms: () => void;
+  disabled: boolean;
 };
 
 const StepContext = React.createContext<StepContextType>({
@@ -121,6 +125,7 @@ const StepContext = React.createContext<StepContextType>({
   resetAllForms: () => {
     console.error("You need to pass in this function to StepContext");
   },
+  disabled: false,
 });
 
 const useStepContext = () => {
@@ -202,6 +207,7 @@ const StepperButtonGroup = ({
     lastStep,
     resetNavigation,
     resetAllForms,
+    disabled,
   } = useStepContext();
   const { getValues, reset } = useFormContext();
 
@@ -211,7 +217,12 @@ const StepperButtonGroup = ({
     if (isFirstStep) return null;
 
     return (
-      <Button size="icon-lg" variant="ghost" onPress={navigateBack}>
+      <Button
+        size="icon-lg"
+        variant="ghost"
+        onPress={navigateBack}
+        disabled={disabled}
+      >
         <ArrowLeft color={"black"} />
       </Button>
     );

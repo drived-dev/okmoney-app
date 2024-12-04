@@ -7,6 +7,7 @@ import { getPaymentHistory } from "~/api/payment/get-history-all";
 import { useQuery } from "@tanstack/react-query";
 import { PaymentHistory } from "~/types/payment-history";
 import { useLocalSearchParams } from "expo-router";
+import LoadingScreen from "~/components/loading-screen";
 
 const History = () => {
   const {
@@ -23,7 +24,7 @@ const History = () => {
   }
 
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return <LoadingScreen />;
   }
 
   return <HistoryPage data={paymentHistory} />;

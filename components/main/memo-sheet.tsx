@@ -108,9 +108,12 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
     const response = await addMemo(formData);
     if (response.status === 201) {
       // update remaining balance (outstanding) on frontend
+      const remainingBalance =
+        Number(loan?.remainingBalance) - Number(data.amount);
       updateLoan({
         ...loan,
-        remainingBalance: Number(loan?.remainingBalance) - Number(data.amount),
+        remainingBalance: remainingBalance,
+        currentInstallment: Number(loan?.currentInstallment) + 1,
       });
       Toast.show({
         type: "success",
@@ -118,6 +121,7 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
         text1: `บันทึกสำเร็จ`,
         text2: `บันทึกจำนวนเงิน ${data.amount} บาท`,
       });
+
       bottomSheetModalRef.current?.close();
     } else {
       Toast.show({
