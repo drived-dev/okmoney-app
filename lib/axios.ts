@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: "https://api.okmoneys.com/api", // Adjust based on your API URL
+  baseURL: process.env.EXPO_PUBLIC_API_URL, // Adjust based on your API URL
 });
 
 // Add request interceptor to inject the token
