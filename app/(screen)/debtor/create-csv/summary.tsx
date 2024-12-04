@@ -75,7 +75,6 @@ const Summary = () => {
         dueDate: values.dueDate,
         tags: values.tags,
         // firstPaymentDate: values.firstPaymentDate,
-        creditorId: "H7szNgGT5uJuTVPqa3XM",
       },
     }));
 

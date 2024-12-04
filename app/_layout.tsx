@@ -6,7 +6,7 @@ import {
   Theme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { SplashScreen, Stack, useRouter } from "expo-router";
+import { SplashScreen, Stack, Tabs, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Button, Platform, TouchableOpacity } from "react-native";
@@ -105,27 +105,28 @@ export default function RootLayout() {
     // <NavigationContainer independent={true}>
     <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
       <QueryClientProvider client={queryClient}>
-        <StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-        <Drawer
-          drawerContent={() => <CustomDrawer />}
+        <Stack
           screenOptions={{
-            drawerType: "front",
             headerShown: false,
           }}
         >
-          <Drawer.Screen
-            name="(tabs)"
+          <Stack.Screen
+            name="(screen)"
             options={{
               headerShown: false,
             }}
           />
-        </Drawer>
+          <Stack.Screen
+            name="(auth)/index"
+            options={{
+              headerShown: false,
+            }}
+          />
+        </Stack>
         <OfflineNotice />
         <Toast config={toastConfig} />
         <PortalHost />
       </QueryClientProvider>
     </ThemeProvider>
-
-    // </NavigationContainer>
   );
 }

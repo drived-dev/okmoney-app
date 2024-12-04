@@ -27,7 +27,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormMessage, FormItem, FormLabel } from "~/components/form";
 import OnlineOnly from "~/components/online-only";
-import NextButtonGroup from "../../components/ui/next-button-group";
+import NextButtonGroup from "../../../components/ui/next-button-group";
 import useUserStore from "~/store/use-user-store";
 import { patchUser } from "~/api/auth/patch-user";
 import Toast from "react-native-toast-message";
@@ -42,7 +42,7 @@ const Index = () => {
   const { intent } = useLocalSearchParams();
   const router = useRouter();
   const [image, setImage] = useState<string | null>(null);
-
+  const user = useUserStore.getState();
   const {
     control,
     handleSubmit,
@@ -50,9 +50,9 @@ const Index = () => {
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      img: "",
-      phone: "",
+      name: user.storeName || "",
+      img: user.profileImage || "",
+      phone: user.phoneNumber || "",
     },
   });
 

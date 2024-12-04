@@ -16,7 +16,6 @@ import { LogOut, Mail, MessageCircle, Phone, User } from "lucide-react-native";
 import { IconButtonDrawer } from "./icon-button-drawer";
 import useUserStore from "~/store/use-user-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { userLogout } from "~/lib/auth/user-logout";
 
 export const CustomDrawer = () => {
   const user = useUserStore();
@@ -88,7 +87,12 @@ export const CustomDrawer = () => {
           <IconButtonDrawer
             variant="destructive"
             icon={<LogOut />}
-            onPress={() => router.push("/(auth)")}
+            onPress={() => {
+              user.setUser({ id: "" });
+              AsyncStorage.removeItem("token");
+              AsyncStorage.removeItem("refreshToken");
+              router.push("/(screen)/(tabs)");
+            }}
             text="ออกจากระบบ"
             textClassName="w-56 text-red-500"
             size={"xl"}

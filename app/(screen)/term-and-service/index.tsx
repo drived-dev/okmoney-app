@@ -56,9 +56,9 @@ const Index = () => {
       storeName: user.storeName,
       phoneNumber: user.phoneNumber,
       profileImage: user.profileImage,
-      package: "FREE",
     });
-    if (response.status === 201) {
+
+    if (response.status === 200) {
       setUser(response.data);
     } else {
       setIsError(true);

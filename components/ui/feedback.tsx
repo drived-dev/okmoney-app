@@ -54,7 +54,11 @@ const Feedback = ({
 };
 
 const Error = () => {
-  return <View></View>;
+  return (
+    <View>
+      <Text>error</Text>
+    </View>
+  );
 };
 
 const Success = () => {
