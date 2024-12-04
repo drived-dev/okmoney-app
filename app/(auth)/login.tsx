@@ -37,6 +37,18 @@ const LoginScreen = () => {
     AsyncStorage.removeItem("refreshToken");
   }, []);
 
+  async function bypass() {
+    await AsyncStorage.setItem(
+      "token",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiZ29vZ2xlIiwic3ViIjoiNG9iVW5ZUlY3NGV5bnlaemVOYnIiLCJpYXQiOjE3MzIzNTY3NzUsImV4cCI6MTczMjM2MDM3NX0.5_WCglp5MlnWP_uceqEEgzISARrmorCuBrlwlNhK64I" as string
+    );
+    await AsyncStorage.setItem(
+      "refreshToken",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiZ29vZ2xlIiwic3ViIjoiNG9iVW5ZUlY3NGV5bnlaemVOYnIiLCJpYXQiOjE3MzIzNTY3NzUsImV4cCI6MTczMjk2MTU3NX0.WeNmGX8qpu5y1yYGIpHFqETa8bmxWSK2083B7XI0FTI" as string
+    );
+    router.navigate("/(tabs)");
+  }
+
   return (
     <View className="h-full">
       <SafeAreaView>
@@ -75,10 +87,7 @@ const LoginScreen = () => {
                   /> */}
               </View>
 
-              <Button
-                variant={"link"}
-                onPress={() => router.navigate("/(tabs)")}
-              >
+              <Button variant={"link"} onPress={() => bypass()}>
                 <Text className={cn(PARAGRAPH, "text-foreground underline")}>
                   ลืมรหัสผ่าน?
                 </Text>
