@@ -15,14 +15,12 @@ import { router } from "expo-router";
 import { cn } from "~/lib/utils";
 import { GRID } from "~/constants/Styles";
 
-// Define subscription product IDs for each platform
 const subscriptionIds =
   Platform.select({
-    ios: ["small_sub", "med_sub", "large_sub"], // iOS Product IDs
-    android: ["small_sub", "med_sub", "large_sub"], // Android Product IDs
-  }) || []; // Ensure fallback to an empty array
+    ios: ["small_sub", "med_sub", "large_sub"], // iOS Product IDs as shown in App Store Connect
+    android: ["small_sub", "med_sub", "large_sub"], // Ensure matching IDs in Google Play Console
+  }) || [];
 
-// Initialize the in-app purchase connection
 const initializeIAPConnection = async () => {
   try {
     const result = await RNIap.initConnection();
@@ -129,6 +127,12 @@ const Index = () => {
   useEffect(() => {
     const fetchSubscriptions = async () => {
       try {
+        if (!subscriptionIds.length) {
+          console.error("No subscription IDs available");
+          return;
+        }
+
+        console.log("Fetching subscriptions with IDs:", subscriptionIds);
         const availableSubscriptions = await RNIap.getSubscriptions(
           subscriptionIds
         );
@@ -143,18 +147,15 @@ const Index = () => {
     fetchSubscriptions();
   }, []);
 
-  const handleSelectPackage = (pkg) => {
-    setSelectedPackage(pkg.id === selectedPackage?.id ? null : pkg);
-  };
-
   const handleSubscription = async () => {
-    if (!selectedPackage) {
+    if (!selectedPackage || !selectedPackage.id) {
       alert("Please select a subscription plan!");
       return;
     }
 
     try {
-      const productId = selectedPackage.id; // Get the product ID from the selected package
+      const productId = selectedPackage.id;
+      console.log("Requesting subscription for:", productId);
       const purchase = await RNIap.requestSubscription(productId);
       console.log("Subscription successful:", purchase);
       alert("Subscription Successful!");
@@ -187,7 +188,7 @@ const Index = () => {
               features={pkg.features}
               recommended={pkg.recommended}
               selected={selectedPackage?.id === pkg.id}
-              onPress={() => handleSelectPackage(pkg)}
+              onPress={() => setSelectedPackage(pkg)}
             />
           ))}
         </View>

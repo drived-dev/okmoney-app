@@ -6,9 +6,9 @@ import useUserStore from "~/store/use-user-store";
 import LoginScreen from "../(auth)/login";
 const Layout = () => {
   const user = useUserStore();
-  if (user.id === "") {
-    return <LoginScreen />;
-  }
+  // if (user.id === "") {
+  //   return <LoginScreen />;
+  // }
   return (
     <Drawer
       drawerContent={() => <CustomDrawer />}
