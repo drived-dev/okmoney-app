@@ -6,16 +6,13 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal",
-      "credentialsSource": "local"
+      "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal",
-      "credentialsSource": "local"
+      "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true,
-      "credentialsSource": "local"
+      "autoIncrement": true
     }
   },
   "submit": {
