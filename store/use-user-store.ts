@@ -1,4 +1,6 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
+import { zustandStorage } from "./storage";
 
 interface UserState {
   id: string;
@@ -31,54 +33,24 @@ interface UserState {
   resetUser: () => void;
 }
 
-const useUserStore = create<UserState>((set) => ({
-  // Initial state
-  id: "",
-  firstName: "",
-  lastName: "",
-  storeName: "",
-  phoneNumber: "",
-  rolePackage: "FREE",
-  tags: ["เพื่อน", "ครอบครัว"],
-  email: "",
-  createdAt: "",
-  updatedAt: "",
-  lastLogin: "",
-  smsUsed: 0,
-  smsAvailable: 20,
-  debtorSlotAvailable: 10,
-  socialProvider: null,
-  profileImage: null,
-  googleId: null,
-  facebookId: null,
-  lineId: null,
-  accessToken: null,
-  refreshToken: null,
-
-  // Set user data
-  setUser: (user) => set((state) => ({ ...state, ...user })),
-  // Tag management
-  addTag: (tag) => set((state) => ({ tags: [...state.tags, tag] })),
-  removeTag: (tag) =>
-    set((state) => ({ tags: state.tags.filter((t) => t !== tag) })),
-  clearTags: () => set({ tags: [] }),
-
-  // Reset user data
-  resetUser: () =>
-    set({
+const useUserStore = create(
+  persist<UserState>(
+    (set) => ({
+      // Initial state
       id: "",
       firstName: "",
       lastName: "",
       storeName: "",
       phoneNumber: "",
-      rolePackage: "",
-      tags: [],
+      rolePackage: "FREE",
+      tags: ["เพื่อน", "ครอบครัว"],
       email: "",
       createdAt: "",
       updatedAt: "",
       lastLogin: "",
-      smsAvailable: 0,
-      debtorSlotAvailable: 0,
+      smsUsed: 0,
+      smsAvailable: 20,
+      debtorSlotAvailable: 10,
       socialProvider: null,
       profileImage: null,
       googleId: null,
@@ -86,7 +58,45 @@ const useUserStore = create<UserState>((set) => ({
       lineId: null,
       accessToken: null,
       refreshToken: null,
+
+      // Set user data
+      setUser: (user) => set((state) => ({ ...state, ...user })),
+      // Tag management
+      addTag: (tag) => set((state) => ({ tags: [...state.tags, tag] })),
+      removeTag: (tag) =>
+        set((state) => ({ tags: state.tags.filter((t) => t !== tag) })),
+      clearTags: () => set({ tags: [] }),
+
+      // Reset user data
+      resetUser: () =>
+        set({
+          id: "",
+          firstName: "",
+          lastName: "",
+          storeName: "",
+          phoneNumber: "",
+          rolePackage: "",
+          tags: [],
+          email: "",
+          createdAt: "",
+          updatedAt: "",
+          lastLogin: "",
+          smsAvailable: 0,
+          debtorSlotAvailable: 0,
+          socialProvider: null,
+          profileImage: null,
+          googleId: null,
+          facebookId: null,
+          lineId: null,
+          accessToken: null,
+          refreshToken: null,
+        }),
     }),
-}));
+    {
+      name: "user-storage",
+      storage: createJSONStorage(() => zustandStorage),
+    }
+  )
+);
 
 export default useUserStore;

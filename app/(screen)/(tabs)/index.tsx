@@ -109,6 +109,8 @@ const Index = () => {
   const user = useUserStore();
   const { tags, addTag, clearTags, removeTag } = useFilterStore();
 
+  // console.log
+
   function goToCreateDebtorCSV() {
     router.push("/debtor/create-csv");
   }

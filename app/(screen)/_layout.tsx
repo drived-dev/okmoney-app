@@ -5,10 +5,11 @@ import { CustomDrawer } from "~/components/custom-drawer";
 import useUserStore from "~/store/use-user-store";
 import LoginScreen from "../(auth)/login";
 const Layout = () => {
+  // push to login screen if user is not logged in
   const user = useUserStore();
-  // if (user.id === "") {
-  //   return <LoginScreen />;
-  // }
+  if (user.id === "") {
+    return <LoginScreen />;
+  }
   return (
     <Drawer
       drawerContent={() => <CustomDrawer />}

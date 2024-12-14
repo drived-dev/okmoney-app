@@ -127,7 +127,7 @@ const create = () => {
         text1: "Loan created successfully",
         type: "success",
       });
-      addLoan(parseLoanData(response.data));
+      addLoan(parseLoanData(response.data.data));
       router.back();
       return true;
     } else {
