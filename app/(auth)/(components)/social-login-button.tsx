@@ -36,14 +36,14 @@ export default function SocialLoginButton({
 
   const BACKEND_AUTH_URL = `${process.env.EXPO_PUBLIC_API_URL}/auth/${type}/login`;
 
-  useEffect(() => {
-    // Listen for any incoming links when app is open
-    const subscription = Linking.addEventListener("url", (event) => {
-      handleRedirect({ url: event.url });
-    });
+  // useEffect(() => {
+  //   // Listen for any incoming links when app is open
+  //   const subscription = Linking.addEventListener("url", (event) => {
+  //     handleRedirect({ url: event.url });
+  //   });
 
-    return () => subscription.remove();
-  }, []);
+  //   return () => subscription.remove();
+  // }, []);
 
   const handleRedirect = async (event: { url: string }) => {
     try {

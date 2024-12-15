@@ -113,7 +113,7 @@ export default function RootLayout() {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName="(.loading)"
+          initialRouteName="(.loading)/index"
         >
           <Stack.Screen
             name="(.loading)"

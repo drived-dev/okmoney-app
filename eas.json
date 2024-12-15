@@ -1,8 +1,7 @@
 {
   "cli": {
     "version": ">= 12.5.3",
-    "appVersionSource": "remote",
-    "requireAuth": false
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
