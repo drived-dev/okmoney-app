@@ -13,9 +13,12 @@ import { useQuery } from "@tanstack/react-query";
 import { getDashboardAll } from "~/api/dashboard/get-dashboard-all";
 import { getDashboardYear } from "~/api/dashboard/get-dashboard-year";
 import { getDashboardMonth } from "~/api/dashboard/get-dashboard-month";
+import useUserStore from "~/store/use-user-store";
+import { formatMoney } from "~/lib/parse-money";
 
 const App: React.FC = () => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const user = useUserStore();
   const [value, setValue] = React.useState<string>("years");
 
   const handlePresentModalPress = useCallback(() => {
@@ -101,9 +104,11 @@ const App: React.FC = () => {
               />
             </View>
             <DashboardCard
-              userName="ธาม"
-              totalMoney={dashboard.totalLoan ?? 0}
-              changeAmount={dashboard.totalLoan - totalLoanLastYear}
+              userName={user.storeName}
+              totalMoney={formatMoney(dashboard.totalLoan) ?? 0}
+              changeAmount={formatMoney(
+                dashboard.totalLoan - totalLoanLastYear
+              )}
               changePercentage={
                 totalLoanLastYear === 0
                   ? "∞"
