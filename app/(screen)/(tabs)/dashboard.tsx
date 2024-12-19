@@ -31,6 +31,8 @@ const App: React.FC = () => {
   const { data: dashboard = {} } = useQuery({
     queryKey: ["dashboard"],
     queryFn: getDashboardAll,
+    retry: false,
+    refetchInterval: 1000000,
   });
 
   const series = [
@@ -43,13 +45,16 @@ const App: React.FC = () => {
   const { data: dashboardLastYear = {} } = useQuery({
     queryKey: ["dashboardLastYear"],
     queryFn: getDashboardYear,
+    retry: false,
+    refetchInterval: 1000000,
   });
 
   const totalLoanLastYear = dashboardLastYear.data?.[1]?.principal ?? 0;
-
   const { data: dashboardLastMonth = {} } = useQuery({
     queryKey: ["dashboardLastMonth"],
     queryFn: getDashboardMonth,
+    retry: false,
+    refetchInterval: 1000000,
   });
 
   const seriesYear = [

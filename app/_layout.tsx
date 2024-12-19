@@ -25,6 +25,7 @@ import useUserStore from "~/store/use-user-store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./app";
 import LoginScreen from "./(auth)/login";
+// import { usePushNotifications } from "~/lib/use-push-notification";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -45,6 +46,9 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const router = useRouter();
+  // const { expoPushToken, notification } = usePushNotifications();
+  // console.log(expoPushToken);
+  // console.log("Hee");
 
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
@@ -109,7 +113,14 @@ export default function RootLayout() {
           screenOptions={{
             headerShown: false,
           }}
+          initialRouteName="(.loading)/index"
         >
+          <Stack.Screen
+            name="(.loading)"
+            options={{
+              headerShown: false,
+            }}
+          />
           <Stack.Screen
             name="(screen)"
             options={{
