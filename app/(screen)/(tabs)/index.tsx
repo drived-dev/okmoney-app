@@ -216,7 +216,7 @@ const Index = () => {
           />
         )}
       >
-        <View className="flex-1">
+        <View className="flex-1 flex flex-col">
           {/* Linear Gradient Background */}
           <LinearGradient
             colors={
@@ -277,11 +277,17 @@ const Index = () => {
               onScroll={handleScroll}
               scrollEventThrottle={16}
               contentContainerStyle={{ paddingBottom: 20 }}
+              style={{
+                flexGrow: 1,
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+              }}
             >
               <View
                 className={cn(
                   CONTAINER,
-                  "mt-4 bg-background rounded-3xl pt-5 flex flex-col gap-5"
+                  "mt-4 bg-background rounded-3xl pt-5 flex flex-col gap-5 min-h-[60vh]"
                 )}
               >
                 <Searchbar
@@ -407,6 +413,6 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     width: "100%",
-    height: 600,
+    height: 450,
   },
 });

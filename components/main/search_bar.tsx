@@ -98,7 +98,7 @@ export const Searchbar = ({
             tags.map((tag, index) => (
               <View
                 key={index}
-                className="px-2 py-1 bg-gray-200 rounded-md flex flex-row items-center p-4"
+                className="px-2 py-2 bg-gray-200 rounded-xl flex flex-row items-center p-4"
               >
                 {/* Display the icon before the text, using the tagIcons mapping */}
                 {tagIcons[tag] && <View className="mr-2">{tagIcons[tag]}</View>}
