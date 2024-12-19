@@ -24,11 +24,11 @@ const paymentTypeChoices: SelectInputChoices[] = [
     alias: "รายเดือน",
   },
   {
-    value: "DAILY",
-    alias: "รายวัน",
+    value: "WEEKLY",
+    alias: "รายสัปดาห์",
   },
   {
-    value: "WEEKLY",
+    value: "DAILY", // TODO: change to custom
     alias: "กำหนดเอง",
   },
 ];
@@ -111,7 +111,7 @@ export const LoanDetailForm = ({ navigation }: NavigationProps) => {
               </FormItem>
             )}
           />
-          <Controller
+          {/* <Controller
             control={control}
             name="loanType"
             render={({ field: { onChange, value } }) => {
@@ -127,7 +127,7 @@ export const LoanDetailForm = ({ navigation }: NavigationProps) => {
                 </FormItem>
               );
             }}
-          />
+          /> */}
 
           <Controller
             control={control}
@@ -135,7 +135,7 @@ export const LoanDetailForm = ({ navigation }: NavigationProps) => {
             render={({ field: { onChange, value } }) => {
               return (
                 <FormItem>
-                  <FormLabel nativeID="paymentType">ประเภทการชำระ</FormLabel>
+                  <FormLabel nativeID="paymentType">ระยะการชำระ</FormLabel>
                   <SelectInput
                     choices={paymentTypeChoices}
                     value={value}
@@ -163,7 +163,7 @@ export const LoanDetailForm = ({ navigation }: NavigationProps) => {
                 }}
               />
             </View>
-            {getValues("paymentType") === "custom" && (
+            {getValues("paymentType") === "DAILY" && (
               <View className={cn(GRID_COL_SPAN[1])}>
                 <Controller
                   control={control}
@@ -171,7 +171,7 @@ export const LoanDetailForm = ({ navigation }: NavigationProps) => {
                   render={({ field: { onBlur, onChange, value } }) => {
                     return (
                       <FormItem>
-                        <FormLabel nativeID="loanTermType">ประเภท</FormLabel>
+                        <FormLabel nativeID="loanTermType">ชำระทุก</FormLabel>
                         <Input
                           onChangeText={onChange}
                           value={value}

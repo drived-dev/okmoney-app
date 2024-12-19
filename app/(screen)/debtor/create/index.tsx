@@ -141,8 +141,8 @@ const create = () => {
   }
 
   return (
-    <>
-      <CloseButton className="ml-4 mt-6 mb-10" />
+    <SafeAreaView className="flex-1">
+      <CloseButton className="ml-4 mb-10" />
       <StepForm
         onSubmit={onSubmit}
         forms={formScreens}
@@ -150,7 +150,7 @@ const create = () => {
         defaultValues={defaultValues}
         disabled={isLoading}
       />
-    </>
+    </SafeAreaView>
   );
 };
 

@@ -26,7 +26,7 @@ export const LoanDetailFormSchema = z.object({
   loanId: z.string().min(1, { message: "ชื่อต้องมากกว่า 1 ตัวอักษร" }).max(10),
   dueDate: z.date().default(new Date()),
   loanType: z.enum(["FIXED", "VARIABLE"]),
-  paymentType: z.enum(["MONTHLY", "WEEKLY", "DAILY"]),
+  paymentType: z.enum(["MONTHLY", "WEEKLY", "CUSTOM"]),
   firstPaymentDate: z.date(),
   loanTermType: z.string().optional(),
   loanCategory: z.enum(["NEW_LOAN", "OLD_LOAN"]),
