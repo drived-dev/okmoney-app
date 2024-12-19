@@ -74,7 +74,7 @@ const Index = () => {
     const loadInitialLoans = async () => {
       try {
         Toast.show({
-          text1: "กำลังโหลดข้อมูลลูกหนี้",
+          text1: "กำลังโหลดข้อมูลลูกหนี้ใหม่",
           type: "info",
         });
         const loans = await getLoanAll();
@@ -108,8 +108,6 @@ const Index = () => {
   const scrollViewRef = useRef(null); // ScrollView reference
   const user = useUserStore();
   const { tags, addTag, clearTags, removeTag } = useFilterStore();
-
-  // console.log
 
   function goToCreateDebtorCSV() {
     router.push("/debtor/create-csv");
@@ -217,6 +215,9 @@ const Index = () => {
         )}
       >
         <View className="flex-1 flex flex-col">
+          <MemoSheet ref={memoSheetRef} />
+          <GuarantorSheet ref={guarantorSheetRef} />
+          <DebtorModal ref={debtorInfoModalRef} />
           {/* Linear Gradient Background */}
           <LinearGradient
             colors={
@@ -395,9 +396,6 @@ const Index = () => {
             )}
           </SafeAreaView>
         </View>
-        <MemoSheet ref={memoSheetRef} />
-        <GuarantorSheet ref={guarantorSheetRef} />
-        <DebtorModal ref={debtorInfoModalRef} />
       </Drawer>
     </BottomSheetModalProvider>
   );
