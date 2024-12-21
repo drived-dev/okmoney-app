@@ -98,6 +98,7 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
     let formData = new FormData();
     formData.append("data", JSON.stringify(formJson));
     if (image) {
+      console.log("image", formData);
       formData.append("file", {
         uri: image,
         name: `${Date.now()}.jpg`,

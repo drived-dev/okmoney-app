@@ -17,6 +17,7 @@ import {
 import useUserStore from "~/store/use-user-store";
 import { createUser } from "~/api/auth/create-user";
 import { patchUser } from "~/api/auth/patch-user";
+import { postProfile } from "~/api/auth/post-profile";
 
 const demodata: Term = {
   description:
@@ -52,11 +53,20 @@ const Index = () => {
   const handleNextPage = async () => {
     if (!isBottomReached) return;
 
-    const response = await patchUser({
-      storeName: user.storeName,
-      phoneNumber: user.phoneNumber,
-      profileImage: user.profileImage,
-    });
+    const formData = new FormData();
+    formData.append("file", {
+      uri: user.profileImage,
+      name: `${Date.now()}.jpg`,
+      type: "image/jpeg",
+    } as any);
+
+    const response = await Promise.all([
+      patchUser({
+        storeName: user.storeName,
+        phoneNumber: user.phoneNumber,
+      }),
+      postProfile(formData),
+    ]);
 
     if (response.status === 200) {
       setUser(response.data);

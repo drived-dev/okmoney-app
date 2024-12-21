@@ -31,6 +31,7 @@ import NextButtonGroup from "../../../components/ui/next-button-group";
 import useUserStore from "~/store/use-user-store";
 import { patchUser } from "~/api/auth/patch-user";
 import Toast from "react-native-toast-message";
+import { postProfile } from "~/api/auth/post-profile";
 
 const formSchema = z.object({
   img: z.string().nonempty({ message: "ต้องเลือกโปรไฟล์รูปภาพ" }), // Image is required
@@ -73,7 +74,7 @@ const Index = () => {
     if (!result.canceled) {
       const imageUri = result.assets[0].uri;
       setImage(imageUri); // Set the image URI for display
-      onChange(imageUri.split("/").pop() || ""); // Update form's img field with filename
+      onChange(imageUri); // Update form's img field with filename
     }
   };
 
@@ -89,11 +90,20 @@ const Index = () => {
     const setUser = useUserStore.getState().setUser;
     setUser(parsedValues);
 
-    // TODO: set image state
     if (intent === "create") {
       router.navigate("/term-and-service"); // Navigate to Terms screen without params
     } else if (intent === "edit") {
-      const response = await patchUser(parsedValues);
+      const formData = new FormData();
+      formData.append("file", {
+        uri: parsedValues["profileImage"],
+        name: `${Date.now()}.jpg`,
+        type: "image/jpeg",
+      } as any);
+
+      const response = await Promise.all([
+        patchUser(parsedValues),
+        postProfile(formData),
+      ]);
 
       if (response.status === 200) {
         Toast.show({
