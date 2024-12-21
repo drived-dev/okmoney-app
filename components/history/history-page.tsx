@@ -5,8 +5,9 @@ import {
   View,
   ScrollView,
   VirtualizedList,
+  RefreshControl,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CONTAINER } from "~/constants/Styles";
 import { cn } from "~/lib/utils";
@@ -55,7 +56,15 @@ const groupDataByDate = (data: PaymentHistory[]) => {
 };
 
 const HistoryPage: React.FC<HistoryPageProps> = ({ name, nickname, data }) => {
+  const [refreshing, setRefreshing] = useState(false);
   const groupedData = groupDataByDate(data);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   return (
     <SafeAreaView>
@@ -74,7 +83,11 @@ const HistoryPage: React.FC<HistoryPageProps> = ({ name, nickname, data }) => {
             </View>
           )}
         </View>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           {Object.keys(groupedData).length === 0 ? (
             <View className="py-40 items-center justify-center">
               <View>
