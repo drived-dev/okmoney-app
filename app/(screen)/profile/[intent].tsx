@@ -34,7 +34,7 @@ import Toast from "react-native-toast-message";
 import { postProfile } from "~/api/auth/post-profile";
 
 const formSchema = z.object({
-  img: z.string().nonempty({ message: "ต้องเลือกโปรไฟล์รูปภาพ" }), // Image is required
+  img: z.string().nonempty({ message: "ต้องเลือกโปรไฟล์รูปภาพ" }).optional(), // Image is required
   name: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(50),
   phone: z.string().min(9, { message: "กรุณากรอกเบอร์โทรศัพท์ให้ครบ" }), // Ensure phone number is required
 });
@@ -47,6 +47,7 @@ const Index = () => {
   const {
     control,
     handleSubmit,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -132,8 +133,8 @@ const Index = () => {
             <View className="flex flex-col items-center justify-center gap-2">
               <AvatarText
                 url={
-                  image ||
-                  "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
+                  getValues("img") ||
+                  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                 }
               />
               <Controller

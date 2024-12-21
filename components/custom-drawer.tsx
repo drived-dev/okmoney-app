@@ -32,12 +32,14 @@ export const CustomDrawer = () => {
                 {user.storeName}
               </Text>
             </AvatarText>
-            <Text className={cn(PARAGRAPH, "")}>sms ที่ใช้ไปแล้ว</Text>
-            <ProgressText
-              textStart={`${user.smsUsed} ครั้ง`}
-              textEnd={`${user.smsAvailable} ครั้ง`}
-              percentage={(user.smsUsed / user.smsAvailable) * 100}
-            />
+            <View>
+              <Text className={cn(PARAGRAPH, "")}>sms ที่ใช้ไปแล้ว</Text>
+              <ProgressText
+                textStart={`${user.smsUsed} ครั้ง`}
+                textEnd={`${user.smsAvailable} ครั้ง`}
+                percentage={(user.smsUsed / user.smsAvailable) * 100}
+              />
+            </View>
             <TouchableOpacity onPress={() => router.push("/package")}>
               <Image
                 source={require("assets/images/promo.png")}
