@@ -2,7 +2,7 @@ import { View, Text, Modal, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { AvatarText } from "../avatar-text";
 import { cn } from "~/lib/utils";
-import { LABEL, PARAGRAPH } from "~/constants/Typography";
+import { LABEL, PARAGRAPH, PARAGRAPH_BOLD } from "~/constants/Typography";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { IconButton } from "../icon-button";
 import { Icon } from "../icon";
@@ -58,7 +58,7 @@ export const Historylist: React.FC<HistorylistProps> = ({
       <View className="flex flex-col">
         <View className="flex flex-row justify-between">
           <View className="flex flex-row items-center">
-            <Avatar alt={`${name}'s Avatar`} className="w-12 h-12">
+            <Avatar alt={`${name}'s Avatar`} className="w-14 h-14">
               <AvatarImage
                 source={{
                   uri: url,
@@ -72,17 +72,19 @@ export const Historylist: React.FC<HistorylistProps> = ({
               {displayName}
               {nickname && (
                 <Text className="text-muted-foreground font-ibm text-sm">
-                  {" "}
                   {name}
                 </Text>
               )}
             </Text>
           </View>
-          <View className="flex flex-col gap-2 items-center">
+          <View className="flex flex-col gap-1 items-center">
             {variant && (
               <View className="bg-[#E7F7F6] pt-3 pb-2 px-3 rounded-xl flex flex-row items-center gap-1">
                 <Text
-                  className={cn(PARAGRAPH, "text-sm text-muted-foreground")}
+                  className={cn(
+                    PARAGRAPH_BOLD,
+                    "text-sm text-muted-foreground"
+                  )}
                 >
                   {variantText}
                 </Text>
