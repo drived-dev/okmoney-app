@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "okmoney",
+    "scheme": "starter-base",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -17,8 +17,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.okmoney.gotroger",
       "config": {
-        "usesNonExemptEncryption": false,
-        "googleServicesFile": "./GoogleService-Info.plist"
+        "usesNonExemptEncryption": false
       },
       "entitlements": {
         "aps-environment": "production"
@@ -39,7 +38,7 @@
           "autoVerify": true,
           "data": [
             {
-              "scheme": "okmoney"
+              "scheme": "starter-base"
             }
           ],
           "category": ["BROWSABLE", "DEFAULT"]
@@ -65,11 +64,14 @@
     "experiments": {
       "typedRoutes": true
     },
+    "owner": "firm",
     "extra": {
+      "router": {
+        "origin": false
+      },
       "eas": {
         "projectId": "8e860d4b-d48b-4d88-a5e0-5fe053cb0d56"
       }
-    },
-    "owner": "firm"
+    }
   }
 }

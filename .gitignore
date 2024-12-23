@@ -7,6 +7,10 @@ bare-apps
 # macOS
 .DS_Store
 
+#build
+/android
+/ios
+
 # Node
 node_modules
 npm-debug.log
