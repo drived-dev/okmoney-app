@@ -7,10 +7,6 @@ bare-apps
 # macOS
 .DS_Store
 
-#build
-/android
-/ios
-
 # Node
 node_modules
 npm-debug.log
@@ -140,3 +136,7 @@ expo-env.d.ts
 
 .env.*
 .env
+
+android
+
+ios
