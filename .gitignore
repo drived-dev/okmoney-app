@@ -136,7 +136,3 @@ expo-env.d.ts
 
 .env.*
 .env
-
-android
-
-ios
