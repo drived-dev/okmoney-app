@@ -12,7 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.okmoney.gotroger",
@@ -23,7 +25,9 @@
         "aps-environment": "production"
       },
       "infoPlist": {
-        "UIBackgroundModes": ["remote-notification"]
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
       }
     },
     "android": {
@@ -41,7 +45,10 @@
               "scheme": "starter-base"
             }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ]
     },
@@ -64,13 +71,12 @@
     "experiments": {
       "typedRoutes": true
     },
-    "owner": "firm",
     "extra": {
       "router": {
         "origin": false
       },
       "eas": {
-        "projectId": "8e860d4b-d48b-4d88-a5e0-5fe053cb0d56"
+        "projectId": "1a0ebf2c-b02d-4fe7-ae6f-3c81786bfacf"
       }
     }
   }
