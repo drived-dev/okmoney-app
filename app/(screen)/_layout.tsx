@@ -4,9 +4,15 @@ import { Drawer } from "expo-router/drawer";
 import { CustomDrawer } from "~/components/custom-drawer";
 import useUserStore from "~/store/use-user-store";
 import LoginScreen from "../(auth)/login";
+import { useRootNavigationState } from "expo-router";
+
 const Layout = () => {
-  // push to login screen if user is not logged in
+  const rootNavigationState = useRootNavigationState();
   const user = useUserStore();
+
+  if (!rootNavigationState?.key) return null;
+
+  // push to login screen if user is not logged in
   if (user.id === "") {
     return <LoginScreen />;
   }
