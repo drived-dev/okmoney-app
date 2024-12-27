@@ -74,7 +74,7 @@ const Index = () => {
     const loadInitialLoans = async () => {
       try {
         Toast.show({
-          text1: "กำลังโหลดข้อมูลลูกหนี้",
+          text1: "กำลังโหลดข้อมูลลูกหนี้ใหม่",
           type: "info",
         });
         const loans = await getLoanAll();
@@ -108,8 +108,6 @@ const Index = () => {
   const scrollViewRef = useRef(null); // ScrollView reference
   const user = useUserStore();
   const { tags, addTag, clearTags, removeTag } = useFilterStore();
-
-  // console.log
 
   function goToCreateDebtorCSV() {
     router.push("/debtor/create-csv");
@@ -216,7 +214,10 @@ const Index = () => {
           />
         )}
       >
-        <View className="flex-1">
+        <View className="flex-1 flex flex-col">
+          <MemoSheet ref={memoSheetRef} />
+          <GuarantorSheet ref={guarantorSheetRef} />
+          <DebtorModal ref={debtorInfoModalRef} />
           {/* Linear Gradient Background */}
           <LinearGradient
             colors={
@@ -277,11 +278,17 @@ const Index = () => {
               onScroll={handleScroll}
               scrollEventThrottle={16}
               contentContainerStyle={{ paddingBottom: 20 }}
+              style={{
+                flexGrow: 1,
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+              }}
             >
               <View
                 className={cn(
                   CONTAINER,
-                  "mt-4 bg-background rounded-3xl pt-5 flex flex-col gap-5"
+                  "mt-4 bg-background rounded-3xl pt-5 flex flex-col gap-5 min-h-[60vh]"
                 )}
               >
                 <Searchbar
@@ -389,9 +396,6 @@ const Index = () => {
             )}
           </SafeAreaView>
         </View>
-        <MemoSheet ref={memoSheetRef} />
-        <GuarantorSheet ref={guarantorSheetRef} />
-        <DebtorModal ref={debtorInfoModalRef} />
       </Drawer>
     </BottomSheetModalProvider>
   );
@@ -407,6 +411,6 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     width: "100%",
-    height: 600,
+    height: 450,
   },
 });

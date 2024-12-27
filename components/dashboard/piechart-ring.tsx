@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import PieChart from "react-native-pie-chart";
 import { cn } from "~/lib/utils";
-import { PARAGRAPH, PARAGRAPH_BOLD } from "~/constants/Typography";
+import { PARAGRAPH, PARAGRAPH_BOLD, TITLE } from "~/constants/Typography";
 
 // Define interface for the component's props
 interface DashboardCardProps {
@@ -26,6 +26,8 @@ const DashboardCardRing: React.FC<DashboardCardProps> = ({
 
   return (
     <View className="border border-gray-300 rounded-lg p-4 flex flex-col gap-2">
+      <Text className={cn(TITLE, "")}>ประเภทลูกหนี้</Text>
+
       <View
         className={cn(
           "gap-4",

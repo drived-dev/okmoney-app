@@ -5,8 +5,9 @@ import {
   View,
   ScrollView,
   VirtualizedList,
+  RefreshControl,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CONTAINER } from "~/constants/Styles";
 import { cn } from "~/lib/utils";
@@ -55,24 +56,38 @@ const groupDataByDate = (data: PaymentHistory[]) => {
 };
 
 const HistoryPage: React.FC<HistoryPageProps> = ({ name, nickname, data }) => {
+  const [refreshing, setRefreshing] = useState(false);
   const groupedData = groupDataByDate(data);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   return (
     <SafeAreaView>
       <View className={cn(CONTAINER, "mt-4")}>
         <View className="flex flex-col gap-1 ">
           <Text className={cn(TITLE, "")}>ประวัติการชำระ</Text>
-          {name?.length && name?.length > 2 && (
+          {nickname?.length && nickname?.length > 2 && (
             <View className="flex flex-row items-center space-x-2 gap-2">
               <Text className={cn(TITLE, "")}>ของ</Text>
               <View className="border border-gray-300 rounded-2xl px-2 pt-1 flex-row items-center gap-1">
-                <Text className={cn(TITLE, "font-bold")}>{nickname} </Text>
-                <Text className={cn(PARAGRAPH)}>{name}</Text>
+                <Text className={cn(TITLE, "font-bold")}>
+                  {nickname}
+                  <Text className={cn(PARAGRAPH)}>{name}</Text>
+                </Text>
               </View>
             </View>
           )}
         </View>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        >
           {Object.keys(groupedData).length === 0 ? (
             <View className="py-40 items-center justify-center">
               <View>

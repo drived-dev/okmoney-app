@@ -51,6 +51,21 @@ export const InfoForm = ({ navigation }: NavigationProps) => {
             </FormItem>
           )}
         />
+        <Controller
+          control={control}
+          name="phone"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <FormItem>
+              <FormLabel nativeID="phone">เบอร์โทร</FormLabel>
+              <PhoneInput
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+              <FormMessage errorMessage={errors.phone?.message} />
+            </FormItem>
+          )}
+        />
         <View className={cn(GRID_ROW)}>
           <View className={cn(GRID_COL_SPAN[1])}>
             <Controller
@@ -91,22 +106,6 @@ export const InfoForm = ({ navigation }: NavigationProps) => {
             />
           </View>
         </View>
-
-        <Controller
-          control={control}
-          name="phone"
-          render={({ field: { onChange, onBlur, value } }) => (
-            <FormItem>
-              <FormLabel nativeID="phone">เบอร์โทร</FormLabel>
-              <PhoneInput
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-              />
-              <FormMessage errorMessage={errors.phone?.message} />
-            </FormItem>
-          )}
-        />
       </View>
     </StepFormScreen>
   );

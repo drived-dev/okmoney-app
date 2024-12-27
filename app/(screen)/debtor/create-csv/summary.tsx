@@ -11,10 +11,10 @@ import { Button } from "~/components/ui/button";
 import CreatedLoanWrapper from "./(components)/created-loan-wrapper";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useLoanBufferStore } from "~/store/use-loan-buffer-store";
-import { LoanAmountForm } from "../create/(components)/loan-amount-form";
-import { LoanDetailForm } from "../create/(components)/loan-detail-form";
-import { InfoForm } from "../create/(components)/info-form";
-import { MemoForm } from "../create/(components)/memo-form";
+import { LoanAmountForm } from "../(components)/loan-amount-form";
+import { LoanDetailForm } from "../(components)/loan-detail-form";
+import { InfoForm } from "../(components)/info-form";
+import { MemoForm } from "../(components)/memo-form";
 import { late, z } from "zod";
 import {
   LoanAmountFormSchema,

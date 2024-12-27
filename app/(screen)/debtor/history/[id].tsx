@@ -13,6 +13,8 @@ import { useLocalSearchParams } from "expo-router";
 import CloseButton from "~/components/close-button";
 import { router } from "expo-router";
 import useLoanStore from "~/store/use-loan-store";
+import { cn } from "~/lib/utils";
+import { CONTAINER } from "~/constants/Styles";
 const History = () => {
   const { id } = useLocalSearchParams();
   const debtorId = id as string;
@@ -37,7 +39,8 @@ const History = () => {
 
   return (
     <SafeAreaView>
-      <CloseButton className="mb-4" />
+      <CloseButton className="ml-2" />
+
       <HistoryPage
         name={`${loan?.firstName || ""} ${loan?.lastName || ""}`}
         nickname={loan?.nickname}

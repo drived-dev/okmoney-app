@@ -31,9 +31,10 @@ import NextButtonGroup from "../../../components/ui/next-button-group";
 import useUserStore from "~/store/use-user-store";
 import { patchUser } from "~/api/auth/patch-user";
 import Toast from "react-native-toast-message";
+import { postProfile } from "~/api/auth/post-profile";
 
 const formSchema = z.object({
-  img: z.string().nonempty({ message: "ต้องเลือกโปรไฟล์รูปภาพ" }), // Image is required
+  img: z.string().nonempty({ message: "ต้องเลือกโปรไฟล์รูปภาพ" }).optional(), // Image is required
   name: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(50),
   phone: z.string().min(9, { message: "กรุณากรอกเบอร์โทรศัพท์ให้ครบ" }), // Ensure phone number is required
 });
@@ -46,6 +47,7 @@ const Index = () => {
   const {
     control,
     handleSubmit,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -73,7 +75,7 @@ const Index = () => {
     if (!result.canceled) {
       const imageUri = result.assets[0].uri;
       setImage(imageUri); // Set the image URI for display
-      onChange(imageUri.split("/").pop() || ""); // Update form's img field with filename
+      onChange(imageUri); // Update form's img field with filename
     }
   };
 
@@ -89,11 +91,20 @@ const Index = () => {
     const setUser = useUserStore.getState().setUser;
     setUser(parsedValues);
 
-    // TODO: set image state
     if (intent === "create") {
       router.navigate("/term-and-service"); // Navigate to Terms screen without params
     } else if (intent === "edit") {
-      const response = await patchUser(parsedValues);
+      const formData = new FormData();
+      formData.append("file", {
+        uri: parsedValues["profileImage"],
+        name: `${Date.now()}.jpg`,
+        type: "image/jpeg",
+      } as any);
+
+      const response = await Promise.all([
+        patchUser(parsedValues),
+        postProfile(formData),
+      ]);
 
       if (response.status === 200) {
         Toast.show({
@@ -122,8 +133,8 @@ const Index = () => {
             <View className="flex flex-col items-center justify-center gap-2">
               <AvatarText
                 url={
-                  image ||
-                  "https://img.freepik.com/free-photo/happy-boy-with-adorable-smile_23-2149352352.jpg"
+                  getValues("img") ||
+                  "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                 }
               />
               <Controller

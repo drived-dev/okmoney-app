@@ -29,6 +29,8 @@ const DashboardCardOnly: React.FC<DashboardCardProps> = ({
 
   return (
     <View className="border border-gray-300 rounded-lg p-4 flex flex-col gap-2">
+      <Text className={cn(TITLE, "")}>ประเภทยอดชำระ</Text>
+
       <View
         className={cn(
           "gap-4",

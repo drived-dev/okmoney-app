@@ -63,7 +63,7 @@ const ToggleGroupItem = React.forwardRef<
             variant: context.variant || variant,
             size: context.size || size,
           }),
-          "rounded-2xl",
+          "rounded-xl",
           props.disabled && "web:pointer-events-none opacity-50",
           ToggleGroupPrimitive.utils.getIsSelected(value, props.value) &&
             "bg-gray-200",

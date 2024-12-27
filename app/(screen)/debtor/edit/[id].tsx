@@ -31,7 +31,7 @@ import { LoanAmountForm } from "../(components)/loan-amount-form";
 import { MemoForm } from "../(components)/memo-form";
 import { Button } from "~/components/ui/button";
 import { LucideX } from "lucide-react-native";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import {
   InfoFormSchema,
   LoanAmountFormSchema,
@@ -48,38 +48,15 @@ import { parseLoanData } from "~/lib/parse-loan-datas";
 import { useLoanBufferStore } from "~/store/use-loan-buffer-store";
 import LoadingScreen from "~/components/loading-screen";
 
-export const defaultValues = [
-  {
-    loanId: "001",
-    tags: [],
-    dueDate: new Date(),
-    loanType: "FIXED",
-    paymentType: "MONTHLY",
-    firstPaymentDate: new Date(),
-    loanTermType: undefined,
-    loanCategory: "NEW_LOAN",
-  },
-];
-
 interface Form {
   screen: React.FC<{ navigation: any }>;
   schema: z.AnyZodObject | z.ZodEffects<z.AnyZodObject>;
 }
 
-// TODO: custom message on schema
-// TOOD: date constrant
 export const forms: Form[] = [
   {
     screen: InfoForm,
     schema: InfoFormSchema,
-  },
-  {
-    screen: LoanDetailForm,
-    schema: LoanDetailFormSchema,
-  },
-  {
-    screen: LoanAmountForm,
-    schema: LoanAmountFormSchema,
   },
   {
     screen: MemoForm,
@@ -88,10 +65,33 @@ export const forms: Form[] = [
 ];
 
 const create = () => {
+  const { id } = useLocalSearchParams();
+  const { getLoanByDebtorId } = useLoanStore();
+  const loan = getLoanByDebtorId(id as string);
+  console.log(loan);
+
   const formSchemas = forms.map((form) => form.schema);
   const formScreens = forms.map((form) => form.screen);
   const addLoan = useLoanStore((state) => state.addLoan);
   const [isLoading, setIsLoading] = useState(false);
+
+  const defaultValues = [
+    {
+      loanId: loan?.loanNumber,
+      name: loan?.firstName,
+      lastname: loan?.lastName,
+      nickname: loan?.nickname,
+      phone: loan?.phoneNumber,
+      additionalNote: loan?.debtor?.memoNote,
+      dueDate: loan?.dueDate,
+      loanType: loan?.interestType,
+      paymentType: loan?.loanTermType,
+      firstPaymentDate: new Date(),
+      loanTermType: undefined,
+      loanCategory: "NEW_LOAN",
+    },
+  ];
+
   async function onSubmit(values: z.infer<(typeof formSchemas)[0]>) {
     setIsLoading(true);
     const totalBalance =
@@ -106,17 +106,6 @@ const create = () => {
         memoNote: values.additionalNote,
       },
       loan: {
-        loanNumber: values.loanId,
-        principal: Number(values.loanAmount),
-        loanStatus: LoanStatus.DUE,
-        remainingBalance: totalBalance - Number(values.amountPaid || 0),
-        totalBalance: totalBalance,
-        totalLoanTerm: Number(values.installments),
-        loanTermType: values.paymentType,
-        loanTermInterval: 1,
-        interestType: values.loanType,
-        interestRate: parseFloat(values.interestRate),
-        dueDate: values.dueDate,
         tags: values.tags,
       },
     };

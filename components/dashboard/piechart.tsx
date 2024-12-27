@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react-native";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH, PARAGRAPH_BOLD, TITLE } from "~/constants/Typography";
 import { router } from "expo-router";
-
+import { TrendingUp, TrendingDown } from "lucide-react-native";
 // Define interface for the component's props
 interface DashboardCardProps {
   userName: string;
@@ -37,31 +37,48 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
   // const seriesWithPercentage = series.map(
   //   (value) => ((value / total) * 100).toFixed(2) + "%"
   // );
-  const seriesm = series.map(
-      (value) => (value / 1000).toFixed(1) + "K"
-    );
+  const seriesm = series.map((value) => {
+    if (value >= 1000000) {
+      return (value / 1000000).toFixed(1) + " ล้าน";
+    } else if (value >= 100000) {
+      return (value / 100000).toFixed(1) + " แสน";
+    } else if (value >= 10000) {
+      return (value / 10000).toFixed(1) + " หมื่น";
+    } else if (value >= 1000) {
+      return (value / 1000).toFixed(1) + " พัน";
+    }
+    return value.toString();
+  });
 
   return (
     <View className="border border-gray-300 rounded-lg p-4 flex flex-col gap-2">
-      <View>
-        <Text className={cn(PARAGRAPH_BOLD, "")}>สวัสดี, {userName}</Text>
+      <View className="mb-4">
+        <Text className={cn(PARAGRAPH_BOLD, "text-gray-500")}>
+          สวัสดี, {userName}
+        </Text>
         <Text className={cn(TITLE, "")}>{totalMoney} บาท</Text>
 
         {/* Conditional color based on positive/negative change */}
         <Text
-          className={cn(PARAGRAPH_BOLD, "")}
+          className={cn(PARAGRAPH_BOLD, "-mt-2")}
           style={{ color: isPositive ? "green" : "red" }}
         >
-          {isPositive ? "+" : "-"}
-          {Math.abs(changeAmount).toLocaleString()} บาท (
-          {isPositive ? "+" : "-"}
+          {isPositive ? (
+            <TrendingUp color="green" size={20} className="ml-2" />
+          ) : (
+            <TrendingDown color="red" size={20} className="mr-2" />
+          )}{" "}
+          {Math.abs(
+            Number(String(changeAmount).replace(/[^0-9.-]/g, ""))
+          ).toLocaleString()}{" "}
+          บาท ({isPositive ? "+" : "-"}
           {changePercentage}%)
         </Text>
       </View>
 
       <View
         className={cn(
-          "gap-4",
+          "gap-2",
           direction === "row"
             ? "flex-row justify-between"
             : "flex-col items-center"
@@ -69,7 +86,9 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       >
         <PieChart
           widthAndHeight={widthAndHeight}
-          series={series.reduce((a, b) => a + b, 0) == 0 ? [1, 0, 0, 0] : series}
+          series={
+            series.reduce((a, b) => a + b, 0) == 0 ? [1, 0, 0, 0] : series
+          }
           sliceColor={sliceColor}
         />
         <View className={cn("flex-1", direction === "row" ? "ml-4" : "mt-4")}>

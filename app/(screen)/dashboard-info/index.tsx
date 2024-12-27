@@ -11,6 +11,7 @@ import DashboardCardRing from "~/components/dashboard/piechart-ring";
 import { getDashboardAll } from "~/api/dashboard/get-dashboard-all";
 import { useQuery } from "@tanstack/react-query";
 import { getDashboardDebtors } from "~/api/dashboard/get-dashboard-debtors";
+import CloseButton from "~/components/close-button";
 
 const handleBack = () => {
   if (router.canGoBack()) {
@@ -42,28 +43,37 @@ const categories2 = [
 ];
 
 const index = () => {
-  const {
-    data: dashboard = []
-  } = useQuery({
+  const { data: dashboard = [] } = useQuery({
     queryKey: ["dashboard"],
     queryFn: () => getDashboardAll(),
   });
-  const series = [dashboard.totalLoan, dashboard.accuredIncome, dashboard.totalEarned, dashboard.profit]
+  const series = [
+    dashboard.totalLoan,
+    dashboard.accuredIncome,
+    dashboard.totalEarned,
+    dashboard.profit,
+  ];
 
-  const {
-    data: dashboardDebtors = []
-  } = useQuery({
+  const { data: dashboardDebtors = [] } = useQuery({
     queryKey: ["dashboardDebtors"],
     queryFn: () => getDashboardDebtors(),
   });
-  const series2 = [dashboardDebtors.totalDebtors, dashboardDebtors.currentDebtors, dashboardDebtors.clearedDebtors]
+  const series2 = [
+    dashboardDebtors.totalDebtors,
+    dashboardDebtors.currentDebtors,
+    dashboardDebtors.clearedDebtors,
+  ];
+
+  function handleBack() {
+    router.back();
+  }
 
   return (
     <View>
       <SafeAreaView className="h-full">
+        <CloseButton className="ml-4"></CloseButton>
         <ScrollView>
           <View className={cn(CONTAINER, "flex flex-col gap-4 mt-4")}>
-            <Text className={cn(TITLE, "")}>ประเภทลูกหนี้</Text>
             <View className="flex flex-col gap-4">
               <DashboardCardOnly
                 widthAndHeight={widthAndHeight}
@@ -80,11 +90,6 @@ const index = () => {
                 direction="col"
               />
             </View>
-            <IconButton
-              icon={<ArrowLeft />}
-              onPress={handleBack}
-              text="go back"
-            ></IconButton>
           </View>
         </ScrollView>
       </SafeAreaView>
