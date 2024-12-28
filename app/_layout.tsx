@@ -111,14 +111,14 @@ export default function RootLayout() {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName="(.loading)/index"
+          initialRouteName="(auth)/index"
         >
-          <Stack.Screen
-            name="(.loading)"
+          {/* <Stack.Screen
+            name="(.loading)/index"
             options={{
               headerShown: false,
             }}
-          />
+          /> */}
           <Stack.Screen
             name="(screen)"
             options={{
