@@ -9,7 +9,8 @@ import {
   Image,
   ImageSourcePropType,
 } from "react-native";
-import { useRouter } from "expo-router";
+// import { useRouter } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
 import useUserStore from "~/store/use-user-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { CONTAINER } from "~/constants/Styles";
@@ -31,7 +32,7 @@ export default function SocialLoginButton({
   text,
   type,
 }: SocialLoginButtonProps) {
-  const router = useRouter();
+  const router = useNavigation();
   const { setUser, accessToken, refreshToken } = useUserStore();
 
   const BACKEND_AUTH_URL = `${process.env.EXPO_PUBLIC_API_URL}/auth/${type}/login`;

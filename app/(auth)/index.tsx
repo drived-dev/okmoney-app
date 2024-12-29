@@ -7,11 +7,10 @@ import { IconButton } from "~/components/icon-button";
 import { ArrowRight } from "lucide-react-native";
 import { CONTAINER } from "~/constants/Styles";
 import { useRouter } from "expo-router";
-import { useNavigation } from "@react-navigation/native";
 import { ThemeToggle } from "~/components/ThemeToggle";
 
-const Index = () => {
-  const router = useNavigation();
+const index = () => {
+  const router = useRouter();
   return (
     <View className="h-full">
       <SafeAreaView>
@@ -43,11 +42,11 @@ const Index = () => {
           text="เริ่มเลย"
           iconPosition="right"
           className="px-40 justify-center items-center"
-          onPress={() => router.navigate("test")}
-        />
+          onPress={() => router.navigate("/(auth)/login")}
+        ></IconButton>
       </View>
     </View>
   );
 };
 
-export default Index;
+export default index;

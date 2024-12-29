@@ -12,7 +12,8 @@ import {
 import { IconButton } from "~/components/icon-button";
 import { ArrowRight, Icon } from "lucide-react-native";
 import { CONTAINER, GRID, GRID_ROW } from "~/constants/Styles";
-import { useRouter } from "expo-router";
+// import { useRouter } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
 import PhoneInput from "~/components/phone-input";
 import { Button } from "~/components/ui/button";
 import { ThemeToggle } from "~/components/ThemeToggle";
@@ -30,7 +31,7 @@ const phoneSchema = z.object({
 });
 
 const PhoneLoginForm = () => {
-  const router = useRouter();
+  const router = useNavigation();
 
   const {
     control,

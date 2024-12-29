@@ -12,7 +12,8 @@ import {
 import { IconButton } from "~/components/icon-button";
 import { ArrowRight, Icon } from "lucide-react-native";
 import { CONTAINER, GRID, GRID_ROW } from "~/constants/Styles";
-import { useRouter } from "expo-router";
+// import { useRouter } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
 import PhoneInput from "~/components/phone-input";
 import { Button } from "~/components/ui/button";
 import { ThemeToggle } from "~/components/ThemeToggle";
@@ -28,7 +29,7 @@ import SocialLoginButton from "./(components)/social-login-button";
 import PhoneLoginForm from "./(components)/phone-login-form";
 
 const LoginScreen = () => {
-  const router = useRouter();
+  const router = useNavigation();
 
   const user = useUserStore();
   useEffect(() => {

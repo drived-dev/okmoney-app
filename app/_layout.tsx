@@ -1,3 +1,5 @@
+import "react-native-reanimated";
+
 import "~/global.css";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -23,7 +25,6 @@ import OfflineNotice from "~/components/offline-notice";
 import { toastConfig } from "~/components/toast-config";
 import useUserStore from "~/store/use-user-store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import "react-native-reanimated";
 import LoginScreen from "./(auth)/login";
 // import { usePushNotifications } from "~/lib/use-push-notification";
 import { useRootNavigationState } from "expo-router";
