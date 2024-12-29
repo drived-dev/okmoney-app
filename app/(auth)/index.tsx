@@ -6,11 +6,15 @@ import { SUBHEADER, TITLE } from "~/constants/Typography";
 import { IconButton } from "~/components/icon-button";
 import { ArrowRight } from "lucide-react-native";
 import { CONTAINER } from "~/constants/Styles";
-import { useRouter } from "expo-router";
+import { useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { ThemeToggle } from "~/components/ThemeToggle";
+import { Link } from "expo-router";
+import LoginScreen from "./login";
 
 const index = () => {
-  const router = useRouter();
+  const router = useRoute();
+  const nav = useNavigation();
   return (
     <View className="h-full">
       <SafeAreaView>
@@ -42,7 +46,7 @@ const index = () => {
           text="เริ่มเลย"
           iconPosition="right"
           className="px-40 justify-center items-center"
-          onPress={() => router.navigate("/(auth)/login")}
+          onPress={() => nav.navigate({ LoginScreen })}
         ></IconButton>
       </View>
     </View>
