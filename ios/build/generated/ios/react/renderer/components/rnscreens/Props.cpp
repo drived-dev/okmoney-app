@@ -26,13 +26,16 @@ RNSModalScreenProps::RNSModalScreenProps(
     const RNSModalScreenProps &sourceProps,
     const RawProps &rawProps): ViewProps(context, sourceProps, rawProps),
 
-    sheetAllowedDetents(convertRawProp(context, rawProps, "sheetAllowedDetents", sourceProps.sheetAllowedDetents, {RNSModalScreenSheetAllowedDetents::Large})),
-    sheetLargestUndimmedDetent(convertRawProp(context, rawProps, "sheetLargestUndimmedDetent", sourceProps.sheetLargestUndimmedDetent, {RNSModalScreenSheetLargestUndimmedDetent::All})),
+    sheetAllowedDetents(convertRawProp(context, rawProps, "sheetAllowedDetents", sourceProps.sheetAllowedDetents, {})),
+    sheetLargestUndimmedDetent(convertRawProp(context, rawProps, "sheetLargestUndimmedDetent", sourceProps.sheetLargestUndimmedDetent, {-1})),
     sheetGrabberVisible(convertRawProp(context, rawProps, "sheetGrabberVisible", sourceProps.sheetGrabberVisible, {false})),
     sheetCornerRadius(convertRawProp(context, rawProps, "sheetCornerRadius", sourceProps.sheetCornerRadius, {-1.0})),
     sheetExpandsWhenScrolledToEdge(convertRawProp(context, rawProps, "sheetExpandsWhenScrolledToEdge", sourceProps.sheetExpandsWhenScrolledToEdge, {false})),
+    sheetInitialDetent(convertRawProp(context, rawProps, "sheetInitialDetent", sourceProps.sheetInitialDetent, {0})),
+    sheetElevation(convertRawProp(context, rawProps, "sheetElevation", sourceProps.sheetElevation, {24})),
     customAnimationOnSwipe(convertRawProp(context, rawProps, "customAnimationOnSwipe", sourceProps.customAnimationOnSwipe, {false})),
     fullScreenSwipeEnabled(convertRawProp(context, rawProps, "fullScreenSwipeEnabled", sourceProps.fullScreenSwipeEnabled, {false})),
+    fullScreenSwipeShadowEnabled(convertRawProp(context, rawProps, "fullScreenSwipeShadowEnabled", sourceProps.fullScreenSwipeShadowEnabled, {true})),
     homeIndicatorHidden(convertRawProp(context, rawProps, "homeIndicatorHidden", sourceProps.homeIndicatorHidden, {false})),
     preventNativeDismiss(convertRawProp(context, rawProps, "preventNativeDismiss", sourceProps.preventNativeDismiss, {false})),
     gestureEnabled(convertRawProp(context, rawProps, "gestureEnabled", sourceProps.gestureEnabled, {true})),
@@ -45,12 +48,13 @@ RNSModalScreenProps::RNSModalScreenProps(
     gestureResponseDistance(convertRawProp(context, rawProps, "gestureResponseDistance", sourceProps.gestureResponseDistance, {})),
     stackPresentation(convertRawProp(context, rawProps, "stackPresentation", sourceProps.stackPresentation, {RNSModalScreenStackPresentation::Push})),
     stackAnimation(convertRawProp(context, rawProps, "stackAnimation", sourceProps.stackAnimation, {RNSModalScreenStackAnimation::Default})),
-    transitionDuration(convertRawProp(context, rawProps, "transitionDuration", sourceProps.transitionDuration, {350})),
+    transitionDuration(convertRawProp(context, rawProps, "transitionDuration", sourceProps.transitionDuration, {500})),
     replaceAnimation(convertRawProp(context, rawProps, "replaceAnimation", sourceProps.replaceAnimation, {RNSModalScreenReplaceAnimation::Pop})),
     swipeDirection(convertRawProp(context, rawProps, "swipeDirection", sourceProps.swipeDirection, {RNSModalScreenSwipeDirection::Horizontal})),
     hideKeyboardOnSwipe(convertRawProp(context, rawProps, "hideKeyboardOnSwipe", sourceProps.hideKeyboardOnSwipe, {false})),
     activityState(convertRawProp(context, rawProps, "activityState", sourceProps.activityState, {-1.0})),
     navigationBarColor(convertRawProp(context, rawProps, "navigationBarColor", sourceProps.navigationBarColor, {})),
+    navigationBarTranslucent(convertRawProp(context, rawProps, "navigationBarTranslucent", sourceProps.navigationBarTranslucent, {false})),
     navigationBarHidden(convertRawProp(context, rawProps, "navigationBarHidden", sourceProps.navigationBarHidden, {false})),
     nativeBackButtonDismissalEnabled(convertRawProp(context, rawProps, "nativeBackButtonDismissalEnabled", sourceProps.nativeBackButtonDismissalEnabled, {false}))
       {}
@@ -61,18 +65,35 @@ RNSScreenContainerProps::RNSScreenContainerProps(
 
     
       {}
+RNSScreenContentWrapperProps::RNSScreenContentWrapperProps(
+    const PropsParserContext &context,
+    const RNSScreenContentWrapperProps &sourceProps,
+    const RawProps &rawProps): ViewProps(context, sourceProps, rawProps)
+
+    
+      {}
+RNSScreenFooterProps::RNSScreenFooterProps(
+    const PropsParserContext &context,
+    const RNSScreenFooterProps &sourceProps,
+    const RawProps &rawProps): ViewProps(context, sourceProps, rawProps)
+
+    
+      {}
 RNSScreenProps::RNSScreenProps(
     const PropsParserContext &context,
     const RNSScreenProps &sourceProps,
     const RawProps &rawProps): ViewProps(context, sourceProps, rawProps),
 
-    sheetAllowedDetents(convertRawProp(context, rawProps, "sheetAllowedDetents", sourceProps.sheetAllowedDetents, {RNSScreenSheetAllowedDetents::Large})),
-    sheetLargestUndimmedDetent(convertRawProp(context, rawProps, "sheetLargestUndimmedDetent", sourceProps.sheetLargestUndimmedDetent, {RNSScreenSheetLargestUndimmedDetent::All})),
+    sheetAllowedDetents(convertRawProp(context, rawProps, "sheetAllowedDetents", sourceProps.sheetAllowedDetents, {})),
+    sheetLargestUndimmedDetent(convertRawProp(context, rawProps, "sheetLargestUndimmedDetent", sourceProps.sheetLargestUndimmedDetent, {-1})),
     sheetGrabberVisible(convertRawProp(context, rawProps, "sheetGrabberVisible", sourceProps.sheetGrabberVisible, {false})),
     sheetCornerRadius(convertRawProp(context, rawProps, "sheetCornerRadius", sourceProps.sheetCornerRadius, {-1.0})),
     sheetExpandsWhenScrolledToEdge(convertRawProp(context, rawProps, "sheetExpandsWhenScrolledToEdge", sourceProps.sheetExpandsWhenScrolledToEdge, {false})),
+    sheetInitialDetent(convertRawProp(context, rawProps, "sheetInitialDetent", sourceProps.sheetInitialDetent, {0})),
+    sheetElevation(convertRawProp(context, rawProps, "sheetElevation", sourceProps.sheetElevation, {24})),
     customAnimationOnSwipe(convertRawProp(context, rawProps, "customAnimationOnSwipe", sourceProps.customAnimationOnSwipe, {false})),
     fullScreenSwipeEnabled(convertRawProp(context, rawProps, "fullScreenSwipeEnabled", sourceProps.fullScreenSwipeEnabled, {false})),
+    fullScreenSwipeShadowEnabled(convertRawProp(context, rawProps, "fullScreenSwipeShadowEnabled", sourceProps.fullScreenSwipeShadowEnabled, {true})),
     homeIndicatorHidden(convertRawProp(context, rawProps, "homeIndicatorHidden", sourceProps.homeIndicatorHidden, {false})),
     preventNativeDismiss(convertRawProp(context, rawProps, "preventNativeDismiss", sourceProps.preventNativeDismiss, {false})),
     gestureEnabled(convertRawProp(context, rawProps, "gestureEnabled", sourceProps.gestureEnabled, {true})),
@@ -85,12 +106,13 @@ RNSScreenProps::RNSScreenProps(
     gestureResponseDistance(convertRawProp(context, rawProps, "gestureResponseDistance", sourceProps.gestureResponseDistance, {})),
     stackPresentation(convertRawProp(context, rawProps, "stackPresentation", sourceProps.stackPresentation, {RNSScreenStackPresentation::Push})),
     stackAnimation(convertRawProp(context, rawProps, "stackAnimation", sourceProps.stackAnimation, {RNSScreenStackAnimation::Default})),
-    transitionDuration(convertRawProp(context, rawProps, "transitionDuration", sourceProps.transitionDuration, {350})),
+    transitionDuration(convertRawProp(context, rawProps, "transitionDuration", sourceProps.transitionDuration, {500})),
     replaceAnimation(convertRawProp(context, rawProps, "replaceAnimation", sourceProps.replaceAnimation, {RNSScreenReplaceAnimation::Pop})),
     swipeDirection(convertRawProp(context, rawProps, "swipeDirection", sourceProps.swipeDirection, {RNSScreenSwipeDirection::Horizontal})),
     hideKeyboardOnSwipe(convertRawProp(context, rawProps, "hideKeyboardOnSwipe", sourceProps.hideKeyboardOnSwipe, {false})),
     activityState(convertRawProp(context, rawProps, "activityState", sourceProps.activityState, {-1.0})),
     navigationBarColor(convertRawProp(context, rawProps, "navigationBarColor", sourceProps.navigationBarColor, {})),
+    navigationBarTranslucent(convertRawProp(context, rawProps, "navigationBarTranslucent", sourceProps.navigationBarTranslucent, {false})),
     navigationBarHidden(convertRawProp(context, rawProps, "navigationBarHidden", sourceProps.navigationBarHidden, {false})),
     nativeBackButtonDismissalEnabled(convertRawProp(context, rawProps, "nativeBackButtonDismissalEnabled", sourceProps.nativeBackButtonDismissalEnabled, {false}))
       {}
@@ -129,8 +151,10 @@ RNSScreenStackHeaderConfigProps::RNSScreenStackHeaderConfigProps(
     titleFontWeight(convertRawProp(context, rawProps, "titleFontWeight", sourceProps.titleFontWeight, {})),
     titleColor(convertRawProp(context, rawProps, "titleColor", sourceProps.titleColor, {})),
     disableBackButtonMenu(convertRawProp(context, rawProps, "disableBackButtonMenu", sourceProps.disableBackButtonMenu, {false})),
+    backButtonDisplayMode(convertRawProp(context, rawProps, "backButtonDisplayMode", sourceProps.backButtonDisplayMode, {RNSScreenStackHeaderConfigBackButtonDisplayMode::Default})),
     hideBackButton(convertRawProp(context, rawProps, "hideBackButton", sourceProps.hideBackButton, {false})),
     backButtonInCustomView(convertRawProp(context, rawProps, "backButtonInCustomView", sourceProps.backButtonInCustomView, {false})),
+    blurEffect(convertRawProp(context, rawProps, "blurEffect", sourceProps.blurEffect, {RNSScreenStackHeaderConfigBlurEffect::None})),
     topInsetEnabled(convertRawProp(context, rawProps, "topInsetEnabled", sourceProps.topInsetEnabled, {false}))
       {}
 RNSScreenStackHeaderSubviewProps::RNSScreenStackHeaderSubviewProps(

@@ -14,6 +14,11 @@
 #ifndef __cplusplus
 #error This file must be compiled as Obj-C++. If you are importing it, you must change your file extension to .mm.
 #endif
+
+// Avoid multiple includes of RNDateTimePickerCGen symbols
+#ifndef RNDateTimePickerCGen_H
+#define RNDateTimePickerCGen_H
+
 #import <Foundation/Foundation.h>
 #import <RCTRequired/RCTRequired.h>
 #import <RCTTypeSafety/RCTConvertHelpers.h>
@@ -70,6 +75,16 @@ namespace JS {
       reject:(RCTPromiseRejectBlock)reject;
 
 @end
+
+@interface NativeModuleDatePickerSpecBase : NSObject {
+@protected
+facebook::react::EventEmitterCallback _eventEmitterCallback;
+}
+- (void)setEventEmitterCallback:(EventEmitterCallbackWrapper *)eventEmitterCallbackWrapper;
+
+
+@end
+
 namespace facebook::react {
   /**
    * ObjC++ class for module 'NativeModuleDatePicker'
@@ -122,6 +137,16 @@ namespace JS {
       reject:(RCTPromiseRejectBlock)reject;
 
 @end
+
+@interface NativeModuleTimePickerSpecBase : NSObject {
+@protected
+facebook::react::EventEmitterCallback _eventEmitterCallback;
+}
+- (void)setEventEmitterCallback:(EventEmitterCallbackWrapper *)eventEmitterCallbackWrapper;
+
+
+@end
+
 namespace facebook::react {
   /**
    * ObjC++ class for module 'NativeModuleTimePicker'
@@ -201,3 +226,4 @@ inline std::optional<double> JS::NativeModuleTimePicker::SpecOpenParams::timeZon
   id const p = _v[@"timeZoneOffsetInMinutes"];
   return RCTBridgingToOptionalDouble(p);
 }
+#endif // RNDateTimePickerCGen_H

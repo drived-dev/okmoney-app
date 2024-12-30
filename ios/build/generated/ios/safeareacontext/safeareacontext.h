@@ -14,6 +14,11 @@
 #ifndef __cplusplus
 #error This file must be compiled as Obj-C++. If you are importing it, you must change your file extension to .mm.
 #endif
+
+// Avoid multiple includes of safeareacontext symbols
+#ifndef safeareacontext_H
+#define safeareacontext_H
+
 #import <Foundation/Foundation.h>
 #import <RCTRequired/RCTRequired.h>
 #import <RCTTypeSafety/RCTConvertHelpers.h>
@@ -146,6 +151,16 @@ namespace JS {
 - (facebook::react::ModuleConstants<JS::NativeSafeAreaContext::Constants::Builder>)getConstants;
 
 @end
+
+@interface NativeSafeAreaContextSpecBase : NSObject {
+@protected
+facebook::react::EventEmitterCallback _eventEmitterCallback;
+}
+- (void)setEventEmitterCallback:(EventEmitterCallbackWrapper *)eventEmitterCallbackWrapper;
+
+
+@end
+
 namespace facebook::react {
   /**
    * ObjC++ class for module 'NativeSafeAreaContext'
@@ -205,3 +220,4 @@ inline JS::NativeSafeAreaContext::Constants::Builder::Builder(const Input i) : _
 inline JS::NativeSafeAreaContext::Constants::Builder::Builder(Constants i) : _factory(^{
   return i.unsafeRawValue();
 }) {}
+#endif // safeareacontext_H

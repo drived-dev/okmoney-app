@@ -39,11 +39,14 @@ protected:
     : TurboModule(std::string{NativeModuleDatePickerCxxSpec::kModuleName}, jsInvoker),
       delegate_(reinterpret_cast<T*>(this), jsInvoker) {}
 
+
 private:
   class Delegate : public NativeModuleDatePickerCxxSpecJSI {
   public:
     Delegate(T *instance, std::shared_ptr<CallInvoker> jsInvoker) :
-      NativeModuleDatePickerCxxSpecJSI(std::move(jsInvoker)), instance_(instance) {}
+      NativeModuleDatePickerCxxSpecJSI(std::move(jsInvoker)), instance_(instance) {
+
+    }
 
     jsi::Value dismiss(jsi::Runtime &rt) override {
       static_assert(
@@ -63,6 +66,7 @@ private:
     }
 
   private:
+    friend class NativeModuleDatePickerCxxSpec;
     T *instance_;
   };
 
@@ -94,11 +98,14 @@ protected:
     : TurboModule(std::string{NativeModuleTimePickerCxxSpec::kModuleName}, jsInvoker),
       delegate_(reinterpret_cast<T*>(this), jsInvoker) {}
 
+
 private:
   class Delegate : public NativeModuleTimePickerCxxSpecJSI {
   public:
     Delegate(T *instance, std::shared_ptr<CallInvoker> jsInvoker) :
-      NativeModuleTimePickerCxxSpecJSI(std::move(jsInvoker)), instance_(instance) {}
+      NativeModuleTimePickerCxxSpecJSI(std::move(jsInvoker)), instance_(instance) {
+
+    }
 
     jsi::Value dismiss(jsi::Runtime &rt) override {
       static_assert(
@@ -118,6 +125,7 @@ private:
     }
 
   private:
+    friend class NativeModuleTimePickerCxxSpec;
     T *instance_;
   };
 

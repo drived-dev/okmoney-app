@@ -23,18 +23,8 @@ import OfflineNotice from "~/components/offline-notice";
 import { toastConfig } from "~/components/toast-config";
 import useUserStore from "~/store/use-user-store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import App from "./app";
 import LoginScreen from "./(auth)/login";
 // import { usePushNotifications } from "~/lib/use-push-notification";
-
-const LIGHT_THEME: Theme = {
-  dark: false,
-  colors: NAV_THEME.light,
-};
-const DARK_THEME: Theme = {
-  dark: true,
-  colors: NAV_THEME.dark,
-};
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -107,37 +97,35 @@ export default function RootLayout() {
 
   return (
     // <NavigationContainer independent={true}>
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <QueryClientProvider client={queryClient}>
-        <Stack
-          screenOptions={{
+    <QueryClientProvider client={queryClient}>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+        initialRouteName="(auth)/index"
+      >
+        {/* <Stack.Screen
+          name="(.loading)"
+          options={{
             headerShown: false,
           }}
-          initialRouteName="(.loading)/index"
-        >
-          <Stack.Screen
-            name="(.loading)"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="(screen)"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="(auth)/index"
-            options={{
-              headerShown: false,
-            }}
-          />
-        </Stack>
-        <OfflineNotice />
-        <Toast config={toastConfig} />
-        <PortalHost />
-      </QueryClientProvider>
-    </ThemeProvider>
+        /> */}
+        <Stack.Screen
+          name="(screen)"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="(auth)/index"
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack>
+      <OfflineNotice />
+      <Toast config={toastConfig} />
+      <PortalHost />
+    </QueryClientProvider>
   );
 }

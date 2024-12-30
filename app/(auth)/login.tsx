@@ -52,7 +52,6 @@ const LoginScreen = () => {
   return (
     <View className="h-full">
       <SafeAreaView>
-        <ThemeToggle />
         <View className={cn(CONTAINER, "mt-20 mx-4")}>
           <View className="flex flex-col gap-8">
             <View className="flex flex-col">
