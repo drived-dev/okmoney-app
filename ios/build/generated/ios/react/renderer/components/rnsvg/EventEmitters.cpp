@@ -28,6 +28,28 @@ namespace facebook::react {
 
 
 
+void RNSVGImageEventEmitter::onLoad(OnLoad $event) const {
+  dispatchEvent("load", [$event=std::move($event)](jsi::Runtime &runtime) {
+    auto $payload = jsi::Object(runtime);
+    {
+  auto source = jsi::Object(runtime);
+  source.setProperty(runtime, "width", $event.source.width);
+  source.setProperty(runtime, "height", $event.source.height);
+  source.setProperty(runtime, "uri", $event.source.uri);
+  $payload.setProperty(runtime, "source", source);
+}
+    return $payload;
+  });
+}
+
+
+
+
+
+
+
+
+
 
 
 

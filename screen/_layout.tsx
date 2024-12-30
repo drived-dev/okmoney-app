@@ -8,7 +8,8 @@ import {
   Theme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { SplashScreen, Stack, Tabs, useRouter } from "expo-router";
+import { SplashScreen, Tabs, useRouter } from "expo-router";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { Button, Platform, TouchableOpacity } from "react-native";
@@ -25,9 +26,12 @@ import OfflineNotice from "~/components/offline-notice";
 import { toastConfig } from "~/components/toast-config";
 import useUserStore from "~/store/use-user-store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import LoginScreen from "./(auth)/login";
+import LoginScreen from "~/screen/(auth)/login";
+import MainScreen from "~/screen/(screen)/(tabs)/index";
 // import { usePushNotifications } from "~/lib/use-push-notification";
-import { useRootNavigationState } from "expo-router";
+import { createStackNavigator } from "@react-navigation/stack";
+
+const Stack = createStackNavigator();
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -48,7 +52,6 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   // const { expoPushToken, notification } = usePushNotifications();
-  // console.log(expoPushToken);
 
   const { colorScheme, setColorScheme, isDarkColorScheme } = useColorScheme();
   const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
@@ -106,38 +109,33 @@ export default function RootLayout() {
   });
 
   return (
-    // <NavigationContainer independent={true}>
-    <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-      <QueryClientProvider client={queryClient}>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-          initialRouteName="(auth)/index"
-        >
-          {/* <Stack.Screen
-            name="(.loading)/index"
-            options={{
+      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+        <QueryClientProvider client={queryClient}>
+          <Stack.Navigator
+            screenOptions={{
               headerShown: false,
             }}
-          /> */}
-          <Stack.Screen
-            name="(screen)"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="(auth)/index"
-            options={{
-              headerShown: false,
-            }}
-          />
-        </Stack>
-        <OfflineNotice />
-        <Toast config={toastConfig} />
-        <PortalHost />
-      </QueryClientProvider>
-    </ThemeProvider>
+          >
+            <Stack.Screen
+              name="Main"
+              component={MainScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+          </Stack.Navigator>
+          <OfflineNotice />
+          <Toast config={toastConfig} />
+          <PortalHost />
+        </QueryClientProvider>
+      </ThemeProvider>
+    </>
   );
 }
