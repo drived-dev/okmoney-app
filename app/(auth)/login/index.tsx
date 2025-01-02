@@ -26,6 +26,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import useUserStore from "~/store/use-user-store";
 import SocialLoginButton from "../(components)/social-login-button";
 import PhoneLoginForm from "../(components)/phone-login-form";
+import * as WebBrowser from "expo-web-browser";
+
+WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = () => {
   const router = useRouter();
@@ -60,6 +63,7 @@ const LoginScreen = () => {
               </Text>
             </View>
             <PhoneLoginForm />
+            <Text>{process.env.EXPO_PUBLIC_API_URL}</Text>
 
             <View className="flex flex-row items-center gap-2">
               <View className="flex-1 h-px bg-gray-500"></View>
