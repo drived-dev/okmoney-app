@@ -24,8 +24,8 @@ import { FormMessage } from "~/components/form";
 import { Input } from "~/components/ui/input";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import useUserStore from "~/store/use-user-store";
-import SocialLoginButton from "./(components)/social-login-button";
-import PhoneLoginForm from "./(components)/phone-login-form";
+import SocialLoginButton from "../(components)/social-login-button";
+import PhoneLoginForm from "../(components)/phone-login-form";
 
 const LoginScreen = () => {
   const router = useRouter();

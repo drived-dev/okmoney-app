@@ -8,13 +8,13 @@ import { CONTAINER } from "~/constants/Styles";
 import { Loan } from "~/types/Loan";
 import { Edit } from "lucide-react-native";
 import { Button } from "~/components/ui/button";
-import CreatedLoanWrapper from "./(components)/created-loan-wrapper";
+import CreatedLoanWrapper from "../(components)/created-loan-wrapper";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useLoanBufferStore } from "~/store/use-loan-buffer-store";
-import { LoanAmountForm } from "../(components)/loan-amount-form";
-import { LoanDetailForm } from "../(components)/loan-detail-form";
-import { InfoForm } from "../(components)/info-form";
-import { MemoForm } from "../(components)/memo-form";
+import { LoanAmountForm } from "../../(components)/loan-amount-form";
+import { LoanDetailForm } from "../../(components)/loan-detail-form";
+import { InfoForm } from "../../(components)/info-form";
+import { MemoForm } from "../../(components)/memo-form";
 import { late, z } from "zod";
 import {
   LoanAmountFormSchema,
@@ -23,7 +23,7 @@ import {
   LoanDetailFormSchema,
 } from "~/lib/validation/loan-create";
 import { Form } from "react-hook-form";
-import ErrorDropdown from "./(components)/error-dropdown";
+import ErrorDropdown from "../(components)/error-dropdown";
 import { createDebtorCSV } from "~/api/mass-debtor/create-debtor-csv";
 
 export interface Error {

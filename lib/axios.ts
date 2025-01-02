@@ -26,7 +26,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error("API Error:", {
+    console.log("API Error:", {
       url: error.config?.url,
       method: error.config?.method,
       status: error.response?.status,
