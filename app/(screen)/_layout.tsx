@@ -16,6 +16,7 @@ const Layout = () => {
       screenOptions={({ route }) => ({
         drawerType: "front",
         headerShown: false,
+
         swipeEnabled: route.name !== "(tabs)/index",
       })}
     >

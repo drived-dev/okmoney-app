@@ -8,7 +8,7 @@ import { PARAGRAPH, TITLE } from "~/constants/Typography";
 import OnlineOnly from "~/components/online-only";
 const Layout = () => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: "white" }}>
       <View className={cn(CONTAINER, "flex flex-col gap-5 h-full")}>
         <CloseButton />
 

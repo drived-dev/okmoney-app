@@ -63,7 +63,6 @@ const LoginScreen = () => {
               </Text>
             </View>
             <PhoneLoginForm />
-            <Text>{process.env.EXPO_PUBLIC_API_URL}</Text>
 
             <View className="flex flex-row items-center gap-2">
               <View className="flex-1 h-px bg-gray-500"></View>

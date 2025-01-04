@@ -35,9 +35,6 @@ const routes: Route[] = [
 ];
 
 const Layout = () => {
-  const { isDarkColorScheme } = useColorScheme();
-  const user = useUserStore();
-
   const softShadow = {
     ...Platform.select({
       ios: {
@@ -59,14 +56,17 @@ const Layout = () => {
     <Tabs
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: isDarkColorScheme ? colors.black : colors.white,
+          backgroundColor: colors.white,
           height: 86,
           paddingTop: 8,
           ...softShadow,
         },
         tabBarActiveTintColor: colors.red[500],
         tabBarInactiveTintColor: colors.gray[400],
-        headerShown: false, // Add this to hide the header
+        headerShown: false,
+        sceneStyle: {
+          backgroundColor: colors.white,
+        },
       }}
     >
       {routes.map((route) => (
