@@ -116,13 +116,11 @@ const create = () => {
         loanTermInterval: 1,
         interestType: values.loanType,
         interestRate: parseFloat(values.interestRate),
-        dueDate: values.dueDate,
+        dueDate: new Date(values.dueDate).getTime(),
         tags: values.tags,
       },
     };
     const response = await createLoan(loanData);
-    console.log("loadn");
-    console.log(loanData);
     if (response.status === 201) {
       Toast.show({
         text1: "Loan created successfully",
