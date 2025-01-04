@@ -103,7 +103,7 @@ const create = () => {
         firstName: values.name,
         lastName: values.lastname,
         phoneNumber: values.phone,
-        memoNote: values.additionalNote,
+        memoNote: values.additionalNote || "",
       },
       loan: {
         loanNumber: values.loanId,
@@ -121,14 +121,15 @@ const create = () => {
       },
     };
     const response = await createLoan(loanData);
-
+    console.log("loadn");
+    console.log(loanData);
     if (response.status === 201) {
       Toast.show({
         text1: "Loan created successfully",
         type: "success",
       });
       addLoan(parseLoanData(response.data.data));
-      router.back();
+      router.replace("/(tabs)");
       return true;
     } else {
       Toast.show({
