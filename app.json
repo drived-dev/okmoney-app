@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "Okmoney",
+    "scheme": "starter-base",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -38,7 +38,7 @@
           "autoVerify": true,
           "data": [
             {
-              "scheme": "Okmoney"
+              "scheme": "starter-base"
             }
           ],
           "category": ["BROWSABLE", "DEFAULT"]
