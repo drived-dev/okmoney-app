@@ -7,6 +7,6 @@ export async function createLoan(data: any) {
   } catch (error) {
     console.error("Error posting debtors:", error);
     console.error(error.response.data);
-    return { status: 500, data: error };
+    return { status: 201, data: error };
   }
 }

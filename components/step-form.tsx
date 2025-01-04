@@ -1,10 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 import { TITLE } from "~/constants/Typography";
 import { cn } from "~/lib/utils";
 import {
   NavigationContainer,
   useNavigationContainerRef,
+} from "@react-navigation/native";
+import {
+  createStaticNavigation,
+  NavigationIndependentTree,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,7 +40,7 @@ const StepForm = ({
   disabled = false,
 }: StepFormProps) => {
   const [currentStep, setCurrentStep] = React.useState(0);
-  const navigationRef = useNavigationContainerRef();
+  // const navigationRef = useRef(null);
   const currentSchema = formSchemas[currentStep];
   const currentDefaultValue = defaultValues[currentStep] ?? null;
 
@@ -62,11 +66,6 @@ const StepForm = ({
           onSubmit,
           disabled,
           lastStep: formSchemas.length - 1,
-          resetNavigation: () =>
-            navigationRef.reset({
-              index: 0,
-              routes: [{ name: "Page-0" }],
-            }),
           resetAllForms: () => {
             // Reset all form instances
             formMethodsRef.current.forEach((formMethod) => {
@@ -77,7 +76,7 @@ const StepForm = ({
           },
         }}
       >
-        <NavigationContainer ref={navigationRef} independent={true}>
+        <NavigationIndependentTree>
           <Stack.Navigator
             initialRouteName="Page-0"
             screenOptions={{
@@ -96,7 +95,7 @@ const StepForm = ({
               />
             ))}
           </Stack.Navigator>
-        </NavigationContainer>
+        </NavigationIndependentTree>
       </StepContext.Provider>
     </FormProvider>
   );
@@ -107,7 +106,6 @@ type StepContextType = {
   lastStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   onSubmit: (values: any) => Promise<boolean>;
-  resetNavigation: () => void;
   resetAllForms: () => void;
   disabled: boolean;
 };
@@ -119,9 +117,6 @@ const StepContext = React.createContext<StepContextType>({
     console.error("You need to pass in this function to StepContext");
   },
   onSubmit: () => Promise.resolve(false),
-  resetNavigation: () => {
-    console.error("You need to pass in this function to StepContext");
-  },
   resetAllForms: () => {
     console.error("You need to pass in this function to StepContext");
   },
@@ -205,7 +200,6 @@ const StepperButtonGroup = ({
     setCurrentStep,
     onSubmit,
     lastStep,
-    resetNavigation,
     resetAllForms,
     disabled,
   } = useStepContext();
@@ -240,7 +234,7 @@ const StepperButtonGroup = ({
 
         if (result) {
           resetAllForms(); // Reset all form instances
-          resetNavigation();
+          // resetNavigation();
           setCurrentStep(0);
         }
       } catch (error) {

@@ -141,7 +141,7 @@ const create = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-white">
       <CloseButton className="ml-4 mb-10" />
       <StepForm
         onSubmit={onSubmit}
