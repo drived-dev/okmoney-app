@@ -29,10 +29,11 @@
         <data android:scheme="com.okmoney.gotroger"/>
         <data android:scheme="starter-base"/>
         <data android:scheme="Okmoney"/>
+        <data android:scheme="okmoney"/>
       </intent-filter>
       <intent-filter android:autoVerify="true" data-generated="true">
         <action android:name="android.intent.action.VIEW"/>
-        <data android:scheme="Okmoney"/>
+        <data android:scheme="okmoney"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <category android:name="android.intent.category.DEFAULT"/>
       </intent-filter>
