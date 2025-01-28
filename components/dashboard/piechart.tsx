@@ -117,7 +117,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
 
       <View>
         <IconButton
-          onPress={() => router.navigate("/dashboard-info/index")}
+          onPress={() => router.navigate("/dashboard-info")}
           icon={<ArrowRight />}
           text="ดูภาพรวมทั้งหมด"
           iconPosition="right"
