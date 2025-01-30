@@ -47,26 +47,25 @@ const index = () => {
     queryKey: ["dashboard"],
     queryFn: () => getDashboardAll(),
   });
-  const series = [
-    dashboard.totalLoan,
-    dashboard.accuredIncome,
-    dashboard.totalEarned,
-    dashboard.profit,
-  ];
 
   const { data: dashboardDebtors = [] } = useQuery({
     queryKey: ["dashboardDebtors"],
     queryFn: () => getDashboardDebtors(),
   });
+
+  // Add default values of 0 and ensure numbers, filtering out null/undefined
+  const series = [
+    dashboard.totalLoan,
+    dashboard.accuredIncome,
+    dashboard.totalEarned,
+    dashboard.profit,
+  ].map((val) => Number(val) || 0);
+
   const series2 = [
     dashboardDebtors.totalDebtors,
     dashboardDebtors.currentDebtors,
     dashboardDebtors.clearedDebtors,
-  ];
-
-  function handleBack() {
-    router.back();
-  }
+  ].map((val) => Number(val) || 0);
 
   return (
     <View>
