@@ -27,6 +27,19 @@ const DashboardCardOnly: React.FC<DashboardCardProps> = ({
     (value) => `${new Intl.NumberFormat().format(value)} บาท`
   );
 
+  // Add check for zero sum
+  const seriesSum = series.reduce((acc, curr) => acc + curr, 0);
+  if (seriesSum === 0) {
+    return (
+      <View className="border border-gray-300 rounded-lg p-4 flex flex-col gap-2">
+        <Text className={cn(TITLE, "")}>ประเภทยอดชำระ</Text>
+        <View className="items-center justify-center p-4">
+          <Text className={cn(PARAGRAPH, "text-gray-500")}>ไม่มีข้อมูล</Text>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View className="border border-gray-300 rounded-lg p-4 flex flex-col gap-2">
       <Text className={cn(TITLE, "")}>ประเภทยอดชำระ</Text>

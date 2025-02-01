@@ -13,18 +13,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getDashboardDebtors } from "~/api/dashboard/get-dashboard-debtors";
 import CloseButton from "~/components/close-button";
 
-const handleBack = () => {
-  if (router.canGoBack()) {
-    // If there's a previous page, go back
-    router.back();
-  } else {
-    // Otherwise, navigate to a fallback route (e.g., "Home")
-    router.navigate("/");
-  }
-};
-
 const widthAndHeight = 200;
-//const series = [1000, 200, 3000, 400];
+const series0_1 = [1];
 const sliceColor = ["#fbd203", "#ffb300", "#ff9100", "#ff6c00"];
 const categories = [
   "ยอดปล่อยทั้งหมด",
@@ -34,7 +24,8 @@ const categories = [
 ];
 
 const widthAndHeight2 = 200;
-//const series2 = [62, 51, 11];
+
+const series0_2 = [1];
 const sliceColor2 = ["#fbd203", "#ffb300", "#ff9100"];
 const categories2 = [
   "จำนวนลูกหนี้ทั้งหมด",
@@ -47,47 +38,62 @@ const index = () => {
     queryKey: ["dashboard"],
     queryFn: () => getDashboardAll(),
   });
+  // Add default values of 0 and ensure numbers
+  const series = [
+    Number(dashboard.totalLoan) || 0,
+    Number(dashboard.accuredIncome) || 0,
+    Number(dashboard.totalEarned) || 0,
+    Number(dashboard.profit) || 0,
+  ];
 
   const { data: dashboardDebtors = [] } = useQuery({
     queryKey: ["dashboardDebtors"],
     queryFn: () => getDashboardDebtors(),
   });
-
-  // Add default values of 0 and ensure numbers, filtering out null/undefined
-  const series = [
-    dashboard.totalLoan,
-    dashboard.accuredIncome,
-    dashboard.totalEarned,
-    dashboard.profit,
-  ].map((val) => Number(val) || 0);
-
+  // Add default values of 0 and ensure numbers
   const series2 = [
-    dashboardDebtors.totalDebtors,
-    dashboardDebtors.currentDebtors,
-    dashboardDebtors.clearedDebtors,
-  ].map((val) => Number(val) || 0);
+    Number(dashboardDebtors.totalDebtors) || 0,
+    Number(dashboardDebtors.currentDebtors) || 0,
+    Number(dashboardDebtors.clearedDebtors) || 0,
+  ];
+
+  // Add check for zero sum
+  const hasData = series.reduce((a, b) => a + b, 0) > 0;
+  const hasDebtorsData = series2.reduce((a, b) => a + b, 0) > 0;
+
+  function handleBack() {
+    router.back();
+  }
+
+  const renderDashboardCard = () => (
+    <DashboardCardOnly
+      widthAndHeight={widthAndHeight}
+      series={hasData ? series : series0_1}
+      sliceColor={hasData ? sliceColor : ["#E5E7EB"]}
+      categories={categories}
+      direction="col"
+    />
+  );
+
+  const renderDebtorsCard = () => (
+    <DashboardCardRing
+      widthAndHeight={widthAndHeight2}
+      series={hasDebtorsData ? series2 : series0_2}
+      sliceColor={hasDebtorsData ? sliceColor2 : ["#E5E7EB"]}
+      categories={categories2}
+      direction="col"
+    />
+  );
 
   return (
     <View>
       <SafeAreaView className="h-full">
-        <CloseButton className="ml-4"></CloseButton>
+        <CloseButton className="ml-4" />
         <ScrollView>
           <View className={cn(CONTAINER, "flex flex-col gap-4 mt-4")}>
             <View className="flex flex-col gap-4">
-              <DashboardCardOnly
-                widthAndHeight={widthAndHeight}
-                series={series}
-                sliceColor={sliceColor}
-                categories={categories}
-                direction="col"
-              />
-              <DashboardCardRing
-                widthAndHeight={widthAndHeight2}
-                series={series2}
-                sliceColor={sliceColor2}
-                categories={categories2}
-                direction="col"
-              />
+              {renderDashboardCard()}
+              {renderDebtorsCard()}
             </View>
           </View>
         </ScrollView>
