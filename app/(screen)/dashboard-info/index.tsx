@@ -14,7 +14,7 @@ import { getDashboardDebtors } from "~/api/dashboard/get-dashboard-debtors";
 import CloseButton from "~/components/close-button";
 
 const widthAndHeight = 200;
-const series0_1 = [1];
+const series0_1 = [0];
 const sliceColor = ["#fbd203", "#ffb300", "#ff9100", "#ff6c00"];
 const categories = [
   "ยอดปล่อยทั้งหมด",
@@ -25,7 +25,7 @@ const categories = [
 
 const widthAndHeight2 = 200;
 
-const series0_2 = [1];
+const series0_2 = [0];
 const sliceColor2 = ["#fbd203", "#ffb300", "#ff9100"];
 const categories2 = [
   "จำนวนลูกหนี้ทั้งหมด",

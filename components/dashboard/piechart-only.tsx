@@ -33,8 +33,19 @@ const DashboardCardOnly: React.FC<DashboardCardProps> = ({
     return (
       <View className="border border-gray-300 rounded-lg p-4 flex flex-col gap-2">
         <Text className={cn(TITLE, "")}>ประเภทยอดชำระ</Text>
-        <View className="items-center justify-center p-4">
-          <Text className={cn(PARAGRAPH, "text-gray-500")}>ไม่มีข้อมูล</Text>
+        <View
+          className={cn(
+            "gap-4",
+            direction === "row"
+              ? "flex-row justify-between"
+              : "flex-col items-center"
+          )}
+        >
+          <PieChart
+            widthAndHeight={widthAndHeight}
+            series={[1]}
+            sliceColor={["#E5E7EB"]} // Using Tailwind gray-200 color
+          />
         </View>
       </View>
     );

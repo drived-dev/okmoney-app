@@ -31,7 +31,23 @@ const DashboardCardRing: React.FC<DashboardCardProps> = ({
       <View className="border border-gray-300 rounded-lg p-4 flex flex-col gap-2">
         <Text className={cn(TITLE, "")}>ประเภทลูกหนี้</Text>
         <View className="items-center justify-center p-4">
-          <Text className={cn(PARAGRAPH, "text-gray-500")}>ไม่มีข้อมูล</Text>
+          <View className="relative items-center justify-center">
+            <PieChart
+              widthAndHeight={widthAndHeight}
+              series={[1]}
+              sliceColor={["#E5E7EB"]} // Using Tailwind gray-200 color
+              coverRadius={0.65}
+            />
+          </View>
+          <Text
+            className={cn(
+              PARAGRAPH_BOLD,
+              "absolute text-center font-bold text-lg -translate-y-1/2"
+            )}
+            style={{ top: widthAndHeight / 2 }}
+          >
+            0 คน
+          </Text>
         </View>
       </View>
     );
