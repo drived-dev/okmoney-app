@@ -32,20 +32,15 @@ const DashboardCardOnly: React.FC<DashboardCardProps> = ({
   if (seriesSum === 0) {
     return (
       <View className="border border-gray-300 rounded-lg p-4 flex flex-col gap-2">
-        <Text className={cn(TITLE, "")}>ประเภทยอดชำระ</Text>
-        <View
-          className={cn(
-            "gap-4",
-            direction === "row"
-              ? "flex-row justify-between"
-              : "flex-col items-center"
-          )}
-        >
-          <PieChart
-            widthAndHeight={widthAndHeight}
-            series={[1]}
-            sliceColor={["#E5E7EB"]} // Using Tailwind gray-200 color
-          />
+        <Text className={cn(TITLE, "")}>ประเภทลูกหนี้</Text>
+        <View className="items-center justify-center p-4">
+          <View className="relative items-center justify-center">
+            <PieChart
+              widthAndHeight={widthAndHeight}
+              series={[1]}
+              sliceColor={["#E5E7EB"]}
+            />
+          </View>
         </View>
       </View>
     );
@@ -53,7 +48,7 @@ const DashboardCardOnly: React.FC<DashboardCardProps> = ({
 
   return (
     <View className="border border-gray-300 rounded-lg p-4 flex flex-col gap-2">
-      <Text className={cn(TITLE, "")}>ประเภทยอดชำระ</Text>
+      <Text className={cn(TITLE, "")}>ประเภทลูกหนี้</Text>
 
       <View
         className={cn(
@@ -63,32 +58,30 @@ const DashboardCardOnly: React.FC<DashboardCardProps> = ({
             : "flex-col items-center"
         )}
       >
-        <PieChart
-          widthAndHeight={widthAndHeight}
-          series={series}
-          sliceColor={sliceColor}
-        />
-        <View className={cn("flex-1 ", direction === "row" ? "ml-4" : "mt-4")}>
+        <View className="relative items-center justify-center">
+          <PieChart
+            widthAndHeight={widthAndHeight}
+            series={series}
+            sliceColor={sliceColor}
+          />
+        </View>
+
+        <View className={cn("flex-1", direction === "row" ? "ml-4" : "mt-4")}>
           {categories.map((label, index) => (
             <View
               key={index}
               className="flex flex-row items-center mb-2 w-full justify-between"
             >
               <View
+                className="w-4 h-4 mr-2"
                 style={{
-                  width: 16,
-                  height: 16,
                   backgroundColor: sliceColor[index],
-                  borderRadius: 4, // Set to 8 for round indicators
-                  marginRight: 8,
+                  borderRadius: 4,
                 }}
               />
 
               <Text className={cn(PARAGRAPH, "")}>{label}</Text>
-              <Text
-                className={cn(PARAGRAPH, "")}
-                style={{ marginLeft: "auto" }}
-              >
+              <Text className={cn(PARAGRAPH, "ml-auto")}>
                 {seriesWithBath[index]}
               </Text>
             </View>
