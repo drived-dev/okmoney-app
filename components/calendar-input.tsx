@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Button, View } from "react-native";
+import { Button, View, Text } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { IconButton, IconButtonProps } from "./icon-button";
 import { Calendar } from "lucide-react-native";
 import { cn } from "~/lib/utils";
-
 interface CalendarInputProps
   extends Pick<
     Partial<IconButtonProps>,
@@ -60,6 +59,8 @@ export const CalendarInput = ({
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
+        date={new Date(value)}
+        customCancelButtonIOS={() => <></>}
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
       />

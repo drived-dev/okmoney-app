@@ -28,7 +28,7 @@ const paymentTypeChoices: SelectInputChoices[] = [
     alias: "รายสัปดาห์",
   },
   {
-    value: "DAILY", // TODO: change to custom
+    value: "CUSTOM",
     alias: "กำหนดเอง",
   },
 ];
@@ -163,7 +163,7 @@ export const LoanDetailForm = ({ navigation }: NavigationProps) => {
                 }}
               />
             </View>
-            {getValues("paymentType") === "DAILY" && (
+            {getValues("paymentType") === "CUSTOM" && (
               <View className={cn(GRID_COL_SPAN[1])}>
                 <Controller
                   control={control}
