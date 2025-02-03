@@ -6,6 +6,7 @@ import { PARAGRAPH, SUBHEADER, TITLE } from "~/constants/Typography";
 import { cn } from "~/lib/utils";
 import { CommonActions } from "@react-navigation/native";
 import { Href, useRouter } from "expo-router";
+import ErrorLottie from "~/assets/lotties/error.json";
 
 interface FeedbackProps extends ViewProps {
   isSuccess?: boolean;
@@ -56,7 +57,12 @@ const Feedback = ({
 const Error = () => {
   return (
     <View>
-      <Text>error</Text>
+      <LottieView
+        style={{ width: 200, height: 200 }}
+        source={ErrorLottie}
+        autoPlay
+        loop={false}
+      />
     </View>
   );
 };
