@@ -44,7 +44,7 @@ const DashboardCardRing: React.FC<DashboardCardProps> = ({
               PARAGRAPH_BOLD,
               "absolute text-center font-bold text-lg -translate-y-1/2"
             )}
-            style={{ top: widthAndHeight / 2 }}
+            style={{ top: widthAndHeight / 1.75 }}
           >
             0 คน
           </Text>
