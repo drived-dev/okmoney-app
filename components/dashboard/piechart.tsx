@@ -33,21 +33,10 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
   categories,
   direction = "row", // Default value is "row"
 }) => {
-  // const total = series.reduce((sum, value) => sum + value, 0);
-  // const seriesWithPercentage = series.map(
-  //   (value) => ((value / total) * 100).toFixed(2) + "%"
-  // );
-  const seriesm = series.map((value) => {
-    if (value >= 1000000) {
-      return (value / 1000000).toFixed(1) + " ล้าน";
-    } else if (value >= 100000) {
-      return (value / 100000).toFixed(1) + " แสน";
-    } else if (value >= 10000) {
-      return (value / 10000).toFixed(1) + " หมื่น";
-    } else if (value >= 1000) {
-      return (value / 1000).toFixed(1) + " พัน";
-    }
-    return value.toString();
+  const total = series.reduce((sum, value) => sum + value, 0);
+  const percentages = series.map((value) => {
+    const percentage = total === 0 ? 0 : (value / total) * 100;
+    return percentage.toFixed(1) + "%";
   });
 
   return (
@@ -99,7 +88,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
                   width: 16,
                   height: 16,
                   backgroundColor: sliceColor[index],
-                  borderRadius: 4, // Set to 8 for round indicators
+                  borderRadius: 4,
                   marginRight: 8,
                 }}
               />
@@ -108,7 +97,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
                 className={cn(PARAGRAPH, "")}
                 style={{ marginLeft: "auto" }}
               >
-                {seriesm[index]}
+                {percentages[index]}
               </Text>
             </View>
           ))}
