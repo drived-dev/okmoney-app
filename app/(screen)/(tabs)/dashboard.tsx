@@ -40,8 +40,8 @@ const App: React.FC = () => {
 
   const series = [
     dashboard.totalLoan ?? 0,
-    dashboard.accuredIncome ?? 0,
     dashboard.totalEarned ?? 0,
+    dashboard.accuredIncome ?? 0,
     dashboard.profit ?? 0,
   ];
 
