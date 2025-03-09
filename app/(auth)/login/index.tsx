@@ -114,6 +114,9 @@ const LoginScreen = () => {
               และข้อกำหนดการใช้งานของเรา
             </Text>
           </View>
+          <Text className={cn(PARAGRAPH, " text-gray-500 text-center mt-4")}>
+            ทางเราไม่เก็บรวบรวมข้อมูลการโต้ตอบกับแอปเพื่อวัตถุประสงค์ทางโฆษณาโดยไม่ได้รับความยินยอมจากผู้ใช้
+          </Text>
         </View>
       </SafeAreaView>
     </View>

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Ok-money",
+    "name": "Ok Money",
     "slug": "starter-base",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -16,7 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.okmoney.gotroger",
-      "buildNumber": "80",
+      "buildNumber": "81",
       "config": {
         "usesNonExemptEncryption": false
       },
