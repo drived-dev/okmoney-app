@@ -36,7 +36,10 @@ import { postProfile } from "~/api/auth/post-profile";
 const formSchema = z.object({
   img: z.string().nonempty({ message: "ต้องเลือกโปรไฟล์รูปภาพ" }).optional(), // Image is required
   name: z.string().min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" }).max(50),
-  phone: z.string().min(9, { message: "กรุณากรอกเบอร์โทรศัพท์ให้ครบ" }), // Ensure phone number is required
+  phone: z
+    .string()
+    .min(9, { message: "กรุณากรอกเบอร์โทรศัพท์ให้ครบ" })
+    .optional(),
 });
 
 const Index = () => {
