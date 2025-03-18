@@ -9,7 +9,7 @@ import {
 import { SplashScreen, Stack, Tabs, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import { Button, Platform, TouchableOpacity } from "react-native";
+import { Alert, Button, Platform, TouchableOpacity } from "react-native";
 import { NAV_THEME } from "~/constants/Colors";
 import { useColorScheme } from "~/lib/useColorScheme";
 import { PortalHost } from "@rn-primitives/portal";
@@ -24,6 +24,7 @@ import { toastConfig } from "~/components/toast-config";
 import useUserStore from "~/store/use-user-store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LoginScreen from "./(auth)/login";
+import Purchases from "react-native-purchases";
 // import { usePushNotifications } from "~/lib/use-push-notification";
 
 export {
@@ -36,6 +37,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const router = useRouter();
+
   // const { expoPushToken, notification } = usePushNotifications();
   // console.log(expoPushToken);
   // console.log("Hee");
@@ -75,6 +77,32 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
     });
   }, []);
+
+  // Configure
+  React.useEffect(() => {
+    if (Platform.OS === "ios") {
+      if (!process.env.EXPO_PUBLIC_RC_IOS) {
+        Alert.alert(
+          "Error configure RC ",
+          "RevenueCat API KEY for the ios is not provide"
+        );
+      } else {
+        Purchases.configure({ apiKey: process.env.EXPO_PUBLIC_RC_IOS });
+      }
+    } else if (Platform.OS === "android") {
+      if (!process.env.EXPO_PUBLIC_RC_ANDROID) {
+        Alert.alert(
+          "Error configure RC ",
+          "RevenueCat API KEY for the Android is not provide"
+        );
+      } else {
+        Purchases.configure({ apiKey: process.env.EXPO_PUBLIC_RC_ANDRIOD });
+      }
+    }
+    Purchases.getOfferings().then(console.log);
+  }, []);
+
+  ////Config
 
   if (!isColorSchemeLoaded) {
     return null;
