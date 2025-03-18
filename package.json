@@ -75,7 +75,6 @@
     "react-native-drawer-layout": "^3.3.2",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-gifted-charts": "^1.4.47",
-    "react-native-iap": "^12.16.2",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-modal-datetime-picker": "^18.0.0",
     "react-native-otp-entry": "^1.7.3",

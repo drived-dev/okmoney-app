@@ -26,15 +26,15 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LoginScreen from "./(auth)/login";
 // import { usePushNotifications } from "~/lib/use-push-notification";
 
-import { withIAPContext } from "react-native-iap"; // ✅ Import IAP Context
-
-export { ErrorBoundary } from "expo-router";
+export {
+  // Catch any errors thrown by the Layout component.
+  ErrorBoundary,
+} from "expo-router";
 
 // Prevent the splash screen from auto-hiding before getting the color scheme.
 SplashScreen.preventAutoHideAsync();
 
-function RootLayout() {
-  // ✅ Changed to non-default function
+export default function RootLayout() {
   const router = useRouter();
   // const { expoPushToken, notification } = usePushNotifications();
   // console.log(expoPushToken);
@@ -53,6 +53,7 @@ function RootLayout() {
     (async () => {
       const theme = await AsyncStorage.getItem("theme");
       if (Platform.OS === "web") {
+        // Adds the background color to the html element to prevent white background on overscroll.
         document.documentElement.classList.add("bg-background");
       }
       if (!theme) {
@@ -86,15 +87,16 @@ function RootLayout() {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 1000 * 60 * 5,
-        gcTime: 1000 * 60 * 30,
-        retry: 2,
-        refetchOnWindowFocus: false,
+        staleTime: 1000 * 60 * 5, // Data is considered fresh for 5 minutes
+        gcTime: 1000 * 60 * 30, // Unused data is garbage collected after 30 minutes
+        retry: 2, // Number of times to retry failed queries
+        refetchOnWindowFocus: false, // Disable automatic refetch on window focus
       },
     },
   });
 
   return (
+    // <NavigationContainer independent={true}>
     <QueryClientProvider client={queryClient}>
       <Stack
         screenOptions={{
@@ -105,6 +107,12 @@ function RootLayout() {
         }}
         initialRouteName="(auth)/index"
       >
+        {/* <Stack.Screen
+          name="(.loading)"
+          options={{
+            headerShown: false,
+          }}
+        /> */}
         <Stack.Screen
           name="(screen)"
           options={{
@@ -124,6 +132,3 @@ function RootLayout() {
     </QueryClientProvider>
   );
 }
-
-// ✅ Wrap RootLayout with IAP Context before exporting
-export default withIAPContext(RootLayout);
