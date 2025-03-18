@@ -25,6 +25,7 @@ import useUserStore from "~/store/use-user-store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LoginScreen from "./(auth)/login";
 import Purchases from "react-native-purchases";
+Purchases.setLogLevel(Purchases.LOG_LEVEL.VERBOSE);
 // import { usePushNotifications } from "~/lib/use-push-notification";
 
 export {
