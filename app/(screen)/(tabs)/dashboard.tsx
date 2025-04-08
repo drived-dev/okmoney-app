@@ -40,8 +40,8 @@ const App: React.FC = () => {
 
   const series = [
     dashboard.totalLoan ?? 0,
-    dashboard.accuredIncome ?? 0,
     dashboard.totalEarned ?? 0,
+    dashboard.accuredIncome ?? 0,
     dashboard.profit ?? 0,
   ];
 
@@ -111,7 +111,7 @@ const App: React.FC = () => {
               )}
               changePercentage={
                 totalLoanLastYear === 0
-                  ? "∞"
+                  ? "0.0"
                   : (dashboard.totalLoan / totalLoanLastYear) * 100
               }
               isPositive={true}
