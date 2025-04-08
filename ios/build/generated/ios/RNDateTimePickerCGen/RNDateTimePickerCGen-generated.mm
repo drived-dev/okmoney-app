@@ -13,6 +13,16 @@
 
 #import "RNDateTimePickerCGen.h"
 
+
+@implementation NativeModuleDatePickerSpecBase
+
+
+- (void)setEventEmitterCallback:(EventEmitterCallbackWrapper *)eventEmitterCallbackWrapper
+{
+  _eventEmitterCallback = std::move(eventEmitterCallbackWrapper->_eventEmitterCallback);
+}
+@end
+
 @implementation RCTCxxConvert (NativeModuleDatePicker_SpecOpenParamsDialogButtons)
 + (RCTManagedPointer *)JS_NativeModuleDatePicker_SpecOpenParamsDialogButtons:(id)json
 {
@@ -45,6 +55,16 @@ namespace facebook::react {
         setMethodArgConversionSelector(@"open", 0, @"JS_NativeModuleDatePicker_SpecOpenParams:");
   }
 } // namespace facebook::react
+
+@implementation NativeModuleTimePickerSpecBase
+
+
+- (void)setEventEmitterCallback:(EventEmitterCallbackWrapper *)eventEmitterCallbackWrapper
+{
+  _eventEmitterCallback = std::move(eventEmitterCallbackWrapper->_eventEmitterCallback);
+}
+@end
+
 @implementation RCTCxxConvert (NativeModuleTimePicker_SpecOpenParamsDialogButtons)
 + (RCTManagedPointer *)JS_NativeModuleTimePicker_SpecOpenParamsDialogButtons:(id)json
 {

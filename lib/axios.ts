@@ -14,6 +14,7 @@ api.interceptors.request.use(
     const token = await AsyncStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+      config.headers["Content-Type"] = "application/json";
     }
     return config;
   },
@@ -26,7 +27,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error("API Error:", {
+    console.log("API Error:", {
       url: error.config?.url,
       method: error.config?.method,
       status: error.response?.status,

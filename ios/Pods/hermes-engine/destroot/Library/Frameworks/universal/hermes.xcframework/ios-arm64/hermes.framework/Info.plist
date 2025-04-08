@@ -12,6 +12,8 @@
 	<string>dev.hermesengine.iphoneos</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string></string>
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
 	<key>CFBundleShortVersionString</key>
@@ -23,6 +25,6 @@
 	<key>CSResourcesFileMapped</key>
 	<true/>
 	<key>MinimumOSVersion</key>
-	<string>13.4</string>
+	<string>15.1</string>
 </dict>
 </plist>

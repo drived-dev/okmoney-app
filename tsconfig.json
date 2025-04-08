@@ -15,5 +15,5 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "nativewind-env.d.ts"
-, "assets/images/work-from-home.jsx"  ]
+, "assets/images/work-from-home.jsx", "app/(auth)/phone-login/index.tsx", "app/(auth)/phone-login/index.js"  ]
 }

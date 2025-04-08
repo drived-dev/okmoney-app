@@ -16,6 +16,7 @@ import { LogOut, Mail, MessageCircle, Phone, User } from "lucide-react-native";
 import { IconButtonDrawer } from "./icon-button-drawer";
 import useUserStore from "~/store/use-user-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Linking } from "react-native";
 
 export const CustomDrawer = () => {
   const user = useUserStore();
@@ -54,7 +55,7 @@ export const CustomDrawer = () => {
                   text="เเก้ไขข้อมูลของคุณ"
                   textClassName="w-56"
                   size={"xl"}
-                  onPress={() => router.push("/profile/edit")}
+                  onPress={() => router.push("/profile-setting")}
                 />
 
                 {/* <IconButtonDrawer
@@ -78,6 +79,7 @@ export const CustomDrawer = () => {
             text="ติดต่อ support"
             textClassName="w-56"
             size={"xl"}
+            onPress={() => Linking.openURL("http://okmoneys.com")}
           />
           <IconButtonDrawer
             variant="green"
@@ -85,6 +87,7 @@ export const CustomDrawer = () => {
             text="ให้ feedback"
             textClassName="w-56"
             size={"xl"}
+            onPress={() => Linking.openURL("http://okmoneys.com")}
           />
           <IconButtonDrawer
             variant="destructive"

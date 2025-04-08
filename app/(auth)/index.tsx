@@ -18,9 +18,7 @@ const index = () => {
         <View className="justify-center items-center mt-40">
           <View className="flex flex-col gap-8 items-center justify-center">
             <Image
-              source={{
-                uri: "https://reactjs.org/logo-og.png",
-              }}
+              source={require("assets/images/icon.png")}
               className="w-24 h-24 border border-gray-400 rounded-lg"
             />
             <View className="flex flex-col gap-2 items-center">

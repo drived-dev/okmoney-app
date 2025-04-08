@@ -40,7 +40,6 @@ export const LoanAmountFormSchema =
       .min(0, { message: "จำนวนเงินกู้ต้องมากกว่าหรือเท่ากับ 0" }),
     interestRate: z.coerce
       .number()
-      .positive()
       .min(0)
       .max(100, { message: "อัตราดอกเบี้ยต้องอยู่ระหว่าง 0 ถึง 100" }),
     installments: z.coerce

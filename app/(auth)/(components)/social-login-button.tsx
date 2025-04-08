@@ -18,8 +18,6 @@ import { Text } from "~/components/ui/text";
 import { PARAGRAPH, TITLE } from "~/constants/Typography";
 import { getUser } from "~/api/auth/get-user";
 
-WebBrowser.maybeCompleteAuthSession();
-
 interface SocialLoginButtonProps {
   icon: string;
   text: string;
@@ -70,10 +68,10 @@ export default function SocialLoginButton({
 
         router.push("/(screen)/profile/create"); // Navigate to Profiles page after authentication
       } else {
-        console.error("[Debug] No tokens in URL:", event.url);
+        console.log("[Debug] No tokens in URL:", event.url);
       }
     } catch (error) {
-      console.error("[Debug] Redirect Error:", error);
+      console.log("[Debug] Redirect Error:", error);
     }
   };
 
@@ -103,7 +101,7 @@ export default function SocialLoginButton({
         await handleRedirect({ url: result.url });
       }
     } catch (error) {
-      console.error("[Debug] Sign in Error:", error);
+      console.log("[Debug] Sign in Error:", error);
     }
   };
 

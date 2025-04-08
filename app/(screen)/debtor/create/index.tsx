@@ -103,7 +103,7 @@ const create = () => {
         firstName: values.name,
         lastName: values.lastname,
         phoneNumber: values.phone,
-        memoNote: values.additionalNote,
+        memoNote: values.additionalNote || "",
       },
       loan: {
         loanNumber: values.loanId,
@@ -116,19 +116,18 @@ const create = () => {
         loanTermInterval: 1,
         interestType: values.loanType,
         interestRate: parseFloat(values.interestRate),
-        dueDate: values.dueDate,
+        dueDate: new Date(values.dueDate).getTime(),
         tags: values.tags,
       },
     };
     const response = await createLoan(loanData);
-
     if (response.status === 201) {
       Toast.show({
         text1: "Loan created successfully",
         type: "success",
       });
       addLoan(parseLoanData(response.data.data));
-      router.back();
+      router.replace("/(tabs)");
       return true;
     } else {
       Toast.show({
@@ -141,7 +140,7 @@ const create = () => {
   }
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-white">
       <CloseButton className="ml-4 mb-10" />
       <StepForm
         onSubmit={onSubmit}

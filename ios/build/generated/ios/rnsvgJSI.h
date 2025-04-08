@@ -16,312 +16,23 @@ namespace facebook::react {
 
 
   
-#pragma mark - RNSVGRenderableModuleBasePoint
-
-template <typename P0, typename P1>
-struct [[deprecated("Use RNSVGRenderableModulePoint instead.")]] RNSVGRenderableModuleBasePoint {
-  P0 x;
-  P1 y;
-  bool operator==(const RNSVGRenderableModuleBasePoint &other) const {
-    return x == other.x && y == other.y;
-  }
-};
-
-template <typename P0, typename P1>
-struct [[deprecated("Use RNSVGRenderableModulePointBridging instead.")]] RNSVGRenderableModuleBasePointBridging {
-  static RNSVGRenderableModuleBasePoint<P0, P1> fromJs(
-      jsi::Runtime &rt,
-      const jsi::Object &value,
-      const std::shared_ptr<CallInvoker> &jsInvoker) {
-    RNSVGRenderableModuleBasePoint<P0, P1> result{
-      bridging::fromJs<P0>(rt, value.getProperty(rt, "x"), jsInvoker),
-      bridging::fromJs<P1>(rt, value.getProperty(rt, "y"), jsInvoker)};
-    return result;
-  }
-
-#ifdef DEBUG
-  static double xToJs(jsi::Runtime &rt, P0 value) {
-    return bridging::toJs(rt, value);
-  }
-
-  static double yToJs(jsi::Runtime &rt, P1 value) {
-    return bridging::toJs(rt, value);
-  }
-#endif
-
-  static jsi::Object toJs(
-      jsi::Runtime &rt,
-      const RNSVGRenderableModuleBasePoint<P0, P1> &value,
-      const std::shared_ptr<CallInvoker> &jsInvoker) {
-    auto result = facebook::jsi::Object(rt);
-    result.setProperty(rt, "x", bridging::toJs(rt, value.x, jsInvoker));
-    result.setProperty(rt, "y", bridging::toJs(rt, value.y, jsInvoker));
-    return result;
-  }
-};
-
-
-
-#pragma mark - RNSVGRenderableModuleBaseRect
-
-template <typename P0, typename P1, typename P2, typename P3>
-struct [[deprecated("Use RNSVGRenderableModuleRect instead.")]] RNSVGRenderableModuleBaseRect {
-  P0 x;
-  P1 y;
-  P2 width;
-  P3 height;
-  bool operator==(const RNSVGRenderableModuleBaseRect &other) const {
-    return x == other.x && y == other.y && width == other.width && height == other.height;
-  }
-};
-
-template <typename P0, typename P1, typename P2, typename P3>
-struct [[deprecated("Use RNSVGRenderableModuleRectBridging instead.")]] RNSVGRenderableModuleBaseRectBridging {
-  static RNSVGRenderableModuleBaseRect<P0, P1, P2, P3> fromJs(
-      jsi::Runtime &rt,
-      const jsi::Object &value,
-      const std::shared_ptr<CallInvoker> &jsInvoker) {
-    RNSVGRenderableModuleBaseRect<P0, P1, P2, P3> result{
-      bridging::fromJs<P0>(rt, value.getProperty(rt, "x"), jsInvoker),
-      bridging::fromJs<P1>(rt, value.getProperty(rt, "y"), jsInvoker),
-      bridging::fromJs<P2>(rt, value.getProperty(rt, "width"), jsInvoker),
-      bridging::fromJs<P3>(rt, value.getProperty(rt, "height"), jsInvoker)};
-    return result;
-  }
-
-#ifdef DEBUG
-  static double xToJs(jsi::Runtime &rt, P0 value) {
-    return bridging::toJs(rt, value);
-  }
-
-  static double yToJs(jsi::Runtime &rt, P1 value) {
-    return bridging::toJs(rt, value);
-  }
-
-  static double widthToJs(jsi::Runtime &rt, P2 value) {
-    return bridging::toJs(rt, value);
-  }
-
-  static double heightToJs(jsi::Runtime &rt, P3 value) {
-    return bridging::toJs(rt, value);
-  }
-#endif
-
-  static jsi::Object toJs(
-      jsi::Runtime &rt,
-      const RNSVGRenderableModuleBaseRect<P0, P1, P2, P3> &value,
-      const std::shared_ptr<CallInvoker> &jsInvoker) {
-    auto result = facebook::jsi::Object(rt);
-    result.setProperty(rt, "x", bridging::toJs(rt, value.x, jsInvoker));
-    result.setProperty(rt, "y", bridging::toJs(rt, value.y, jsInvoker));
-    result.setProperty(rt, "width", bridging::toJs(rt, value.width, jsInvoker));
-    result.setProperty(rt, "height", bridging::toJs(rt, value.height, jsInvoker));
-    return result;
-  }
-};
-
-
-
-#pragma mark - RNSVGRenderableModuleBaseMatrix
+#pragma mark - NativeSvgRenderableModuleMatrix
 
 template <typename P0, typename P1, typename P2, typename P3, typename P4, typename P5>
-struct [[deprecated("Use RNSVGRenderableModuleMatrix instead.")]] RNSVGRenderableModuleBaseMatrix {
+struct NativeSvgRenderableModuleMatrix {
   P0 a;
   P1 b;
   P2 c;
   P3 d;
   P4 e;
   P5 f;
-  bool operator==(const RNSVGRenderableModuleBaseMatrix &other) const {
-    return a == other.a && b == other.b && c == other.c && d == other.d && e == other.e && f == other.f;
-  }
-};
-
-template <typename P0, typename P1, typename P2, typename P3, typename P4, typename P5>
-struct [[deprecated("Use RNSVGRenderableModuleMatrixBridging instead.")]] RNSVGRenderableModuleBaseMatrixBridging {
-  static RNSVGRenderableModuleBaseMatrix<P0, P1, P2, P3, P4, P5> fromJs(
-      jsi::Runtime &rt,
-      const jsi::Object &value,
-      const std::shared_ptr<CallInvoker> &jsInvoker) {
-    RNSVGRenderableModuleBaseMatrix<P0, P1, P2, P3, P4, P5> result{
-      bridging::fromJs<P0>(rt, value.getProperty(rt, "a"), jsInvoker),
-      bridging::fromJs<P1>(rt, value.getProperty(rt, "b"), jsInvoker),
-      bridging::fromJs<P2>(rt, value.getProperty(rt, "c"), jsInvoker),
-      bridging::fromJs<P3>(rt, value.getProperty(rt, "d"), jsInvoker),
-      bridging::fromJs<P4>(rt, value.getProperty(rt, "e"), jsInvoker),
-      bridging::fromJs<P5>(rt, value.getProperty(rt, "f"), jsInvoker)};
-    return result;
-  }
-
-#ifdef DEBUG
-  static double aToJs(jsi::Runtime &rt, P0 value) {
-    return bridging::toJs(rt, value);
-  }
-
-  static double bToJs(jsi::Runtime &rt, P1 value) {
-    return bridging::toJs(rt, value);
-  }
-
-  static double cToJs(jsi::Runtime &rt, P2 value) {
-    return bridging::toJs(rt, value);
-  }
-
-  static double dToJs(jsi::Runtime &rt, P3 value) {
-    return bridging::toJs(rt, value);
-  }
-
-  static double eToJs(jsi::Runtime &rt, P4 value) {
-    return bridging::toJs(rt, value);
-  }
-
-  static double fToJs(jsi::Runtime &rt, P5 value) {
-    return bridging::toJs(rt, value);
-  }
-#endif
-
-  static jsi::Object toJs(
-      jsi::Runtime &rt,
-      const RNSVGRenderableModuleBaseMatrix<P0, P1, P2, P3, P4, P5> &value,
-      const std::shared_ptr<CallInvoker> &jsInvoker) {
-    auto result = facebook::jsi::Object(rt);
-    result.setProperty(rt, "a", bridging::toJs(rt, value.a, jsInvoker));
-    result.setProperty(rt, "b", bridging::toJs(rt, value.b, jsInvoker));
-    result.setProperty(rt, "c", bridging::toJs(rt, value.c, jsInvoker));
-    result.setProperty(rt, "d", bridging::toJs(rt, value.d, jsInvoker));
-    result.setProperty(rt, "e", bridging::toJs(rt, value.e, jsInvoker));
-    result.setProperty(rt, "f", bridging::toJs(rt, value.f, jsInvoker));
-    return result;
-  }
-};
-
-
-#pragma mark - RNSVGRenderableModulePoint
-
-template <typename P0, typename P1>
-struct RNSVGRenderableModulePoint {
-  P0 x;
-  P1 y;
-  bool operator==(const RNSVGRenderableModulePoint &other) const {
-    return x == other.x && y == other.y;
-  }
-};
-
-template <typename T>
-struct RNSVGRenderableModulePointBridging {
-  static T types;
-
-  static T fromJs(
-      jsi::Runtime &rt,
-      const jsi::Object &value,
-      const std::shared_ptr<CallInvoker> &jsInvoker) {
-    T result{
-      bridging::fromJs<decltype(types.x)>(rt, value.getProperty(rt, "x"), jsInvoker),
-      bridging::fromJs<decltype(types.y)>(rt, value.getProperty(rt, "y"), jsInvoker)};
-    return result;
-  }
-
-#ifdef DEBUG
-  static double xToJs(jsi::Runtime &rt, decltype(types.x) value) {
-    return bridging::toJs(rt, value);
-  }
-
-  static double yToJs(jsi::Runtime &rt, decltype(types.y) value) {
-    return bridging::toJs(rt, value);
-  }
-#endif
-
-  static jsi::Object toJs(
-      jsi::Runtime &rt,
-      const T &value,
-      const std::shared_ptr<CallInvoker> &jsInvoker) {
-    auto result = facebook::jsi::Object(rt);
-    result.setProperty(rt, "x", bridging::toJs(rt, value.x, jsInvoker));
-    result.setProperty(rt, "y", bridging::toJs(rt, value.y, jsInvoker));
-    return result;
-  }
-};
-
-
-
-#pragma mark - RNSVGRenderableModuleRect
-
-template <typename P0, typename P1, typename P2, typename P3>
-struct RNSVGRenderableModuleRect {
-  P0 x;
-  P1 y;
-  P2 width;
-  P3 height;
-  bool operator==(const RNSVGRenderableModuleRect &other) const {
-    return x == other.x && y == other.y && width == other.width && height == other.height;
-  }
-};
-
-template <typename T>
-struct RNSVGRenderableModuleRectBridging {
-  static T types;
-
-  static T fromJs(
-      jsi::Runtime &rt,
-      const jsi::Object &value,
-      const std::shared_ptr<CallInvoker> &jsInvoker) {
-    T result{
-      bridging::fromJs<decltype(types.x)>(rt, value.getProperty(rt, "x"), jsInvoker),
-      bridging::fromJs<decltype(types.y)>(rt, value.getProperty(rt, "y"), jsInvoker),
-      bridging::fromJs<decltype(types.width)>(rt, value.getProperty(rt, "width"), jsInvoker),
-      bridging::fromJs<decltype(types.height)>(rt, value.getProperty(rt, "height"), jsInvoker)};
-    return result;
-  }
-
-#ifdef DEBUG
-  static double xToJs(jsi::Runtime &rt, decltype(types.x) value) {
-    return bridging::toJs(rt, value);
-  }
-
-  static double yToJs(jsi::Runtime &rt, decltype(types.y) value) {
-    return bridging::toJs(rt, value);
-  }
-
-  static double widthToJs(jsi::Runtime &rt, decltype(types.width) value) {
-    return bridging::toJs(rt, value);
-  }
-
-  static double heightToJs(jsi::Runtime &rt, decltype(types.height) value) {
-    return bridging::toJs(rt, value);
-  }
-#endif
-
-  static jsi::Object toJs(
-      jsi::Runtime &rt,
-      const T &value,
-      const std::shared_ptr<CallInvoker> &jsInvoker) {
-    auto result = facebook::jsi::Object(rt);
-    result.setProperty(rt, "x", bridging::toJs(rt, value.x, jsInvoker));
-    result.setProperty(rt, "y", bridging::toJs(rt, value.y, jsInvoker));
-    result.setProperty(rt, "width", bridging::toJs(rt, value.width, jsInvoker));
-    result.setProperty(rt, "height", bridging::toJs(rt, value.height, jsInvoker));
-    return result;
-  }
-};
-
-
-
-#pragma mark - RNSVGRenderableModuleMatrix
-
-template <typename P0, typename P1, typename P2, typename P3, typename P4, typename P5>
-struct RNSVGRenderableModuleMatrix {
-  P0 a;
-  P1 b;
-  P2 c;
-  P3 d;
-  P4 e;
-  P5 f;
-  bool operator==(const RNSVGRenderableModuleMatrix &other) const {
+  bool operator==(const NativeSvgRenderableModuleMatrix &other) const {
     return a == other.a && b == other.b && c == other.c && d == other.d && e == other.e && f == other.f;
   }
 };
 
 template <typename T>
-struct RNSVGRenderableModuleMatrixBridging {
+struct NativeSvgRenderableModuleMatrixBridging {
   static T types;
 
   static T fromJs(
@@ -379,6 +90,116 @@ struct RNSVGRenderableModuleMatrixBridging {
   }
 };
 
+
+
+#pragma mark - NativeSvgRenderableModulePoint
+
+template <typename P0, typename P1>
+struct NativeSvgRenderableModulePoint {
+  P0 x;
+  P1 y;
+  bool operator==(const NativeSvgRenderableModulePoint &other) const {
+    return x == other.x && y == other.y;
+  }
+};
+
+template <typename T>
+struct NativeSvgRenderableModulePointBridging {
+  static T types;
+
+  static T fromJs(
+      jsi::Runtime &rt,
+      const jsi::Object &value,
+      const std::shared_ptr<CallInvoker> &jsInvoker) {
+    T result{
+      bridging::fromJs<decltype(types.x)>(rt, value.getProperty(rt, "x"), jsInvoker),
+      bridging::fromJs<decltype(types.y)>(rt, value.getProperty(rt, "y"), jsInvoker)};
+    return result;
+  }
+
+#ifdef DEBUG
+  static double xToJs(jsi::Runtime &rt, decltype(types.x) value) {
+    return bridging::toJs(rt, value);
+  }
+
+  static double yToJs(jsi::Runtime &rt, decltype(types.y) value) {
+    return bridging::toJs(rt, value);
+  }
+#endif
+
+  static jsi::Object toJs(
+      jsi::Runtime &rt,
+      const T &value,
+      const std::shared_ptr<CallInvoker> &jsInvoker) {
+    auto result = facebook::jsi::Object(rt);
+    result.setProperty(rt, "x", bridging::toJs(rt, value.x, jsInvoker));
+    result.setProperty(rt, "y", bridging::toJs(rt, value.y, jsInvoker));
+    return result;
+  }
+};
+
+
+
+#pragma mark - NativeSvgRenderableModuleRect
+
+template <typename P0, typename P1, typename P2, typename P3>
+struct NativeSvgRenderableModuleRect {
+  P0 x;
+  P1 y;
+  P2 width;
+  P3 height;
+  bool operator==(const NativeSvgRenderableModuleRect &other) const {
+    return x == other.x && y == other.y && width == other.width && height == other.height;
+  }
+};
+
+template <typename T>
+struct NativeSvgRenderableModuleRectBridging {
+  static T types;
+
+  static T fromJs(
+      jsi::Runtime &rt,
+      const jsi::Object &value,
+      const std::shared_ptr<CallInvoker> &jsInvoker) {
+    T result{
+      bridging::fromJs<decltype(types.x)>(rt, value.getProperty(rt, "x"), jsInvoker),
+      bridging::fromJs<decltype(types.y)>(rt, value.getProperty(rt, "y"), jsInvoker),
+      bridging::fromJs<decltype(types.width)>(rt, value.getProperty(rt, "width"), jsInvoker),
+      bridging::fromJs<decltype(types.height)>(rt, value.getProperty(rt, "height"), jsInvoker)};
+    return result;
+  }
+
+#ifdef DEBUG
+  static double xToJs(jsi::Runtime &rt, decltype(types.x) value) {
+    return bridging::toJs(rt, value);
+  }
+
+  static double yToJs(jsi::Runtime &rt, decltype(types.y) value) {
+    return bridging::toJs(rt, value);
+  }
+
+  static double widthToJs(jsi::Runtime &rt, decltype(types.width) value) {
+    return bridging::toJs(rt, value);
+  }
+
+  static double heightToJs(jsi::Runtime &rt, decltype(types.height) value) {
+    return bridging::toJs(rt, value);
+  }
+#endif
+
+  static jsi::Object toJs(
+      jsi::Runtime &rt,
+      const T &value,
+      const std::shared_ptr<CallInvoker> &jsInvoker) {
+    auto result = facebook::jsi::Object(rt);
+    result.setProperty(rt, "x", bridging::toJs(rt, value.x, jsInvoker));
+    result.setProperty(rt, "y", bridging::toJs(rt, value.y, jsInvoker));
+    result.setProperty(rt, "width", bridging::toJs(rt, value.width, jsInvoker));
+    result.setProperty(rt, "height", bridging::toJs(rt, value.height, jsInvoker));
+    return result;
+  }
+};
+
 class JSI_EXPORT NativeSvgRenderableModuleCxxSpecJSI : public TurboModule {
 protected:
   NativeSvgRenderableModuleCxxSpecJSI(std::shared_ptr<CallInvoker> jsInvoker);
@@ -409,11 +230,14 @@ protected:
     : TurboModule(std::string{NativeSvgRenderableModuleCxxSpec::kModuleName}, jsInvoker),
       delegate_(reinterpret_cast<T*>(this), jsInvoker) {}
 
+
 private:
   class Delegate : public NativeSvgRenderableModuleCxxSpecJSI {
   public:
     Delegate(T *instance, std::shared_ptr<CallInvoker> jsInvoker) :
-      NativeSvgRenderableModuleCxxSpecJSI(std::move(jsInvoker)), instance_(instance) {}
+      NativeSvgRenderableModuleCxxSpecJSI(std::move(jsInvoker)), instance_(instance) {
+
+    }
 
     bool isPointInFill(jsi::Runtime &rt, std::optional<double> tag, std::optional<jsi::Object> options) override {
       static_assert(
@@ -481,6 +305,7 @@ private:
     }
 
   private:
+    friend class NativeSvgRenderableModuleCxxSpec;
     T *instance_;
   };
 
@@ -511,11 +336,14 @@ protected:
     : TurboModule(std::string{NativeSvgViewModuleCxxSpec::kModuleName}, jsInvoker),
       delegate_(reinterpret_cast<T*>(this), jsInvoker) {}
 
+
 private:
   class Delegate : public NativeSvgViewModuleCxxSpecJSI {
   public:
     Delegate(T *instance, std::shared_ptr<CallInvoker> jsInvoker) :
-      NativeSvgViewModuleCxxSpecJSI(std::move(jsInvoker)), instance_(instance) {}
+      NativeSvgViewModuleCxxSpecJSI(std::move(jsInvoker)), instance_(instance) {
+
+    }
 
     void toDataURL(jsi::Runtime &rt, std::optional<double> tag, std::optional<jsi::Object> options, std::optional<jsi::Function> callback) override {
       static_assert(
@@ -527,6 +355,7 @@ private:
     }
 
   private:
+    friend class NativeSvgViewModuleCxxSpec;
     T *instance_;
   };
 
