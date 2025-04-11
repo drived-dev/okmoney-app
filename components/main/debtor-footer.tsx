@@ -29,10 +29,10 @@ const AdditionalInfo: React.FC<AdditionalInfoProps> = ({
         />
       </View>
 
-      <View>
+      {/* <View>
         <Text className={cn(LABEL, "text-[#808080]")}>ที่อยู่</Text>
         <Text className={cn(PARAGRAPH, "text-foreground")}>{address}</Text>
-      </View>
+      </View> */}
 
       <View className={cn(GRID, "")}>
         <View className={cn(GRID_ROW, "")}>
