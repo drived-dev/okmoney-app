@@ -107,6 +107,11 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - PurchasesHybridCommon (13.25.0):
+    - RevenueCat (= 5.19.0)
+  - PurchasesHybridCommonUI (13.25.0):
+    - PurchasesHybridCommon (= 13.25.0)
+    - RevenueCatUI (= 5.19.0)
   - RCT-Folly (2024.01.01.00):
     - boost
     - DoubleConversion
@@ -1615,6 +1620,9 @@ PODS:
     - React-logger (= 0.76.5)
     - React-perflogger (= 0.76.5)
     - React-utils (= 0.76.5)
+  - RevenueCat (5.19.0)
+  - RevenueCatUI (5.19.0):
+    - RevenueCat (= 5.19.0)
   - RNCAsyncStorage (1.23.1):
     - React-Core
   - RNDateTimePicker (8.2.0):
@@ -1640,6 +1648,12 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNPaywalls (8.8.1):
+    - PurchasesHybridCommonUI (= 13.25.0)
+    - React-Core
+  - RNPurchases (8.8.1):
+    - PurchasesHybridCommon (= 13.25.0)
+    - React-Core
   - RNReanimated (3.16.6):
     - DoubleConversion
     - glog
@@ -1857,6 +1871,8 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNPaywalls (from `../node_modules/react-native-purchases-ui`)
+  - RNPurchases (from `../node_modules/react-native-purchases`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -1867,6 +1883,10 @@ SPEC REPOS:
     - libavif
     - libdav1d
     - lottie-ios
+    - PurchasesHybridCommon
+    - PurchasesHybridCommonUI
+    - RevenueCat
+    - RevenueCatUI
     - SDWebImage
     - SDWebImageAVIFCoder
     - SDWebImageSVGCoder
@@ -2058,6 +2078,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNPaywalls:
+    :path: "../node_modules/react-native-purchases-ui"
+  RNPurchases:
+    :path: "../node_modules/react-native-purchases"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -2101,6 +2125,8 @@ SPEC CHECKSUMS:
   libdav1d: 23581a4d8ec811ff171ed5e2e05cd27bad64c39f
   lottie-ios: a881093fab623c467d3bce374367755c272bdd59
   lottie-react-native: 015e84640c4b8dd47049a8c981996fd203001ddf
+  PurchasesHybridCommon: f27e7fe57a9934319373b10c260db5d6c10bbb64
+  PurchasesHybridCommonUI: 57b87f2e4feb1a9337e1f19f9b84cad5a16da970
   RCT-Folly: 84578c8756030547307e4572ab1947de1685c599
   RCTDeprecation: fb7d408617e25d7f537940000d766d60149c5fea
   RCTRequired: 9aaf0ffcc1f41f0c671af863970ef25c422a9920
@@ -2160,9 +2186,13 @@ SPEC CHECKSUMS:
   React-utils: f584a494ac233c7857bab176416b0c49cb4037ba
   ReactCodegen: 3a68408bf68d0957abcd13d610f76420005c1d91
   ReactCommon: 5809a8ee421b7219221a475b78180f8f34b5c5ec
+  RevenueCat: 4be87c151dff652d2a5b7af46073db11f01ad93f
+  RevenueCatUI: 79372219c99e2d08eed0a0607004ca0872a17fd5
   RNCAsyncStorage: aa75595c1aefa18f868452091fa0c411a516ce11
   RNDateTimePicker: 818460dc31b0dc5ec58289003e27dd8d022fb79c
   RNGestureHandler: 27a63f2218affdf1a426d56682f9b174904838b3
+  RNPaywalls: e9f502348c1aae4b83e26ed1f1594dc6de426cab
+  RNPurchases: 100443da77a1458a516a14f371d66f087a626414
   RNReanimated: 2f762cd9e6b74c1f6ec88c0545d773a68b8e1085
   RNScreens: 4a5ab20b324ed1e3fe3862796b8f8e0a6208c415
   RNSVG: 8542aa11770b27563714bbd8494a8436385fc85f
