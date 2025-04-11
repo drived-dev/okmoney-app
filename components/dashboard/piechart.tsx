@@ -39,6 +39,16 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
     return percentage.toFixed(1) + "%";
   });
 
+  function renderChangePercentage(percentage: number | string) {
+    if (percentage === "-") return;
+    return (
+      <Text className={cn(PARAGRAPH_BOLD, "-mt-2")}>
+        {isPositive ? "+" : "-"}
+        {changePercentage !== "-" && changePercentage}
+      </Text>
+    );
+  }
+
   return (
     <View className="border border-gray-300 rounded-lg p-4 flex flex-col gap-2">
       <View className="mb-4">
@@ -60,8 +70,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
           {Math.abs(
             Number(String(changeAmount).replace(/[^0-9.-]/g, ""))
           ).toLocaleString()}{" "}
-          บาท ({isPositive ? "+" : "-"}
-          {changePercentage}%)
+          บาท {renderChangePercentage(changePercentage)}
         </Text>
       </View>
 

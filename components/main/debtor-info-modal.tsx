@@ -89,8 +89,7 @@ const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
             paymentType={loan?.paymentType || ""}
           />
           <AdditionalInfo
-            address="248 หมู่ที่ 2 ถนน ถนน ซุปเปอร์ไฮเวย์ เชียงใหม่-ลำปาง ตำบล ปงยางคก อำเภอห้างฉัตร ลำปาง 52190"
-            debtorType={loan?.loanStatus}
+            debtorType={loan?.loanStatus || "-"}
             tag={loan?.tags || []} // Pass tags as an array of strings
             notes={loan?.notes || ""}
           />
