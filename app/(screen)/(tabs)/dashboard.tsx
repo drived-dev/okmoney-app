@@ -111,7 +111,7 @@ const App: React.FC = () => {
               )}
               changePercentage={
                 totalLoanLastYear === 0
-                  ? "0.0"
+                  ? "-"
                   : (dashboard.totalLoan / totalLoanLastYear) * 100
               }
               isPositive={true}

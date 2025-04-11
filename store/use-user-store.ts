@@ -24,6 +24,8 @@ interface UserState {
   lineId: string | null;
   accessToken: string | null;
   refreshToken: string | null;
+  useNotification: boolean | null;
+  packageUpdateAt: number | null;
 
   // Methods to update state
   setUser: (user: Partial<UserState>) => void;
@@ -58,6 +60,8 @@ const useUserStore = create(
       lineId: null,
       accessToken: null,
       refreshToken: null,
+      useNotification: null,
+      packageUpdateAt: null,
 
       // Set user data
       setUser: (user) => set((state) => ({ ...state, ...user })),
@@ -90,6 +94,8 @@ const useUserStore = create(
           lineId: null,
           accessToken: null,
           refreshToken: null,
+          useNotification: null,
+          packageUpdateAt: null,
         }),
     }),
     {
