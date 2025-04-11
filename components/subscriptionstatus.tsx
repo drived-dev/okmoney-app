@@ -7,22 +7,58 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Purchases from "react-native-purchases";
+import { patchUser } from "~/api/auth/patch-user";
+import useUserStore from "~/store/use-user-store";
 
-const SubscriptionStatusComponent = () => {
-  const [loading, setLoading] = useState(true);
-  const [subscriptionInfo, setSubscriptionInfo] = useState(null);
-  const [error, setError] = useState(null);
+// Define interfaces for type safety
+interface SubscriptionInfo {
+  hasActiveSubscription: boolean;
+  activeEntitlements: string[];
+  allEntitlements: Record<string, any>;
+  activeSubscriptions: string[];
+  allPurchasedProductIds: string[];
+  latestExpirationDate: string | null;
+  purchaseDates: Record<string, string>;
+  planName?: string;
+  purchaseDate?: string;
+}
+
+interface UserData {
+  storeName: string;
+  phoneNumber: string;
+  // Add other user properties as needed
+}
+
+interface ApiResponse {
+  status: number;
+  data: UserData;
+}
+
+const SubscriptionStatusComponent: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [subscriptionInfo, setSubscriptionInfo] =
+    useState<SubscriptionInfo | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const user = useUserStore.getState() as UserData;
+  const setUser = useUserStore.getState().setUser;
+  const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
     fetchSubscriptionInfo();
   }, []);
 
-  const fetchSubscriptionInfo = async () => {
+  const fetchSubscriptionInfo = async (): Promise<void> => {
     try {
       setLoading(true);
-      const customerInfo = await Purchases.getCustomerInfo();
+      const customerInfo: PurchasesCustomerInfo =
+        await Purchases.getCustomerInfo();
+
+      // Get purchase dates for subscription products
+      const purchaseDates: Record<string, string> =
+        customerInfo.allPurchaseDatesByProduct || {};
+
       // Process subscription information
-      const subscriptions = {
+      const subscriptions: SubscriptionInfo = {
         hasActiveSubscription:
           Object.values(customerInfo.entitlements.active).length > 0,
         activeEntitlements: Object.keys(customerInfo.entitlements.active),
@@ -30,10 +66,64 @@ const SubscriptionStatusComponent = () => {
         activeSubscriptions: customerInfo.activeSubscriptions,
         allPurchasedProductIds: customerInfo.allPurchasedProductIdentifiers,
         latestExpirationDate: customerInfo.latestExpirationDate,
+        purchaseDates: purchaseDates,
       };
+
+      // Determine current plan based on active subscriptions
+      let currentPlan: string | null = null;
+      let purchaseDate: string | null = null;
+
+      if (
+        subscriptions.activeSubscriptions &&
+        subscriptions.activeSubscriptions.length > 0
+      ) {
+        // Check for the plan in active subscriptions
+        for (const subscription of subscriptions.activeSubscriptions) {
+          if (subscription === "com.small_plan.okmoney") {
+            currentPlan = "SMALL";
+          } else if (subscription === "com.med_plan.okmoney") {
+            currentPlan = "MEDIUM";
+          } else if (subscription === "com.large_plan.okmoney") {
+            currentPlan = "LARGE";
+          }
+
+          // Get purchase date for this subscription if available
+          if (currentPlan && purchaseDates[subscription]) {
+            purchaseDate = purchaseDates[subscription];
+            break; // Use the first match we find
+          }
+        }
+      }
+
+      // Add plan name to subscription info for display
+      subscriptions.planName = currentPlan || undefined;
+      subscriptions.purchaseDate = purchaseDate || undefined;
+
+      // Update user information if we found an active plan
+      let response: ApiResponse;
+
+      if (currentPlan && purchaseDate) {
+        response = await patchUser({
+          rolePackage: currentPlan,
+          packageUpdateAt: new Date(purchaseDate).toISOString(),
+        });
+      } else {
+        // Fallback to using existing user data if we couldn't determine the plan
+        response = await patchUser({
+          rolePackage: user.storeName,
+          packageUpdateAt: user.phoneNumber,
+        });
+      }
+
+      if (response.status === 200) {
+        setUser(response.data);
+      } else {
+        setIsError(true);
+      }
+
       setSubscriptionInfo(subscriptions);
       setLoading(false);
-    } catch (err) {
+    } catch (err: any) {
       setError(`Error fetching subscription info: ${err.message}`);
       setLoading(false);
     }
@@ -68,11 +158,25 @@ const SubscriptionStatusComponent = () => {
       <View style={styles.infoContainer}>
         <Text style={styles.label}>Active Subscription:</Text>
         <Text style={styles.value}>
-          {subscriptionInfo.hasActiveSubscription ? "Yes" : "No"}
+          {subscriptionInfo?.hasActiveSubscription ? "Yes" : "No"}
         </Text>
       </View>
-      {subscriptionInfo.hasActiveSubscription && (
+      {subscriptionInfo?.hasActiveSubscription && (
         <>
+          {subscriptionInfo.planName && (
+            <View style={styles.infoContainer}>
+              <Text style={styles.label}>Plan:</Text>
+              <Text style={styles.value}>{subscriptionInfo.planName}</Text>
+            </View>
+          )}
+          <View style={styles.infoContainer}>
+            <Text style={styles.label}>Purchase Date:</Text>
+            <Text style={styles.value}>
+              {subscriptionInfo.purchaseDate
+                ? new Date(subscriptionInfo.purchaseDate).toLocaleDateString()
+                : "Not available"}
+            </Text>
+          </View>
           <View style={styles.infoContainer}>
             <Text style={styles.label}>Active Entitlements:</Text>
             <Text style={styles.value}>
@@ -107,6 +211,11 @@ const SubscriptionStatusComponent = () => {
         </Text>
       </TouchableOpacity>
       <Text style={styles.refreshNote}>You can also pull down to refresh</Text>
+      {isError && (
+        <Text style={styles.errorText}>
+          Failed to update user information. Please try again.
+        </Text>
+      )}
     </View>
   );
 };
