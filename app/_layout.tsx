@@ -97,7 +97,7 @@ export default function RootLayout() {
           "RevenueCat API KEY for the Android is not provide"
         );
       } else {
-        Purchases.configure({ apiKey: process.env.EXPO_PUBLIC_RC_ANDRIOD });
+        Purchases.configure({ apiKey: "goog_NudlkKVWAxNNNeoLdPPYOkQnbPK" });
       }
     }
     Purchases.getOfferings().then(console.log);

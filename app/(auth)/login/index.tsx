@@ -27,6 +27,7 @@ import useUserStore from "~/store/use-user-store";
 import SocialLoginButton from "../(components)/social-login-button";
 import PhoneLoginForm from "../(components)/phone-login-form";
 import * as WebBrowser from "expo-web-browser";
+import { Linking } from "react-native";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -102,7 +103,9 @@ const LoginScreen = () => {
                 การเข้าสู่ระบบแสดงว่าคุณยอมรับ
               </Text>
               <TouchableOpacity
-                onPress={() => router.navigate("/term-and-service")}
+                onPress={() =>
+                  Linking.openURL("http://okmoneys.com/term-and-condition")
+                }
               >
                 <Text className={cn(PARAGRAPH, " text-gray-500 underline")}>
                   นโยบายความเป็นส่วนตัว

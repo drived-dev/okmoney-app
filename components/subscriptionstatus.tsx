@@ -53,9 +53,9 @@ const SubscriptionStatusComponent: React.FC = () => {
       const customerInfo: PurchasesCustomerInfo =
         await Purchases.getCustomerInfo();
 
-      // Get purchase dates for subscription products
-      const purchaseDates: Record<string, string> =
-        customerInfo.allPurchaseDatesByProduct || {};
+      // // Get purchase dates for subscription products
+      // const purchaseDates: Record<string, string> =
+      //   customerInfo.allPurchaseDatesByProduct || {};
 
       // Process subscription information
       const subscriptions: SubscriptionInfo = {
@@ -66,7 +66,7 @@ const SubscriptionStatusComponent: React.FC = () => {
         activeSubscriptions: customerInfo.activeSubscriptions,
         allPurchasedProductIds: customerInfo.allPurchasedProductIdentifiers,
         latestExpirationDate: customerInfo.latestExpirationDate,
-        purchaseDates: purchaseDates,
+        purchaseDates: customerInfo.allPurchaseDatesByProduct,
       };
 
       // Determine current plan based on active subscriptions
@@ -88,10 +88,10 @@ const SubscriptionStatusComponent: React.FC = () => {
           }
 
           // Get purchase date for this subscription if available
-          if (currentPlan && purchaseDates[subscription]) {
-            purchaseDate = purchaseDates[subscription];
-            break; // Use the first match we find
-          }
+          // if (currentPlan && purchaseDates[subscription]) {
+          //   purchaseDate = purchaseDates[subscription];
+          //   break; // Use the first match we find
+          // }
         }
       }
 
@@ -100,21 +100,12 @@ const SubscriptionStatusComponent: React.FC = () => {
       subscriptions.purchaseDate = purchaseDate || undefined;
 
       // Update user information if we found an active plan
-      let response: ApiResponse;
-
-      if (currentPlan && purchaseDate) {
-        response = await patchUser({
-          rolePackage: currentPlan,
-          packageUpdateAt: new Date(purchaseDate).toISOString(),
-        });
-      } else {
-        // Fallback to using existing user data if we couldn't determine the plan
-        response = await patchUser({
-          rolePackage: user.storeName,
-          packageUpdateAt: user.phoneNumber,
-        });
-      }
-
+      const response = await patchUser({
+        rolePackage: subscriptions.planName,
+        // packageUpdateAt: subscriptions.purchaseDate
+        //   ? new Date(subscriptions.purchaseDate).toISOString()
+        //   : new Date().toISOString(),
+      });
       if (response.status === 200) {
         setUser(response.data);
       } else {
@@ -171,11 +162,7 @@ const SubscriptionStatusComponent: React.FC = () => {
           )}
           <View style={styles.infoContainer}>
             <Text style={styles.label}>Purchase Date:</Text>
-            <Text style={styles.value}>
-              {subscriptionInfo.purchaseDate
-                ? new Date(subscriptionInfo.purchaseDate).toLocaleDateString()
-                : "Not available"}
-            </Text>
+            <Text style={styles.value}>{subscriptionInfo.purchaseDate}</Text>
           </View>
           <View style={styles.infoContainer}>
             <Text style={styles.label}>Active Entitlements:</Text>

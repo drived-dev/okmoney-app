@@ -18,7 +18,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.okmoney.gotroger",
-      "buildNumber": "90",
+      "buildNumber": "103",
       "config": {
         "usesNonExemptEncryption": false
       },
@@ -52,7 +52,7 @@
           ]
         }
       ],
-      "versionCode": 3
+      "versionCode": 4
     },
     "web": {
       "bundler": "metro",
@@ -78,7 +78,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "1a0ebf2c-b02d-4fe7-ae6f-3c81786bfacf"
+        "projectId": "8e860d4b-d48b-4d88-a5e0-5fe053cb0d56"
       }
     }
   }
