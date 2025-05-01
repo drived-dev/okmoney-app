@@ -18,7 +18,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.okmoney.gotroger",
-      "buildNumber": "103",
+      "buildNumber": "104",
       "config": {
         "usesNonExemptEncryption": false
       },
