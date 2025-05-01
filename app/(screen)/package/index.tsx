@@ -11,7 +11,7 @@ const index = () => {
       <CloseButton className="ml-4" />
       <RevenueCatUI.Paywall />
       <SubscriptionChecker />
-      {/* <SubscriptionStatusComponent /> */}
+      <SubscriptionStatusComponent />
     </SafeAreaView>
   );
 };
