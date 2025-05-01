@@ -51,25 +51,33 @@ const SubscriptionChecker: React.FC = () => {
           subscriptions.activeSubscriptions &&
           subscriptions.activeSubscriptions.length > 0
         ) {
-          // Check for the plan in active subscriptions
           for (const subscription of subscriptions.activeSubscriptions) {
             if (
               subscription === "com.small_plan.okmoney" ||
               subscription === "ok_money_premium_plan:small-plan"
             ) {
               currentPlan = "SMALL";
+              break;
             } else if (
               subscription === "com.med_plan.okmoney" ||
               subscription === "ok_money_premium_plan:medium-plan"
             ) {
               currentPlan = "MEDIUM";
+              break;
             } else if (
               subscription === "com.large_plan.okmoney" ||
               subscription === "ok_money_premium_plan:large-plan"
             ) {
               currentPlan = "LARGE";
+              break;
             }
           }
+
+          if (!currentPlan) {
+            currentPlan = "FREE";
+          }
+        } else {
+          currentPlan = "FREE";
         }
 
         // Add plan name to subscription info for display
