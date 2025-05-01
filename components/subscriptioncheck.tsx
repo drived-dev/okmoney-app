@@ -20,6 +20,7 @@ interface SubscriptionInfo {
 }
 
 const SubscriptionChecker: React.FC = () => {
+  const { setUser, accessToken, refreshToken } = useUserStore();
   useEffect(() => {
     const handleNewPurchase = async (customerInfo: any) => {
       try {
@@ -45,7 +46,6 @@ const SubscriptionChecker: React.FC = () => {
         // Determine current plan based on active subscriptions
         let currentPlan: string | null = null;
         let purchaseDate: string | null = null;
-        const { setUser, accessToken, refreshToken } = useUserStore();
 
         if (
           subscriptions.activeSubscriptions &&
@@ -53,18 +53,21 @@ const SubscriptionChecker: React.FC = () => {
         ) {
           // Check for the plan in active subscriptions
           for (const subscription of subscriptions.activeSubscriptions) {
-            if (subscription === "com.small_plan.okmoney") {
+            if (
+              subscription === "com.small_plan.okmoney" ||
+              subscription === "ok_money_premium_plan:small-plan"
+            ) {
               currentPlan = "SMALL";
-            } else if (subscription === "com.med_plan.okmoney") {
+            } else if (
+              subscription === "com.med_plan.okmoney" ||
+              subscription === "ok_money_premium_plan:medium-plan"
+            ) {
               currentPlan = "MEDIUM";
-            } else if (subscription === "com.large_plan.okmoney") {
+            } else if (
+              subscription === "com.large_plan.okmoney" ||
+              subscription === "ok_money_premium_plan:large-plan"
+            ) {
               currentPlan = "LARGE";
-            }
-
-            // Get purchase date for this subscription if available
-            if (currentPlan && purchaseDates[subscription]) {
-              purchaseDate = purchaseDates[subscription];
-              break; // Use the first match we find
             }
           }
         }
