@@ -113,7 +113,7 @@ const create = () => {
 
     if (response.status === 201) {
       Toast.show({
-        text1: "Loan created successfully",
+        text1: "แก้ไขลูกหนี้สำเร็จ",
         type: "success",
       });
       addLoan(parseLoanData(response.data.data));
@@ -121,7 +121,7 @@ const create = () => {
       return true;
     } else {
       Toast.show({
-        text1: "Failed to create loan",
+        text1: "แก้ไขลูกหนี้ไม่สำเร็จ",
         type: "error",
       });
     }

@@ -44,8 +44,8 @@ const PhoneInput = React.forwardRef<
       Toast.show({
         type: "info",
         position: "bottom",
-        text1: "Hello",
-        text2: "This is some something 👋",
+        text1: "กรุณากรอกเบอร์โทรศัพท์",
+        text2: "เบอร์โทรศัพท์ต้องมีความยาว 9 หลัก",
       });
 
       // Remove the leading zero and prepend the country code
