@@ -46,10 +46,10 @@ import useLoanStore from "~/store/use-loan-store";
 const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
   const { id } = useEditingLoanStore();
   const loan = useLoanStore.getState().getLoanById(id);
+  const phoneNumber = loan?.phoneNumber;
   // Add a state for the toggle switch
   const [isSwitchOn, setIsSwitchOn] = useState(false);
-  const phoneNumber = "063-539-5419";
-
+  console.log(loan);
   // Toggle Switch Handler
   const toggleSwitch = () => setIsSwitchOn((previousState) => !previousState);
 
