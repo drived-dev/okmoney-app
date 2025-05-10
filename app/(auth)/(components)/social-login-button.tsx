@@ -21,7 +21,7 @@ import { getUser } from "~/api/auth/get-user";
 interface SocialLoginButtonProps {
   icon: string;
   text: string;
-  type: "google" | "line";
+  type: "google" | "line" | "apple";
 }
 
 export default function SocialLoginButton({

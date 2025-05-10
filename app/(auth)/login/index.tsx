@@ -78,6 +78,12 @@ const LoginScreen = () => {
                   type="line"
                 />
                 <SocialLoginButton
+                  icon={require("assets/images/apple.png")}
+                  text="เข้าร่วมผ่าน Apple"
+                  type="apple"
+                />
+
+                <SocialLoginButton
                   icon={require("assets/images/google.png")}
                   text="เข้าร่วมผ่าน Google"
                   type="google"
