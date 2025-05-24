@@ -79,7 +79,6 @@ const PhoneInput = React.forwardRef<
           onChangeText={change}
           ref={ref}
           keyboardType="phone-pad"
-          maxLength={9}
           {...props}
         />
       </View>
