@@ -80,25 +80,24 @@ const PhoneInput = React.forwardRef<
   };
 
   return (
-    <TouchableWithoutFeedback onPress={handleOutsidePress}>
-      <View className="flex gap-2 flex-row items-stretch">
-        <CountryDropdown
-          countryCode={countryCode}
-          setCountryCode={setCountryCode}
+    <View className="flex gap-2 flex-row items-stretch">
+      <CountryDropdown
+        countryCode={countryCode}
+        setCountryCode={setCountryCode}
+      />
+      <View className="flex-1 flex-row gap-2 items-center rounded-2xl bg-input px-5">
+        <Input
+          className="flex-1 bg-transparent border-transparent px-0"
+          placeholder="เบอร์โทรศัพท์"
+          onBlur={handleOutsidePress}
+          value={prettifyPhoneNumber(value)}
+          onChangeText={change}
+          ref={ref}
+          keyboardType="phone-pad"
+          {...props}
         />
-        <View className="flex-1 flex-row gap-2 items-center rounded-2xl bg-input px-5">
-          <Input
-            className="flex-1 bg-transparent border-transparent px-0"
-            placeholder="เบอร์โทรศัพท์"
-            value={prettifyPhoneNumber(value)}
-            onChangeText={change}
-            ref={ref}
-            keyboardType="phone-pad"
-            {...props}
-          />
-        </View>
       </View>
-    </TouchableWithoutFeedback>
+    </View>
   );
 });
 
