@@ -99,7 +99,7 @@ const App: React.FC = () => {
           <View className="flex flex-col gap-2">
             <View>
               <Image
-                source={require("assets/images/promo.png")}
+                source={require("assets/images/hero.png")}
                 className="w-full object-cover rounded-2xl"
               />
             </View>
