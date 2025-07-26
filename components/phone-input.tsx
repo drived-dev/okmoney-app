@@ -75,10 +75,6 @@ const PhoneInput = React.forwardRef<
     onChangeText!(formatToE164(input, countryCode));
   }
 
-  const handleOutsidePress = () => {
-    Keyboard.dismiss(); // Dismiss the keyboard
-  };
-
   return (
     <View className="flex gap-2 flex-row items-stretch">
       <CountryDropdown
@@ -89,7 +85,6 @@ const PhoneInput = React.forwardRef<
         <Input
           className="flex-1 bg-transparent border-transparent px-0"
           placeholder="เบอร์โทรศัพท์"
-          onBlur={handleOutsidePress}
           value={prettifyPhoneNumber(value)}
           onChangeText={change}
           ref={ref}
