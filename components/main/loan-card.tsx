@@ -14,6 +14,7 @@ import { timestampToDate } from "~/lib/timestamp-to-date";
 import { formatMoney } from "~/lib/parse-money";
 import Status from "../status";
 import { AvatarText } from "../avatar-text";
+import Toast from "react-native-toast-message";
 
 export const LoanCard = ({
   loan,
@@ -43,6 +44,15 @@ export const LoanCard = ({
   function openDebtorModal() {
     setId(loan.id);
     onInfo();
+  }
+
+  function sendReminder() {
+    // TODO: send reminder
+    Toast.show({
+      text1: "ส่ง SMS สำเร็จ!",
+      type: "success",
+      position: "bottom",
+    });
   }
 
   const paidAmount = loan.total - loan.remainingBalance;
@@ -123,6 +133,7 @@ export const LoanCard = ({
               <IconButton
                 className="flex-1"
                 variant="outline"
+                onPress={sendReminder}
                 icon={<Icon name="Send" size={20} />}
                 text="ทวงหนี้"
               />
