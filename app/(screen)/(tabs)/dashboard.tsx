@@ -100,7 +100,7 @@ const App: React.FC = () => {
             <View>
               <Image
                 source={require("assets/images/hero.png")}
-                className="w-full object-cover rounded-2xl"
+                className="w-full h-60 object-cover rounded-2xl"
               />
             </View>
             <DashboardCard
