@@ -76,6 +76,7 @@ const Index = () => {
         Toast.show({
           text1: "กำลังโหลดข้อมูลลูกหนี้ใหม่",
           type: "info",
+          position: "bottom",
         });
         const loans = await getLoanAll();
         const buffer = parseLoansDatas(loans);

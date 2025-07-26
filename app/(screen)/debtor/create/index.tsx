@@ -125,6 +125,7 @@ const create = () => {
       Toast.show({
         text1: "สร้างลูกหนี้สำเร็จ",
         type: "success",
+        position: "bottom",
       });
       addLoan(parseLoanData(response.data.data));
       router.replace("/(tabs)");
@@ -133,6 +134,7 @@ const create = () => {
       Toast.show({
         text1: "สร้างลูกหนี้ไม่สำเร็จ",
         type: "error",
+        position: "bottom",
       });
     }
     setIsLoading(false);

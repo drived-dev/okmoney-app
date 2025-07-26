@@ -58,11 +58,13 @@ export const LoanCardMenu = ({
       Toast.show({
         text1: "ลบลูกหนี้สำเร็จ",
         type: "success",
+        position: "bottom",
       });
     } else {
       Toast.show({
         text1: "ลบลูกหนี้ไม่สำเร็จ",
         type: "error",
+        position: "bottom",
       });
     }
   }
