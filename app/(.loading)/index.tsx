@@ -37,8 +37,8 @@ const index = () => {
   return (
     <View className="flex-1 items-center justify-center h-full">
       <Image
-        source={require("assets/images/placeholder.png")}
-        className="w-20 h-20"
+        source={require("assets/images/icon.png")}
+        className="w-20 h-20 rounded-md"
       />
     </View>
   );

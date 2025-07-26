@@ -1,4 +1,10 @@
-import { Text, TextInput, View } from "react-native";
+import {
+  Text,
+  TextInput,
+  View,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import React from "react";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
@@ -62,27 +68,37 @@ const PhoneInput = React.forwardRef<
   }
 
   function change(input: string) {
+    if (input.length > 9) {
+      return;
+    }
+
     onChangeText!(formatToE164(input, countryCode));
   }
 
+  const handleOutsidePress = () => {
+    Keyboard.dismiss(); // Dismiss the keyboard
+  };
+
   return (
-    <View className="flex gap-2 flex-row items-stretch">
-      <CountryDropdown
-        countryCode={countryCode}
-        setCountryCode={setCountryCode}
-      />
-      <View className="flex-1 flex-row gap-2 items-center rounded-2xl bg-input px-5">
-        <Input
-          className="flex-1 bg-transparent border-transparent px-0"
-          placeholder="เบอร์โทรศัพท์"
-          value={prettifyPhoneNumber(value)}
-          onChangeText={change}
-          ref={ref}
-          keyboardType="phone-pad"
-          {...props}
+    <TouchableWithoutFeedback onPress={handleOutsidePress}>
+      <View className="flex gap-2 flex-row items-stretch">
+        <CountryDropdown
+          countryCode={countryCode}
+          setCountryCode={setCountryCode}
         />
+        <View className="flex-1 flex-row gap-2 items-center rounded-2xl bg-input px-5">
+          <Input
+            className="flex-1 bg-transparent border-transparent px-0"
+            placeholder="เบอร์โทรศัพท์"
+            value={prettifyPhoneNumber(value)}
+            onChangeText={change}
+            ref={ref}
+            keyboardType="phone-pad"
+            {...props}
+          />
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 });
 

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Ok Money",
     "slug": "starter-base",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "okmoney",
@@ -18,7 +18,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.okmoney.gotroger",
-      "buildNumber": "104",
+      "buildNumber": "111",
       "config": {
         "usesNonExemptEncryption": false
       },
@@ -33,7 +33,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/adaptive.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.okmoney.gotroger",
@@ -52,7 +52,7 @@
           ]
         }
       ],
-      "versionCode": 5
+      "versionCode": 9
     },
     "web": {
       "bundler": "metro",
