@@ -243,7 +243,7 @@ const StepperButtonGroup = ({
     }
 
     const TextSubmitOrNext = isLastStep ? (
-      <Text className={cn(BUTTON.white)}>ส่งคำตอบ</Text>
+      <Text className={cn(BUTTON.white)}>บันทึก</Text>
     ) : (
       <>
         <Text className={cn(BUTTON.white)}>ถัดไป</Text>
