@@ -109,9 +109,7 @@ const LoginScreen = () => {
                 การเข้าสู่ระบบแสดงว่าคุณยอมรับ
               </Text>
               <TouchableOpacity
-                onPress={() =>
-                  Linking.openURL("http://okmoneys.com/term-and-condition")
-                }
+                onPress={() => Linking.openURL("http://okmoneys.com/terms")}
               >
                 <Text className={cn(PARAGRAPH, " text-gray-500 underline")}>
                   นโยบายความเป็นส่วนตัว
