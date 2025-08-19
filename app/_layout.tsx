@@ -158,7 +158,7 @@ export default function RootLayout() {
           />
         </Stack>
         <OfflineNotice />
-        <Toast config={toastConfig} bottomOffset={64}/>
+        <Toast config={toastConfig} bottomOffset={96} />
         <PortalHost />
       </KeyboardDismissProvider>
     </QueryClientProvider>
