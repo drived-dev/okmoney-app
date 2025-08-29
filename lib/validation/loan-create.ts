@@ -1,4 +1,21 @@
 import { z } from "zod";
+import { getLoanAll } from "~/api/loans/get-loan-all";
+
+// Function to check if loanId already exists
+async function isLoanIdUnique(loanId: string): Promise<boolean> {
+  try {
+    const loans = await getLoanAll();
+    // Check if any loan's loanNumber matches the input loanId
+    const isDuplicate = loans.some(
+      (item: any) => item.loan?.loanNumber === loanId
+    );
+    // Return true if NOT a duplicate (unique)
+    return !isDuplicate;
+  } catch (error) {
+    console.error("Error checking loan ID uniqueness:", error);
+    return false; // Default to false on error to prevent duplicates
+  }
+}
 
 export const InfoFormSchema = z.object({
   nickname: z
@@ -15,15 +32,24 @@ export const InfoFormSchema = z.object({
     .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
     .max(20)
     .optional(),
-  phone: z
-    .string()
-    .regex(/^\+?[1-9]\d{1,14}$/, {
-      message: "Invalid phone number format",
-    })
+  phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, {
+    message: "Invalid phone number format",
+  }),
 });
 
 export const LoanDetailFormSchema = z.object({
-  loanId: z.string().min(1, { message: "ชื่อต้องมากกว่า 1 ตัวอักษร" }).max(10),
+  loanId: z
+    .string()
+    .min(1, { message: "ชื่อต้องมากกว่า 1 ตัวอักษร" })
+    .max(10)
+    .refine(
+      async (value) => {
+        return await isLoanIdUnique(value);
+      },
+      {
+        message: "เลขที่สัญญากู้นี้มีอยู่แล้ว",
+      }
+    ),
   dueDate: z.date().default(new Date()),
   loanType: z.enum(["FIXED", "VARIABLE"]),
   paymentType: z.enum(["MONTHLY", "WEEKLY", "CUSTOM"]),
@@ -32,26 +58,21 @@ export const LoanDetailFormSchema = z.object({
   loanCategory: z.enum(["NEW_LOAN", "OLD_LOAN"]),
 });
 
-export const LoanAmountFormSchema =
-  z.object({
-    loanAmount: z.coerce
-      .number()
-      .positive()
-      .min(0, { message: "จำนวนเงินกู้ต้องมากกว่าหรือเท่ากับ 0" }),
-    interestRate: z.coerce
-      .number()
-      .min(0)
-      .max(100, { message: "อัตราดอกเบี้ยต้องอยู่ระหว่าง 0 ถึง 100" }),
-    installments: z.coerce
-      .number()
-      .positive()
-      .int()
-      .min(1, { message: "จำนวนงวดต้องมากกว่าหรือเท่ากับ 1" }),
-    amountPaid: z.coerce
-      .number()
-      .positive()
-      .default(0)
-      .optional(),
+export const LoanAmountFormSchema = z.object({
+  loanAmount: z.coerce
+    .number()
+    .positive()
+    .min(0, { message: "จำนวนเงินกู้ต้องมากกว่าหรือเท่ากับ 0" }),
+  interestRate: z.coerce
+    .number()
+    .min(0)
+    .max(100, { message: "อัตราดอกเบี้ยต้องอยู่ระหว่าง 0 ถึง 100" }),
+  installments: z.coerce
+    .number()
+    .positive()
+    .int()
+    .min(1, { message: "จำนวนงวดต้องมากกว่าหรือเท่ากับ 1" }),
+  amountPaid: z.coerce.number().positive().default(0).optional(),
   autoPaymentToggle: z.boolean().optional(),
 });
 
