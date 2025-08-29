@@ -89,10 +89,7 @@ const App: React.FC = () => {
   return (
     <View>
       <SafeAreaView className="h-full">
-        <ScrollView
-          stickyHeaderIndices={[0]}
-          className={cn(CONTAINER, "flex flex-col gap-4 mt-4")}
-        >
+        <ScrollView className={cn(CONTAINER, "flex flex-col gap-4 mt-4")}>
           <View>
             <Text className={cn(TITLE, "bg-background py-4")}>แดชบอร์ด</Text>
           </View>
