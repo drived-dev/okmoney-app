@@ -49,7 +49,7 @@ export const MemoForm = ({ navigation }: NavigationProps) => {
               </FormLabel>
               <Textarea
                 className="!min-h-[160px]"
-                placeholder="Write some stuff..."
+                placeholder="โปรดเขียนบางอย่างเพื่อกันลืม"
                 value={value}
                 onBlur={onBlur}
                 onChangeText={onChange}

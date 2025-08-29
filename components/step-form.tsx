@@ -212,12 +212,16 @@ const StepperButtonGroup = ({
 
     return (
       <Button
-        size="icon-lg"
         variant="ghost"
         onPress={navigateBack}
         disabled={disabled}
+        size="md"
+        className="flex flex-row justify-center items-center gap-2"
       >
+        {/* <View className="flex flex-row gap-2"> */}
         <ArrowLeft color={"black"} />
+        <Text className={cn(BUTTON.black)}>กลับ</Text>
+        {/* </View> */}
       </Button>
     );
   };
