@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import axiosRetry from 'axios-retry';
+import * as SecureStore from 'expo-secure-store';
+import { router } from 'expo-router';
 
 // Create axios instance with default config
 const api = axios.create({
@@ -23,16 +24,52 @@ api.interceptors.request.use(
   }
 );
 
-// Add response interceptor to log errors
+// Track failed authentication attempts
+let authErrorCount = 0;
+const MAX_AUTH_RETRIES = 3;
+
+// Add response interceptor to handle errors and authentication
 api.interceptors.response.use(
-  (response) => response,
-  (error) => {
+  (response) => {
+    // Reset counter on successful response
+    if (authErrorCount > 0) {
+      authErrorCount = 0;
+    }
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+    
+    // Log the error
     console.log("API Error:", {
       url: error.config?.url,
       method: error.config?.method,
       status: error.response?.status,
       data: error.response?.data,
     });
+
+    // Handle 401 Unauthorized errors
+    if (error.response?.status === 401) {
+      authErrorCount++;
+      
+      if (authErrorCount >= MAX_AUTH_RETRIES) {
+        // Clear stored tokens and redirect to login
+        await AsyncStorage.removeItem('token');
+        await SecureStore.deleteItemAsync('refreshToken');
+        authErrorCount = 0; // Reset counter
+        
+        // Redirect to login screen
+        if (router) {
+          router.replace('/(auth)/login');
+        }
+        
+        // Show alert to user (you might want to use your app's alert system)
+        if (typeof window !== 'undefined') {
+          alert('Your session has expired. Please log in again.');
+        }
+      }
+    }
+    
     return Promise.reject(error);
   }
 );
