@@ -1,5 +1,13 @@
 import React, { useCallback, useRef } from "react";
-import { View, SafeAreaView, ScrollView, Image } from "react-native";
+import {
+  View,
+  SafeAreaView,
+  ScrollView,
+  Image,
+  Pressable,
+  FlatList,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import OnlineOnly from "~/components/online-only";
 import { cn } from "~/lib/utils";
@@ -87,73 +95,72 @@ const App: React.FC = () => {
   const month = Date.parse(dashboardLastYear.data?.[0]?.time) ?? Date.now();
 
   return (
-    <View>
-      <SafeAreaView className="h-full">
-        <ScrollView
-          stickyHeaderIndices={[0]}
-          className={cn(CONTAINER, "flex flex-col gap-4 mt-4")}
-        >
-          <View>
-            <Text className={cn(TITLE, "bg-background py-4")}>แดชบอร์ด</Text>
-          </View>
-          <View className="flex flex-col gap-2">
+    <SafeAreaView>
+      <ScrollView className="h-full">
+        <TouchableWithoutFeedback>
+          <View className={cn(CONTAINER, "flex flex-col gap-4 mt-4")}>
             <View>
-              <Image
-                source={require("assets/images/hero.png")}
-                className="w-full h-60 object-cover rounded-2xl"
-              />
+              <Text className={cn(TITLE, "bg-background py-4")}>แดชบอร์ด</Text>
             </View>
-            <DashboardCard
-              userName={user.storeName}
-              totalMoney={formatMoney(dashboard.totalLoan) ?? 0}
-              changeAmount={formatMoney(
-                dashboard.totalLoan - totalLoanLastYear
-              )}
-              changePercentage={
-                totalLoanLastYear === 0
-                  ? "-"
-                  : (dashboard.totalLoan / totalLoanLastYear) * 100
-              }
-              isPositive={true}
-              widthAndHeight={100}
-              series={series}
-              sliceColor={["#fbd203", "#ffb300", "#ff9100", "#ff6c00"]}
-              categories={[
-                "ยอดปล่อยทั้งหมด",
-                "ยอดที่ชำระ",
-                "ยอดที่ต้องเก็บ",
-                "ดอกเบี้ยที่ได้รับ",
-              ]}
-              direction="row"
-            />
-            <View className="border border-gray-300 rounded-lg p-4 flex flex-col gap-2">
-              <View className="justify-between flex flex-row">
-                <ToggleGroup
-                  value={value}
-                  onValueChange={handleToggleChange}
-                  type="single"
-                >
-                  <ToggleGroupItem value="years" aria-label="Toggle years">
-                    <Text className={cn(PARAGRAPH, "")}>รายปี</Text>
-                  </ToggleGroupItem>
-                  <ToggleGroupItem value="months" aria-label="Toggle months">
-                    <Text className={cn(PARAGRAPH, "")}>รายเดือน</Text>
-                  </ToggleGroupItem>
-                </ToggleGroup>
-                <Text></Text>
+            <View className="flex flex-col gap-2">
+              <View>
+                <Image
+                  source={require("assets/images/hero.png")}
+                  className="w-full h-60 object-cover rounded-2xl"
+                />
               </View>
-              <BarPairWithLine
-                toggleValue={value}
-                seriesYear={seriesYear}
-                seriesMonth={seriesMonth}
-                year={year}
-                month={month}
+              <DashboardCard
+                userName={user.storeName}
+                totalMoney={formatMoney(dashboard.totalLoan) ?? 0}
+                changeAmount={formatMoney(
+                  dashboard.totalLoan - totalLoanLastYear
+                )}
+                changePercentage={
+                  totalLoanLastYear === 0
+                    ? "-"
+                    : (dashboard.totalLoan / totalLoanLastYear) * 100
+                }
+                isPositive={true}
+                widthAndHeight={100}
+                series={series}
+                sliceColor={["#fbd203", "#ffb300", "#ff9100", "#ff6c00"]}
+                categories={[
+                  "ยอดปล่อยทั้งหมด",
+                  "ยอดที่ชำระ",
+                  "ยอดที่ต้องเก็บ",
+                  "ดอกเบี้ยที่ได้รับ",
+                ]}
+                direction="row"
               />
+              <View className="border border-gray-300 rounded-lg p-4 flex flex-col gap-2">
+                <View className="justify-between flex flex-row">
+                  <ToggleGroup
+                    value={value}
+                    onValueChange={handleToggleChange}
+                    type="single"
+                  >
+                    <ToggleGroupItem value="years" aria-label="Toggle years">
+                      <Text className={cn(PARAGRAPH, "")}>รายปี</Text>
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="months" aria-label="Toggle months">
+                      <Text className={cn(PARAGRAPH, "")}>รายเดือน</Text>
+                    </ToggleGroupItem>
+                  </ToggleGroup>
+                  <Text></Text>
+                </View>
+                <BarPairWithLine
+                  toggleValue={value}
+                  seriesYear={seriesYear}
+                  seriesMonth={seriesMonth}
+                  year={year}
+                  month={month}
+                />
+              </View>
             </View>
           </View>
-        </ScrollView>
-      </SafeAreaView>
-    </View>
+        </TouchableWithoutFeedback>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

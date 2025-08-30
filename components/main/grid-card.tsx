@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Text } from "react-native";
+import { View, Image, Text, ScrollView, TouchableOpacity } from "react-native";
 import Svg, { Circle, Defs, LinearGradient, Stop } from "react-native-svg";
 import { Loan } from "~/types/Loan";
 import { Icon } from "../icon";
@@ -111,60 +111,65 @@ export const GridComponent: React.FC<GridComponentProps> = ({
 }) => {
   const { setId } = useEditingLoanStore();
   return (
-    <View className={cn("flex flex-row flex-wrap justify-between ")}>
-      {loans.map((loan, index) => {
-        function openGuarantorSheet() {
-          setId(loan.id);
-          onGuarantor();
-        }
-        return (
-          <View
-            key={loan.id}
-            className="bg-white p-1 rounded-2xl shadow-sm mb-4 border border-gray-200"
-            style={{
-              width: "48%",
-              shadowColor: "#000",
-              shadowOffset: { width: 0, height: 1 },
-              shadowOpacity: 0.2,
-              shadowRadius: 1.41,
-              elevation: 2,
-              marginBottom: 15,
-              marginRight: index % 2 === 0 ? 10 : 0,
-            }}
-          >
-            <View className="relative justify-center items-center">
-              <View className="absolute top-0 right-0">
-                <LoanCardMenu
-                  openGuarantorSheet={openGuarantorSheet}
-                  debtorId={loan.id}
-                />
+    <ScrollView>
+      <TouchableOpacity>
+        <View className={cn("flex flex-row flex-wrap justify-between ")}>
+          {loans.map((loan, index) => {
+            function openGuarantorSheet() {
+              setId(loan.id);
+              onGuarantor();
+            }
+            return (
+              <View
+                key={loan.id}
+                className="bg-white p-1 rounded-2xl shadow-sm mb-4 border border-gray-200"
+                style={{
+                  width: "48%",
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 0.2,
+                  shadowRadius: 1.41,
+                  elevation: 2,
+                  marginBottom: 15,
+                  marginRight: index % 2 === 0 ? 10 : 0,
+                }}
+              >
+                <View className="relative justify-center items-center">
+                  <View className="absolute top-0 right-0">
+                    <LoanCardMenu
+                      openGuarantorSheet={openGuarantorSheet}
+                      debtorId={loan.id}
+                    />
+                  </View>
+                  <View className="mt-3">
+                    {/* Circular Progress Bar with Profile Image Inside */}
+                    <CircularProgress
+                      placeholder={loan.nickname?.slice(0, 2)}
+                      size={80}
+                      strokeWidth={12}
+                      progress={Math.round(
+                        (loan.outstanding / loan.total) * 100
+                      )}
+                      maxProgress={100}
+                      imageUri={loan.profileImage}
+                    />
+                  </View>
+                </View>
+                {/* Text content */}
+                <View className="items-center justify-center">
+                  <Text className={cn(PARAGRAPH, "text-sm text-gray-500")}>
+                    เลขสัญญา {loan.loanNumber}
+                  </Text>
+                  <DebtorName
+                    name={loan.name}
+                    nickname={loan.nickname}
+                  ></DebtorName>
+                </View>
               </View>
-              <View className="mt-3">
-                {/* Circular Progress Bar with Profile Image Inside */}
-                <CircularProgress
-                  placeholder={loan.nickname?.slice(0, 2)}
-                  size={80}
-                  strokeWidth={12}
-                  progress={Math.round((loan.outstanding / loan.total) * 100)}
-                  maxProgress={100}
-                  imageUri={loan.profileImage}
-                />
-              </View>
-            </View>
-
-            {/* Text content */}
-            <View className="items-center justify-center">
-              <Text className={cn(PARAGRAPH, "text-sm text-gray-500")}>
-                เลขสัญญา {loan.loanNumber}
-              </Text>
-              <DebtorName
-                name={loan.name}
-                nickname={loan.nickname}
-              ></DebtorName>
-            </View>
-          </View>
-        );
-      })}
-    </View>
+            );
+          })}
+        </View>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };

@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   Linking,
   ScrollView,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import {
@@ -59,43 +60,44 @@ const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
   };
 
   return (
-    <BottomSheetModal ref={bottomSheetModalRef} style={styles.shadow}>
-      <BottomSheetView style={styles.contentContainer}>
-        <View className="flex flex-col gap-4">
-          <DebtorHeader
-            profileImage={loan?.profileImage || ""}
-            loanNumber={loan?.loanNumber || ""}
-            id={loan?.id || ""}
-            nickname={loan?.nickname || ""}
-            name={`${loan?.firstName || ""} ${loan?.lastName || ""}`}
-            // TODO: fix this
-            status={loan?.status || ""}
-            phoneNumber={phoneNumber}
-            isSwitchOn={isSwitchOn}
-            handleCallPress={handleCallPress}
-            toggleSwitch={toggleSwitch}
-          />
-
-          <LoanDetails
-            amount={loan?.principal || 0}
-            interestRate={loan?.interestRate || 0}
-            totalDebt={loan?.total || 0}
-            paymentPerInstallment={loan?.paymentPerInstallment || 0}
-            installmentCount={loan?.installmentCount || 0}
-            remainingDebt={loan?.remainingBalance || 0}
-            currentInstallment={loan?.currentInstallment || 0}
-            totalInstallments={loan?.installmentCount || 0}
-            loanDate={loan?.loanDate || ""}
-            paymentType={loan?.paymentType || ""}
-          />
-          <AdditionalInfo
-            debtorType={loan?.loanStatus || "-"}
-            tag={loan?.tags || []} // Pass tags as an array of strings
-            notes={loan?.notes || ""}
-          />
-        </View>
-      </BottomSheetView>
-    </BottomSheetModal>
+    <TouchableWithoutFeedback>
+      <BottomSheetModal ref={bottomSheetModalRef} style={styles.shadow}>
+        <BottomSheetView style={styles.contentContainer}>
+          <View className="flex flex-col gap-4">
+            <DebtorHeader
+              profileImage={loan?.profileImage || ""}
+              loanNumber={loan?.loanNumber || ""}
+              id={loan?.id || ""}
+              nickname={loan?.nickname || ""}
+              name={`${loan?.firstName || ""} ${loan?.lastName || ""}`}
+              // TODO: fix this
+              status={loan?.status || ""}
+              phoneNumber={phoneNumber}
+              isSwitchOn={isSwitchOn}
+              handleCallPress={handleCallPress}
+              toggleSwitch={toggleSwitch}
+            />
+            <LoanDetails
+              amount={loan?.principal || 0}
+              interestRate={loan?.interestRate || 0}
+              totalDebt={loan?.total || 0}
+              paymentPerInstallment={loan?.paymentPerInstallment || 0}
+              installmentCount={loan?.installmentCount || 0}
+              remainingDebt={loan?.remainingBalance || 0}
+              currentInstallment={loan?.currentInstallment || 0}
+              totalInstallments={loan?.installmentCount || 0}
+              loanDate={loan?.loanDate || ""}
+              paymentType={loan?.paymentType || ""}
+            />
+            <AdditionalInfo
+              debtorType={loan?.loanStatus || "-"}
+              tag={loan?.tags || []} // Pass tags as an array of strings
+              notes={loan?.notes || ""}
+            />
+          </View>
+        </BottomSheetView>
+      </BottomSheetModal>
+    </TouchableWithoutFeedback>
   );
 });
 
