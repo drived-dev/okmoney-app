@@ -114,6 +114,8 @@ const Index = () => {
     router.push("/debtor/create-csv");
   }
 
+  console.log(user);
+
   const openDrawerAndClearTags = () => {
     setDrawerOpen(true);
   };
@@ -264,6 +266,7 @@ const Index = () => {
                   </Button>
                 )}
                 <IconButton
+                  disabled={user.debtorSlotAvailable < loans.length}
                   onPress={() => router.push("/debtor/create")}
                   className="bg-white"
                   textColor="#E59551"
@@ -306,7 +309,7 @@ const Index = () => {
                   }}
                 />
 
-                {loans.length > user.limit && (
+                {loans.length > user.debtorSlotAvailable && (
                   <View className="bg-[#A35D2B]/10 justify-between flex flex-row rounded-2xl py-3 items-center px-5 mb-3">
                     <Text className={cn(PARAGRAPH_BOLD, "")}>
                       ลูกหนี้เต็มสำหรับแพ็คเกจคุณ

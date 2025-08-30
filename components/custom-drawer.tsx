@@ -49,14 +49,14 @@ export const CustomDrawer = () => {
             </TouchableOpacity>
             <View className="flex flex-col ">
               <View className="flex flex-col gap-2">
-                <IconButtonDrawer
+                {/* <IconButtonDrawer
                   variant="green"
                   icon={<User />}
                   text="เเก้ไขข้อมูลของคุณ"
                   textClassName="w-56"
                   size={"xl"}
                   onPress={() => router.push("/profile-setting")}
-                />
+                /> */}
 
                 {/* <IconButtonDrawer
                   variant="green"

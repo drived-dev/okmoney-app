@@ -19,7 +19,7 @@ async function isLoanIdUnique(loanId: string): Promise<boolean> {
 
 export const InfoFormSchema = z.object({
   nickname: z
-    .string()
+    .string({ message: "จำเป็นต้องกรอก" })
     .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
     .max(10),
   name: z
@@ -32,7 +32,7 @@ export const InfoFormSchema = z.object({
     .min(2, { message: "ชื่อต้องมากกว่า 2 ตัวอักษร" })
     .max(20)
     .optional(),
-  phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, {
+  phone: z.string({ message: "จำเป็นต้องกรอก" }).regex(/^\+?[1-9]\d{1,14}$/, {
     message: "Invalid phone number format",
   }),
 });
@@ -60,15 +60,15 @@ export const LoanDetailFormSchema = z.object({
 
 export const LoanAmountFormSchema = z.object({
   loanAmount: z.coerce
-    .number()
+    .number({ message: "จำเป็นต้องกรอก" })
     .positive()
     .min(0, { message: "จำนวนเงินกู้ต้องมากกว่าหรือเท่ากับ 0" }),
   interestRate: z.coerce
-    .number()
+    .number({ message: "จำเป็นต้องกรอก" })
     .min(0)
     .max(100, { message: "อัตราดอกเบี้ยต้องอยู่ระหว่าง 0 ถึง 100" }),
   installments: z.coerce
-    .number()
+    .number({ message: "จำเป็นต้องกรอก" })
     .positive()
     .int()
     .min(1, { message: "จำนวนงวดต้องมากกว่าหรือเท่ากับ 1" }),
