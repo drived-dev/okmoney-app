@@ -67,12 +67,14 @@ const StepForm = ({
           disabled,
           lastStep: formSchemas.length - 1,
           resetAllForms: () => {
-            // Reset all form instances
-            formMethodsRef.current.forEach((formMethod) => {
+            // Reset all form instances with their default values
+            formMethodsRef.current.forEach((formMethod, index) => {
               if (formMethod) {
-                formMethod.reset();
+                formMethod.reset(defaultValues[index] || {});
               }
             });
+            // Reset the current step to the first step
+            setCurrentStep(0);
           },
         }}
       >
@@ -235,11 +237,10 @@ const StepperButtonGroup = ({
 
       try {
         const result = await onSubmit(getValues());
-
         if (result) {
-          resetAllForms(); // Reset all form instances
-          // resetNavigation();
-          setCurrentStep(0);
+          // Reset forms and navigate to first page
+          resetAllForms();
+          navigation.navigate('Page-0');
         }
       } catch (error) {
         console.error("Error during form submission:", error);
