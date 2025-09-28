@@ -6,6 +6,7 @@ import {
   ScrollView,
   Animated,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { Text } from "~/components/ui/text";
 import { PARAGRAPH, PARAGRAPH_BOLD, LABEL } from "~/constants/Typography";
@@ -68,26 +69,34 @@ const statusAlias: Record<string, string> = {
 };
 
 const Index = () => {
-  const { loans, addLoan, setLoans } = useLoanStore(); // Retrieve loans from useLoanStore
+  const { loans, fetchLoans, isLoading, error } = useLoanStore();
 
+  // Initial load of loans
   useEffect(() => {
-    const loadInitialLoans = async () => {
-      try {
-        Toast.show({
-          text1: "กำลังโหลดข้อมูลลูกหนี้ใหม่",
-          type: "info",
-          position: "bottom",
-        });
-        const loans = await getLoanAll();
-        const buffer = parseLoansDatas(loans);
-        setLoans(buffer);
-      } catch (error) {
-        console.error("Failed to load initial loans:", error);
-      }
-    };
+    fetchLoans();
+  }, [fetchLoans]);
 
-    loadInitialLoans();
-  }, []); // Empty dependency array ensures this only runs once when component mounts
+  // Show loading state
+  if (isLoading && loans.length === 0) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" />
+        <Text className="mt-2">กำลังโหลดข้อมูลลูกหนี้...</Text>
+      </View>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <View className="flex-1 items-center justify-center p-4">
+        <Text className="text-red-500 text-center mb-4">{error}</Text>
+        <Button onPress={fetchLoans}>
+          <Text>ลองอีกครั้ง</Text>
+        </Button>
+      </View>
+    );
+  }
 
   const {
     control,

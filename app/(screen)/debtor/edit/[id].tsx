@@ -73,7 +73,10 @@ const create = () => {
 
   const formSchemas = forms.map((form) => form.schema);
   const formScreens = forms.map((form) => form.screen);
-  const addLoan = useLoanStore((state) => state.addLoan);
+  const { updateLoan, refreshLoans } = useLoanStore((state) => ({
+    updateLoan: state.updateLoan,
+    refreshLoans: state.refreshLoans,
+  }));
   const [isLoading, setIsLoading] = useState(false);
 
   const defaultValues = [
@@ -93,42 +96,48 @@ const create = () => {
     },
   ];
 
-  async function onSubmit(values: z.infer<(typeof formSchemas)[0]>) {
-    setIsLoading(true);
-    
-    const updateData = {
-      id: id as string,
-      firstName: values.name,
-      lastName: values.lastname,
-      nickname: values.nickname,
-      phoneNumber: values.phone,
-      memoNote: values.additionalNote,
-      // Set default values for optional fields if needed
-      autoSendSms: false,
-      address: '',
-      profileImage: ''
-    };
-    
-    const response = await patchLoan(id as string, updateData);
+  const onSubmit = async (values: any): Promise<boolean> => {
+    try {
+      setIsLoading(true);
+      const updateData = {
+        id: id as string,
+        firstName: values.name,
+        lastName: values.lastname,
+        nickname: values.nickname,
+        phoneNumber: values.phone,
+        memoNote: values.additionalNote,
+        autoSendSms: false,
+        address: '',
+        profileImage: ''
+      };
+      
+      const response = await patchLoan(id as string, updateData);
 
-    if (response.success) {
-      Toast.show({
-        text1: "แก้ไขลูกหนี้สำเร็จ",
-        type: "success",
-        position: "bottom",
-      });
-      addLoan(parseLoanData(response.data.data));
-      router.back();
-      return true;
-    } else {
-      Toast.show({
-        text1: "แก้ไขลูกหนี้ไม่สำเร็จ",
-        type: "error",
-        position: "bottom",
-      });
+      if (response.success) {
+        Toast.show({
+          text1: "กำลังอัปเดตข้อมูล...",
+          type: "info",
+          position: "bottom",
+        });
+        
+        // Update local state immediately for better UX
+        await updateLoan(updateData as unknown as Loan);
+        
+        // Refresh the loans list from the server
+        await refreshLoans();
+        
+        Toast.show({
+          text1: "แก้ไขลูกหนี้สำเร็จ",
+          type: "success",
+          position: "bottom",
+        });
+        
+        return true;
+      }
+    } finally {
+      setIsLoading(false);
+      router.push("/");
     }
-    setIsLoading(false);
-    return false;
   }
 
   return (
