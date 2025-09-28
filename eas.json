@@ -9,9 +9,23 @@
       "distribution": "internal",
       "ios": {
         "credentialsSource": "remote"
+      },
+      "android": {
+        "buildType": "apk"
       }
     },
     "preview": {
+      "distribution": "internal"
+    },
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "preview3": {
+      "developmentClient": true
+    },
+    "preview4": {
       "distribution": "internal"
     },
     "production": {

@@ -37,8 +37,8 @@ export const CustomDrawer = () => {
               <Text className={cn(PARAGRAPH, "")}>sms ที่ใช้ไปแล้ว</Text>
               <ProgressText
                 textStart={`${user.smsUsed} ครั้ง`}
-                textEnd={`${user.smsAvailable} ครั้ง`}
-                percentage={(user.smsUsed / user.smsAvailable) * 100}
+                textEnd={`${user.smsCredit} ครั้ง`}
+                percentage={(user.smsUsed / user.smsCredit) * 100}
               />
             </View>
             <TouchableOpacity onPress={() => router.push("/package")}>
@@ -49,14 +49,14 @@ export const CustomDrawer = () => {
             </TouchableOpacity>
             <View className="flex flex-col ">
               <View className="flex flex-col gap-2">
-                <IconButtonDrawer
+                {/* <IconButtonDrawer
                   variant="green"
                   icon={<User />}
                   text="เเก้ไขข้อมูลของคุณ"
                   textClassName="w-56"
                   size={"xl"}
                   onPress={() => router.push("/profile-setting")}
-                />
+                /> */}
 
                 {/* <IconButtonDrawer
                   variant="green"

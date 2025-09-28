@@ -113,6 +113,7 @@ const Index = () => {
         Toast.show({
           text1: "อัพเดตข้อมูลผู้ใช้สำเร็จ",
           type: "success",
+          position: "bottom",
         });
 
         router.back();
@@ -120,6 +121,7 @@ const Index = () => {
         Toast.show({
           text1: "อัพเดตข้อมูลไม่สำเร็จ",
           type: "error",
+          position: "bottom",
         });
       }
     }

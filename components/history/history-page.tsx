@@ -29,7 +29,7 @@ const groupDataByDate = (data: PaymentHistory[]) => {
   const yesterday = moment().subtract(1, "days");
 
   const groupedData = data.reduce((groups, item) => {
-    const itemDate = moment(item.updatedAt);
+    const itemDate = moment(item.createdAt);
     let label = itemDate.format("DD MMM YY");
 
     if (itemDate.isSame(today, "day")) {
@@ -48,7 +48,7 @@ const groupDataByDate = (data: PaymentHistory[]) => {
 
   Object.keys(groupedData).forEach((key) => {
     groupedData[key] = groupedData[key].sort((a, b) =>
-      moment(a.updatedAt, "HH:mm").diff(moment(b.updatedAt, "HH:mm"))
+      moment(a.createdAt, "HH:mm").diff(moment(b.createdAt, "HH:mm"))
     );
   });
 
@@ -74,11 +74,9 @@ const HistoryPage: React.FC<HistoryPageProps> = ({ name, nickname, data }) => {
           {nickname?.length && nickname?.length > 2 && (
             <View className="flex flex-row items-center space-x-2 gap-2">
               <Text className={cn(TITLE, "")}>ของ</Text>
-              <View className="border border-gray-300 rounded-2xl px-2 pt-1 flex-row items-center gap-1">
-                <Text className={cn(TITLE, "font-bold")}>
-                  {nickname}
-                  <Text className={cn(PARAGRAPH)}>{name}</Text>
-                </Text>
+              <View className="border border-gray-300 rounded-2xl px-2 flex-row items-end gap-1 -translate-y-2">
+                <Text className={cn(TITLE, "font-bold pt-4")}>{nickname}</Text>
+                <Text className={cn(PARAGRAPH, "-translate-y-1")}>{name}</Text>
               </View>
             </View>
           )}

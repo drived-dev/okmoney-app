@@ -58,11 +58,13 @@ export const LoanCardMenu = ({
       Toast.show({
         text1: "ลบลูกหนี้สำเร็จ",
         type: "success",
+        position: "bottom",
       });
     } else {
       Toast.show({
         text1: "ลบลูกหนี้ไม่สำเร็จ",
         type: "error",
+        position: "bottom",
       });
     }
   }
@@ -72,10 +74,10 @@ export const LoanCardMenu = ({
       name: `ดูประวัติ`,
       onPress: () => router.push(`/debtor/history/${debtorId}`),
     },
-    // {
-    //   name: "แก้ไขข้อมูล",
-    //   onPress: () => router.push(`/debtor/edit/${debtorId}`),
-    // },
+    {
+      name: "แก้ไขข้อมูล",
+      onPress: () => router.push(`/debtor/edit/${debtorId}`),
+    },
     {
       name: "ข้อมูลผู้ค้ำประกัน",
       onPress: () => openGuarantorSheet(),

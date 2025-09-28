@@ -1,15 +1,18 @@
 import RevenueCatUI from "react-native-purchases-ui";
 import Purchases from "react-native-purchases";
 import CloseButton from "~/components/close-button";
-import { SafeAreaView, View } from "react-native";
+import { View } from "react-native";
 import SubscriptionStatusComponent from "~/components/subscriptionstatus";
+import SubscriptionChecker from "~/components/subscriptioncheck";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const index = () => {
   return (
-    <SafeAreaView className="flex-1 bg-background">
+    <SafeAreaView edges={["top"]} className="flex-1 bg-[#181717]">
       <CloseButton className="ml-4" />
       <RevenueCatUI.Paywall />
-      <SubscriptionStatusComponent />
+      <SubscriptionChecker />
+      {/* <SubscriptionStatusComponent /> */}
     </SafeAreaView>
   );
 };

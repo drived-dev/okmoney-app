@@ -21,7 +21,7 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
   }
 }
 
-rootProject.name = 'Ok-money'
+rootProject.name = 'Ok Money'
 
 dependencyResolutionManagement {
   versionCatalogs {

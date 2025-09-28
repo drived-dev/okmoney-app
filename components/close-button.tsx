@@ -12,7 +12,7 @@ const CloseButton = ({ className }: { className?: string }) => {
       className={className}
       onPress={() => {
         //TODO: clear form state on back
-        router.back();
+        router.navigate("/(tabs)");
       }}
     >
       <LucideX color="black" size={24} />

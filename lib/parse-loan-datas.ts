@@ -7,6 +7,7 @@ export function parseLoanData(loanData: any): Loan {
     nickname: loanData.debtor.nickname,
     firstName: loanData.debtor.firstName,
     lastName: loanData.debtor.lastName,
+    phoneNumber: loanData.debtor.phoneNumber,
     status: LoanStatus[loanData.loan.loanStatus],
     total: loanData.loan.totalBalance,
     dueDate: loanData.loan.dueDate,

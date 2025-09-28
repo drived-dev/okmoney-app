@@ -67,12 +67,14 @@ const StepForm = ({
           disabled,
           lastStep: formSchemas.length - 1,
           resetAllForms: () => {
-            // Reset all form instances
-            formMethodsRef.current.forEach((formMethod) => {
+            // Reset all form instances with their default values
+            formMethodsRef.current.forEach((formMethod, index) => {
               if (formMethod) {
-                formMethod.reset();
+                formMethod.reset(defaultValues[index] || {});
               }
             });
+            // Reset the current step to the first step
+            setCurrentStep(0);
           },
         }}
       >
@@ -212,12 +214,16 @@ const StepperButtonGroup = ({
 
     return (
       <Button
-        size="icon-lg"
         variant="ghost"
         onPress={navigateBack}
         disabled={disabled}
+        size="md"
+        className="flex flex-row justify-center items-center gap-2"
       >
+        {/* <View className="flex flex-row gap-2"> */}
         <ArrowLeft color={"black"} />
+        <Text className={cn(BUTTON.black)}>กลับ</Text>
+        {/* </View> */}
       </Button>
     );
   };
@@ -231,11 +237,10 @@ const StepperButtonGroup = ({
 
       try {
         const result = await onSubmit(getValues());
-
         if (result) {
-          resetAllForms(); // Reset all form instances
-          // resetNavigation();
-          setCurrentStep(0);
+          // Reset forms and navigate to first page
+          resetAllForms();
+          navigation.navigate('Page-0');
         }
       } catch (error) {
         console.error("Error during form submission:", error);
@@ -243,7 +248,7 @@ const StepperButtonGroup = ({
     }
 
     const TextSubmitOrNext = isLastStep ? (
-      <Text className={cn(BUTTON.white)}>ส่งคำตอบ</Text>
+      <Text className={cn(BUTTON.white)}>บันทึก</Text>
     ) : (
       <>
         <Text className={cn(BUTTON.white)}>ถัดไป</Text>

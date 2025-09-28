@@ -24,8 +24,8 @@ const SeachbarOnly = ({
       Toast.show({
         type: "info",
         position: "bottom",
-        text1: "Info",
-        text2: "Number formatted!",
+        text1: "กรุณากรอกเบอร์โทรศัพท์",
+        text2: "เบอร์โทรศัพท์ต้องมีความยาว 9 หลัก",
       });
     }
 

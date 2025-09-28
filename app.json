@@ -2,7 +2,7 @@
   "expo": {
     "name": "Ok Money",
     "slug": "starter-base",
-    "version": "1.0.0",
+    "version": "1.3.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "okmoney",
@@ -18,7 +18,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.okmoney.gotroger",
-      "buildNumber": "90",
+      "buildNumber": "114",
       "config": {
         "usesNonExemptEncryption": false
       },
@@ -33,7 +33,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/adaptive.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.okmoney.gotroger",
@@ -52,7 +52,7 @@
           ]
         }
       ],
-      "versionCode": 3
+      "versionCode": 12
     },
     "web": {
       "bundler": "metro",
@@ -68,7 +68,8 @@
           "iCloudContainerEnvironment": "Production"
         }
       ],
-      "expo-asset"
+      "expo-asset",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
@@ -78,7 +79,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "1a0ebf2c-b02d-4fe7-ae6f-3c81786bfacf"
+        "projectId": "8e860d4b-d48b-4d88-a5e0-5fe053cb0d56"
       }
     }
   }

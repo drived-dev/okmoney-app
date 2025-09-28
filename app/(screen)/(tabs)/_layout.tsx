@@ -32,6 +32,11 @@ const routes: Route[] = [
     tabBarLabel: "ประวัติ",
     icon: (props) => <File size={20} {...props} />,
   },
+  {
+    name: "setting",
+    tabBarLabel: "ตั้งค่า",
+    icon: (props) => <File size={20} {...props} />,
+  },
 ];
 
 const Layout = () => {

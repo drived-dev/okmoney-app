@@ -25,6 +25,7 @@ import useUserStore from "~/store/use-user-store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LoginScreen from "./(auth)/login";
 import Purchases from "react-native-purchases";
+import { KeyboardDismissProvider } from "~/components/keyboard-dismiss";
 Purchases.setLogLevel(Purchases.LOG_LEVEL.VERBOSE);
 // import { usePushNotifications } from "~/lib/use-push-notification";
 
@@ -97,7 +98,7 @@ export default function RootLayout() {
           "RevenueCat API KEY for the Android is not provide"
         );
       } else {
-        Purchases.configure({ apiKey: process.env.EXPO_PUBLIC_RC_ANDRIOD });
+        Purchases.configure({ apiKey: "goog_NudlkKVWAxNNNeoLdPPYOkQnbPK" });
       }
     }
     Purchases.getOfferings().then(console.log);
@@ -127,37 +128,39 @@ export default function RootLayout() {
   return (
     // <NavigationContainer independent={true}>
     <QueryClientProvider client={queryClient}>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: {
-            backgroundColor: "white",
-          },
-        }}
-        initialRouteName="(auth)/index"
-      >
-        {/* <Stack.Screen
-          name="(.loading)"
-          options={{
+      <KeyboardDismissProvider>
+        <Stack
+          screenOptions={{
             headerShown: false,
+            contentStyle: {
+              backgroundColor: "white",
+            },
           }}
-        /> */}
-        <Stack.Screen
-          name="(screen)"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="(auth)/index"
-          options={{
-            headerShown: false,
-          }}
-        />
-      </Stack>
-      <OfflineNotice />
-      <Toast config={toastConfig} />
-      <PortalHost />
+          initialRouteName="(auth)/index"
+        >
+          {/* <Stack.Screen
+            name="(.loading)"
+            options={{
+              headerShown: false,
+            }}
+          /> */}
+          <Stack.Screen
+            name="(screen)"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="(auth)/index"
+            options={{
+              headerShown: false,
+            }}
+          />
+        </Stack>
+        <OfflineNotice />
+        <Toast config={toastConfig} bottomOffset={96} />
+        <PortalHost />
+      </KeyboardDismissProvider>
     </QueryClientProvider>
   );
 }

@@ -14,7 +14,7 @@ interface UserState {
   createdAt: string;
   updatedAt: string;
   lastLogin: string;
-  smsAvailable: number;
+  smsCredit: number;
   smsUsed: number;
   debtorSlotAvailable: number;
   socialProvider: string | null;
@@ -51,7 +51,7 @@ const useUserStore = create(
       updatedAt: "",
       lastLogin: "",
       smsUsed: 0,
-      smsAvailable: 20,
+      smsCredit: 20,
       debtorSlotAvailable: 10,
       socialProvider: null,
       profileImage: null,
@@ -85,7 +85,7 @@ const useUserStore = create(
           createdAt: "",
           updatedAt: "",
           lastLogin: "",
-          smsAvailable: 0,
+          smsCredit: 0,
           debtorSlotAvailable: 0,
           socialProvider: null,
           profileImage: null,

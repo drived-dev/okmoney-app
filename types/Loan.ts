@@ -2,6 +2,7 @@ import { Debtor } from "./debtor";
 
 export interface Loan extends Debtor {
   id: string;
+  phoneNumber: string;
   loanNumber?: string;
   principal: number;
   loanStatus: LoanStatus;
