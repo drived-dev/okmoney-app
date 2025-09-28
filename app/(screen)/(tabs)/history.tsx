@@ -26,6 +26,7 @@ const History = () => {
   if (isLoading) {
     return <LoadingScreen />;
   }
+  console.log(paymentHistory);
 
   return <HistoryPage data={paymentHistory} />;
 };

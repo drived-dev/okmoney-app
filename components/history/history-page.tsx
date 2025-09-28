@@ -29,7 +29,7 @@ const groupDataByDate = (data: PaymentHistory[]) => {
   const yesterday = moment().subtract(1, "days");
 
   const groupedData = data.reduce((groups, item) => {
-    const itemDate = moment(item.updatedAt);
+    const itemDate = moment(item.createdAt);
     let label = itemDate.format("DD MMM YY");
 
     if (itemDate.isSame(today, "day")) {
@@ -48,7 +48,7 @@ const groupDataByDate = (data: PaymentHistory[]) => {
 
   Object.keys(groupedData).forEach((key) => {
     groupedData[key] = groupedData[key].sort((a, b) =>
-      moment(a.updatedAt, "HH:mm").diff(moment(b.updatedAt, "HH:mm"))
+      moment(a.createdAt, "HH:mm").diff(moment(b.createdAt, "HH:mm"))
     );
   });
 
