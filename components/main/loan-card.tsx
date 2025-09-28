@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { cn } from "~/lib/utils";
 import { PARAGRAPH, BUTTON, LABEL, TITLE } from "~/constants/Typography";
@@ -15,6 +15,8 @@ import { formatMoney } from "~/lib/parse-money";
 import Status from "../status";
 import { AvatarText } from "../avatar-text";
 import Toast from "react-native-toast-message";
+import api from "~/lib/axios";
+import useUserStore from "~/store/use-user-store";
 
 export const LoanCard = ({
   loan,
@@ -28,6 +30,8 @@ export const LoanCard = ({
   onInfo: () => void;
 }) => {
   const { setId } = useEditingLoanStore();
+  const [sending, setSending] = useState(false);
+  const user = useUserStore();
   // Calculate the progress based on outstanding vs total
   const progress = loan.remainingBalance / loan.total;
 
@@ -46,13 +50,103 @@ export const LoanCard = ({
     onInfo();
   }
 
-  function sendReminder() {
-    // TODO: send reminder
-    Toast.show({
-      text1: "ส่ง SMS สำเร็จ!",
-      type: "success",
-      position: "bottom",
-    });
+  const creditLeft = (user.smsCredit ?? 0) - (user.smsUsed ?? 0);
+
+  function normalizeThaiPhone(input?: string) {
+    if (!input) return undefined;
+    const digits = input.replace(/[^\d+]/g, "");
+    if (digits.startsWith("+")) return digits;
+    if (digits.startsWith("0")) return "+66" + digits.slice(1);
+    if (digits.startsWith("66")) return "+" + digits;
+    return digits;
+  }
+
+  async function sendReminder() {
+    if (sending) return;
+
+    const to = normalizeThaiPhone(loan.phoneNumber);
+    if (!to) {
+      Toast.show({
+        text1: "ไม่พบเบอร์ผู้กู้",
+        text2: "กรุณาเพิ่มเบอร์โทรในสัญญาก่อนส่งแจ้งเตือน",
+        type: "error",
+        position: "bottom",
+      });
+      return;
+    }
+
+    const msg = `แจ้งเตือนชำระหนี้ เลขสัญญา ${
+      loan.loanNumber
+    } ยอดคงค้าง ${formatMoney(
+      loan.remainingBalance
+    )} โปรดชำระตามกำหนด ขอบคุณครับ`;
+
+    try {
+      setSending(true);
+
+      // ช่วย debug baseURL (ดูใน Metro/Console)
+      // @ts-ignore
+      console.log(
+        "POST",
+        (api.defaults?.baseURL || "") + "/notification/send",
+        { to, msg }
+      );
+
+      const res = await api.post(
+        "/notification/send",
+        { to, msg },
+        { timeout: 15000 }
+      );
+
+      // ✅ สำเร็จสำหรับ 2xx ทั้งหมด
+      if (res.status >= 200 && res.status < 300) {
+        const nextUsed = (user.smsUsed ?? 0) + 1;
+        user.setUser({ smsUsed: nextUsed });
+
+        Toast.show({
+          text1: "ส่ง SMS สำเร็จ!",
+          type: "success",
+          position: "bottom",
+        });
+        return;
+      }
+
+      // ไม่ใช่ 2xx
+      Toast.show({
+        text1: "ส่งไม่สำเร็จ",
+        text2: `สถานะ: ${res.status} ${res.statusText ?? ""}`.trim(),
+        type: "error",
+        position: "bottom",
+      });
+    } catch (e: any) {
+      // log เพิ่มให้เห็นชัด
+      console.log("sendReminder error:", {
+        message: e?.message,
+        status: e?.response?.status,
+        data: e?.response?.data,
+        url: e?.config?.url,
+        baseURL: api.defaults?.baseURL,
+      });
+
+      // แยกข้อความสำหรับ network/timeout กับ 401
+      const status = e?.response?.status;
+      const isNetwork =
+        e?.message?.includes("Network") || e?.message?.includes("timeout");
+      const detail =
+        e?.response?.data?.message ||
+        e?.response?.data?.error ||
+        (isNetwork ? "เครือข่ายขัดข้อง หรือปลายทางไม่ตอบสนอง" : e?.message) ||
+        "เกิดข้อผิดพลาด";
+
+      Toast.show({
+        text1: status === 401 ? "หมดสิทธิ์ใช้งาน" : "ส่งไม่สำเร็จ",
+        text2: status ? `สถานะ: ${status} | ${detail}` : detail,
+        type: "error",
+        position: "bottom",
+      });
+    } finally {
+      setSending(false);
+    }
   }
 
   const paidAmount = loan.total - loan.remainingBalance;
@@ -134,6 +228,7 @@ export const LoanCard = ({
                 className="flex-1"
                 variant="outline"
                 onPress={sendReminder}
+                disabled={sending}
                 icon={<Icon name="Send" size={20} />}
                 text="ทวงหนี้"
               />
