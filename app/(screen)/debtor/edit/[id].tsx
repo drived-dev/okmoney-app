@@ -47,6 +47,7 @@ import useLoanStore from "~/store/use-loan-store";
 import { parseLoanData } from "~/lib/parse-loan-datas";
 import { useLoanBufferStore } from "~/store/use-loan-buffer-store";
 import LoadingScreen from "~/components/loading-screen";
+import { patchLoan } from "~/api/loans/patch-loan";
 
 interface Form {
   screen: React.FC<{ navigation: any }>;
@@ -94,24 +95,23 @@ const create = () => {
 
   async function onSubmit(values: z.infer<(typeof formSchemas)[0]>) {
     setIsLoading(true);
-    const totalBalance =
-      Number(values.loanAmount) +
-      (Number(values.interestRate) / 100) * Number(values.loanAmount);
-    const loanData = {
-      debtor: {
-        nickname: values.nickname,
-        firstName: values.name,
-        lastName: values.lastname,
-        phoneNumber: values.phone,
-        memoNote: values.additionalNote,
-      },
-      loan: {
-        tags: values.tags,
-      },
+    
+    const updateData = {
+      id: id as string,
+      firstName: values.name,
+      lastName: values.lastname,
+      nickname: values.nickname,
+      phoneNumber: values.phone,
+      memoNote: values.additionalNote,
+      // Set default values for optional fields if needed
+      autoSendSms: false,
+      address: '',
+      profileImage: ''
     };
-    const response = await createLoan(loanData);
+    
+    const response = await patchLoan(id as string, updateData);
 
-    if (response.status === 201) {
+    if (response.success) {
       Toast.show({
         text1: "แก้ไขลูกหนี้สำเร็จ",
         type: "success",
