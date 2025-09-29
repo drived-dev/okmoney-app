@@ -110,6 +110,7 @@ export const GridComponent: React.FC<GridComponentProps> = ({
   onGuarantor,
 }) => {
   const { setId } = useEditingLoanStore();
+
   return (
     <ScrollView>
       <TouchableOpacity>
@@ -119,6 +120,7 @@ export const GridComponent: React.FC<GridComponentProps> = ({
               setId(loan.id);
               onGuarantor();
             }
+            // const paidAmount = loan.total - loan.remainingBalance;
             return (
               <View
                 key={loan.id}
@@ -151,7 +153,7 @@ export const GridComponent: React.FC<GridComponentProps> = ({
                         (loan.outstanding / loan.total) * 100
                       )}
                       maxProgress={100}
-                      imageUri={loan.profileImage}
+                      // imageUri={loan.profileImage}
                     />
                   </View>
                 </View>
