@@ -50,6 +50,10 @@ const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
   const phoneNumber = loan?.phoneNumber;
   // Add a state for the toggle switch
   const [isSwitchOn, setIsSwitchOn] = useState(false);
+
+  // Define snap points for consistent height
+  const snapPoints = useMemo(() => ["70%", "90%"], []);
+
   console.log(loan);
   // Toggle Switch Handler
   const toggleSwitch = () => setIsSwitchOn((previousState) => !previousState);
@@ -61,7 +65,16 @@ const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
 
   return (
     <TouchableWithoutFeedback>
-      <BottomSheetModal ref={bottomSheetModalRef} style={styles.shadow}>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        style={styles.shadow}
+        snapPoints={snapPoints}
+        enablePanDownToClose={true}
+        enableDismissOnClose={true}
+        backdropComponent={({ style }) => (
+          <View style={[style, { backgroundColor: "rgba(0, 0, 0, 0.5)" }]} />
+        )}
+      >
         <BottomSheetView style={styles.contentContainer}>
           <View className="flex flex-col gap-4">
             <DebtorHeader
@@ -114,7 +127,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    minHeight: 600,
     gap: 16,
     padding: 20,
     width: "100%",

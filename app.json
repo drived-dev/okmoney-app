@@ -2,7 +2,7 @@
   "expo": {
     "name": "Ok Money",
     "slug": "starter-base",
-    "version": "1.3.0",
+    "version": "1.6.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "okmoney",
@@ -12,13 +12,11 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.okmoney.gotroger",
-      "buildNumber": "114",
+      "buildNumber": "127",
       "config": {
         "usesNonExemptEncryption": false
       },
@@ -26,9 +24,7 @@
         "aps-environment": "production"
       },
       "infoPlist": {
-        "UIBackgroundModes": [
-          "remote-notification"
-        ]
+        "UIBackgroundModes": ["remote-notification"]
       }
     },
     "android": {
@@ -46,13 +42,10 @@
               "scheme": "okmoney"
             }
           ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
+          "category": ["BROWSABLE", "DEFAULT"]
         }
       ],
-      "versionCode": 12
+      "versionCode": 17
     },
     "web": {
       "bundler": "metro",

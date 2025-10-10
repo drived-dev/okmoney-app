@@ -40,6 +40,9 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
   const loan = useLoanStore().getLoanById(id);
   const updateLoan = useLoanStore().updateLoan;
 
+  // Define snap points for consistent height
+  const snapPoints = useMemo(() => ["50%", "75%"], []);
+
   const {
     control,
     handleSubmit,
@@ -135,7 +138,16 @@ const MemoSheet = forwardRef((propTypes, bottomSheetModalRef) => {
 
   // renders
   return (
-    <BottomSheetModal ref={bottomSheetModalRef} style={styles.shadow}>
+    <BottomSheetModal
+      ref={bottomSheetModalRef}
+      style={styles.shadow}
+      snapPoints={snapPoints}
+      enablePanDownToClose={true}
+      enableDismissOnClose={true}
+      backdropComponent={({ style }) => (
+        <View style={[style, { backgroundColor: "rgba(0, 0, 0, 0.5)" }]} />
+      )}
+    >
       <BottomSheetView style={styles.contentContainer}>
         <Text className={cn(TITLE, "-mb-2")}>บันทึกยอด</Text>
         <Controller
@@ -225,7 +237,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    minHeight: 350,
     gap: 16,
     padding: 20,
     width: "100%",

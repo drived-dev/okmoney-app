@@ -29,10 +29,13 @@ import { KeyboardDismissProvider } from "~/components/keyboard-dismiss";
 Purchases.setLogLevel(Purchases.LOG_LEVEL.VERBOSE);
 // import { usePushNotifications } from "~/lib/use-push-notification";
 
+// Import the ErrorBoundary component
+import ErrorBoundary from "~/components/ErrorBoundary";
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
-} from "expo-router";
+};
 
 // Prevent the splash screen from auto-hiding before getting the color scheme.
 SplashScreen.preventAutoHideAsync();
@@ -126,41 +129,42 @@ export default function RootLayout() {
   });
 
   return (
-    // <NavigationContainer independent={true}>
-    <QueryClientProvider client={queryClient}>
-      <KeyboardDismissProvider>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: {
-              backgroundColor: "white",
-            },
-          }}
-          initialRouteName="(auth)/index"
-        >
-          {/* <Stack.Screen
-            name="(.loading)"
-            options={{
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <KeyboardDismissProvider>
+          <Stack
+            screenOptions={{
               headerShown: false,
+              contentStyle: {
+                backgroundColor: "white",
+              },
             }}
-          /> */}
-          <Stack.Screen
-            name="(screen)"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="(auth)/index"
-            options={{
-              headerShown: false,
-            }}
-          />
-        </Stack>
-        <OfflineNotice />
-        <Toast config={toastConfig} bottomOffset={96} />
-        <PortalHost />
-      </KeyboardDismissProvider>
-    </QueryClientProvider>
+            initialRouteName="(auth)/index"
+          >
+            {/* <Stack.Screen
+              name="(.loading)"
+              options={{
+                headerShown: false,
+              }}
+            /> */}
+            <Stack.Screen
+              name="(screen)"
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="(auth)/index"
+              options={{
+                headerShown: false,
+              }}
+            />
+          </Stack>
+          <OfflineNotice />
+          <Toast config={toastConfig} bottomOffset={96} />
+          <PortalHost />
+        </KeyboardDismissProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }

@@ -31,9 +31,21 @@ const useLoanStore = create(
           const loans = await getLoanAll();
           const parsedLoans = parseLoansDatas(loans);
           set({ loans: parsedLoans, error: null });
-        } catch (error) {
-          console.error('Failed to fetch loans:', error);
-          set({ error: 'Failed to load loans' });
+        } catch (error: any) {
+          console.error("Failed to fetch loans:", error);
+          let errorMessage = "ไม่สามารถโหลดข้อมูลลูกหนี้ได้";
+
+          if (error.response?.status === 401) {
+            errorMessage = "เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่";
+          } else if (error.response?.status === 403) {
+            errorMessage = "ไม่มีสิทธิ์เข้าถึงข้อมูล";
+          } else if (error.response?.status >= 500) {
+            errorMessage = "เซิร์ฟเวอร์มีปัญหา กรุณาลองอีกครั้งภายหลัง";
+          } else if (error.code === "NETWORK_ERROR" || !error.response) {
+            errorMessage = "ไม่สามารถเชื่อมต่ออินเทอร์เน็ตได้";
+          }
+
+          set({ error: errorMessage });
         } finally {
           set({ isLoading: false });
         }
@@ -57,9 +69,22 @@ const useLoanStore = create(
         try {
           const loans = await getLoanAll();
           const parsedLoans = parseLoansDatas(loans);
-          set({ loans: parsedLoans });
-        } catch (error) {
-          console.error('Failed to refresh loans:', error);
+          set({ loans: parsedLoans, error: null });
+        } catch (error: any) {
+          console.error("Failed to refresh loans:", error);
+          let errorMessage = "ไม่สามารถรีเฟรชข้อมูลลูกหนี้ได้";
+
+          if (error.response?.status === 401) {
+            errorMessage = "เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่";
+          } else if (error.response?.status === 403) {
+            errorMessage = "ไม่มีสิทธิ์เข้าถึงข้อมูล";
+          } else if (error.response?.status >= 500) {
+            errorMessage = "เซิร์ฟเวอร์มีปัญหา กรุณาลองอีกครั้งภายหลัง";
+          } else if (error.code === "NETWORK_ERROR" || !error.response) {
+            errorMessage = "ไม่สามารถเชื่อมต่ออินเทอร์เน็ตได้";
+          }
+
+          set({ error: errorMessage });
         }
       },
     }),
