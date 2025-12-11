@@ -40,6 +40,18 @@ export {
 // Prevent the splash screen from auto-hiding before getting the color scheme.
 SplashScreen.preventAutoHideAsync();
 
+// Create QueryClient outside component to avoid recreation on every render
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // Data is considered fresh for 5 minutes
+      gcTime: 1000 * 60 * 30, // Unused data is garbage collected after 30 minutes
+      retry: 2, // Number of times to retry failed queries
+      refetchOnWindowFocus: false, // Disable automatic refetch on window focus
+    },
+  },
+});
+
 export default function RootLayout() {
   const router = useRouter();
 
@@ -85,48 +97,57 @@ export default function RootLayout() {
 
   // Configure
   React.useEffect(() => {
-    if (Platform.OS === "ios") {
-      if (!process.env.EXPO_PUBLIC_RC_IOS) {
-        Alert.alert(
-          "Error configure RC ",
-          "RevenueCat API KEY for the ios is not provide"
-        );
-      } else {
-        Purchases.configure({ apiKey: process.env.EXPO_PUBLIC_RC_IOS });
+    (async () => {
+      try {
+        if (Platform.OS === "ios") {
+          if (!process.env.EXPO_PUBLIC_RC_IOS) {
+            console.warn("RevenueCat API KEY for iOS is not provided");
+            // Don't show alert in production, just log
+            // Alert.alert(
+            //   "Error configure RC ",
+            //   "RevenueCat API KEY for the ios is not provide"
+            // );
+          } else {
+            Purchases.configure({ apiKey: process.env.EXPO_PUBLIC_RC_IOS });
+          }
+        } else if (Platform.OS === "android") {
+          if (!process.env.EXPO_PUBLIC_RC_ANDROID) {
+            console.warn("RevenueCat API KEY for Android is not provided");
+            // Don't show alert in production, just log
+            // Alert.alert(
+            //   "Error configure RC ",
+            //   "RevenueCat API KEY for the Android is not provide"
+            // );
+          } else {
+            Purchases.configure({ apiKey: "goog_NudlkKVWAxNNNeoLdPPYOkQnbPK" });
+          }
+        }
+
+        // Wrap getOfferings in try-catch to prevent crashes
+        try {
+          const offerings = await Purchases.getOfferings();
+          console.log("RevenueCat offerings:", offerings);
+        } catch (offeringsError: any) {
+          console.error(
+            "Error fetching RevenueCat offerings:",
+            offeringsError?.message || offeringsError
+          );
+          // Don't crash the app if RevenueCat fails
+        }
+      } catch (error: any) {
+        console.error("Error configuring RevenueCat:", error?.message || error);
+        // Don't crash the app if RevenueCat configuration fails
       }
-    } else if (Platform.OS === "android") {
-      if (!process.env.EXPO_PUBLIC_RC_ANDROID) {
-        Alert.alert(
-          "Error configure RC ",
-          "RevenueCat API KEY for the Android is not provide"
-        );
-      } else {
-        Purchases.configure({ apiKey: "goog_NudlkKVWAxNNNeoLdPPYOkQnbPK" });
-      }
-    }
-    Purchases.getOfferings().then(console.log);
+    })();
   }, []);
 
   ////Config
+  // All hooks must be called before any conditional returns
 
-  if (!isColorSchemeLoaded) {
+  // Conditional rendering after all hooks
+  if (!isColorSchemeLoaded || !fontsLoaded) {
     return null;
   }
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 1000 * 60 * 5, // Data is considered fresh for 5 minutes
-        gcTime: 1000 * 60 * 30, // Unused data is garbage collected after 30 minutes
-        retry: 2, // Number of times to retry failed queries
-        refetchOnWindowFocus: false, // Disable automatic refetch on window focus
-      },
-    },
-  });
 
   return (
     <ErrorBoundary>

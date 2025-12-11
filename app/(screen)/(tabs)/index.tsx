@@ -1,4 +1,5 @@
 import { Link, router, useNavigation } from "expo-router";
+import { useDrawerStatus } from "@react-navigation/drawer";
 import React, { useCallback, useRef, useState, useEffect } from "react";
 import {
   StyleSheet,
@@ -70,48 +71,31 @@ const statusAlias: Record<string, string> = {
 };
 
 const Index = () => {
-  const { loans, fetchLoans, isLoading, error } = useLoanStore();
+  const { loans, fetchLoans, isLoading, error, hasLoaded } = useLoanStore();
+  const user = useUserStore();
 
+  // All hooks must be called before any conditional returns
   // Initial load of loans
   useEffect(() => {
-    const loadLoans = async () => {
-      try {
-        await fetchLoans();
-      } catch (error) {
-        console.error("Error loading loans:", error);
-        // Error will be handled by the store's error state
-      }
-    };
-    loadLoans();
-  }, [fetchLoans]);
+    // Only fetch if we haven't loaded yet and not currently loading
+    if (!hasLoaded && !isLoading) {
+      console.log("Initial load: fetching loans...");
+      fetchLoans();
+    }
+  }, [hasLoaded, isLoading, fetchLoans]);
 
-  // Show loading state
-  if (isLoading && loans.length === 0) {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" />
-        <Text className="mt-2">กำลังโหลดข้อมูลลูกหนี้...</Text>
-      </View>
-    );
-  }
+  // Debug logging
+  useEffect(() => {
+    console.log("Index component state:", {
+      loansLength: loans?.length || 0,
+      isLoading,
+      hasLoaded,
+      error,
+      userExists: !!user,
+    });
+  }, [loans?.length, isLoading, hasLoaded, error, user]);
 
-  // Show error state
-  if (error) {
-    return (
-      <View className="flex-1 items-center justify-center p-4">
-        <View className="items-center justify-center bg-red-50 rounded-2xl p-6 mx-4">
-          <Text className="text-red-600 text-center mb-4 font-medium text-lg">
-            เกิดข้อผิดพลาด
-          </Text>
-          <Text className="text-red-500 text-center mb-6">{error}</Text>
-          <Button onPress={fetchLoans} className="bg-red-500">
-            <Text className="text-white font-medium">ลองอีกครั้ง</Text>
-          </Button>
-        </View>
-      </View>
-    );
-  }
-
+  // All other hooks must be called before any conditional returns
   const {
     control,
     formState: { errors },
@@ -120,6 +104,7 @@ const Index = () => {
   });
 
   const navigation = useNavigation();
+  const drawerStatus = useDrawerStatus();
   const [tagValue, setTagValue] = React.useState<string[]>([]); // Store selected tags
   const [statusValue, setStatusValue] = React.useState<string[]>([]); // Store selected statuses
   const [isGridView, setIsGridView] = useState(false); // Toggle between GridView and ListView
@@ -130,23 +115,15 @@ const Index = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false); // Drawer state
   const [visibleLoans, setVisibleLoans] = useState<Loan[]>([]); // Visible loans after filtering
   const scrollViewRef = useRef(null); // ScrollView reference
-  const user = useUserStore();
+  const memoSheetRef = useRef<BottomSheetModal>(null);
+  const guarantorSheetRef = useRef<BottomSheetModal>(null);
+  const debtorInfoModalRef = useRef<BottomSheetModal>(null);
   const { tags, addTag, clearTags, removeTag } = useFilterStore();
-
-  function goToCreateDebtorCSV() {
-    router.push("/debtor/create-csv");
-  }
-
-  // console.log(user); // Commented out to prevent console spam
-
-  const openDrawerAndClearTags = () => {
-    setDrawerOpen(true);
-  };
 
   // First, limit loans to the number of `user.limit` and update visible loans
   useEffect(() => {
     try {
-      if (!loans || !Array.isArray(loans)) {
+      if (!loans || !Array.isArray(loans) || !user) {
         setVisibleLoans([]);
         return;
       }
@@ -183,7 +160,64 @@ const Index = () => {
       console.error("Error filtering visible loans:", error);
       setVisibleLoans([]);
     }
-  }, [toggleValue, loans, tags, user.debtorSlotAvailable]); // Add `user.debtorSlotAvailable` dependency
+  }, [toggleValue, loans, tags, user, user?.debtorSlotAvailable]); // Add `user` to dependencies
+
+  // All hooks are now called - safe to add conditional rendering
+  // Safety check for user data
+  if (!user) {
+    return (
+      <View className="flex-1 items-center justify-center bg-background">
+        <Text className="text-muted-foreground">กำลังโหลดข้อมูลผู้ใช้...</Text>
+      </View>
+    );
+  }
+
+  // Show loading state - more comprehensive check
+  if (isLoading || !hasLoaded) {
+    return (
+      <View className="flex-1 items-center justify-center bg-background">
+        <ActivityIndicator size="large" color="#E59551" />
+        <Text className="mt-4 text-foreground">กำลังโหลดข้อมูลลูกหนี้...</Text>
+        <Text className="mt-2 text-muted-foreground text-sm">
+          กรุณารอสักครู่
+        </Text>
+      </View>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <View className="flex-1 items-center justify-center p-4 bg-background">
+        <View className="items-center justify-center bg-red-50 rounded-2xl p-6 mx-4 border border-red-200">
+          <Text className="text-red-600 text-center mb-4 font-medium text-lg">
+            เกิดข้อผิดพลาด
+          </Text>
+          <Text className="text-red-500 text-center mb-6 text-sm">{error}</Text>
+          <View className="flex-row gap-3">
+            <Button onPress={fetchLoans} className="bg-red-500">
+              <Text className="text-white font-medium">ลองอีกครั้ง</Text>
+            </Button>
+            <Button
+              onPress={() => router.push("/(screen)/(tabs)/dashboard")}
+              variant="outline"
+            >
+              <Text className="font-medium">กลับหน้าหลัก</Text>
+            </Button>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  // Functions
+  function goToCreateDebtorCSV() {
+    router.push("/debtor/create-csv");
+  }
+
+  const openDrawerAndClearTags = () => {
+    setDrawerOpen(true);
+  };
 
   // Handle Confirm Button (ตกลง) to add tags and statuses to store and reset state
   const handleConfirm = () => {
@@ -231,10 +265,8 @@ const Index = () => {
   const toggleView = () => {
     setIsGridView(!isGridView);
   };
-  const memoSheetRef = useRef<BottomSheetModal>(null);
-  const guarantorSheetRef = useRef<BottomSheetModal>(null);
-  const debtorInfoModalRef = useRef<BottomSheetModal>(null);
 
+  // All useCallback hooks must be called after all useRef hooks
   const handlePresentMemo = useCallback(() => {
     memoSheetRef.current?.present();
   }, []);
@@ -287,9 +319,15 @@ const Index = () => {
                 className={cn(CONTAINER, "justify-between flex flex-row pt-2")}
               >
                 <TouchableOpacity
-                  onPress={() =>
-                    router.push("/(screen)/profile-setting" as any)
-                  }
+                  onPress={() => {
+                    // Open drawer instead of navigating to profile-setting
+                    try {
+                      // @ts-ignore - navigation type doesn't include openDrawer but it exists
+                      (navigation as any).openDrawer?.();
+                    } catch (error) {
+                      console.log("Error opening drawer:", error);
+                    }
+                  }}
                 >
                   <AvatarText
                     url={user?.profileImage as string}

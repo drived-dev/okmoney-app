@@ -15,7 +15,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath('com.android.tools.build:gradle')
+        // Android Gradle Plugin 8.5.1+ required for 16 KB page size support
+        classpath('com.android.tools.build:gradle:8.5.1')
         classpath('com.facebook.react:react-native-gradle-plugin')
         classpath('org.jetbrains.kotlin:kotlin-gradle-plugin')
     }

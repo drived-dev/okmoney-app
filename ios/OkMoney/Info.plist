@@ -19,7 +19,7 @@
     <key>CFBundlePackageType</key>
     <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.6.0</string>
+    <string>1.9.0</string>
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleURLTypes</key>
@@ -39,7 +39,7 @@
       </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>127</string>
+    <string>141</string>
     <key>ITSAppUsesNonExemptEncryption</key>
     <false/>
     <key>LSMinimumSystemVersion</key>
@@ -54,13 +54,15 @@
       <true/>
     </dict>
     <key>NSCameraUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access your camera</string>
+    <string>Ok Money needs access to your camera to take photos of payment receipts and profile pictures. For example, you can take a photo of a bank transfer receipt to attach to a payment record, or take a new profile picture for your store account.</string>
     <key>NSFaceIDUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access your Face ID biometric data.</string>
+    <string>Ok Money needs access to Face ID to securely authenticate and protect your financial data. For example, Face ID is used to verify your identity when accessing sensitive information or making important changes to your account.</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access your microphone</string>
+    <string>Ok Money needs access to your microphone for voice recording features. For example, you can record voice notes to attach to payment records or debtor information for better record keeping.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>Ok Money needs access to save photos to your photo library. For example, you can save payment receipts or profile pictures to your photo library for your records.</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access your photos</string>
+    <string>Ok Money needs access to your photo library to allow you to upload payment receipts and profile pictures. For example, you can select a photo of a bank transfer receipt to attach to a payment record, or choose a profile picture for your store account.</string>
     <key>NSUserActivityTypes</key>
     <array>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>

@@ -45,8 +45,11 @@ import AdditionalInfo from "./debtor-footer";
 import useLoanStore from "~/store/use-loan-store";
 
 const DebtorModal = forwardRef((propTypes, bottomSheetModalRef) => {
+  // All hooks must be called before any conditional returns
   const { id } = useEditingLoanStore();
-  const loan = useLoanStore.getState().getLoanById(id);
+  // Use hook instead of getState() to ensure consistent hooks order
+  const loanStore = useLoanStore();
+  const loan = loanStore.getLoanById(id);
   const phoneNumber = loan?.phoneNumber;
   // Add a state for the toggle switch
   const [isSwitchOn, setIsSwitchOn] = useState(false);

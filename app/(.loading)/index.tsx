@@ -7,8 +7,9 @@ import { getUser } from "~/api/auth/get-user";
 
 const index = () => {
   const rootNavigationState = useRootNavigationState();
+  // Call hook only once and destructure from the result
   const user = useUserStore();
-  const { setUser } = useUserStore();
+  const { setUser } = user;
 
   useEffect(() => {
     if (!rootNavigationState?.key) return;

@@ -10,6 +10,7 @@ import { useLocalSearchParams } from "expo-router";
 import LoadingScreen from "~/components/loading-screen";
 
 const History = () => {
+  // All hooks must be called before any conditional returns
   const {
     data: paymentHistory = [] as PaymentHistory[],
     isLoading,
@@ -19,6 +20,7 @@ const History = () => {
     queryFn: () => getPaymentHistory(),
   });
 
+  // Conditional rendering after all hooks
   if (error) {
     console.error(error);
   }

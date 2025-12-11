@@ -26,12 +26,12 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormMessage, FormItem, FormLabel } from "~/components/form";
-import OnlineOnly from "~/components/online-only";
 import NextButtonGroup from "../../../components/ui/next-button-group";
 import useUserStore from "~/store/use-user-store";
 import { patchUser } from "~/api/auth/patch-user";
 import Toast from "react-native-toast-message";
 import { postProfile } from "~/api/auth/post-profile";
+import OnlineOnly from "~/components/online-only";
 
 const formSchema = z.object({
   img: z.string().nonempty({ message: "ต้องเลือกโปรไฟล์รูปภาพ" }).optional(), // Image is required
@@ -46,7 +46,9 @@ const Index = () => {
   const { intent } = useLocalSearchParams();
   const router = useRouter();
   const [image, setImage] = useState<string | null>(null);
-  const user = useUserStore.getState();
+  // Use hook instead of getState() to ensure consistent hooks order
+  const user = useUserStore();
+  const { setUser } = user;
   const {
     control,
     handleSubmit,
@@ -91,7 +93,7 @@ const Index = () => {
       phoneNumber: values.phone,
     };
 
-    const setUser = useUserStore.getState().setUser;
+    // Use setUser from hook (already defined at top level)
     setUser(parsedValues);
 
     if (intent === "create") {
@@ -225,4 +227,4 @@ const Index = () => {
   );
 };
 
-export default OnlineOnly(Index);
+export default Index;

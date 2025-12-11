@@ -81,7 +81,7 @@ export default function SocialLoginButton({
             });
           }
 
-          router.push("/(screen)/profile/create"); // Navigate to Profiles page after authentication
+          router.push("/(screen)/profile/create" as any); // Navigate to Profiles page after authentication with intent=create
         } catch (userError) {
           console.error("[Debug] Failed to get user data:", userError);
           Toast.show({

@@ -105,17 +105,18 @@ const downloadCSVTemplate = async () => {
     const permissions =
       await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
     if (permissions.granted) {
-      await FileSystem.StorageAccessFramework.createFileAsync(
-        permissions.directoryUri,
-        filename,
-        "text/csv"
-      )
-        .then(async (uri) => {
-          await FileSystem.writeAsStringAsync(uri, csvContent, {
-            encoding: FileSystem.EncodingType.UTF8,
-          });
-        })
-        .catch((e) => console.error("Error writing file", e));
+      try {
+        const uri = await FileSystem.StorageAccessFramework.createFileAsync(
+          permissions.directoryUri,
+          filename,
+          "text/csv"
+        );
+        await FileSystem.writeAsStringAsync(uri, csvContent, {
+          encoding: FileSystem.EncodingType.UTF8,
+        });
+      } catch (e) {
+        console.error("Error writing file", e);
+      }
     } else {
       shareAsync(fileUri);
     }

@@ -34,9 +34,16 @@ export const usePushNotifications = (): PushNotificationState => {
   const responseListener = useRef<Notifications.Subscription>();
 
   async function registerForPushNotificationsAsync() {
-    console.log("Starting registerForPushNotificationsAsync");
-    let token;
-    if (true) {
+    try {
+      console.log("Starting registerForPushNotificationsAsync");
+      let token;
+
+      // Check if running on a physical device
+      if (!Device.isDevice) {
+        console.log("Not a physical device, skipping push notification setup");
+        return undefined;
+      }
+
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
       console.log("Existing notification permission status:", existingStatus);
@@ -48,42 +55,73 @@ export const usePushNotifications = (): PushNotificationState => {
         finalStatus = status;
         console.log("New permission status:", status);
       }
+
       if (finalStatus !== "granted") {
         console.log("Failed to get notification permissions");
-        alert("Failed to get push token for push notification");
-        return;
+        // Don't show alert, just log
+        // alert("Failed to get push token for push notification");
+        return undefined;
       }
 
-      console.log("Getting Expo push token");
+      // Get projectId with fallback
+      const projectId = Constants.expoConfig?.extra?.eas?.projectId;
+      if (!projectId) {
+        console.warn(
+          "EAS project ID not found, skipping push token registration"
+        );
+        return undefined;
+      }
+
+      console.log("Getting Expo push token with projectId:", projectId);
       token = await Notifications.getExpoPushTokenAsync({
-        projectId: Constants.expoConfig?.extra?.eas.projectId,
+        projectId: projectId,
       });
       console.log("Received push token:", token);
-    } else {
-      console.log("Not a physical device");
-      alert("Must be using a physical device for Push notifications");
-    }
 
-    if (Platform.OS === "android") {
-      console.log("Setting up Android notification channel");
-      Notifications.setNotificationChannelAsync("default", {
-        name: "default",
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: "#FF231F7C",
-      });
-    }
+      if (Platform.OS === "android") {
+        console.log("Setting up Android notification channel");
+        try {
+          await Notifications.setNotificationChannelAsync("default", {
+            name: "default",
+            importance: Notifications.AndroidImportance.MAX,
+            vibrationPattern: [0, 250, 250, 250],
+            lightColor: "#FF231F7C",
+          });
+        } catch (channelError: any) {
+          console.error(
+            "Error setting up notification channel:",
+            channelError?.message || channelError
+          );
+        }
+      }
 
-    return token;
+      return token;
+    } catch (error: any) {
+      console.error(
+        "Error in registerForPushNotificationsAsync:",
+        error?.message || error
+      );
+      // Don't throw error, just return undefined
+      return undefined;
+    }
   }
 
   useEffect(() => {
     console.log("Setting up notification listeners");
 
-    registerForPushNotificationsAsync().then((token) => {
-      console.log("Setting push token:", token);
-      setExpoPushToken(token);
-    });
+    (async () => {
+      try {
+        const token = await registerForPushNotificationsAsync();
+        console.log("Setting push token:", token);
+        setExpoPushToken(token);
+      } catch (error: any) {
+        console.error(
+          "Error setting up push notifications:",
+          error?.message || error
+        );
+        // Don't crash the app if push notification setup fails
+      }
+    })();
 
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {

@@ -35,12 +35,14 @@ interface ApiResponse {
 }
 
 const SubscriptionStatusComponent: React.FC = () => {
+  // All hooks must be called before any conditional returns
   const [loading, setLoading] = useState<boolean>(true);
   const [subscriptionInfo, setSubscriptionInfo] =
     useState<SubscriptionInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const user = useUserStore.getState() as UserData;
-  const setUser = useUserStore.getState().setUser;
+  // Use hook instead of getState() to ensure consistent hooks order
+  const user = useUserStore() as UserData;
+  const { setUser } = user;
   const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {

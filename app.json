@@ -2,7 +2,7 @@
   "expo": {
     "name": "Ok Money",
     "slug": "starter-base",
-    "version": "1.6.0",
+    "version": "1.9.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "okmoney",
@@ -12,11 +12,13 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.okmoney.gotroger",
-      "buildNumber": "127",
+      "buildNumber": "141",
       "config": {
         "usesNonExemptEncryption": false
       },
@@ -24,7 +26,14 @@
         "aps-environment": "production"
       },
       "infoPlist": {
-        "UIBackgroundModes": ["remote-notification"]
+        "UIBackgroundModes": [
+          "remote-notification"
+        ],
+        "NSPhotoLibraryUsageDescription": "Ok Money needs access to your photo library to allow you to upload payment receipts and profile pictures. For example, you can select a photo of a bank transfer receipt to attach to a payment record, or choose a profile picture for your store account.",
+        "NSPhotoLibraryAddUsageDescription": "Ok Money needs access to save photos to your photo library. For example, you can save payment receipts or profile pictures to your photo library for your records.",
+        "NSCameraUsageDescription": "Ok Money needs access to your camera to take photos of payment receipts and profile pictures. For example, you can take a photo of a bank transfer receipt to attach to a payment record, or take a new profile picture for your store account.",
+        "NSMicrophoneUsageDescription": "Ok Money needs access to your microphone for voice recording features. For example, you can record voice notes to attach to payment records or debtor information for better record keeping.",
+        "NSFaceIDUsageDescription": "Ok Money needs access to Face ID to securely authenticate and protect your financial data. For example, Face ID is used to verify your identity when accessing sensitive information or making important changes to your account."
       }
     },
     "android": {
@@ -33,6 +42,8 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.okmoney.gotroger",
+      "compileSdkVersion": 35,
+      "targetSdkVersion": 35,
       "intentFilters": [
         {
           "action": "VIEW",
@@ -42,10 +53,13 @@
               "scheme": "okmoney"
             }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ],
-      "versionCode": 17
+      "versionCode": 29
     },
     "web": {
       "bundler": "metro",
