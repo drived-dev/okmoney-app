@@ -9,6 +9,7 @@ interface LoanStore {
   loans: Loan[];
   isLoading: boolean;
   error: string | null;
+  hasLoaded: boolean; // Track if data has been loaded at least once
   fetchLoans: () => Promise<void>;
   setLoans: (loans: Loan[]) => void;
   addLoan: (loan: Loan) => void;
@@ -17,6 +18,7 @@ interface LoanStore {
   getLoanByDebtorId: (debtorId: string) => Loan | undefined;
   updateLoan: (loan: Loan) => Promise<boolean>;
   refreshLoans: () => Promise<void>;
+  clearError: () => void;
 }
 
 const useLoanStore = create(
@@ -25,12 +27,21 @@ const useLoanStore = create(
       loans: [],
       isLoading: false,
       error: null,
+      hasLoaded: false,
       fetchLoans: async () => {
+        // Prevent multiple simultaneous requests
+        if (get().isLoading) {
+          console.log("Already loading loans, skipping duplicate request");
+          return;
+        }
+
         set({ isLoading: true, error: null });
         try {
+          console.log("Starting to fetch loans...");
           const loans = await getLoanAll();
           const parsedLoans = parseLoansDatas(loans);
-          set({ loans: parsedLoans, error: null });
+          console.log("Successfully fetched loans:", parsedLoans.length);
+          set({ loans: parsedLoans, error: null, hasLoaded: true });
         } catch (error: any) {
           console.error("Failed to fetch loans:", error);
           let errorMessage = "ไม่สามารถโหลดข้อมูลลูกหนี้ได้";
@@ -45,7 +56,7 @@ const useLoanStore = create(
             errorMessage = "ไม่สามารถเชื่อมต่ออินเทอร์เน็ตได้";
           }
 
-          set({ error: errorMessage });
+          set({ error: errorMessage, hasLoaded: true });
         } finally {
           set({ isLoading: false });
         }
@@ -69,7 +80,7 @@ const useLoanStore = create(
         try {
           const loans = await getLoanAll();
           const parsedLoans = parseLoansDatas(loans);
-          set({ loans: parsedLoans, error: null });
+          set({ loans: parsedLoans, error: null, hasLoaded: true });
         } catch (error: any) {
           console.error("Failed to refresh loans:", error);
           let errorMessage = "ไม่สามารถรีเฟรชข้อมูลลูกหนี้ได้";
@@ -87,6 +98,7 @@ const useLoanStore = create(
           set({ error: errorMessage });
         }
       },
+      clearError: () => set({ error: null }),
     }),
     {
       name: "loan-storage", // name of the item in the storage (must be unique)

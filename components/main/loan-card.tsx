@@ -33,7 +33,8 @@ export const LoanCard = ({
   const [sending, setSending] = useState(false);
   const user = useUserStore();
   // Calculate the progress based on outstanding vs total
-  const progress = loan.remainingBalance / loan.total;
+  const total = loan.total ?? loan.totalBalance;
+  const progress = loan.remainingBalance / total;
 
   function openMemoSheet() {
     setId(loan.id);
@@ -149,14 +150,15 @@ export const LoanCard = ({
     }
   }
 
-  const paidAmount = loan.total - loan.remainingBalance;
+  const paidAmount = total - loan.remainingBalance;
+  const status = loan.status || (loan.loanStatus === "CLOSED" ? "ครบชำระ" : "");
   return (
     // background deptor
     <TouchableOpacity onPress={openDebtorModal}>
       <View
         className={cn(
           "bg-card p-3 my-1 rounded-3xl border border-border space-y-3",
-          loan.status == "ครบชำระ" && "bg-muted"
+          status == "ครบชำระ" && "bg-muted"
         )}
       >
         {/* Profile Image and Loan Info */}
@@ -189,7 +191,7 @@ export const LoanCard = ({
             {/* Loan Status */}
             <View className="flex-row flex gap-2">
               {/* TODO: dont forget status */}
-              <Status status={loan.status} />
+              <Status status={status} />
               <LoanCardMenu
                 openInfoSheet={openDebtorModal}
                 openGuarantorSheet={openGuarantorSheet}
@@ -208,8 +210,8 @@ export const LoanCard = ({
             {/* Progress Bar */}
             <ProgressText
               textStart={formatMoney(paidAmount)}
-              textEnd={formatMoney(loan.total)}
-              percentage={Math.round((paidAmount / loan.total) * 100)}
+              textEnd={formatMoney(total)}
+              percentage={Math.round((paidAmount / total) * 100)}
               className="flex-1"
             />
             {/* Due Date */}
@@ -220,7 +222,7 @@ export const LoanCard = ({
         </View>
         {/* Action Buttons */}
         <View className="flex-row justify-between items-center mt-3 space-x-2 mb- gap-1">
-          {loan.status !== "ครบชำระ" ? (
+          {status !== "ครบชำระ" ? (
             <>
               {/* Remind Button with Icon */}
               {/* TODO: notfication reminder */}

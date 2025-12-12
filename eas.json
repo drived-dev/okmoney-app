@@ -9,9 +9,6 @@
       "distribution": "internal",
       "ios": {
         "credentialsSource": "remote"
-      },
-      "android": {
-        "buildType": "apk"
       }
     },
     "preview": {
@@ -29,7 +26,10 @@
       "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "android": {
+        "buildType": "app-bundle"
+      }
     }
   },
   "submit": {

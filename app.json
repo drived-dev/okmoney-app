@@ -59,7 +59,7 @@
           ]
         }
       ],
-      "versionCode": 29
+      "versionCode": 35
     },
     "web": {
       "bundler": "metro",

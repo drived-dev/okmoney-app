@@ -95,11 +95,19 @@ const PhoneLogin = () => {
         text2: "โปรดตรวจสอบรหัส OTP ที่ส่งไปที่เบอร์โทรศัทพ์ของคุณ",
       });
     } else {
+      let errorMessage = "กรุณาตรวจสอบเบอร์โทรศัทพ์ของคุณ";
+      if (response.status === 503) {
+        errorMessage = "เซิร์ฟเวอร์ไม่พร้อมใช้งาน กรุณาลองอีกครั้งในภายหลัง";
+      } else if (response.status === 429) {
+        errorMessage = "ส่งคำขอมากเกินไป กรุณารอสักครู่แล้วลองอีกครั้ง";
+      } else if (response.status >= 500) {
+        errorMessage = "เกิดข้อผิดพลาดจากเซิร์ฟเวอร์ กรุณาลองอีกครั้ง";
+      }
       Toast.show({
         type: "error",
         position: "bottom",
         text1: "ส่งรหัส OTP ไม่สำเร็จ",
-        text2: "กรุณาตรวจสอบเบอร์โทรศัทพ์ของคุณ",
+        text2: errorMessage,
       });
     }
   };

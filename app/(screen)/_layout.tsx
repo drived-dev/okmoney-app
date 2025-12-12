@@ -18,6 +18,14 @@ const Layout = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Handle navigation when user is not logged in
+  useEffect(() => {
+    if (!isInitializing && user.id === "") {
+      // Redirect to login instead of showing login screen directly
+      router.replace("/(auth)/login");
+    }
+  }, [isInitializing, user.id]);
+
   // Show loading while initializing
   if (isInitializing) {
     return (
@@ -37,10 +45,8 @@ const Layout = () => {
     );
   }
 
-  // Check if user is logged in
+  // Check if user is logged in - return null while redirecting
   if (user.id === "") {
-    // Redirect to login instead of showing login screen directly
-    router.replace("/(auth)/login");
     return null;
   }
 
