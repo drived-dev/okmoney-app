@@ -73,6 +73,7 @@ const statusAlias: Record<string, string> = {
 const Index = () => {
   const { loans, fetchLoans, isLoading, error, hasLoaded } = useLoanStore();
   const user = useUserStore();
+  
 
   // All hooks must be called before any conditional returns
   // Initial load of loans
@@ -119,6 +120,20 @@ const Index = () => {
   const guarantorSheetRef = useRef<BottomSheetModal>(null);
   const debtorInfoModalRef = useRef<BottomSheetModal>(null);
   const { tags, addTag, clearTags, removeTag } = useFilterStore();
+
+  
+  // All useCallback hooks must be called after all useRef hooks
+  const handlePresentMemo = useCallback(() => {
+    memoSheetRef.current?.present();
+  }, []);
+
+  const handlePresentGuarantor = useCallback(() => {
+    guarantorSheetRef.current?.present();
+  }, []);
+
+  const handlePresentDebtorInfo = useCallback(() => {
+    debtorInfoModalRef.current?.present();
+  }, []);
 
   // First, limit loans to the number of `user.limit` and update visible loans
   useEffect(() => {
@@ -265,19 +280,6 @@ const Index = () => {
   const toggleView = () => {
     setIsGridView(!isGridView);
   };
-
-  // All useCallback hooks must be called after all useRef hooks
-  const handlePresentMemo = useCallback(() => {
-    memoSheetRef.current?.present();
-  }, []);
-
-  const handlePresentGuarantor = useCallback(() => {
-    guarantorSheetRef.current?.present();
-  }, []);
-
-  const handlePresentDebtorInfo = useCallback(() => {
-    debtorInfoModalRef.current?.present();
-  }, []);
 
   return (
     <DebtorErrorBoundary onRefresh={fetchLoans}>
