@@ -25,6 +25,8 @@ import useUserStore from "~/store/use-user-store";
 import { formatMoney } from "~/lib/parse-money";
 
 const App: React.FC = () => {
+  // All hooks must be called before any conditional returns
+  // IMPORTANT: In production builds, ensure all hooks are called in consistent order
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const user = useUserStore();
   const [value, setValue] = React.useState<string>("years");
