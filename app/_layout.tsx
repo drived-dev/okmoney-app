@@ -106,13 +106,13 @@ export default function RootLayout() {
 
   ////Config
 
-  if (!isColorSchemeLoaded) {
-    return null;
-  }
+  // if (!isColorSchemeLoaded) {
+  //   return null;
+  // }
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  // if (!fontsLoaded) {
+  //   return null;
+  // }
 
   const queryClient = new QueryClient({
     defaultOptions: {

@@ -31,6 +31,12 @@
           <string>com.okmoney.gotroger</string>
         </array>
       </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>exp+starter-base</string>
+        </array>
+      </dict>
     </array>
     <key>CFBundleVersion</key>
     <string>114</string>
