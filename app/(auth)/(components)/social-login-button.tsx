@@ -59,7 +59,7 @@ export default function SocialLoginButton({
         // If user already exists, set the user data
         if (userData.storeName !== null && userData.storeName !== "") {
           setUser(userData);
-          // router.push("/(screen)/(tabs)");
+          return router.push("/(screen)/(tabs)");
         } else {
           setUser({
             id: userId as string,
