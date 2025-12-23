@@ -76,28 +76,6 @@ const Index = () => {
     fetchLoans();
   }, [fetchLoans]);
 
-  // Show loading state
-  if (isLoading && loans.length === 0) {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" />
-        <Text className="mt-2">กำลังโหลดข้อมูลลูกหนี้...</Text>
-      </View>
-    );
-  }
-
-  // Show error state
-  if (error) {
-    return (
-      <View className="flex-1 items-center justify-center p-4">
-        <Text className="text-red-500 text-center mb-4">{error}</Text>
-        <Button onPress={fetchLoans}>
-          <Text>ลองอีกครั้ง</Text>
-        </Button>
-      </View>
-    );
-  }
-
   const {
     control,
     formState: { errors },
@@ -207,6 +185,28 @@ const Index = () => {
   const handlePresentDebtorInfo = useCallback(() => {
     debtorInfoModalRef.current?.present();
   }, []);
+
+  // Show loading state
+  if (isLoading && loans.length === 0) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" />
+        <Text className="mt-2">กำลังโหลดข้อมูลลูกหนี้...</Text>
+      </View>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <View className="flex-1 items-center justify-center p-4">
+        <Text className="text-red-500 text-center mb-4">{error}</Text>
+        <Button onPress={fetchLoans}>
+          <Text>ลองอีกครั้ง</Text>
+        </Button>
+      </View>
+    );
+  }
 
   return (
     <BottomSheetModalProvider>

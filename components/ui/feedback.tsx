@@ -27,18 +27,24 @@ const Feedback = ({
 }: FeedbackProps) => {
   const router = useRouter();
 
-  const navigateToScreen = (redirectUrl: Href<string | object>) => {
-    router.dismissAll();
-    router.push(redirectUrl as Href<string | object>);
-  };
+  React.useEffect(() => {
+    // ฟังก์ชันสำหรับจัดการการเปลี่ยนหน้า
+    // const navigateToScreen = (url: Href<string | object>) => {
+    //   // router.dismissAll();
+    //   // router.push(url);
+    // };
 
-  React.useState(() => {
     if (redirect) {
-      setTimeout(() => {
-        navigateToScreen(redirectUrl as Href<string | object>);
+      const timer = setTimeout(() => {
+        // navigateToScreen(redirectUrl as Href<string | object>);
+        router.dismissAll();
+        router.push(redirectUrl);
       }, redirectTimer);
+
+      // Clean up timer เมื่อ component unmount หรือค่าเปลี่ยน
+      return () => clearTimeout(timer);
     }
-  });
+  }, [redirect, redirectUrl, redirectTimer, router]);
 
   return (
     <View
@@ -59,7 +65,7 @@ const Error = () => {
     <View>
       <LottieView
         style={{ width: 200, height: 200 }}
-        source={ErrorLottie}
+        source={DoneLottie}
         autoPlay
         loop={false}
       />
